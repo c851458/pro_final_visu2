@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Warehouse Rush 3D</title>
+  <link rel="stylesheet" href="style.css">
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+        "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+      }
+    }
+  </script>
+</head>
+<body>
+  <div id="scene"></div>
+  <div id="popups"></div>
+
+  <section class="panel" id="info">
+    <h1>Warehouse Rush <span class="tag" id="mode-tag">3D</span></h1>
+    <div id="phase" class="phase"></div>
+
+    <div id="auto-block" hidden>
+      <div class="progress"><div id="progress-bar"></div></div>
+      <div class="row"><span>Entrenamiento</span><b id="train-progress">-</b></div>
+      <div class="row"><span>Exploración ε</span><b id="train-eps">-</b></div>
+      <canvas id="chart" width="560" height="170"></canvas>
+      <div class="legend"><i class="dot ok"></i> entregas (%) cada 1000 episodios</div>
+      <ul id="history"></ul>
+    </div>
+
+    <div class="episode-title" id="episode-title">Cargando...</div>
+    <div class="grid">
+      <span>Paso</span><b id="hud-step">0</b>
+      <span>Acción</span><b id="hud-action">-</b>
+      <span>Recompensa</span><b id="hud-reward">0.0</b>
+      <span>Acumulada</span><b id="hud-total">0.0</b>
+      <span>Estado</span><b id="hud-state">sin carga</b>
+    </div>
+    <div class="goal" id="goal"></div>
+
+    <div id="speed-block" hidden>
+      <label class="row"><span>Velocidad</span><input id="speed" type="range" min="0" max="100" value="55"></label>
+      <button id="skip">Saltar episodio ⏭</button>
+    </div>
+  </section>
+
+  <section class="panel" id="camera-panel">
+    <div class="cam-title">Cámara</div>
+    <button data-cam="iso">Frontal <kbd>1</kbd></button>
+    <button data-cam="top">Aérea <kbd>2</kbd></button>
+    <button data-cam="follow">Seguir robot <kbd>3</kbd></button>
+    <button data-cam="side">Diagonal <kbd>4</kbd></button>
+    <div class="cam-hint">Arrastrar: girar · Rueda: zoom<br>Clic derecho: desplazar</div>
+  </section>
+
+  <section class="panel" id="controls" hidden>
+    <div><kbd>↑</kbd><kbd>↓</kbd><kbd>←</kbd><kbd>→</kbd> / <kbd>WASD</kbd> mover (según la cámara)</div>
+    <div><kbd>R</kbd> / <kbd>Espacio</kbd> recoger · <kbd>E</kbd> / <kbd>Enter</kbd> entregar · <kbd>N</kbd> nuevo episodio</div>
+  </section>
+
+  <div id="banner" hidden><div id="banner-title"></div><div id="banner-sub"></div></div>
+  <div id="error" hidden></div>
+
+  <script type="module" src="app.js"></script>
+</body>
+</html>
