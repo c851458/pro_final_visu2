@@ -1,4 +1,4 @@
-// Visualizacion 3D de Warehouse Rush con three.js.
+// Visualizacion 3D de Warehouse Rush v1 con three.js.
 // Python ejecuta el entorno; esta pagina recibe fotogramas por la API y los anima.
 
 import * as THREE from 'three';
@@ -6,13 +6,16 @@ import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
 import { RoundedBoxGeometry } from 'three/addons/geometries/RoundedBoxGeometry.js';
 
-const ACTION_NAMES = ['arriba', 'abajo', 'izquierda', 'derecha', 'recoger', 'entregar'];
-const [UP, DOWN, LEFT, RIGHT, PICK, DROP] = [0, 1, 2, 3, 4, 5];
+const [UP, DOWN, LEFT, RIGHT, PICK, DROP, CHARGE] = [0, 1, 2, 3, 4, 5, 6];
 const MOVES = { [UP]: [-1, 0], [DOWN]: [1, 0], [LEFT]: [0, -1], [RIGHT]: [0, 1] };
+const [NORMAL, HEAVY, FRAGILE] = [0, 1, 2];
+const TYPE_LABELS = ['Normal', 'Pesado', 'Frágil'];
+const PKG_SIZES = [0.36, 0.4, 0.34];
+const ZONE_COLORS = [0xe5484d, 0x3b82f6, 0xa855f7];
+const ZONE_CSS = ['#e5484d', '#3b82f6', '#a855f7'];
 
 const WALL_H = 0.7;
 const RACK_H = 1.5;
-const PKG_SIZE = 0.38;
 
 const $ = (id) => document.getElementById(id);
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
@@ -49,6 +52,9 @@ try {
   throw e;
 }
 
+const ACTION_NAMES = config.action_names;
+const ZONE_NAMES = config.zone_names;
+const BAT_MAX = config.battery_max;
 const layout = config.layout;
 const H = layout.length;
 const W = layout[0].length;
@@ -124,6 +130,27 @@ function speckle(ctx, w, h, n, alpha) {
   }
 }
 
+function stripes(ctx, w, h, color, gap, width) {
+  ctx.fillStyle = color;
+  for (let x = -h; x < w + h; x += gap) {
+    ctx.beginPath();
+    ctx.moveTo(x, h); ctx.lineTo(x + width, h); ctx.lineTo(x + width + h, 0); ctx.lineTo(x + h, 0);
+    ctx.fill();
+  }
+}
+
+function bolt(ctx, cx, cy, s) {
+  ctx.beginPath();
+  ctx.moveTo(cx + 0.1 * s, cy - 0.5 * s);
+  ctx.lineTo(cx - 0.25 * s, cy + 0.05 * s);
+  ctx.lineTo(cx - 0.02 * s, cy + 0.05 * s);
+  ctx.lineTo(cx - 0.1 * s, cy + 0.5 * s);
+  ctx.lineTo(cx + 0.25 * s, cy - 0.08 * s);
+  ctx.lineTo(cx + 0.02 * s, cy - 0.08 * s);
+  ctx.closePath();
+  ctx.fill();
+}
+
 const floorTex = canvasTexture(256, 256, (ctx, w, h) => {
   ctx.fillStyle = '#7b8087';
   ctx.fillRect(0, 0, w, h);
@@ -153,12 +180,7 @@ const wallTex = canvasTexture(256, 256, (ctx, w, h) => {
 const hazardTex = canvasTexture(128, 32, (ctx, w, h) => {
   ctx.fillStyle = '#f2c018';
   ctx.fillRect(0, 0, w, h);
-  ctx.fillStyle = '#1b1b1b';
-  for (let x = -h; x < w + h; x += 32) {
-    ctx.beginPath();
-    ctx.moveTo(x, h); ctx.lineTo(x + 16, h); ctx.lineTo(x + 16 + h, 0); ctx.lineTo(x + h, 0);
-    ctx.fill();
-  }
+  stripes(ctx, w, h, '#1b1b1b', 32, 16);
 });
 
 const cardboardTex = canvasTexture(128, 128, (ctx, w, h) => {
@@ -172,22 +194,74 @@ const cardboardTex = canvasTexture(128, 128, (ctx, w, h) => {
   ctx.strokeRect(0, 0, w, h);
 });
 
-const packageTex = canvasTexture(128, 128, (ctx, w, h) => {
-  ctx.fillStyle = '#ffc21a';
-  ctx.fillRect(0, 0, w, h);
-  ctx.fillStyle = '#d63a2f';
-  ctx.fillRect(w * 0.4, 0, w * 0.2, h);
-  ctx.fillRect(0, h * 0.4, w, h * 0.2);
-  ctx.strokeStyle = '#8a5b00';
-  ctx.lineWidth = 6;
-  ctx.strokeRect(0, 0, w, h);
-});
+// textura de cada paquete segun su tipo, con una etiqueta del color de su zona de destino
+const pkgTexCache = {};
+function packageTexture(type, zone) {
+  const key = `${type}-${zone}`;
+  if (pkgTexCache[key]) return pkgTexCache[key];
+  pkgTexCache[key] = canvasTexture(256, 256, (ctx, w, h) => {
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    if (type === HEAVY) {
+      ctx.fillStyle = '#59616d';
+      ctx.fillRect(0, 0, w, h);
+      speckle(ctx, w, h, 900, 0.18);
+      ctx.strokeStyle = '#3a4048';
+      ctx.lineWidth = 16;
+      ctx.strokeRect(8, 8, w - 16, h - 16);
+      ctx.beginPath(); ctx.moveTo(16, 16); ctx.lineTo(w - 16, h - 16); ctx.moveTo(w - 16, 16); ctx.lineTo(16, h - 16); ctx.stroke();
+      ctx.fillStyle = '#c9ced6';
+      for (const [x, y] of [[22, 22], [w - 22, 22], [22, h - 22], [w - 22, h - 22]]) {
+        ctx.beginPath(); ctx.arc(x, y, 7, 0, Math.PI * 2); ctx.fill();
+      }
+      ctx.fillStyle = '#ffd23f';
+      ctx.fillRect(48, 150, w - 96, 56);
+      ctx.fillStyle = '#1b1b1b';
+      ctx.font = 'bold 40px system-ui, sans-serif';
+      ctx.fillText('500 kg', w / 2, 180);
+    } else if (type === FRAGILE) {
+      ctx.fillStyle = '#efe9dc';
+      ctx.fillRect(0, 0, w, h);
+      speckle(ctx, w, h, 500, 0.08);
+      ctx.strokeStyle = '#c8bfae';
+      ctx.lineWidth = 8;
+      ctx.strokeRect(4, 4, w - 8, h - 8);
+      ctx.strokeStyle = '#d42f2f';
+      ctx.lineWidth = 9;
+      ctx.beginPath(); // copa
+      ctx.moveTo(98, 60); ctx.quadraticCurveTo(100, 130, 128, 132); ctx.quadraticCurveTo(156, 130, 158, 60);
+      ctx.moveTo(128, 132); ctx.lineTo(128, 170); ctx.moveTo(104, 172); ctx.lineTo(152, 172);
+      ctx.stroke();
+      ctx.fillStyle = '#d42f2f';
+      ctx.font = 'bold 42px system-ui, sans-serif';
+      ctx.fillText('FRÁGIL', w / 2, 212);
+    } else {
+      ctx.fillStyle = '#d6a14a';
+      ctx.fillRect(0, 0, w, h);
+      speckle(ctx, w, h, 900, 0.12);
+      ctx.fillStyle = 'rgba(245,225,180,0.85)';
+      ctx.fillRect(w * 0.42, 0, w * 0.16, h);
+      ctx.strokeStyle = 'rgba(90,55,20,0.6)';
+      ctx.lineWidth = 8;
+      ctx.strokeRect(4, 4, w - 8, h - 8);
+    }
+    // etiqueta de zona
+    ctx.fillStyle = ZONE_CSS[zone];
+    ctx.beginPath(); ctx.arc(w - 58, 58, 40, 0, Math.PI * 2); ctx.fill();
+    ctx.strokeStyle = '#fff';
+    ctx.lineWidth = 6;
+    ctx.stroke();
+    ctx.fillStyle = '#fff';
+    ctx.font = 'bold 50px system-ui, sans-serif';
+    ctx.fillText(ZONE_NAMES[zone], w - 58, 61);
+  });
+  return pkgTexCache[key];
+}
 
 // ---------------------------------------------------------------- bodega
 
 const shadowed = (m) => { m.castShadow = true; m.receiveShadow = true; return m; };
 
-// suelo exterior
 const ground = new THREE.Mesh(
   new THREE.PlaneGeometry(120, 120),
   new THREE.MeshStandardMaterial({ color: 0x1b2028, roughness: 1 }),
@@ -197,7 +271,6 @@ ground.position.y = -0.01;
 ground.receiveShadow = true;
 scene.add(ground);
 
-// suelo interior de concreto
 const floor = new THREE.Mesh(
   new THREE.PlaneGeometry(W - 2, H - 2),
   new THREE.MeshStandardMaterial({ map: floorTex, roughness: 0.85, metalness: 0.05 }),
@@ -233,59 +306,93 @@ wallCells.forEach(([r, c], i) => {
 });
 [wallMesh, hazardMesh, capMesh].forEach((m) => scene.add(shadowed(m)));
 
-// zona de entregas
-const dCells = config.delivery_cells;
-const dCols = dCells.map(([, c]) => c);
-const dMin = Math.min(...dCols);
-const dMax = Math.max(...dCols);
-const dRow = dCells[0][0];
-const deliveryCenter = cellPos(dRow, (dMin + dMax) / 2);
-const dWidth = dMax - dMin + 1;
-const deliveryTex = canvasTexture(256 * dWidth, 256, (ctx, w, h) => {
-  ctx.fillStyle = '#17844a';
-  ctx.fillRect(0, 0, w, h);
-  ctx.fillStyle = 'rgba(255,255,255,0.10)';
-  for (let x = -h; x < w; x += 48) {
-    ctx.beginPath();
-    ctx.moveTo(x, h); ctx.lineTo(x + 22, h); ctx.lineTo(x + 22 + h, 0); ctx.lineTo(x + h, 0);
-    ctx.fill();
-  }
-  ctx.setLineDash([22, 14]);
-  ctx.strokeStyle = '#f4f7f2';
-  ctx.lineWidth = 10;
-  ctx.strokeRect(10, 10, w - 20, h - 20);
-  ctx.fillStyle = '#f4f7f2';
-  ctx.font = 'bold 72px system-ui, sans-serif';
-  ctx.textAlign = 'center';
-  ctx.textBaseline = 'middle';
-  ctx.fillText('ENTREGAS', w / 2, h / 2);
-});
-const deliveryMat = new THREE.MeshStandardMaterial({
-  map: deliveryTex, emissive: 0x2bd97a, emissiveIntensity: 0.15, roughness: 0.6,
-});
-const deliveryPad = new THREE.Mesh(new THREE.PlaneGeometry(dWidth, 1), deliveryMat);
-deliveryPad.rotation.x = -Math.PI / 2;
-deliveryPad.position.set(deliveryCenter.x, 0.012, deliveryCenter.z);
-deliveryPad.receiveShadow = true;
-scene.add(deliveryPad);
+// zonas de entrega: una por color, cada una con su portico y su luz
+const zones = config.zone_cells.map((cells, z) => {
+  const cols = cells.map(([, c]) => c);
+  const minC = Math.min(...cols);
+  const width = Math.max(...cols) - minC + 1;
+  const row = cells[0][0];
+  const center = cellPos(row, minC + (width - 1) / 2);
+  const tex = canvasTexture(256 * width, 256, (ctx, w, h) => {
+    ctx.fillStyle = ZONE_CSS[z];
+    ctx.fillRect(0, 0, w, h);
+    ctx.fillStyle = 'rgba(0,0,0,0.25)';
+    ctx.fillRect(0, 0, w, h);
+    stripes(ctx, w, h, 'rgba(255,255,255,0.10)', 48, 22);
+    ctx.setLineDash([22, 14]);
+    ctx.strokeStyle = '#f4f7f2';
+    ctx.lineWidth = 10;
+    ctx.strokeRect(10, 10, w - 20, h - 20);
+    ctx.fillStyle = '#f4f7f2';
+    ctx.font = 'bold 68px system-ui, sans-serif';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText(`ZONA ${ZONE_NAMES[z]}`, w / 2, h / 2);
+  });
+  const mat = new THREE.MeshStandardMaterial({ map: tex, emissive: ZONE_COLORS[z], emissiveIntensity: 0.1, roughness: 0.6 });
+  const pad = new THREE.Mesh(new THREE.PlaneGeometry(width, 1), mat);
+  pad.rotation.x = -Math.PI / 2;
+  pad.position.set(center.x, 0.012, center.z);
+  pad.receiveShadow = true;
+  scene.add(pad);
 
-// portico sobre la zona de entregas
-const gantryMat = new THREE.MeshStandardMaterial({ color: 0x2c8f57, roughness: 0.4, metalness: 0.6 });
-for (const s of [-1, 1]) {
-  const post = shadowed(new THREE.Mesh(new THREE.BoxGeometry(0.08, 1.5, 0.08), gantryMat));
-  post.position.set(deliveryCenter.x + s * (dWidth / 2 + 0.02), 0.75, deliveryCenter.z + 0.45);
-  scene.add(post);
-}
-const beam = shadowed(new THREE.Mesh(new THREE.BoxGeometry(dWidth + 0.12, 0.12, 0.12), gantryMat));
-beam.position.set(deliveryCenter.x, 1.5, deliveryCenter.z + 0.45);
-scene.add(beam);
-const lampMat = new THREE.MeshStandardMaterial({ color: 0x9dffc7, emissive: 0x3dff95, emissiveIntensity: 1 });
-const lamp = new THREE.Mesh(new THREE.BoxGeometry(dWidth - 0.4, 0.04, 0.08), lampMat);
-lamp.position.set(deliveryCenter.x, 1.43, deliveryCenter.z + 0.45);
-scene.add(lamp);
-const deliveryLight = new THREE.PointLight(0x47ff9b, 0, 4, 2);
-deliveryLight.position.set(deliveryCenter.x, 1.2, deliveryCenter.z);
-scene.add(deliveryLight);
+  const frameMat = new THREE.MeshStandardMaterial({ color: ZONE_COLORS[z], roughness: 0.4, metalness: 0.5 });
+  for (const s of [-1, 1]) {
+    const post = shadowed(new THREE.Mesh(new THREE.BoxGeometry(0.08, 1.5, 0.08), frameMat));
+    post.position.set(center.x + s * (width / 2 + 0.02), 0.75, center.z + 0.45);
+    scene.add(post);
+  }
+  const beam = shadowed(new THREE.Mesh(new THREE.BoxGeometry(width + 0.12, 0.12, 0.12), frameMat));
+  beam.position.set(center.x, 1.5, center.z + 0.45);
+  scene.add(beam);
+  const lampMat = new THREE.MeshStandardMaterial({ color: 0xffffff, emissive: ZONE_COLORS[z], emissiveIntensity: 0.6 });
+  const lamp = new THREE.Mesh(new THREE.BoxGeometry(width - 0.4, 0.04, 0.08), lampMat);
+  lamp.position.set(center.x, 1.43, center.z + 0.45);
+  scene.add(lamp);
+  const light = new THREE.PointLight(ZONE_COLORS[z], 0, 4, 2);
+  light.position.set(center.x, 1.2, center.z);
+  scene.add(light);
+  return { cells, center, width, minC, row, mat, lampMat, light, stack: 0 };
+});
+
+// estacion de carga
+const chargerPos = cellPos(...config.charger);
+const chargerTex = canvasTexture(256, 256, (ctx, w, h) => {
+  ctx.fillStyle = '#23272f';
+  ctx.fillRect(0, 0, w, h);
+  ctx.save();
+  ctx.beginPath(); ctx.rect(0, 0, w, h); ctx.rect(26, 26, w - 52, h - 52); ctx.clip('evenodd');
+  ctx.fillStyle = '#f2c018';
+  ctx.fillRect(0, 0, w, h);
+  stripes(ctx, w, h, '#1b1b1b', 40, 20);
+  ctx.restore();
+  ctx.fillStyle = '#ffd23f';
+  bolt(ctx, w / 2, h / 2, 150);
+});
+const chargerPadMat = new THREE.MeshStandardMaterial({ map: chargerTex, emissive: 0xffc400, emissiveIntensity: 0.05, roughness: 0.6 });
+const chargerPad = new THREE.Mesh(new THREE.PlaneGeometry(0.96, 0.96), chargerPadMat);
+chargerPad.rotation.x = -Math.PI / 2;
+chargerPad.position.set(chargerPos.x, 0.012, chargerPos.z);
+chargerPad.receiveShadow = true;
+scene.add(chargerPad);
+
+const pillarMat = new THREE.MeshStandardMaterial({ color: 0x2f353f, roughness: 0.4, metalness: 0.6 });
+const pillar = shadowed(new THREE.Mesh(new RoundedBoxGeometry(0.56, 1.0, 0.2, 3, 0.05), pillarMat));
+pillar.position.set(chargerPos.x, 0.5, chargerPos.z - 0.52);
+scene.add(pillar);
+const screenTex = canvasTexture(128, 128, (ctx, w, h) => {
+  ctx.fillStyle = '#062a12';
+  ctx.fillRect(0, 0, w, h);
+  ctx.fillStyle = '#3dff8b';
+  bolt(ctx, w / 2, h / 2, 90);
+});
+const screenMat = new THREE.MeshStandardMaterial({ map: screenTex, emissive: 0x3dff8b, emissiveMap: screenTex, emissiveIntensity: 0.6 });
+const screen = new THREE.Mesh(new THREE.PlaneGeometry(0.34, 0.34), screenMat);
+screen.position.set(chargerPos.x, 0.72, chargerPos.z - 0.415);
+scene.add(screen);
+const chargerLight = new THREE.PointLight(0xffd23f, 0, 3, 2);
+chargerLight.position.set(chargerPos.x, 0.9, chargerPos.z);
+scene.add(chargerLight);
 
 // estanterias industriales
 let seed = 7;
@@ -336,7 +443,7 @@ const racks = config.shelf_cells.map(([r, c]) => {
   const pallet = shadowed(new THREE.Mesh(palletGeo, palletMat));
   pallet.position.y = 0.05;
   rack.add(pallet);
-  const bottom = new THREE.Group(); // cajas del nivel inferior: se ocultan donde esta el paquete
+  const bottom = new THREE.Group(); // cajas del nivel inferior: se ocultan donde hay un paquete del pedido
   addBoxes(bottom, 0.1, 1 + Math.floor(rand() * 2));
   rack.add(bottom);
   scene.add(rack);
@@ -405,7 +512,7 @@ function buildRobot() {
     add(head, new THREE.CylinderGeometry(0.06, 0.06, 0.04, 20), accent, s * 0.21, 0, 0).rotation.z = Math.PI / 2;
   }
   add(head, new THREE.CylinderGeometry(0.008, 0.008, 0.18, 8), metal, 0.1, 0.21, -0.05);
-  const tip = add(head, new THREE.SphereGeometry(0.03, 12, 10), tipMat, 0.1, 0.31, -0.05);
+  add(head, new THREE.SphereGeometry(0.03, 12, 10), tipMat, 0.1, 0.31, -0.05);
 
   // brazos (hombro -> codo -> pinza)
   const arms = [-1, 1].map((s) => {
@@ -438,13 +545,31 @@ function buildRobot() {
 const robot = buildRobot();
 scene.add(robot.root);
 
-// paquete objetivo y marcador flotante
-const pkg = shadowed(new THREE.Mesh(
-  new RoundedBoxGeometry(PKG_SIZE, PKG_SIZE, PKG_SIZE, 2, 0.03),
-  new THREE.MeshStandardMaterial({ map: packageTex, roughness: 0.5, emissive: 0xffb300, emissiveIntensity: 0.12 }),
-));
-scene.add(pkg);
+// cable de la grua que rescata al robot cuando se queda sin bateria
+const rescueCable = new THREE.Group();
+const cableLine = new THREE.Mesh(
+  new THREE.CylinderGeometry(0.015, 0.015, 8, 6),
+  new THREE.MeshStandardMaterial({ color: 0x222222, metalness: 0.8, roughness: 0.3 }),
+);
+cableLine.position.y = 5;
+rescueCable.add(cableLine);
+const hook = new THREE.Mesh(new THREE.TorusGeometry(0.08, 0.02, 8, 16), new THREE.MeshStandardMaterial({ color: 0xf2c018, metalness: 0.6 }));
+hook.position.y = 1.0;
+rescueCable.add(hook);
+rescueCable.visible = false;
+scene.add(rescueCable);
 
+// barra de bateria sobre el robot (siempre mirando a la camara)
+const batteryBar = new THREE.Group();
+const barBg = new THREE.Mesh(new THREE.PlaneGeometry(0.62, 0.11), new THREE.MeshBasicMaterial({ color: 0x0b0e13, transparent: true, opacity: 0.8 }));
+const barFillMat = new THREE.MeshBasicMaterial({ color: 0x4fd18b });
+const barFill = new THREE.Mesh(new THREE.PlaneGeometry(0.56, 0.06), barFillMat);
+barFill.position.z = 0.001;
+batteryBar.add(barBg, barFill);
+batteryBar.visible = config.use_battery;
+scene.add(batteryBar);
+
+// marcador flotante del objetivo actual
 const marker = new THREE.Group();
 const markerMat = new THREE.MeshStandardMaterial({ color: 0xffc531, emissive: 0xffb300, emissiveIntensity: 1.2 });
 const cone = new THREE.Mesh(new THREE.ConeGeometry(0.16, 0.32, 4), markerMat);
@@ -461,18 +586,18 @@ beamMesh.position.y = -1.2;
 marker.add(beamMesh);
 scene.add(marker);
 
-// ---------------------------------------------------------------- particulas
+// ---------------------------------------------------------------- particulas y textos
 
 const particles = [];
 const particleGeo = new THREE.BoxGeometry(0.05, 0.05, 0.02);
 
-function burst(pos, colors, count, speed, life) {
+function burst(pos, colors, count, speed, life, gravity = 6) {
   for (let i = 0; i < count; i++) {
     const mat = new THREE.MeshBasicMaterial({ color: colors[i % colors.length], transparent: true });
     const m = new THREE.Mesh(particleGeo, mat);
     m.position.copy(pos);
     const v = new THREE.Vector3(rand() - 0.5, rand() * 0.8 + 0.4, rand() - 0.5).normalize().multiplyScalar(speed * (0.5 + rand()));
-    particles.push({ m, v, spin: new THREE.Vector3(rand(), rand(), rand()).multiplyScalar(10), age: 0, life });
+    particles.push({ m, v, gravity, spin: new THREE.Vector3(rand(), rand(), rand()).multiplyScalar(10), age: 0, life });
     scene.add(m);
   }
 }
@@ -481,7 +606,7 @@ function updateParticles(dt) {
   for (let i = particles.length - 1; i >= 0; i--) {
     const p = particles[i];
     p.age += dt;
-    p.v.y -= 6 * dt;
+    p.v.y -= p.gravity * dt;
     p.m.position.addScaledVector(p.v, dt);
     if (p.m.position.y < 0.02) { p.m.position.y = 0.02; p.v.multiplyScalar(0.4); }
     p.m.rotation.x += p.spin.x * dt;
@@ -495,7 +620,6 @@ function updateParticles(dt) {
   }
 }
 
-// textos flotantes (+10, -1...)
 const popups = [];
 function popup(text, cls, worldPos) {
   const el = document.createElement('div');
@@ -513,37 +637,79 @@ function updatePopups(dt) {
     v.copy(p.pos).add(new THREE.Vector3(0, p.age * 0.8, 0)).project(camera);
     p.el.style.left = `${(v.x * 0.5 + 0.5) * window.innerWidth}px`;
     p.el.style.top = `${(-v.y * 0.5 + 0.5) * window.innerHeight}px`;
-    p.el.style.opacity = String(1 - p.age / 1.2);
-    if (p.age > 1.2) { p.el.remove(); popups.splice(i, 1); }
+    p.el.style.opacity = String(1 - p.age / 1.4);
+    if (p.age > 1.4) { p.el.remove(); popups.splice(i, 1); }
   }
+}
+
+// ---------------------------------------------------------------- paquetes del pedido
+
+let pkgs = []; // {mesh, data, mode: shelf|flying|carried|dropping|delivered, rest}
+
+const shelfPkgPos = (shelf, size) => {
+  const [r, c] = config.shelf_cells[shelf];
+  return cellPos(r, c, 0.1 + size / 2);
+};
+
+function zoneSlot(z, size) {
+  const zone = zones[z];
+  const k = zone.stack++;
+  const col = zone.minC + (k % zone.width);
+  return cellPos(zone.row, col, size / 2 + Math.floor(k / zone.width) * 0.42);
+}
+
+function buildOrder(order) {
+  for (const p of pkgs) {
+    scene.remove(p.mesh);
+    p.mesh.geometry.dispose();
+    p.mesh.material.dispose();
+  }
+  zones.forEach((z) => { z.stack = 0; });
+  pkgs = order.map((data) => {
+    const size = PKG_SIZES[data.type];
+    const mesh = shadowed(new THREE.Mesh(
+      new RoundedBoxGeometry(size, size, size, 2, 0.03),
+      new THREE.MeshStandardMaterial({
+        map: packageTexture(data.type, data.zone),
+        roughness: data.type === HEAVY ? 0.35 : 0.55,
+        metalness: data.type === HEAVY ? 0.6 : 0,
+        emissive: 0xffb300,
+        emissiveIntensity: 0,
+      }),
+    ));
+    scene.add(mesh);
+    const p = { mesh, data, size, mode: 'shelf', rest: new THREE.Vector3() };
+    if (data.status === 'entregado') {
+      p.mode = 'delivered';
+      p.rest.copy(zoneSlot(data.zone, size));
+      mesh.position.copy(p.rest);
+    } else if (data.status === 'cargando') {
+      p.mode = 'carried';
+    }
+    return p;
+  });
+  const used = new Set(order.map((d) => d.shelf));
+  racks.forEach((rk, i) => { rk.bottom.visible = !used.has(i); });
 }
 
 // ---------------------------------------------------------------- estado visual y animacion
 
-const EYE_COLORS = { normal: 0x00e5ff, carry: 0x3dff8b, bad: 0xff3b30 };
+const EYE_COLORS = { normal: 0x00e5ff, carry: 0x3dff8b, bad: 0xff3b30, low: 0xffa000 };
 
 const vis = {
   pos: config.start.slice(),
   heading: Math.PI,
   carrying: false,
-  delivered: false,
-  itemIdx: 0,
+  current: 0,
+  success: false,
+  battery: BAT_MAX,
   armLift: 0,
   alertUntil: 0,
   wheelAngle: 0,
+  chargingUntil: 0,
 };
-const pkgState = { mode: 'shelf', from: new THREE.Vector3(), to: new THREE.Vector3() };
 
-const shelfPkgPos = (idx) => {
-  const [r, c] = config.shelf_cells[idx];
-  return cellPos(r, c, 0.1 + PKG_SIZE / 2);
-};
 const slotWorld = () => robot.slot.getWorldPosition(new THREE.Vector3());
-
-function setItem(idx) {
-  vis.itemIdx = idx;
-  racks.forEach((rk, i) => { rk.bottom.visible = i !== idx; });
-}
 
 function lerpAngle(a, b, t) {
   let d = (b - a) % (Math.PI * 2);
@@ -557,42 +723,70 @@ let anim = null;
 let stepMs = 200;
 let onFrameShown = () => {};
 
-function durationFor(event) {
-  const k = { reset: 0, move: 1, bump: 1.3, pick: 2.2, drop: 2.2, pick_fail: 1.3, drop_fail: 1.3 }[event];
+const DURATIONS = {
+  reset: 0, move: 1, bump: 1.3, break: 1.8, pick: 2.2, drop: 2.2, pick_fail: 1.3, drop_fail: 1.3,
+  wrong_zone: 1.5, charge: 2.5, charge_fail: 1.3, rescue: 4,
+};
+
+function durationFor(f) {
+  let k = DURATIONS[f.event] ?? 1;
+  if (f.event === 'move' && vis.carrying && pkgs[vis.current]?.data.type === HEAVY) k = 1.5;
   const backlog = config.mode === 'manual' && queue.length > 1 ? 0.5 : 1;
   return Math.max(1, stepMs * k * backlog);
 }
 
 function beginAnim(f) {
   const a = {
-    f, t: 0, dur: durationFor(f.event),
+    f, t: 0, dur: durationFor(f),
     from: cellPos(...vis.pos), to: cellPos(...f.pos),
     h0: vis.heading, h1: vis.heading,
+    b0: vis.battery, b1: f.battery,
   };
   if (f.action in MOVES) {
     const [dr, dc] = MOVES[f.action];
     a.h1 = headingOf(dr, dc);
     a.dir = new THREE.Vector3(dc, 0, dr);
   }
-  if (f.event === 'reset') {
-    vis.carrying = false;
-    vis.delivered = false;
-    setItem(f.item_idx);
-    pkgState.mode = 'shelf';
-    a.from = a.to;
-    a.h0 = a.h1 = Math.PI;
-    hideBanner();
-  } else if (f.event === 'pick') {
-    const [r, c] = config.shelf_cells[f.item_idx];
-    a.h1 = headingOf(r - f.pos[0], c - f.pos[1]);
-    pkgState.mode = 'flying';
-    pkgState.from.copy(shelfPkgPos(f.item_idx));
-  } else if (f.event === 'drop') {
-    pkgState.mode = 'dropping';
-    pkgState.from.copy(slotWorld());
-    pkgState.to.copy(cellPos(...f.pos, PKG_SIZE / 2));
+  switch (f.event) {
+    case 'reset':
+      buildOrder(f.order);
+      Object.assign(vis, { carrying: f.carrying, current: f.current, success: f.success, battery: f.battery });
+      a.from = a.to;
+      a.h0 = a.h1 = Math.PI;
+      a.b0 = a.b1 = f.battery;
+      hideBanner();
+      break;
+    case 'pick': {
+      const p = pkgs[f.current];
+      const [r, c] = config.shelf_cells[p.data.shelf];
+      a.h1 = headingOf(r - f.pos[0], c - f.pos[1]);
+      a.pkg = p;
+      p.mode = 'flying';
+      p.rest.copy(shelfPkgPos(p.data.shelf, p.size));
+      break;
+    }
+    case 'drop': {
+      const p = pkgs[f.current - 1];
+      a.pkg = p;
+      p.mode = 'dropping';
+      a.pkgFrom = slotWorld();
+      p.rest.copy(zoneSlot(p.data.zone, p.size));
+      break;
+    }
+    case 'break':
+      a.pkg = pkgs[f.current];
+      break;
+    case 'charge':
+      vis.chargingUntil = performance.now() + a.dur;
+      break;
+    case 'rescue':
+      rescueCable.visible = true;
+      break;
+    default:
   }
-  if (['bump', 'pick_fail', 'drop_fail'].includes(f.event)) vis.alertUntil = performance.now() + a.dur + 250;
+  if (['bump', 'break', 'pick_fail', 'drop_fail', 'wrong_zone', 'charge_fail', 'rescue'].includes(f.event)) {
+    vis.alertUntil = performance.now() + a.dur + 250;
+  }
   updateHud(f);
   return a;
 }
@@ -601,7 +795,17 @@ function applyAnim(a, t) {
   const { f } = a;
   const e = ease(t);
   const p = a.from.clone().lerp(a.to, e);
-  if (f.event === 'bump') p.addScaledVector(a.dir, 0.22 * Math.sin(Math.PI * Math.min(1, t * 1.6)));
+  if (f.event === 'bump' || f.event === 'break') {
+    p.copy(a.from).addScaledVector(a.dir, 0.22 * Math.sin(Math.PI * Math.min(1, t * 1.6)));
+  }
+  if (f.event === 'rescue') {
+    // la grua lo levanta, lo lleva a la estacion de carga y lo baja
+    const lift = t < 0.3 ? ease(t / 0.3) : t > 0.75 ? ease((1 - t) / 0.25) : 1;
+    p.copy(a.from).lerp(a.to, ease(clamp01((t - 0.3) / 0.45)));
+    p.y = lift * 2.2;
+    robot.root.rotation.z = Math.sin(t * Math.PI * 6) * 0.08 * lift;
+    rescueCable.position.set(p.x, p.y, p.z);
+  }
   robot.root.position.copy(p);
   vis.heading = lerpAngle(a.h0, a.h1, clamp01(t / 0.35));
   robot.root.rotation.y = vis.heading;
@@ -609,19 +813,24 @@ function applyAnim(a, t) {
   if (f.event === 'move' || f.event === 'bump') {
     robot.body.position.y = Math.abs(Math.sin(t * Math.PI * 2)) * 0.02;
   }
-  if (f.event === 'pick_fail' || f.event === 'drop_fail') {
+  if (['pick_fail', 'drop_fail', 'wrong_zone', 'charge_fail'].includes(f.event)) {
     robot.head.rotation.y = Math.sin(t * Math.PI * 4) * 0.45 * (1 - t);
   }
   if (f.event === 'pick') {
     const u = ease(clamp01((t - 0.3) / 0.7));
-    pkg.position.copy(pkgState.from).lerp(slotWorld(), u);
-    pkg.position.y += Math.sin(Math.PI * u) * 0.35;
-    pkg.rotation.y = lerpAngle(0, vis.heading, u);
+    a.pkg.mesh.position.copy(a.pkg.rest).lerp(slotWorld(), u);
+    a.pkg.mesh.position.y += Math.sin(Math.PI * u) * 0.35;
+    a.pkg.mesh.rotation.y = lerpAngle(0, vis.heading, u);
   }
   if (f.event === 'drop') {
     const u = ease(clamp01((t - 0.15) / 0.85));
-    pkg.position.copy(pkgState.from).lerp(pkgState.to, u);
+    a.pkg.mesh.position.copy(a.pkgFrom).lerp(a.pkg.rest, u);
+    a.pkg.mesh.rotation.y = lerpAngle(vis.heading, 0, u);
   }
+  // la bateria: al cargar sube poco a poco; en el rescate se llena al aterrizar
+  if (f.event === 'charge') vis.battery = a.b0 + (a.b1 - a.b0) * ease(t);
+  else if (f.event === 'rescue') vis.battery = t > 0.9 ? a.b1 : Math.max(0, a.b0 - 1);
+  else vis.battery = a.b0 + (a.b1 - a.b0) * t;
 }
 
 function finishAnim(a) {
@@ -629,41 +838,79 @@ function finishAnim(a) {
   vis.pos = f.pos.slice();
   robot.head.rotation.y = 0;
   robot.body.position.y = 0;
-  vis.carrying = f.carrying;
-  vis.delivered = f.delivered;
-  if (f.event === 'pick') pkgState.mode = 'carried';
-  if (f.event === 'drop') {
-    pkgState.mode = 'delivered';
-    burst(cellPos(...f.pos, 0.6), [0x3dff8b, 0xffc531, 0xffffff, 0x2fa8ff, 0xff5a8a], 70, 3.2, 1.6);
+  robot.root.rotation.z = 0;
+  robot.root.position.y = 0;
+  rescueCable.visible = false;
+  Object.assign(vis, { carrying: f.carrying, current: f.current, success: f.success, battery: f.battery });
+  const head = cellPos(...f.pos, 1.25);
+
+  switch (f.event) {
+    case 'pick':
+      a.pkg.mode = 'carried';
+      popup(`+5 ${TYPE_LABELS[a.pkg.data.type].toLowerCase()} recogido`, 'gold', head);
+      break;
+    case 'drop':
+      a.pkg.mode = 'delivered';
+      a.pkg.mesh.position.copy(a.pkg.rest);
+      if (f.success) {
+        popup('+35 ¡pedido completo!', 'pos', head);
+        burst(cellPos(...f.pos, 0.6), [0x3dff8b, 0xffc531, 0xffffff, 0x2fa8ff, 0xff5a8a], 90, 3.4, 1.8);
+      } else {
+        popup('+15 entregado', 'pos', head);
+        burst(cellPos(...f.pos, 0.6), [ZONE_COLORS[a.pkg.data.zone], 0xffffff], 30, 2.4, 1.2);
+      }
+      break;
+    case 'break': {
+      const contact = cellPos(...f.pos, 0.45).addScaledVector(a.dir, 0.5);
+      burst(contact, [0xffffff, 0xe8e2d4, 0xd42f2f, 0xc8c8c8], 40, 2.2, 1.2);
+      a.pkg.mode = 'shelf'; // hay que volver a buscarlo a la estanteria
+      popup(`${f.reward.toFixed(1)} ¡se rompió!`, 'neg', head);
+      break;
+    }
+    case 'bump':
+      burst(cellPos(...f.pos, 0.35).addScaledVector(a.dir, 0.5), [0xffb02e, 0xff6a00, 0xfff1a0], 14, 1.6, 0.5);
+      popup(f.reward.toFixed(1), 'neg', head);
+      break;
+    case 'charge':
+      popup('⚡ batería llena', 'gold', head);
+      break;
+    case 'rescue':
+      popup(`${f.reward.toFixed(1)} rescate: sin batería`, 'neg', head);
+      break;
+    case 'wrong_zone':
+      popup(`${f.reward.toFixed(1)} zona equivocada`, 'neg', head);
+      break;
+    default:
+      if (f.reward <= -1) popup(f.reward.toFixed(1), 'neg', head);
   }
-  if (f.event === 'bump') {
-    const contact = cellPos(...f.pos, 0.35).addScaledVector(a.dir, 0.5);
-    burst(contact, [0xffb02e, 0xff6a00, 0xfff1a0], 14, 1.6, 0.5);
-  }
-  if (f.event !== 'reset') {
-    const head = cellPos(...f.pos, 1.2);
-    if (f.event === 'pick') popup('+10 ¡recogido!', 'gold', head);
-    else if (f.event === 'drop') popup('+20 ¡entregado!', 'pos', head);
-    else if (f.reward <= -1) popup(f.reward.toFixed(1), 'neg', head);
-  }
+  // por si en un mismo paso ocurrieron dos cosas (p. ej. se rompio un fragil y se agoto la bateria)
+  pkgs.forEach((p, i) => {
+    p.data = f.order[i];
+    if (p.data.status === 'pendiente') p.mode = 'shelf';
+  });
   onFrameShown(f);
 }
 
+function batteryColor(frac) {
+  return frac > 0.5 ? 0x4fd18b : frac > 0.25 ? 0xffc531 : 0xff5a4e;
+}
+
 function updateRobot(dt, now) {
-  const target = vis.carrying || pkgState.mode === 'flying' ? 1 : 0;
+  const target = vis.carrying || anim?.f.event === 'pick' ? 1 : 0;
   vis.armLift += (target - vis.armLift) * Math.min(1, dt * 8);
   for (const arm of robot.arms) {
     arm.shoulder.rotation.x = -0.15 - vis.armLift * 1.25 + Math.sin(now / 600 + arm.side) * 0.03 * (1 - vis.armLift);
     arm.shoulder.rotation.z = arm.side * (0.12 - vis.armLift * 0.16);
     arm.elbow.rotation.x = -0.25 - vis.armLift * 0.35;
   }
-  // ruedas segun la distancia recorrida
-  const moving = anim && (anim.f.event === 'move' || anim.f.event === 'bump');
+  const moving = anim && ['move', 'bump', 'break'].includes(anim.f.event);
   if (moving) vis.wheelAngle += dt * (1000 / anim.dur) * 10;
   robot.wheels.forEach((w) => { w.rotation.x = vis.wheelAngle; });
-  if (!moving && !anim) robot.head.position.y = 0.79 + Math.sin(now / 500) * 0.008;
+  if (!anim) robot.head.position.y = 0.79 + Math.sin(now / 500) * 0.008;
 
-  const mood = now < vis.alertUntil ? 'bad' : vis.carrying ? 'carry' : 'normal';
+  const frac = vis.battery / BAT_MAX;
+  const low = config.use_battery && frac <= 0.25;
+  const mood = now < vis.alertUntil ? 'bad' : vis.carrying ? 'carry' : low ? 'low' : 'normal';
   const color = EYE_COLORS[mood];
   robot.eyeMat.color.setHex(color);
   robot.eyeMat.emissive.setHex(color);
@@ -671,38 +918,70 @@ function updateRobot(dt, now) {
   robot.light.color.setHex(color);
   const blink = (now % 3200) < 120 ? 0.15 : 1;
   robot.eyes.forEach((e) => { e.scale.y = 1.15 * blink; });
-  robot.tipMat.emissiveIntensity = (now % 1000) < 500 ? 2.5 : 0.3;
+  const period = low ? 300 : 1000;
+  robot.tipMat.emissiveIntensity = (now % period) < period / 2 ? 2.5 : 0.3;
+
+  // barra de bateria
+  batteryBar.position.copy(robot.root.position).add(new THREE.Vector3(0, 1.28, 0));
+  batteryBar.quaternion.copy(camera.quaternion);
+  barFill.scale.x = Math.max(0.001, frac);
+  barFill.position.x = -0.28 * (1 - frac);
+  barFillMat.color.setHex(batteryColor(frac));
 }
 
-function updatePackage(now) {
-  pkg.visible = true;
-  if (pkgState.mode === 'shelf') {
-    pkg.position.copy(shelfPkgPos(vis.itemIdx));
-    pkg.rotation.y = 0;
-  } else if (pkgState.mode === 'carried') {
-    pkg.position.copy(slotWorld());
-    pkg.rotation.y = robot.root.rotation.y;
-  }
-  pkg.material.emissiveIntensity = pkgState.mode === 'shelf' ? 0.12 + 0.12 * Math.sin(now / 250) : 0.08;
+function updateWorld(now) {
+  // paquetes que no se estan animando
+  pkgs.forEach((p, i) => {
+    if (p.mode === 'shelf') {
+      p.mesh.position.copy(shelfPkgPos(p.data.shelf, p.size));
+      p.mesh.rotation.y = 0;
+    } else if (p.mode === 'carried') {
+      p.mesh.position.copy(slotWorld());
+      p.mesh.rotation.y = robot.root.rotation.y;
+    }
+    const isTarget = i === vis.current && p.mode === 'shelf';
+    p.mesh.material.emissiveIntensity = isTarget ? 0.15 + 0.15 * Math.sin(now / 250) : 0;
+  });
 
-  // el marcador indica el siguiente objetivo: el paquete o la zona de entregas
+  // el marcador indica el siguiente objetivo: el paquete o su zona de entrega
+  const cur = pkgs[vis.current];
   let goal = null;
-  if (pkgState.mode === 'shelf') goal = shelfPkgPos(vis.itemIdx).setY(RACK_H + 0.55);
-  else if (pkgState.mode === 'carried' || pkgState.mode === 'flying') goal = deliveryCenter.clone().setY(1.95);
+  let color = 0xffc531;
+  if (cur && !vis.success) {
+    if (vis.carrying) {
+      goal = zones[cur.data.zone].center.clone().setY(1.95);
+      color = ZONE_COLORS[cur.data.zone];
+    } else {
+      goal = shelfPkgPos(cur.data.shelf, cur.size).setY(RACK_H + 0.55);
+    }
+  }
   marker.visible = goal !== null;
   if (goal) {
     if (marker.position.lengthSq() === 0) marker.position.copy(goal);
     marker.position.lerp(goal, 0.08);
     cone.position.y = Math.sin(now / 300) * 0.08;
     marker.rotation.y = now / 700;
-    const toDelivery = pkgState.mode !== 'shelf';
-    markerMat.color.setHex(toDelivery ? 0x3dff8b : 0xffc531);
-    markerMat.emissive.setHex(toDelivery ? 0x2bd97a : 0xffb300);
-    beamMesh.material.color.setHex(toDelivery ? 0x3dff8b : 0xffc531);
+    markerMat.color.setHex(color);
+    markerMat.emissive.setHex(color);
+    beamMesh.material.color.setHex(color);
   }
-  const active = pkgState.mode === 'carried';
-  deliveryLight.intensity = active ? 4 + Math.sin(now / 200) * 1.5 : 0;
-  deliveryMat.emissiveIntensity = active ? 0.35 + Math.sin(now / 200) * 0.15 : 0.12;
+
+  zones.forEach((z, i) => {
+    const active = vis.carrying && cur && cur.data.zone === i;
+    z.light.intensity = active ? 4 + Math.sin(now / 200) * 1.5 : 0;
+    z.mat.emissiveIntensity = active ? 0.35 + Math.sin(now / 200) * 0.15 : 0.08;
+    z.lampMat.emissiveIntensity = active ? 2 : 0.5;
+  });
+
+  // la estacion de carga brilla al cargar y parpadea cuando la bateria esta baja
+  const charging = now < vis.chargingUntil;
+  const low = config.use_battery && vis.battery / BAT_MAX <= 0.25;
+  chargerLight.intensity = charging ? 5 + Math.sin(now / 60) * 2 : low ? 2 + Math.sin(now / 150) * 1.5 : 0;
+  chargerPadMat.emissiveIntensity = charging ? 0.6 : low ? 0.2 + Math.sin(now / 150) * 0.15 : 0.05;
+  screenMat.emissiveIntensity = charging ? 2 : 0.6;
+  if (charging && Math.random() < 0.35) {
+    burst(robot.root.position.clone().add(new THREE.Vector3(0, 0.6, 0)), [0xffd23f, 0xfff6b0, 0x3dff8b], 2, 1.2, 0.6, 1);
+  }
 }
 
 // ---------------------------------------------------------------- camara
@@ -710,8 +989,8 @@ function updatePackage(now) {
 let followRobot = false;
 const camPresets = {
   iso: { pos: [0, 14, 10.5], target: [0, 0, 0.6] },
-  side: { pos: [10, 9, 10], target: [0, 0, 0.5] },
   top: { pos: [0, 19, 0.01], target: [0, 0, 0] },
+  side: { pos: [10, 9, 10], target: [0, 0, 0.5] },
 };
 let camTween = null;
 
@@ -759,6 +1038,26 @@ function cameraRelativeAction(dir) {
 
 function fmt(x) { return (x >= 0 ? '+' : '') + x.toFixed(1); }
 
+const STATUS_LABELS = { pendiente: 'pendiente', cargando: 'en camino', entregado: '✔ entregado' };
+
+function renderOrder(f) {
+  $('order').innerHTML = f.order.map((p, i) => {
+    const cls = p.status === 'entregado' ? 'done' : i === f.current ? 'current' : '';
+    const broken = p.broken ? ` <span class="broken">roto ×${p.broken}</span>` : '';
+    return `<li class="${cls}"><span class="num">${i + 1}.</span>`
+      + `<span class="type">${TYPE_LABELS[p.type]}${broken}</span>`
+      + `<span class="zone" style="background:${ZONE_CSS[p.zone]}">${ZONE_NAMES[p.zone]}</span>`
+      + `<span class="st">${STATUS_LABELS[p.status]}</span></li>`;
+  }).join('');
+}
+
+function renderBattery(value) {
+  const frac = value / BAT_MAX;
+  $('hud-battery').textContent = `${Math.round(frac * 100)}%`;
+  $('bat-fill').style.width = `${frac * 100}%`;
+  $('bat-fill').style.background = `#${batteryColor(frac).toString(16).padStart(6, '0')}`;
+}
+
 function updateHud(f) {
   $('hud-step').textContent = `${f.steps} / ${config.max_steps}`;
   $('hud-action').textContent = f.action === null ? '-' : ACTION_NAMES[f.action];
@@ -766,13 +1065,23 @@ function updateHud(f) {
   rw.textContent = fmt(f.reward);
   rw.className = f.reward > 0 ? 'pos' : f.reward <= -1 ? 'neg' : '';
   $('hud-total').textContent = fmt(f.total);
-  const st = $('hud-state');
-  st.textContent = f.delivered ? 'entregado' : f.carrying ? 'CARGANDO' : 'sin carga';
-  st.className = f.delivered ? 'pos' : f.carrying ? 'gold' : '';
+  $('hud-rescues').textContent = f.rescues;
+  $('hud-rescues').className = f.rescues ? 'neg' : '';
+  renderOrder(f);
+  renderBattery(f.battery);
   if (config.mode === 'manual') {
-    $('goal').innerHTML = f.carrying
-      ? 'Lleva el paquete a la <b class="pos">zona verde</b> y pulsa <kbd>E</kbd>.'
-      : 'Ve junto a la estantería con el <b class="gold">paquete dorado</b> y pulsa <kbd>R</kbd>.';
+    const cur = f.order[Math.min(f.current, f.order.length - 1)];
+    const zone = `<b style="color:${ZONE_CSS[cur.zone]}">Zona ${ZONE_NAMES[cur.zone]}</b>`;
+    let goal = f.carrying
+      ? `Lleva el paquete a la ${zone} y pulsa <kbd>E</kbd>.`
+      : `Ve junto a la estantería marcada y pulsa <kbd>R</kbd> para recoger el paquete ${f.current + 1}.`;
+    if (f.carrying && cur.type === HEAVY) goal += '<br>Pesado: cada paso gasta el doble de batería.';
+    if (f.carrying && cur.type === FRAGILE) goal += '<br><b class="neg">¡Frágil!</b> Si chocas, se rompe.';
+    if (config.use_battery && f.battery / BAT_MAX <= 0.3) {
+      goal += '<br><b class="gold">Batería baja:</b> ve a la estación ⚡ y pulsa <kbd>C</kbd>.';
+    }
+    if (f.success) goal = '¡Pedido completo! Pulsa <kbd>N</kbd> para otro.';
+    $('goal').innerHTML = goal;
   }
 }
 
@@ -786,6 +1095,8 @@ function showBanner(title, sub, cls, ms) {
   if (ms) bannerTimer = setTimeout(hideBanner, ms);
 }
 function hideBanner() { $('banner').hidden = true; }
+
+if (!config.use_battery) $('battery-block').hidden = true;
 
 // ---------------------------------------------------------------- bucle principal
 
@@ -802,8 +1113,9 @@ function loop() {
     anim = beginAnim(queue.shift());
     applyAnim(anim, 0);
   }
+  if (anim) renderBattery(vis.battery);
   updateRobot(dt, now);
-  updatePackage(now);
+  updateWorld(now);
   updateParticles(dt);
   updatePopups(dt);
   updateCamera(dt);
@@ -817,7 +1129,6 @@ async function waitIdle() {
 
 robot.root.position.copy(cellPos(...vis.pos));
 robot.root.rotation.y = vis.heading;
-setItem(0);
 setCamera(new URLSearchParams(location.search).get('cam') || 'iso');
 loop();
 
@@ -828,6 +1139,12 @@ window.addEventListener('keydown', (e) => {
   if (e.key === '3') setCamera('follow');
   if (e.key === '4') setCamera('side');
 });
+
+function resultText(f) {
+  const delivered = f.order.filter((p) => p.status === 'entregado').length;
+  return `${delivered}/${f.order.length} paquetes · ${f.steps} pasos · recompensa ${fmt(f.total)}`
+    + (f.rescues ? ` · ${f.rescues} rescate${f.rescues > 1 ? 's' : ''}` : '');
+}
 
 // ---------------------------------------------------------------- modo manual
 
@@ -847,19 +1164,19 @@ async function startManual() {
       lastKey = key;
       if (f.event === 'reset') { queue.length = 0; ended = false; }
       if (f.terminated || f.truncated) ended = true;
-      $('episode-title').textContent = `Episodio ${f.episode}`;
+      $('episode-title').textContent = `Pedido ${f.episode}`;
       queue.push(f);
     }).catch((err) => showError(`Error del servidor: ${err.message}`));
   };
   onFrameShown = (f) => {
-    if (f.terminated) showBanner('¡ENTREGADO!', `${f.steps} pasos · recompensa ${fmt(f.total)} · pulsa N para otro episodio`, 'pos');
-    else if (f.truncated) showBanner('TIEMPO AGOTADO', 'Pulsa N para un nuevo episodio', 'neg');
+    if (f.terminated) showBanner('¡PEDIDO COMPLETO!', `${resultText(f)} · pulsa N para otro`, 'pos');
+    else if (f.truncated) showBanner('TIEMPO AGOTADO', `${resultText(f)} · pulsa N para otro`, 'neg');
   };
 
   const f = await api.get('/api/state');
   lastKey = `${f.episode}:${f.steps}`;
   ended = f.terminated || f.truncated;
-  $('episode-title').textContent = `Episodio ${f.episode}`;
+  $('episode-title').textContent = `Pedido ${f.episode}`;
   queue.push({ ...f, event: 'reset' });
 
   const keyMap = {
@@ -872,6 +1189,7 @@ async function startManual() {
     if (k in keyMap) action = cameraRelativeAction(keyMap[k]);
     else if (k === 'r' || k === ' ') action = PICK;
     else if (k === 'e' || k === 'enter') action = DROP;
+    else if (k === 'c') action = CHARGE;
     else if (k === 'n') { e.preventDefault(); send('/api/reset'); return; }
     if (action === null) return;
     e.preventDefault();
@@ -897,17 +1215,23 @@ function drawChart(history) {
   const pad = 12;
   const xs = (i) => pad + (history.length === 1 ? 0 : (i * (w - 2 * pad)) / (history.length - 1));
   const ys = (v) => h - pad - v * (h - 2 * pad);
-  ctx.strokeStyle = '#4fd18b';
-  ctx.lineWidth = 4;
-  ctx.lineJoin = 'round';
-  ctx.beginPath();
-  history.forEach((p, i) => (i ? ctx.lineTo(xs(i), ys(p.delivery_rate)) : ctx.moveTo(xs(i), ys(p.delivery_rate))));
-  ctx.stroke();
-  ctx.fillStyle = '#4fd18b';
-  const last = history[history.length - 1];
-  ctx.beginPath();
-  ctx.arc(xs(history.length - 1), ys(last.delivery_rate), 7, 0, Math.PI * 2);
-  ctx.fill();
+  const maxRescues = Math.max(1, ...history.map((p) => p.rescues));
+  const series = [
+    { color: '#ff8a2a', value: (p) => p.rescues / maxRescues },
+    { color: '#4fd18b', value: (p) => p.success_rate },
+  ];
+  for (const s of series) {
+    ctx.strokeStyle = s.color;
+    ctx.lineWidth = 4;
+    ctx.lineJoin = 'round';
+    ctx.beginPath();
+    history.forEach((p, i) => (i ? ctx.lineTo(xs(i), ys(s.value(p))) : ctx.moveTo(xs(i), ys(s.value(p)))));
+    ctx.stroke();
+    ctx.fillStyle = s.color;
+    ctx.beginPath();
+    ctx.arc(xs(history.length - 1), ys(s.value(history[history.length - 1])), 7, 0, Math.PI * 2);
+    ctx.fill();
+  }
 }
 
 const PHASES = {
@@ -925,7 +1249,8 @@ function updateStatus(s) {
   $('train-eps').textContent = s.epsilon.toFixed(3);
   drawChart(s.history);
   $('history').innerHTML = s.history.slice(-5).reverse().map((p) =>
-    `<li>ep ${p.episode.toLocaleString()} · entregas ${(p.delivery_rate * 100).toFixed(1)}% · R̄ ${p.mean_reward.toFixed(1)}</li>`).join('');
+    `<li>ep ${p.episode.toLocaleString()} · completos ${(p.success_rate * 100).toFixed(1)}% · `
+    + `rescates ${p.rescues.toFixed(2)} · R̄ ${p.mean_reward.toFixed(1)}</li>`).join('');
 }
 
 const speedToMs = (v) => Math.round(600 * Math.pow(0.04, v / 100)); // 600 ms .. 24 ms por paso
@@ -934,8 +1259,8 @@ async function startAuto() {
   $('mode-tag').textContent = 'Q-LEARNING';
   $('auto-block').hidden = false;
   $('speed-block').hidden = false;
-  $('goal').textContent = 'El robot aprende por prueba y error. Al principio explora al azar (ε alto); '
-    + 'con el tiempo aprende a recoger el paquete dorado y llevarlo a la zona verde.';
+  $('goal').textContent = 'El robot aprende por prueba y error a completar pedidos: recoger cada paquete, '
+    + 'llevarlo a la zona de su color, no chocar con los frágiles y cargar la batería a tiempo.';
   const speed = $('speed');
   const applySpeed = () => { stepMs = speedToMs(Number(speed.value)); };
   speed.addEventListener('input', applySpeed);
@@ -970,8 +1295,8 @@ async function startAuto() {
     queue.push(...ep.frames);
     while ((anim || queue.length) && !skip) await sleep(40);
     if (skip) { queue.length = 0; await waitIdle(); }
-    showBanner(ep.delivered ? '¡ENTREGADO!' : 'NO ENTREGADO',
-      `${ep.steps} pasos · recompensa ${fmt(ep.total)}`, ep.delivered ? 'pos' : 'neg', 0);
+    const last = ep.frames[ep.frames.length - 1];
+    showBanner(ep.success ? '¡PEDIDO COMPLETO!' : 'PEDIDO INCOMPLETO', resultText(last), ep.success ? 'pos' : 'neg', 0);
     await sleep(Math.max(700, stepMs * 6));
     after = ep.id;
   }

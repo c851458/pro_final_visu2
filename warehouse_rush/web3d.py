@@ -5,7 +5,7 @@ La pagina (carpeta web/) habla con este servidor mediante una pequena API JSON:
 
     GET  /api/config         mapa de la bodega y modo ("manual" o "auto")
     GET  /api/state          (manual) estado actual
-    POST /api/step           (manual) {"action": 0..5} -> fotograma
+    POST /api/step           (manual) {"action": 0..6} -> fotograma
     POST /api/reset          (manual) nuevo episodio -> fotograma
     GET  /api/status         (auto) progreso del entrenamiento
     GET  /api/next?after=ID  (auto) siguiente episodio grabado para animar
@@ -21,7 +21,7 @@ import webbrowser
 from http.server import SimpleHTTPRequestHandler, ThreadingHTTPServer
 from urllib.parse import parse_qs, urlparse
 
-from warehouse_rush.env import LAYOUT, MOVES, PICK, DROP
+from warehouse_rush.env_v1 import ACTION_NAMES, LAYOUT, TYPE_NAMES, ZONE_NAMES
 
 WEB_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "web")
 
@@ -32,43 +32,31 @@ def env_config(env, mode):
         "mode": mode,
         "layout": LAYOUT,
         "shelf_cells": [list(p) for p in base.shelf_cells],
-        "delivery_cells": sorted(list(map(int, p)) for p in base.delivery_cells),
+        "zone_cells": [sorted(list(p) for p in zone) for zone in base.zone_cells],
+        "charger": list(base.charger),
         "start": list(base.start_pos),
         "max_steps": base.max_steps,
+        "n_packages": base.n_packages,
+        "use_battery": base.use_battery,
+        "battery_max": base.battery_max,
+        "action_names": ACTION_NAMES,
+        "type_names": TYPE_NAMES,
+        "zone_names": ZONE_NAMES,
     }
 
 
-def snapshot(env, action=None, reward=0.0, prev=None, terminated=False, truncated=False):
-    """Fotograma serializable del estado del entorno, con el evento ocurrido en el ultimo paso."""
-    base = env.unwrapped
-    pos = [int(base.agent_pos[0]), int(base.agent_pos[1])]
-    if action is None:
-        event = "reset"
-    elif action in MOVES:
-        event = "move" if tuple(pos) != tuple(prev["pos"]) else "bump"
-    elif action == PICK:
-        event = "pick" if base.carrying and not prev["carrying"] else "pick_fail"
-    elif action == DROP:
-        event = "drop" if base.delivered else "drop_fail"
-    return {
-        "pos": pos,
-        "carrying": bool(base.carrying),
-        "delivered": bool(base.delivered),
-        "item_idx": int(base.item_idx),
-        "steps": int(base.steps),
-        "action": None if action is None else int(action),
-        "reward": float(reward),
-        "total": float(base.total_reward),
-        "event": event,
-        "terminated": bool(terminated),
-        "truncated": bool(truncated),
-    }
+def snapshot(env, action=None, reward=0.0, terminated=False, truncated=False):
+    """Fotograma serializable: estado completo del entorno y lo ocurrido en el ultimo paso."""
+    frame = env.unwrapped.state_dict()
+    frame.update(action=None if action is None else int(action), reward=float(reward),
+                 terminated=bool(terminated), truncated=bool(truncated))
+    return frame
 
 
 def step_frame(env, action):
-    prev = snapshot(env)
-    _, reward, terminated, truncated, _ = env.step(action)
-    return snapshot(env, action, reward, prev, terminated, truncated)
+    """Ejecuta una accion y devuelve (obs, recompensa, terminado, truncado, fotograma)."""
+    obs, reward, terminated, truncated, _ = env.step(action)
+    return obs, reward, terminated, truncated, snapshot(env, action, reward, terminated, truncated)
 
 
 class WebApp:

@@ -4,3 +4,6 @@ gymnasium==1.4.0
 numpy==2.2.6
 pygame==2.6.1
 typing_extensions==4.16.0
+dvc==3.59.1
+pathspec==0.12.1
+PyYAML==6.0.3

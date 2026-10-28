@@ -1,0 +1,28 @@
+# Parametros del pipeline (versionados con git; DVC los usa para saber que etapas repetir).
+# Para un experimento: dvc exp run -S agente.alpha=0.2
+
+datos:
+  semilla: 42
+  pedidos_entrenamiento: 20000
+  pedidos_evaluacion: 500
+  paquetes_por_pedido: 3
+  prob_tipos: # normal, pesado, fragil
+    normal: 0.5
+    pesado: 0.25
+    fragil: 0.25
+
+entorno:
+  bateria: true
+  bateria_max: 100
+  max_pasos: 400
+
+agente:
+  alpha: 0.1
+  gamma: 0.99
+  epsilon_min: 0.05
+  fraccion_exploracion: 0.7 # epsilon llega a su minimo en esta fraccion del entrenamiento
+
+entrenamiento:
+  episodios: 40000
+  semilla: 0
+  registrar_cada: 1000

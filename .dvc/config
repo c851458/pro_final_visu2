@@ -1,0 +1,6 @@
+[core]
+    analytics = false
+    autostage = true
+    remote = almacen
+['remote "almacen"']
+    url = /home/carolo06/dvc-storage/pro_final_visu2

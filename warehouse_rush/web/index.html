@@ -27,18 +27,24 @@
       <div class="row"><span>Entrenamiento</span><b id="train-progress">-</b></div>
       <div class="row"><span>Exploración ε</span><b id="train-eps">-</b></div>
       <canvas id="chart" width="560" height="170"></canvas>
-      <div class="legend"><i class="dot ok"></i> entregas (%) cada 1000 episodios</div>
+      <div class="legend"><i class="dot ok"></i> pedidos completos (%) <i class="dot warn"></i> rescates por episodio</div>
       <ul id="history"></ul>
     </div>
 
     <div class="episode-title" id="episode-title">Cargando...</div>
+    <div id="battery-block">
+      <div class="row"><span>Batería</span><b id="hud-battery">-</b></div>
+      <div class="bat-bar"><div id="bat-fill"></div></div>
+    </div>
     <div class="grid">
       <span>Paso</span><b id="hud-step">0</b>
       <span>Acción</span><b id="hud-action">-</b>
       <span>Recompensa</span><b id="hud-reward">0.0</b>
       <span>Acumulada</span><b id="hud-total">0.0</b>
-      <span>Estado</span><b id="hud-state">sin carga</b>
+      <span>Rescates</span><b id="hud-rescues">0</b>
     </div>
+    <div class="order-title">Pedido</div>
+    <ul id="order"></ul>
     <div class="goal" id="goal"></div>
 
     <div id="speed-block" hidden>
@@ -58,7 +64,7 @@
 
   <section class="panel" id="controls" hidden>
     <div><kbd>↑</kbd><kbd>↓</kbd><kbd>←</kbd><kbd>→</kbd> / <kbd>WASD</kbd> mover (según la cámara)</div>
-    <div><kbd>R</kbd> / <kbd>Espacio</kbd> recoger · <kbd>E</kbd> / <kbd>Enter</kbd> entregar · <kbd>N</kbd> nuevo episodio</div>
+    <div><kbd>R</kbd> / <kbd>Espacio</kbd> recoger · <kbd>E</kbd> / <kbd>Enter</kbd> entregar · <kbd>C</kbd> cargar batería · <kbd>N</kbd> nuevo pedido</div>
   </section>
 
   <div id="banner" hidden><div id="banner-title"></div><div id="banner-sub"></div></div>

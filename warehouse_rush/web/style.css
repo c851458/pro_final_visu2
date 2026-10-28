@@ -69,6 +69,22 @@ h1 { font-size: 17px; margin: 0 0 6px; letter-spacing: 0.3px; }
 .legend { font-size: 11px; color: var(--dim); }
 .dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; }
 .dot.ok { background: var(--ok); }
+.dot.warn { background: var(--accent); margin-left: 8px; }
+
+#battery-block { margin: 4px 0 8px; }
+.bat-bar { height: 10px; background: rgba(255, 255, 255, 0.1); border-radius: 99px; overflow: hidden; }
+#bat-fill { height: 100%; width: 100%; background: var(--ok); border-radius: 99px; transition: width 0.25s, background 0.25s; }
+
+.order-title { margin-top: 12px; font-weight: 600; }
+#order { list-style: none; padding: 0; margin: 6px 0 0; font-size: 12.5px; }
+#order li { display: flex; align-items: center; gap: 8px; padding: 5px 6px; border-radius: 7px; }
+#order li.current { background: rgba(255, 255, 255, 0.08); }
+#order li.done { opacity: 0.55; }
+#order .num { color: var(--dim); width: 16px; }
+#order .type { flex: 1; }
+#order .zone { font-weight: 700; color: #fff; border-radius: 5px; padding: 0 7px; font-size: 11.5px; }
+#order .st { width: 74px; text-align: right; color: var(--dim); font-size: 11.5px; }
+#order .broken { color: var(--bad); font-size: 11px; }
 
 #history { list-style: none; padding: 0; margin: 6px 0 0; font-size: 11.5px; color: var(--dim); font-variant-numeric: tabular-nums; }
 #history li { padding: 2px 0; border-top: 1px solid var(--border); }

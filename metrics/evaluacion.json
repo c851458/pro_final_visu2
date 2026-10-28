@@ -1,0 +1,12 @@
+{
+  "tasa_exito": 0.986,
+  "paquetes_entregados_medios": 2.98,
+  "pasos_medios": 68.066,
+  "pasos_medios_exitosos": 63.35294117647059,
+  "recompensa_media": 62.59199999999993,
+  "rescates_medios": 0.168,
+  "fragiles_rotos_medios": 0.0,
+  "cargas_medias": 0.174,
+  "choques_medios": 0.014,
+  "pedidos_evaluados": 500
+}
