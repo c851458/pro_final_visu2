@@ -7,10 +7,14 @@ stages:
       hash: md5
       md5: c00024d97d1ee5fdf979b18c2212e2e7
       size: 864
+    - path: pipeline/core.py
+      hash: md5
+      md5: fc6d0ba92e47e2543267c875b4f4e0dd
+      size: 4969
     - path: pipeline/generar_datos.py
       hash: md5
-      md5: 42613e1acb4083c71a3cef61b7c3efcf
-      size: 1758
+      md5: 16b3a8f4a3f7cee72568cdd175b5f0cd
+      size: 894
     - path: warehouse_rush/env_v1.py
       hash: md5
       md5: 15336c079da29427fd71baac8faebc07
@@ -46,14 +50,22 @@ stages:
       hash: md5
       md5: c00024d97d1ee5fdf979b18c2212e2e7
       size: 864
+    - path: pipeline/core.py
+      hash: md5
+      md5: fc6d0ba92e47e2543267c875b4f4e0dd
+      size: 4969
     - path: pipeline/entrenar.py
       hash: md5
-      md5: 47223f5953e5f2f7aaf0f59d062d1aa6
-      size: 2297
+      md5: 5b5cf7e492f3781a93f7518f9973d51a
+      size: 1620
+    - path: pipeline/tracking.py
+      hash: md5
+      md5: b992b3d6e2e333abd4b4ba12cc69a50e
+      size: 2359
     - path: warehouse_rush/agent.py
       hash: md5
-      md5: 9fa057cc37b515b2dd99f7c91e224c9a
-      size: 1343
+      md5: 1fedffbe3f1422201ec20e0ff92e2bb8
+      size: 1501
     - path: warehouse_rush/env_v1.py
       hash: md5
       md5: 15336c079da29427fd71baac8faebc07
@@ -79,6 +91,10 @@ stages:
       hash: md5
       md5: 9a764de3b012aa2b7995297c6d9bd630
       size: 2389
+    - path: metrics/mlflow_run.json
+      hash: md5
+      md5: 09211948de0a4ca7925134d452535fc5
+      size: 50
     - path: models/q_table_v1.pkl
       hash: md5
       md5: dedb1463199e7ec772aeb1a6eef660e2
@@ -90,6 +106,10 @@ stages:
       hash: md5
       md5: 4a0fdec75c884906d8826221f59d15e4
       size: 162661
+    - path: metrics/mlflow_run.json
+      hash: md5
+      md5: 09211948de0a4ca7925134d452535fc5
+      size: 50
     - path: models/q_table_v1.pkl
       hash: md5
       md5: dedb1463199e7ec772aeb1a6eef660e2
@@ -98,10 +118,18 @@ stages:
       hash: md5
       md5: c00024d97d1ee5fdf979b18c2212e2e7
       size: 864
+    - path: pipeline/core.py
+      hash: md5
+      md5: fc6d0ba92e47e2543267c875b4f4e0dd
+      size: 4969
     - path: pipeline/evaluar.py
       hash: md5
-      md5: 743ddfa36125ae16ef2125b3085c1892
-      size: 2962
+      md5: 74c6ca0b8a853a294ac938eb1dc9cf87
+      size: 1373
+    - path: pipeline/tracking.py
+      hash: md5
+      md5: b992b3d6e2e333abd4b4ba12cc69a50e
+      size: 2359
     - path: warehouse_rush/env_v1.py
       hash: md5
       md5: 15336c079da29427fd71baac8faebc07

@@ -2,3 +2,6 @@
 __pycache__/
 *.pyc
 /q_table*.pkl
+/dvc_plots/
+/mlflow.db
+/mlartifacts/

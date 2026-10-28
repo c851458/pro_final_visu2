@@ -53,39 +53,41 @@ La página necesita internet para cargar three.js desde el CDN.
 Las versiones anteriores, con el entorno simple `WarehouseRush-v0` (un paquete, sin batería), siguen disponibles:
 `train.py` (terminal o pygame) y `play.py` (pygame).
 
-## Versionado con DVC (datos, modelo, pipeline y experimentos)
+## Versionado: datos y pipeline (DVC), experimentos (MLflow), modelos (Hugging Face)
 
-| Qué | Dónde | Cómo se versiona |
+| Qué | Dónde | Herramienta |
 |---|---|---|
 | Dataset de pedidos (entrenamiento y evaluación) | `data/pedidos_*.json` | DVC (git guarda el hash en `dvc.lock`) |
 | Dataset de trayectorias del agente evaluado | `data/trayectorias_evaluacion.csv` | DVC |
-| Modelo (tabla Q) | `models/q_table_v1.pkl` | DVC |
-| Pipeline | `dvc.yaml` + `pipeline/*.py` | git |
-| Parámetros | `params.yaml` | git |
-| Métricas y curva de aprendizaje | `metrics/evaluacion.json`, `metrics/entrenamiento.csv` | git |
-| Experimentos | `dvc exp` | refs de git + caché de DVC |
-
-Pipeline: `generar_datos` → `entrenar` → `evaluar`. DVC solo repite las etapas cuyas dependencias
-(código, datos o parámetros) cambiaron.
+| Pipeline `generar_datos` → `entrenar` → `evaluar` | `dvc.yaml`, `pipeline/`, `params.yaml` | DVC + git |
+| Experimentos: parámetros, curvas, métricas, modelo de cada corrida, commit y versión del dataset | `mlflow.db`, `mlartifacts/` | MLflow |
+| Modelos publicados, con ficha y versiones (commits y tags) | [`c851458/warehouse-rush-qlearning`](https://huggingface.co/c851458/warehouse-rush-qlearning) (privado) | Hugging Face Hub |
 
 ```bash
 source .venv/bin/activate
 
-dvc repro                                  # ejecuta el pipeline (solo lo que cambió)
-dvc push                                   # sube datos y modelo al almacenamiento de DVC
-dvc pull                                   # descarga los datos y el modelo de la versión actual
+# Datos y pipeline (DVC): solo repite las etapas cuyo código, datos o parámetros cambiaron.
+# Cada ejecución queda también como run "pipeline" en MLflow.
+dvc repro
+dvc push                       # sube el dataset al almacenamiento de DVC
+dvc pull                       # descarga el dataset de la versión actual
 
-dvc exp run -S agente.alpha=0.2            # experimento cambiando un parámetro
-dvc exp run -S entorno.bateria_max=60 -n bateria-60   # experimento con nombre
-dvc exp show                               # tabla comparando parámetros y métricas
-dvc exp diff                               # diferencias con la versión base
-dvc plots diff <exp1> <exp2>               # curvas de aprendizaje comparadas (HTML)
-dvc exp apply <exp>                        # trae al workspace los archivos de un experimento
-dvc exp branch <exp> <rama>                # convierte un experimento en una rama de git
+# Experimentos (MLflow): variantes de params.yaml, en paralelo
+./experimentar.py -e alpha-alto agente.alpha=0.2 -e gamma-bajo agente.gamma=0.95 -j 2
+mlflow ui --backend-store-uri sqlite:///mlflow.db     # comparar en http://localhost:5000
 
-./train3d.py --demo-only --modelo models/q_table_v1.pkl   # ver en 3D el modelo versionado
+# Modelos (Hugging Face): publica el modelo de un run con su ficha y lo enlaza al run de MLflow
+./publicar_modelo.py                         # modelo del pipeline
+./publicar_modelo.py --run alpha-alto        # modelo de un experimento
+./publicar_modelo.py --tag v1.1              # marca la versión
+
+# Usar un modelo publicado
+./train3d.py --demo-only --modelo hf:c851458/warehouse-rush-qlearning@v1.0
 ```
 
-El almacenamiento de DVC está configurado en `/home/carolo06/dvc-storage/pro_final_visu2` (local).
-Para compartirlo con otras personas, cámbialo por uno en la nube, por ejemplo Google Drive, S3 o DagsHub:
-`dvc remote modify almacen url <url>`.
+- La autenticación con Hugging Face usa la sesión guardada (`hf auth login`). Los repositorios se crean privados;
+  usa `--publico` para que sean públicos.
+- El modelo se publica como `q_table.npy` (sin pickle), con `README.md` (ficha con métricas y parámetros),
+  `config.json` y `evaluacion.json`.
+- El almacenamiento de DVC es local (`/home/carolo06/dvc-storage/pro_final_visu2`). Para compartirlo, cámbialo
+  por uno en la nube: `dvc remote modify almacen url <url>`.

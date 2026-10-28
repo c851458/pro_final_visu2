@@ -13,7 +13,8 @@ Uso:
     ./train3d.py --episodes 40000 --watch-every 2000
     ./train3d.py --paquetes 2 --sin-bateria
     ./train3d.py --demo-only --demo-episodes 5      # usa la tabla Q guardada
-    ./train3d.py --demo-only --modelo models/q_table_v1.pkl   # modelo versionado con DVC
+    ./train3d.py --demo-only --modelo models/q_table_v1.pkl   # modelo del pipeline (dvc repro)
+    ./train3d.py --demo-only --modelo hf:USUARIO/warehouse-rush-qlearning@v1.0   # modelo de Hugging Face
 """
 
 import argparse
@@ -26,6 +27,7 @@ import numpy as np
 
 import warehouse_rush  # noqa: F401  (registra WarehouseRush-v1)
 from warehouse_rush import QLearningAgent
+from warehouse_rush.hub import resolve_model
 from warehouse_rush.web3d import WebApp, env_config, snapshot, step_frame, wait_forever
 
 Q_PATH = "q_table_v1.pkl"
@@ -145,7 +147,8 @@ if __name__ == "__main__":
     parser.add_argument("--paquetes", type=int, default=3, help="paquetes por pedido")
     parser.add_argument("--sin-bateria", action="store_true", help="desactiva la bateria")
     parser.add_argument("--demo-only", action="store_true", help="usa la tabla Q guardada, sin entrenar")
-    parser.add_argument("--modelo", default=Q_PATH, help="tabla Q a cargar con --demo-only")
+    parser.add_argument("--modelo", default=Q_PATH,
+                        help="tabla Q a cargar con --demo-only (ruta local o hf:usuario/repo[@revision])")
     parser.add_argument("--demo-episodes", type=int, default=3)
     parser.add_argument("--port", type=int, default=8765)
     parser.add_argument("--no-browser", action="store_true", help="no abrir el navegador automaticamente")
@@ -159,7 +162,7 @@ if __name__ == "__main__":
     if args.demo_only:
         expected = agent.q.shape
         try:
-            agent.load(args.modelo)
+            agent.load(resolve_model(args.modelo))
         except FileNotFoundError:
             sys.exit(f"No existe {args.modelo}: entrena primero (./train3d.py o dvc repro)")
         if agent.q.shape != expected:

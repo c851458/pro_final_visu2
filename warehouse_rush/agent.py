@@ -35,5 +35,8 @@ class QLearningAgent:
             pickle.dump(self.q, f)
 
     def load(self, path):
+        if path.endswith(".npy"):  # formato publicado en Hugging Face (sin pickle)
+            self.q = np.load(path, allow_pickle=False)
+            return
         with open(path, "rb") as f:
             self.q = pickle.load(f)

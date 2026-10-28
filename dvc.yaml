@@ -1,8 +1,11 @@
+# Pipeline: DVC versiona el dataset y define las etapas.
+# Los experimentos se registran en MLflow y los modelos se publican en Hugging Face Hub.
 stages:
   generar_datos:
     cmd: python pipeline/generar_datos.py
     deps:
       - pipeline/generar_datos.py
+      - pipeline/core.py
       - pipeline/common.py
       - warehouse_rush/env_v1.py
     params:
@@ -15,7 +18,9 @@ stages:
     cmd: python pipeline/entrenar.py
     deps:
       - pipeline/entrenar.py
+      - pipeline/core.py
       - pipeline/common.py
+      - pipeline/tracking.py
       - warehouse_rush/env_v1.py
       - warehouse_rush/agent.py
       - data/pedidos_entrenamiento.json
@@ -25,7 +30,11 @@ stages:
       - agente
       - entrenamiento
     outs:
-      - models/q_table_v1.pkl
+      # el modelo se versiona en Hugging Face (publicar_modelo.py), no en la cache de DVC
+      - models/q_table_v1.pkl:
+          cache: false
+      - metrics/mlflow_run.json:
+          cache: false
     plots:
       - metrics/entrenamiento.csv:
           cache: false
@@ -34,10 +43,13 @@ stages:
     cmd: python pipeline/evaluar.py
     deps:
       - pipeline/evaluar.py
+      - pipeline/core.py
       - pipeline/common.py
+      - pipeline/tracking.py
       - warehouse_rush/env_v1.py
       - data/pedidos_evaluacion.json
       - models/q_table_v1.pkl
+      - metrics/mlflow_run.json
     params:
       - datos.paquetes_por_pedido
       - entorno
