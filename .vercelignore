@@ -1,0 +1,13 @@
+.venv/
+**/node_modules/
+web/dist/
+**/__pycache__/
+mlartifacts/
+mlflow.db
+data/
+models/
+dvc_plots/
+.dvc/cache/
+.dvc/tmp/
+*.pkl
+.env

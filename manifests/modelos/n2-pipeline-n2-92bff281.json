@@ -1,0 +1,157 @@
+{
+  "model_id": "n2-pipeline-n2-92bff281",
+  "run_id": "c145edb768384bacb9929a5bf3f664f8",
+  "run_name": "pipeline-n2",
+  "mlflow_run_url": "https://dagshub.com/c851458/pro_final_visu2.mlflow/#/experiments/0/runs/c145edb768384bacb9929a5bf3f664f8",
+  "level_id": "n2",
+  "environment_version": "1.0.0",
+  "familia_modelo": "warehouse-rush-v1/obs-11x15x5x2x3x40/acciones-7",
+  "git_commit": "ad5c2df49e437458115a892ee85ff53ca64f7d63",
+  "git_cambios_sin_commit": true,
+  "config_sha256": "c023f25e4b58ba146eed0e7600233477df10cb77d4f6b6868801c1fc705e338b",
+  "config": {
+    "nivel": "n2",
+    "version_ambiente": "1.0.0",
+    "entorno": {
+      "bateria": true,
+      "bateria_max": 100,
+      "max_pasos": 400,
+      "bloqueos": []
+    },
+    "datos": {
+      "semilla": 42,
+      "pedidos_entrenamiento": 20000,
+      "pedidos_evaluacion": 500,
+      "paquetes_por_pedido": 3,
+      "prob_tipos": {
+        "normal": 0.5,
+        "pesado": 0.25,
+        "fragil": 0.25
+      }
+    },
+    "agente": {
+      "alpha": 0.1,
+      "gamma": 0.99,
+      "epsilon_min": 0.05,
+      "fraccion_exploracion": 0.7
+    },
+    "entrenamiento": {
+      "episodios": 40000,
+      "semilla": 0,
+      "registrar_cada": 1000,
+      "casos_curva": 50
+    }
+  },
+  "model_uri": "hf://c851458/warehouse-rush-qlearning@cb55367044897640a729885411a55fa9e09e112b/modelos/n2-pipeline-n2-92bff281/q_table.npy",
+  "model_download_url": "https://huggingface.co/c851458/warehouse-rush-qlearning/resolve/cb55367044897640a729885411a55fa9e09e112b/modelos/n2-pipeline-n2-92bff281/q_table.npy",
+  "model_sha256": "92bff281d2980fbddc8edd691f315119cdbaf225b26c7a4f0af721c9afb4c557",
+  "formato": {
+    "archivo": "q_table.npy",
+    "dtype": "float32",
+    "forma": [
+      11,
+      15,
+      5,
+      2,
+      3,
+      40,
+      7
+    ]
+  },
+  "normalization_uri": null,
+  "normalizacion": "ninguna: las observaciones son enteros discretos usados como indices de la tabla Q (sin escalado ni clipping)",
+  "observacion": [
+    {
+      "nombre": "fila",
+      "unidad": "casilla",
+      "rango": "0-10"
+    },
+    {
+      "nombre": "columna",
+      "unidad": "casilla",
+      "rango": "0-14"
+    },
+    {
+      "nombre": "nivel_bateria",
+      "unidad": "cuartos de bateria (0 vacia, 4 llena); 0 fijo sin bateria",
+      "rango": "0-4"
+    },
+    {
+      "nombre": "lleva_paquete",
+      "unidad": "booleano",
+      "rango": "0-1"
+    },
+    {
+      "nombre": "tipo_paquete_cargado",
+      "unidad": "0 normal, 1 pesado, 2 fragil (0 si no lleva)",
+      "rango": "0-2"
+    },
+    {
+      "nombre": "objetivo",
+      "unidad": "indice de estanteria (sin paquete) o de zona A/B/C (con paquete)",
+      "rango": "0-39"
+    }
+  ],
+  "acciones": [
+    {
+      "id": 0,
+      "nombre": "arriba"
+    },
+    {
+      "id": 1,
+      "nombre": "abajo"
+    },
+    {
+      "id": 2,
+      "nombre": "izquierda"
+    },
+    {
+      "id": 3,
+      "nombre": "derecha"
+    },
+    {
+      "id": 4,
+      "nombre": "recoger"
+    },
+    {
+      "id": 5,
+      "nombre": "entregar"
+    },
+    {
+      "id": 6,
+      "nombre": "cargar"
+    }
+  ],
+  "runtime_ref": "github.com/c851458/pro_final_visu2@ad5c2df49e437458115a892ee85ff53ca64f7d63 (warehouse_rush/env_v1.py, configs/niveles.yaml, requirements.txt)",
+  "evaluation_suite_id": "n2-7442911f5d18",
+  "seed": 0,
+  "parent_run_id": null,
+  "origen": "desde cero",
+  "optimizador": "Q-learning tabular (sin optimizador ni contador: se continua desde la tabla Q)",
+  "presupuesto": {
+    "episodios": 40000,
+    "tiempo_entrenamiento_s": 300.25459027290344
+  },
+  "hipotesis": "",
+  "metricas_evaluacion": {
+    "tasa_exito": 0.986,
+    "paquetes_entregados_medios": 2.98,
+    "pasos_medios": 68.066,
+    "pasos_medios_exitosos": 63.35294117647059,
+    "recompensa_media": 62.592,
+    "rescates_medios": 0.168,
+    "fragiles_rotos_medios": 0.0,
+    "cargas_medias": 0.174,
+    "choques_medios": 0.014,
+    "acciones_invalidas_medias": 4.98,
+    "latencia_media_ms": 0.0033354,
+    "pedidos_evaluados": 500.0
+  },
+  "fallos_por_causa": {
+    "tiempo_agotado": 7.0
+  },
+  "hf_repo": "c851458/warehouse-rush-qlearning",
+  "hf_commit": "cb55367044897640a729885411a55fa9e09e112b",
+  "hf_tag": "v1.1",
+  "publicado": "2026-11-06T21:11:20+00:00"
+}

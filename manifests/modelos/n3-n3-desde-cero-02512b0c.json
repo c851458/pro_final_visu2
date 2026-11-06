@@ -1,0 +1,166 @@
+{
+  "model_id": "n3-n3-desde-cero-02512b0c",
+  "run_id": "97104c2df2d04462b484c59f4c85e381",
+  "run_name": "n3-desde-cero",
+  "mlflow_run_url": "https://dagshub.com/c851458/pro_final_visu2.mlflow/#/experiments/0/runs/97104c2df2d04462b484c59f4c85e381",
+  "level_id": "n3",
+  "environment_version": "1.0.0",
+  "familia_modelo": "warehouse-rush-v1/obs-11x15x5x2x3x40/acciones-7",
+  "git_commit": "ad5c2df49e437458115a892ee85ff53ca64f7d63",
+  "git_cambios_sin_commit": true,
+  "config_sha256": "989f804b442d6626c55dd2567621b0a16c01a0458a170c765c3cb11b665e4288",
+  "config": {
+    "nivel": "n3",
+    "version_ambiente": "1.0.0",
+    "entorno": {
+      "bateria": true,
+      "bateria_max": 100,
+      "max_pasos": 400,
+      "bloqueos": [
+        [
+          7,
+          4
+        ],
+        [
+          7,
+          7
+        ]
+      ]
+    },
+    "datos": {
+      "semilla": 43,
+      "pedidos_entrenamiento": 20000,
+      "pedidos_evaluacion": 500,
+      "paquetes_por_pedido": 3,
+      "prob_tipos": {
+        "normal": 0.5,
+        "pesado": 0.25,
+        "fragil": 0.25
+      }
+    },
+    "agente": {
+      "alpha": 0.1,
+      "gamma": 0.99,
+      "epsilon_min": 0.05,
+      "fraccion_exploracion": 0.7
+    },
+    "entrenamiento": {
+      "episodios": 40000,
+      "semilla": 0,
+      "registrar_cada": 1000,
+      "casos_curva": 50
+    }
+  },
+  "model_uri": "hf://c851458/warehouse-rush-qlearning@1052a1e19bebc9c96fa55cb6a4089ee2c412522c/modelos/n3-n3-desde-cero-02512b0c/q_table.npy",
+  "model_download_url": "https://huggingface.co/c851458/warehouse-rush-qlearning/resolve/1052a1e19bebc9c96fa55cb6a4089ee2c412522c/modelos/n3-n3-desde-cero-02512b0c/q_table.npy",
+  "model_sha256": "02512b0cf20917513468e9248722c73ab581aea249faa07f29e85c599f4dbbd1",
+  "formato": {
+    "archivo": "q_table.npy",
+    "dtype": "float32",
+    "forma": [
+      11,
+      15,
+      5,
+      2,
+      3,
+      40,
+      7
+    ]
+  },
+  "normalization_uri": null,
+  "normalizacion": "ninguna: las observaciones son enteros discretos usados como indices de la tabla Q (sin escalado ni clipping)",
+  "observacion": [
+    {
+      "nombre": "fila",
+      "unidad": "casilla",
+      "rango": "0-10"
+    },
+    {
+      "nombre": "columna",
+      "unidad": "casilla",
+      "rango": "0-14"
+    },
+    {
+      "nombre": "nivel_bateria",
+      "unidad": "cuartos de bateria (0 vacia, 4 llena); 0 fijo sin bateria",
+      "rango": "0-4"
+    },
+    {
+      "nombre": "lleva_paquete",
+      "unidad": "booleano",
+      "rango": "0-1"
+    },
+    {
+      "nombre": "tipo_paquete_cargado",
+      "unidad": "0 normal, 1 pesado, 2 fragil (0 si no lleva)",
+      "rango": "0-2"
+    },
+    {
+      "nombre": "objetivo",
+      "unidad": "indice de estanteria (sin paquete) o de zona A/B/C (con paquete)",
+      "rango": "0-39"
+    }
+  ],
+  "acciones": [
+    {
+      "id": 0,
+      "nombre": "arriba"
+    },
+    {
+      "id": 1,
+      "nombre": "abajo"
+    },
+    {
+      "id": 2,
+      "nombre": "izquierda"
+    },
+    {
+      "id": 3,
+      "nombre": "derecha"
+    },
+    {
+      "id": 4,
+      "nombre": "recoger"
+    },
+    {
+      "id": 5,
+      "nombre": "entregar"
+    },
+    {
+      "id": 6,
+      "nombre": "cargar"
+    }
+  ],
+  "runtime_ref": "github.com/c851458/pro_final_visu2@ad5c2df49e437458115a892ee85ff53ca64f7d63 (warehouse_rush/env_v1.py, configs/niveles.yaml, requirements.txt)",
+  "evaluation_suite_id": "n3-b18eb8af4338",
+  "seed": 0,
+  "parent_run_id": null,
+  "origen": "desde cero",
+  "optimizador": "Q-learning tabular (sin optimizador ni contador: se continua desde la tabla Q)",
+  "presupuesto": {
+    "episodios": 40000,
+    "tiempo_entrenamiento_s": 137.30441617965698
+  },
+  "hipotesis": "Q-learning tabular alcanza >=95% de exito en el nivel entrenado desde cero (N1 con 20000 episodios, N3 con el mismo presupuesto que N2: 40000).",
+  "metricas_evaluacion": {
+    "tasa_exito": 0.99,
+    "paquetes_entregados_medios": 2.986,
+    "pasos_medios": 93.302,
+    "pasos_medios_exitosos": 90.2040404040404,
+    "recompensa_media": 63.2674,
+    "rescates_medios": 0.098,
+    "fragiles_rotos_medios": 0.0,
+    "cargas_medias": 1.148,
+    "choques_medios": 0.008,
+    "acciones_invalidas_medias": 3.538,
+    "latencia_media_ms": 0.0031631999999999997,
+    "pedidos_evaluados": 500.0
+  },
+  "fallos_por_causa": {
+    "tiempo_agotado": 5.0
+  },
+  "hf_repo": "c851458/warehouse-rush-qlearning",
+  "hf_commit": "1052a1e19bebc9c96fa55cb6a4089ee2c412522c",
+  "hf_tag": null,
+  "publicado": "2026-11-06T21:19:31+00:00"
+}

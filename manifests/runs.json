@@ -1,0 +1,4149 @@
+{
+ "tracking": "dagshub",
+ "runs": [
+  {
+   "run_id": "ac8c02a164bb49508805a0cf7eb1efc0",
+   "nombre": "pipeline",
+   "estado": "terminado",
+   "inicio": 1793221353353,
+   "duracion_s": 181.4,
+   "tipo": "entrenamiento",
+   "origen": "pipeline-dvc",
+   "nivel": "n2",
+   "environment_version": "1.0.0",
+   "familia_modelo": "",
+   "hipotesis": "",
+   "cambios": "(base)",
+   "semilla": "0",
+   "episodios": "40000",
+   "parametros": {
+    "entorno.bateria": "True",
+    "entorno.bateria_max": "100",
+    "entorno.max_pasos": "400",
+    "agente.alpha": "0.1",
+    "agente.gamma": "0.99",
+    "agente.epsilon_min": "0.05",
+    "agente.fraccion_exploracion": "0.7"
+   },
+   "git_commit": "faa34d65049b9af4895eb20cb9e53665be08728d",
+   "config_sha256": "",
+   "evaluation_suite_id": "",
+   "estado_modelo": "checkpoint final disponible",
+   "parent_run_id": null,
+   "model_id": null,
+   "error": null,
+   "metricas": {
+    "tasa_exito": 0.986,
+    "paquetes_entregados_medios": 2.98,
+    "pasos_medios": 68.066,
+    "pasos_medios_exitosos": 63.3529,
+    "recompensa_media": 62.592,
+    "rescates_medios": 0.168,
+    "fragiles_rotos_medios": 0.0,
+    "cargas_medias": 0.174,
+    "choques_medios": 0.014,
+    "pedidos_evaluados": 500.0
+   },
+   "tiempo_entrenamiento_s": null,
+   "curvas": {
+    "entrenamiento.tasa_exito": [
+     [
+      1000,
+      0.0
+     ],
+     [
+      2000,
+      0.007
+     ],
+     [
+      3000,
+      0.097
+     ],
+     [
+      4000,
+      0.341
+     ],
+     [
+      5000,
+      0.675
+     ],
+     [
+      6000,
+      0.835
+     ],
+     [
+      7000,
+      0.937
+     ],
+     [
+      8000,
+      0.967
+     ],
+     [
+      9000,
+      0.983
+     ],
+     [
+      10000,
+      0.995
+     ],
+     [
+      11000,
+      0.997
+     ],
+     [
+      12000,
+      0.998
+     ],
+     [
+      13000,
+      0.999
+     ],
+     [
+      14000,
+      1.0
+     ],
+     [
+      15000,
+      1.0
+     ],
+     [
+      16000,
+      1.0
+     ],
+     [
+      17000,
+      1.0
+     ],
+     [
+      18000,
+      1.0
+     ],
+     [
+      19000,
+      1.0
+     ],
+     [
+      20000,
+      1.0
+     ],
+     [
+      21000,
+      1.0
+     ],
+     [
+      22000,
+      1.0
+     ],
+     [
+      23000,
+      1.0
+     ],
+     [
+      24000,
+      1.0
+     ],
+     [
+      25000,
+      1.0
+     ],
+     [
+      26000,
+      1.0
+     ],
+     [
+      27000,
+      1.0
+     ],
+     [
+      28000,
+      1.0
+     ],
+     [
+      29000,
+      1.0
+     ],
+     [
+      30000,
+      1.0
+     ],
+     [
+      31000,
+      1.0
+     ],
+     [
+      32000,
+      1.0
+     ],
+     [
+      33000,
+      1.0
+     ],
+     [
+      34000,
+      1.0
+     ],
+     [
+      35000,
+      1.0
+     ],
+     [
+      36000,
+      1.0
+     ],
+     [
+      37000,
+      1.0
+     ],
+     [
+      38000,
+      1.0
+     ],
+     [
+      39000,
+      1.0
+     ],
+     [
+      40000,
+      1.0
+     ]
+    ],
+    "entrenamiento.recompensa_media": [
+     [
+      1000,
+      -328.5757
+     ],
+     [
+      2000,
+      -308.2675
+     ],
+     [
+      3000,
+      -278.5967
+     ],
+     [
+      4000,
+      -228.8718
+     ],
+     [
+      5000,
+      -151.9883
+     ],
+     [
+      6000,
+      -98.6139
+     ],
+     [
+      7000,
+      -51.9251
+     ],
+     [
+      8000,
+      -34.4945
+     ],
+     [
+      9000,
+      -12.6561
+     ],
+     [
+      10000,
+      4.3519
+     ],
+     [
+      11000,
+      14.4415
+     ],
+     [
+      12000,
+      25.3409
+     ],
+     [
+      13000,
+      30.5459
+     ],
+     [
+      14000,
+      34.4556
+     ],
+     [
+      15000,
+      39.0787
+     ],
+     [
+      16000,
+      44.3528
+     ],
+     [
+      17000,
+      47.2708
+     ],
+     [
+      18000,
+      49.5687
+     ],
+     [
+      19000,
+      54.4346
+     ],
+     [
+      20000,
+      55.1614
+     ],
+     [
+      21000,
+      56.6572
+     ],
+     [
+      22000,
+      59.2121
+     ],
+     [
+      23000,
+      59.9528
+     ],
+     [
+      24000,
+      60.1681
+     ],
+     [
+      25000,
+      59.7538
+     ],
+     [
+      26000,
+      61.6834
+     ],
+     [
+      27000,
+      63.4449
+     ],
+     [
+      28000,
+      64.3475
+     ],
+     [
+      29000,
+      63.9978
+     ],
+     [
+      30000,
+      63.1906
+     ],
+     [
+      31000,
+      63.9263
+     ],
+     [
+      32000,
+      64.145
+     ],
+     [
+      33000,
+      64.549
+     ],
+     [
+      34000,
+      64.7806
+     ],
+     [
+      35000,
+      63.4067
+     ],
+     [
+      36000,
+      64.1325
+     ],
+     [
+      37000,
+      64.6545
+     ],
+     [
+      38000,
+      64.3662
+     ],
+     [
+      39000,
+      65.415
+     ],
+     [
+      40000,
+      65.4129
+     ]
+    ]
+   },
+   "mlflow_url": "https://dagshub.com/c851458/pro_final_visu2.mlflow/#/experiments/0/runs/ac8c02a164bb49508805a0cf7eb1efc0"
+  },
+  {
+   "run_id": "60e2d4b6440446e3ab8d3b08bc3843ce",
+   "nombre": "alpha-alto",
+   "estado": "terminado",
+   "inicio": 1793221721801,
+   "duracion_s": 778309.1,
+   "tipo": "entrenamiento",
+   "origen": "experimentar.py",
+   "nivel": "n2",
+   "environment_version": "1.0.0",
+   "familia_modelo": "",
+   "hipotesis": "",
+   "cambios": "agente.alpha=0.2",
+   "semilla": "0",
+   "episodios": "40000",
+   "parametros": {
+    "entorno.bateria": "True",
+    "entorno.bateria_max": "100",
+    "entorno.max_pasos": "400",
+    "agente.alpha": "0.2",
+    "agente.gamma": "0.99",
+    "agente.epsilon_min": "0.05",
+    "agente.fraccion_exploracion": "0.7"
+   },
+   "git_commit": "faa34d65049b9af4895eb20cb9e53665be08728d",
+   "config_sha256": "",
+   "evaluation_suite_id": "",
+   "estado_modelo": "checkpoint final disponible",
+   "parent_run_id": null,
+   "model_id": "n2-alpha-alto-d2a9e856",
+   "error": null,
+   "metricas": {
+    "tasa_exito": 0.912,
+    "paquetes_entregados_medios": 2.858,
+    "pasos_medios": 101.222,
+    "pasos_medios_exitosos": 72.3925,
+    "recompensa_media": 27.656,
+    "rescates_medios": 0.212,
+    "fragiles_rotos_medios": 0.0,
+    "cargas_medias": 0.26,
+    "choques_medios": 0.808,
+    "pedidos_evaluados": 500.0
+   },
+   "tiempo_entrenamiento_s": null,
+   "curvas": {
+    "entrenamiento.tasa_exito": [
+     [
+      1000,
+      0.0
+     ],
+     [
+      2000,
+      0.015
+     ],
+     [
+      3000,
+      0.185
+     ],
+     [
+      4000,
+      0.443
+     ],
+     [
+      5000,
+      0.668
+     ],
+     [
+      6000,
+      0.773
+     ],
+     [
+      7000,
+      0.87
+     ],
+     [
+      8000,
+      0.906
+     ],
+     [
+      9000,
+      0.968
+     ],
+     [
+      10000,
+      0.986
+     ],
+     [
+      11000,
+      0.981
+     ],
+     [
+      12000,
+      0.989
+     ],
+     [
+      13000,
+      0.998
+     ],
+     [
+      14000,
+      0.999
+     ],
+     [
+      15000,
+      0.999
+     ],
+     [
+      16000,
+      1.0
+     ],
+     [
+      17000,
+      0.999
+     ],
+     [
+      18000,
+      1.0
+     ],
+     [
+      19000,
+      1.0
+     ],
+     [
+      20000,
+      1.0
+     ],
+     [
+      21000,
+      1.0
+     ],
+     [
+      22000,
+      1.0
+     ],
+     [
+      23000,
+      1.0
+     ],
+     [
+      24000,
+      1.0
+     ],
+     [
+      25000,
+      1.0
+     ],
+     [
+      26000,
+      1.0
+     ],
+     [
+      27000,
+      1.0
+     ],
+     [
+      28000,
+      1.0
+     ],
+     [
+      29000,
+      1.0
+     ],
+     [
+      30000,
+      1.0
+     ],
+     [
+      31000,
+      1.0
+     ],
+     [
+      32000,
+      1.0
+     ],
+     [
+      33000,
+      1.0
+     ],
+     [
+      34000,
+      1.0
+     ],
+     [
+      35000,
+      1.0
+     ],
+     [
+      36000,
+      1.0
+     ],
+     [
+      37000,
+      1.0
+     ],
+     [
+      38000,
+      1.0
+     ],
+     [
+      39000,
+      1.0
+     ],
+     [
+      40000,
+      1.0
+     ]
+    ],
+    "entrenamiento.recompensa_media": [
+     [
+      1000,
+      -329.1538
+     ],
+     [
+      2000,
+      -305.8492
+     ],
+     [
+      3000,
+      -266.1841
+     ],
+     [
+      4000,
+      -210.0733
+     ],
+     [
+      5000,
+      -148.3258
+     ],
+     [
+      6000,
+      -114.4956
+     ],
+     [
+      7000,
+      -73.5145
+     ],
+     [
+      8000,
+      -51.3835
+     ],
+     [
+      9000,
+      -18.875
+     ],
+     [
+      10000,
+      -1.2612
+     ],
+     [
+      11000,
+      5.9241
+     ],
+     [
+      12000,
+      16.8275
+     ],
+     [
+      13000,
+      29.6452
+     ],
+     [
+      14000,
+      33.1912
+     ],
+     [
+      15000,
+      41.1438
+     ],
+     [
+      16000,
+      44.2275
+     ],
+     [
+      17000,
+      46.8082
+     ],
+     [
+      18000,
+      47.2897
+     ],
+     [
+      19000,
+      54.395
+     ],
+     [
+      20000,
+      56.7124
+     ],
+     [
+      21000,
+      55.8748
+     ],
+     [
+      22000,
+      57.1833
+     ],
+     [
+      23000,
+      58.5659
+     ],
+     [
+      24000,
+      60.3279
+     ],
+     [
+      25000,
+      59.8049
+     ],
+     [
+      26000,
+      62.2221
+     ],
+     [
+      27000,
+      62.9054
+     ],
+     [
+      28000,
+      62.0122
+     ],
+     [
+      29000,
+      60.811
+     ],
+     [
+      30000,
+      62.9005
+     ],
+     [
+      31000,
+      63.2739
+     ],
+     [
+      32000,
+      62.4437
+     ],
+     [
+      33000,
+      63.0057
+     ],
+     [
+      34000,
+      61.235
+     ],
+     [
+      35000,
+      63.0156
+     ],
+     [
+      36000,
+      62.8992
+     ],
+     [
+      37000,
+      58.7025
+     ],
+     [
+      38000,
+      62.079
+     ],
+     [
+      39000,
+      64.4476
+     ],
+     [
+      40000,
+      62.7368
+     ]
+    ]
+   },
+   "mlflow_url": "https://dagshub.com/c851458/pro_final_visu2.mlflow/#/experiments/0/runs/60e2d4b6440446e3ab8d3b08bc3843ce"
+  },
+  {
+   "run_id": "5e694b2689574065a48fdfbc32e15e72",
+   "nombre": "gamma-bajo",
+   "estado": "terminado",
+   "inicio": 1793221723379,
+   "duracion_s": 778318.0,
+   "tipo": "entrenamiento",
+   "origen": "experimentar.py",
+   "nivel": "n2",
+   "environment_version": "1.0.0",
+   "familia_modelo": "",
+   "hipotesis": "",
+   "cambios": "agente.gamma=0.95",
+   "semilla": "0",
+   "episodios": "40000",
+   "parametros": {
+    "entorno.bateria": "True",
+    "entorno.bateria_max": "100",
+    "entorno.max_pasos": "400",
+    "agente.alpha": "0.1",
+    "agente.gamma": "0.95",
+    "agente.epsilon_min": "0.05",
+    "agente.fraccion_exploracion": "0.7"
+   },
+   "git_commit": "faa34d65049b9af4895eb20cb9e53665be08728d",
+   "config_sha256": "",
+   "evaluation_suite_id": "",
+   "estado_modelo": "checkpoint final disponible",
+   "parent_run_id": null,
+   "model_id": "n2-gamma-bajo-4d1e69db",
+   "error": null,
+   "metricas": {
+    "tasa_exito": 0.91,
+    "paquetes_entregados_medios": 2.892,
+    "pasos_medios": 90.45,
+    "pasos_medios_exitosos": 59.8352,
+    "recompensa_media": 31.9564,
+    "rescates_medios": 0.096,
+    "fragiles_rotos_medios": 0.0,
+    "cargas_medias": 0.21,
+    "choques_medios": 0.32,
+    "pedidos_evaluados": 500.0
+   },
+   "tiempo_entrenamiento_s": null,
+   "curvas": {
+    "entrenamiento.tasa_exito": [
+     [
+      1000,
+      0.0
+     ],
+     [
+      2000,
+      0.004
+     ],
+     [
+      3000,
+      0.077
+     ],
+     [
+      4000,
+      0.353
+     ],
+     [
+      5000,
+      0.649
+     ],
+     [
+      6000,
+      0.822
+     ],
+     [
+      7000,
+      0.934
+     ],
+     [
+      8000,
+      0.966
+     ],
+     [
+      9000,
+      0.989
+     ],
+     [
+      10000,
+      0.995
+     ],
+     [
+      11000,
+      0.996
+     ],
+     [
+      12000,
+      1.0
+     ],
+     [
+      13000,
+      1.0
+     ],
+     [
+      14000,
+      1.0
+     ],
+     [
+      15000,
+      1.0
+     ],
+     [
+      16000,
+      1.0
+     ],
+     [
+      17000,
+      1.0
+     ],
+     [
+      18000,
+      1.0
+     ],
+     [
+      19000,
+      1.0
+     ],
+     [
+      20000,
+      1.0
+     ],
+     [
+      21000,
+      1.0
+     ],
+     [
+      22000,
+      1.0
+     ],
+     [
+      23000,
+      1.0
+     ],
+     [
+      24000,
+      1.0
+     ],
+     [
+      25000,
+      1.0
+     ],
+     [
+      26000,
+      1.0
+     ],
+     [
+      27000,
+      1.0
+     ],
+     [
+      28000,
+      1.0
+     ],
+     [
+      29000,
+      1.0
+     ],
+     [
+      30000,
+      1.0
+     ],
+     [
+      31000,
+      1.0
+     ],
+     [
+      32000,
+      1.0
+     ],
+     [
+      33000,
+      1.0
+     ],
+     [
+      34000,
+      1.0
+     ],
+     [
+      35000,
+      1.0
+     ],
+     [
+      36000,
+      1.0
+     ],
+     [
+      37000,
+      1.0
+     ],
+     [
+      38000,
+      1.0
+     ],
+     [
+      39000,
+      1.0
+     ],
+     [
+      40000,
+      1.0
+     ]
+    ],
+    "entrenamiento.recompensa_media": [
+     [
+      1000,
+      -328.6976
+     ],
+     [
+      2000,
+      -308.8504
+     ],
+     [
+      3000,
+      -280.7614
+     ],
+     [
+      4000,
+      -227.172
+     ],
+     [
+      5000,
+      -154.0907
+     ],
+     [
+      6000,
+      -98.5489
+     ],
+     [
+      7000,
+      -49.0412
+     ],
+     [
+      8000,
+      -27.2802
+     ],
+     [
+      9000,
+      -6.234
+     ],
+     [
+      10000,
+      9.3721
+     ],
+     [
+      11000,
+      16.6483
+     ],
+     [
+      12000,
+      25.3943
+     ],
+     [
+      13000,
+      33.5061
+     ],
+     [
+      14000,
+      36.7581
+     ],
+     [
+      15000,
+      41.0939
+     ],
+     [
+      16000,
+      44.5852
+     ],
+     [
+      17000,
+      47.9527
+     ],
+     [
+      18000,
+      51.0309
+     ],
+     [
+      19000,
+      52.4523
+     ],
+     [
+      20000,
+      55.5841
+     ],
+     [
+      21000,
+      56.3642
+     ],
+     [
+      22000,
+      58.332
+     ],
+     [
+      23000,
+      59.8338
+     ],
+     [
+      24000,
+      60.7143
+     ],
+     [
+      25000,
+      61.497
+     ],
+     [
+      26000,
+      62.1426
+     ],
+     [
+      27000,
+      63.765
+     ],
+     [
+      28000,
+      64.2722
+     ],
+     [
+      29000,
+      64.4877
+     ],
+     [
+      30000,
+      64.9346
+     ],
+     [
+      31000,
+      64.7877
+     ],
+     [
+      32000,
+      65.3052
+     ],
+     [
+      33000,
+      64.9403
+     ],
+     [
+      34000,
+      66.1514
+     ],
+     [
+      35000,
+      65.5997
+     ],
+     [
+      36000,
+      64.8968
+     ],
+     [
+      37000,
+      65.3452
+     ],
+     [
+      38000,
+      66.0295
+     ],
+     [
+      39000,
+      66.5632
+     ],
+     [
+      40000,
+      65.7347
+     ]
+    ]
+   },
+   "mlflow_url": "https://dagshub.com/c851458/pro_final_visu2.mlflow/#/experiments/0/runs/5e694b2689574065a48fdfbc32e15e72"
+  },
+  {
+   "run_id": "d3654c51f4384431aef9dc6bc7f313bf",
+   "nombre": "menos-episodios",
+   "estado": "terminado",
+   "inicio": 1793221725017,
+   "duracion_s": 778328.8,
+   "tipo": "entrenamiento",
+   "origen": "experimentar.py",
+   "nivel": "n2",
+   "environment_version": "1.0.0",
+   "familia_modelo": "",
+   "hipotesis": "",
+   "cambios": "entrenamiento.episodios=20000",
+   "semilla": "0",
+   "episodios": "20000",
+   "parametros": {
+    "entorno.bateria": "True",
+    "entorno.bateria_max": "100",
+    "entorno.max_pasos": "400",
+    "agente.alpha": "0.1",
+    "agente.gamma": "0.99",
+    "agente.epsilon_min": "0.05",
+    "agente.fraccion_exploracion": "0.7"
+   },
+   "git_commit": "faa34d65049b9af4895eb20cb9e53665be08728d",
+   "config_sha256": "",
+   "evaluation_suite_id": "",
+   "estado_modelo": "checkpoint final disponible",
+   "parent_run_id": null,
+   "model_id": "n2-menos-episodios-2f1cc8ae",
+   "error": null,
+   "metricas": {
+    "tasa_exito": 0.936,
+    "paquetes_entregados_medios": 2.932,
+    "pasos_medios": 87.146,
+    "pasos_medios_exitosos": 65.7543,
+    "recompensa_media": 40.0956,
+    "rescates_medios": 0.178,
+    "fragiles_rotos_medios": 0.0,
+    "cargas_medias": 0.222,
+    "choques_medios": 0.486,
+    "pedidos_evaluados": 500.0
+   },
+   "tiempo_entrenamiento_s": null,
+   "curvas": {
+    "entrenamiento.tasa_exito": [
+     [
+      1000,
+      0.001
+     ],
+     [
+      2000,
+      0.041
+     ],
+     [
+      3000,
+      0.387
+     ],
+     [
+      4000,
+      0.78
+     ],
+     [
+      5000,
+      0.955
+     ],
+     [
+      6000,
+      0.99
+     ],
+     [
+      7000,
+      0.997
+     ],
+     [
+      8000,
+      1.0
+     ],
+     [
+      9000,
+      1.0
+     ],
+     [
+      10000,
+      1.0
+     ],
+     [
+      11000,
+      1.0
+     ],
+     [
+      12000,
+      1.0
+     ],
+     [
+      13000,
+      1.0
+     ],
+     [
+      14000,
+      1.0
+     ],
+     [
+      15000,
+      1.0
+     ],
+     [
+      16000,
+      1.0
+     ],
+     [
+      17000,
+      1.0
+     ],
+     [
+      18000,
+      1.0
+     ],
+     [
+      19000,
+      1.0
+     ],
+     [
+      20000,
+      1.0
+     ]
+    ],
+    "entrenamiento.recompensa_media": [
+     [
+      1000,
+      -320.7738
+     ],
+     [
+      2000,
+      -280.4393
+     ],
+     [
+      3000,
+      -204.9676
+     ],
+     [
+      4000,
+      -100.7143
+     ],
+     [
+      5000,
+      -30.8691
+     ],
+     [
+      6000,
+      0.7686
+     ],
+     [
+      7000,
+      17.1327
+     ],
+     [
+      8000,
+      24.7127
+     ],
+     [
+      9000,
+      34.7033
+     ],
+     [
+      10000,
+      42.6149
+     ],
+     [
+      11000,
+      45.3565
+     ],
+     [
+      12000,
+      49.3203
+     ],
+     [
+      13000,
+      52.773
+     ],
+     [
+      14000,
+      57.1546
+     ],
+     [
+      15000,
+      58.7554
+     ],
+     [
+      16000,
+      59.4899
+     ],
+     [
+      17000,
+      60.562
+     ],
+     [
+      18000,
+      61.7264
+     ],
+     [
+      19000,
+      62.5868
+     ],
+     [
+      20000,
+      62.4683
+     ]
+    ]
+   },
+   "mlflow_url": "https://dagshub.com/c851458/pro_final_visu2.mlflow/#/experiments/0/runs/d3654c51f4384431aef9dc6bc7f313bf"
+  },
+  {
+   "run_id": "5b94ad0d6d234d93b5bffbd83d77201e",
+   "nombre": "bateria-justa",
+   "estado": "terminado",
+   "inicio": 1793221725889,
+   "duracion_s": 778338.2,
+   "tipo": "entrenamiento",
+   "origen": "experimentar.py",
+   "nivel": "n2",
+   "environment_version": "1.0.0",
+   "familia_modelo": "",
+   "hipotesis": "",
+   "cambios": "entorno.bateria_max=60",
+   "semilla": "0",
+   "episodios": "40000",
+   "parametros": {
+    "entorno.bateria": "True",
+    "entorno.bateria_max": "60",
+    "entorno.max_pasos": "400",
+    "agente.alpha": "0.1",
+    "agente.gamma": "0.99",
+    "agente.epsilon_min": "0.05",
+    "agente.fraccion_exploracion": "0.7"
+   },
+   "git_commit": "faa34d65049b9af4895eb20cb9e53665be08728d",
+   "config_sha256": "",
+   "evaluation_suite_id": "",
+   "estado_modelo": "checkpoint final disponible",
+   "parent_run_id": null,
+   "model_id": "n2-bateria-justa-60b3a7a3",
+   "error": null,
+   "metricas": {
+    "tasa_exito": 0.998,
+    "paquetes_entregados_medios": 2.998,
+    "pasos_medios": 66.954,
+    "pasos_medios_exitosos": 66.2866,
+    "recompensa_media": 54.9932,
+    "rescates_medios": 0.664,
+    "fragiles_rotos_medios": 0.0,
+    "cargas_medias": 0.264,
+    "choques_medios": 0.14,
+    "pedidos_evaluados": 500.0
+   },
+   "tiempo_entrenamiento_s": null,
+   "curvas": {
+    "entrenamiento.tasa_exito": [
+     [
+      1000,
+      0.0
+     ],
+     [
+      2000,
+      0.002
+     ],
+     [
+      3000,
+      0.094
+     ],
+     [
+      4000,
+      0.383
+     ],
+     [
+      5000,
+      0.648
+     ],
+     [
+      6000,
+      0.799
+     ],
+     [
+      7000,
+      0.907
+     ],
+     [
+      8000,
+      0.959
+     ],
+     [
+      9000,
+      0.975
+     ],
+     [
+      10000,
+      0.987
+     ],
+     [
+      11000,
+      0.994
+     ],
+     [
+      12000,
+      0.995
+     ],
+     [
+      13000,
+      0.996
+     ],
+     [
+      14000,
+      1.0
+     ],
+     [
+      15000,
+      1.0
+     ],
+     [
+      16000,
+      1.0
+     ],
+     [
+      17000,
+      1.0
+     ],
+     [
+      18000,
+      1.0
+     ],
+     [
+      19000,
+      1.0
+     ],
+     [
+      20000,
+      1.0
+     ],
+     [
+      21000,
+      1.0
+     ],
+     [
+      22000,
+      1.0
+     ],
+     [
+      23000,
+      1.0
+     ],
+     [
+      24000,
+      1.0
+     ],
+     [
+      25000,
+      1.0
+     ],
+     [
+      26000,
+      1.0
+     ],
+     [
+      27000,
+      1.0
+     ],
+     [
+      28000,
+      1.0
+     ],
+     [
+      29000,
+      1.0
+     ],
+     [
+      30000,
+      1.0
+     ],
+     [
+      31000,
+      1.0
+     ],
+     [
+      32000,
+      1.0
+     ],
+     [
+      33000,
+      1.0
+     ],
+     [
+      34000,
+      1.0
+     ],
+     [
+      35000,
+      1.0
+     ],
+     [
+      36000,
+      1.0
+     ],
+     [
+      37000,
+      1.0
+     ],
+     [
+      38000,
+      1.0
+     ],
+     [
+      39000,
+      1.0
+     ],
+     [
+      40000,
+      1.0
+     ]
+    ],
+    "entrenamiento.recompensa_media": [
+     [
+      1000,
+      -372.8169
+     ],
+     [
+      2000,
+      -363.6893
+     ],
+     [
+      3000,
+      -336.5912
+     ],
+     [
+      4000,
+      -273.0819
+     ],
+     [
+      5000,
+      -201.8439
+     ],
+     [
+      6000,
+      -147.9589
+     ],
+     [
+      7000,
+      -99.6758
+     ],
+     [
+      8000,
+      -71.1363
+     ],
+     [
+      9000,
+      -48.0
+     ],
+     [
+      10000,
+      -30.3855
+     ],
+     [
+      11000,
+      -17.1353
+     ],
+     [
+      12000,
+      -0.606
+     ],
+     [
+      13000,
+      3.7242
+     ],
+     [
+      14000,
+      14.611
+     ],
+     [
+      15000,
+      19.9363
+     ],
+     [
+      16000,
+      26.9659
+     ],
+     [
+      17000,
+      30.3939
+     ],
+     [
+      18000,
+      31.6408
+     ],
+     [
+      19000,
+      37.7907
+     ],
+     [
+      20000,
+      40.0623
+     ],
+     [
+      21000,
+      40.4608
+     ],
+     [
+      22000,
+      43.446
+     ],
+     [
+      23000,
+      43.7747
+     ],
+     [
+      24000,
+      46.7301
+     ],
+     [
+      25000,
+      47.5337
+     ],
+     [
+      26000,
+      48.6209
+     ],
+     [
+      27000,
+      49.6385
+     ],
+     [
+      28000,
+      49.7355
+     ],
+     [
+      29000,
+      51.6003
+     ],
+     [
+      30000,
+      51.0235
+     ],
+     [
+      31000,
+      50.828
+     ],
+     [
+      32000,
+      52.1573
+     ],
+     [
+      33000,
+      51.5797
+     ],
+     [
+      34000,
+      50.718
+     ],
+     [
+      35000,
+      51.5663
+     ],
+     [
+      36000,
+      51.3117
+     ],
+     [
+      37000,
+      51.7062
+     ],
+     [
+      38000,
+      51.1653
+     ],
+     [
+      39000,
+      51.3721
+     ],
+     [
+      40000,
+      52.094
+     ]
+    ]
+   },
+   "mlflow_url": "https://dagshub.com/c851458/pro_final_visu2.mlflow/#/experiments/0/runs/5b94ad0d6d234d93b5bffbd83d77201e"
+  },
+  {
+   "run_id": "c145edb768384bacb9929a5bf3f664f8",
+   "nombre": "pipeline-n2",
+   "estado": "terminado",
+   "inicio": 1793999116413,
+   "duracion_s": 365.6,
+   "tipo": "entrenamiento",
+   "origen": "pipeline-dvc",
+   "nivel": "n2",
+   "environment_version": "1.0.0",
+   "familia_modelo": "warehouse-rush-v1/obs-11x15x5x2x3x40/acciones-7",
+   "hipotesis": "",
+   "cambios": "(base)",
+   "semilla": "0",
+   "episodios": "40000",
+   "parametros": {
+    "entorno.bateria": "True",
+    "entorno.bateria_max": "100",
+    "entorno.max_pasos": "400",
+    "entorno.bloqueos": "[]",
+    "agente.alpha": "0.1",
+    "agente.gamma": "0.99",
+    "agente.epsilon_min": "0.05",
+    "agente.fraccion_exploracion": "0.7"
+   },
+   "git_commit": "ad5c2df49e437458115a892ee85ff53ca64f7d63",
+   "config_sha256": "c023f25e4b58ba146eed0e7600233477df10cb77d4f6b6868801c1fc705e338b",
+   "evaluation_suite_id": "n2-7442911f5d18",
+   "estado_modelo": "checkpoint final disponible",
+   "parent_run_id": null,
+   "model_id": "n2-pipeline-n2-92bff281",
+   "error": null,
+   "metricas": {
+    "fallos.tiempo_agotado": 7.0,
+    "tasa_exito": 0.986,
+    "paquetes_entregados_medios": 2.98,
+    "pasos_medios": 68.066,
+    "pasos_medios_exitosos": 63.3529,
+    "recompensa_media": 62.592,
+    "rescates_medios": 0.168,
+    "fragiles_rotos_medios": 0.0,
+    "cargas_medias": 0.174,
+    "choques_medios": 0.014,
+    "acciones_invalidas_medias": 4.98,
+    "latencia_media_ms": 0.0033,
+    "pedidos_evaluados": 500.0
+   },
+   "tiempo_entrenamiento_s": 300.25459027290344,
+   "curvas": {
+    "entrenamiento.tasa_exito": [
+     [
+      1000,
+      0.0
+     ],
+     [
+      2000,
+      0.007
+     ],
+     [
+      3000,
+      0.097
+     ],
+     [
+      4000,
+      0.341
+     ],
+     [
+      5000,
+      0.675
+     ],
+     [
+      6000,
+      0.835
+     ],
+     [
+      7000,
+      0.937
+     ],
+     [
+      8000,
+      0.967
+     ],
+     [
+      9000,
+      0.983
+     ],
+     [
+      10000,
+      0.995
+     ],
+     [
+      11000,
+      0.997
+     ],
+     [
+      12000,
+      0.998
+     ],
+     [
+      13000,
+      0.999
+     ],
+     [
+      14000,
+      1.0
+     ],
+     [
+      15000,
+      1.0
+     ],
+     [
+      16000,
+      1.0
+     ],
+     [
+      17000,
+      1.0
+     ],
+     [
+      18000,
+      1.0
+     ],
+     [
+      19000,
+      1.0
+     ],
+     [
+      20000,
+      1.0
+     ],
+     [
+      21000,
+      1.0
+     ],
+     [
+      22000,
+      1.0
+     ],
+     [
+      23000,
+      1.0
+     ],
+     [
+      24000,
+      1.0
+     ],
+     [
+      25000,
+      1.0
+     ],
+     [
+      26000,
+      1.0
+     ],
+     [
+      27000,
+      1.0
+     ],
+     [
+      28000,
+      1.0
+     ],
+     [
+      29000,
+      1.0
+     ],
+     [
+      30000,
+      1.0
+     ],
+     [
+      31000,
+      1.0
+     ],
+     [
+      32000,
+      1.0
+     ],
+     [
+      33000,
+      1.0
+     ],
+     [
+      34000,
+      1.0
+     ],
+     [
+      35000,
+      1.0
+     ],
+     [
+      36000,
+      1.0
+     ],
+     [
+      37000,
+      1.0
+     ],
+     [
+      38000,
+      1.0
+     ],
+     [
+      39000,
+      1.0
+     ],
+     [
+      40000,
+      1.0
+     ]
+    ],
+    "curva_eval.tasa_exito": [
+     [
+      1000,
+      0.0
+     ],
+     [
+      2000,
+      0.02
+     ],
+     [
+      3000,
+      0.2
+     ],
+     [
+      4000,
+      0.32
+     ],
+     [
+      5000,
+      0.36
+     ],
+     [
+      6000,
+      0.36
+     ],
+     [
+      7000,
+      0.56
+     ],
+     [
+      8000,
+      0.6
+     ],
+     [
+      9000,
+      0.38
+     ],
+     [
+      10000,
+      0.58
+     ],
+     [
+      11000,
+      0.66
+     ],
+     [
+      12000,
+      0.68
+     ],
+     [
+      13000,
+      0.88
+     ],
+     [
+      14000,
+      0.58
+     ],
+     [
+      15000,
+      0.66
+     ],
+     [
+      16000,
+      0.92
+     ],
+     [
+      17000,
+      0.9
+     ],
+     [
+      18000,
+      0.96
+     ],
+     [
+      19000,
+      0.88
+     ],
+     [
+      20000,
+      0.92
+     ],
+     [
+      21000,
+      0.96
+     ],
+     [
+      22000,
+      0.94
+     ],
+     [
+      23000,
+      0.96
+     ],
+     [
+      24000,
+      0.86
+     ],
+     [
+      25000,
+      1.0
+     ],
+     [
+      26000,
+      0.98
+     ],
+     [
+      27000,
+      0.96
+     ],
+     [
+      28000,
+      0.84
+     ],
+     [
+      29000,
+      0.96
+     ],
+     [
+      30000,
+      0.98
+     ],
+     [
+      31000,
+      0.96
+     ],
+     [
+      32000,
+      0.98
+     ],
+     [
+      33000,
+      1.0
+     ],
+     [
+      34000,
+      0.98
+     ],
+     [
+      35000,
+      1.0
+     ],
+     [
+      36000,
+      0.98
+     ],
+     [
+      37000,
+      1.0
+     ],
+     [
+      38000,
+      0.98
+     ],
+     [
+      39000,
+      1.0
+     ],
+     [
+      40000,
+      1.0
+     ]
+    ],
+    "entrenamiento.recompensa_media": [
+     [
+      1000,
+      -328.5757
+     ],
+     [
+      2000,
+      -308.2675
+     ],
+     [
+      3000,
+      -278.5967
+     ],
+     [
+      4000,
+      -228.8718
+     ],
+     [
+      5000,
+      -151.9883
+     ],
+     [
+      6000,
+      -98.6139
+     ],
+     [
+      7000,
+      -51.9251
+     ],
+     [
+      8000,
+      -34.4945
+     ],
+     [
+      9000,
+      -12.6561
+     ],
+     [
+      10000,
+      4.3519
+     ],
+     [
+      11000,
+      14.4415
+     ],
+     [
+      12000,
+      25.3409
+     ],
+     [
+      13000,
+      30.5459
+     ],
+     [
+      14000,
+      34.4556
+     ],
+     [
+      15000,
+      39.0787
+     ],
+     [
+      16000,
+      44.3528
+     ],
+     [
+      17000,
+      47.2708
+     ],
+     [
+      18000,
+      49.5687
+     ],
+     [
+      19000,
+      54.4346
+     ],
+     [
+      20000,
+      55.1614
+     ],
+     [
+      21000,
+      56.6572
+     ],
+     [
+      22000,
+      59.2121
+     ],
+     [
+      23000,
+      59.9528
+     ],
+     [
+      24000,
+      60.1681
+     ],
+     [
+      25000,
+      59.7538
+     ],
+     [
+      26000,
+      61.6834
+     ],
+     [
+      27000,
+      63.4449
+     ],
+     [
+      28000,
+      64.3475
+     ],
+     [
+      29000,
+      63.9978
+     ],
+     [
+      30000,
+      63.1906
+     ],
+     [
+      31000,
+      63.9263
+     ],
+     [
+      32000,
+      64.145
+     ],
+     [
+      33000,
+      64.549
+     ],
+     [
+      34000,
+      64.7806
+     ],
+     [
+      35000,
+      63.4067
+     ],
+     [
+      36000,
+      64.1325
+     ],
+     [
+      37000,
+      64.6545
+     ],
+     [
+      38000,
+      64.3662
+     ],
+     [
+      39000,
+      65.415
+     ],
+     [
+      40000,
+      65.4129
+     ]
+    ],
+    "curva_eval.recompensa_media": [
+     [
+      1000,
+      -415.994
+     ],
+     [
+      2000,
+      -322.99
+     ],
+     [
+      3000,
+      -224.846
+     ],
+     [
+      4000,
+      -226.044
+     ],
+     [
+      5000,
+      -208.836
+     ],
+     [
+      6000,
+      -214.032
+     ],
+     [
+      7000,
+      -131.168
+     ],
+     [
+      8000,
+      -106.4
+     ],
+     [
+      9000,
+      -191.03
+     ],
+     [
+      10000,
+      -118.118
+     ],
+     [
+      11000,
+      -80.424
+     ],
+     [
+      12000,
+      -68.93
+     ],
+     [
+      13000,
+      9.204
+     ],
+     [
+      14000,
+      -112.844
+     ],
+     [
+      15000,
+      -85.966
+     ],
+     [
+      16000,
+      25.518
+     ],
+     [
+      17000,
+      22.952
+     ],
+     [
+      18000,
+      51.602
+     ],
+     [
+      19000,
+      14.662
+     ],
+     [
+      20000,
+      34.142
+     ],
+     [
+      21000,
+      51.322
+     ],
+     [
+      22000,
+      44.482
+     ],
+     [
+      23000,
+      53.078
+     ],
+     [
+      24000,
+      11.578
+     ],
+     [
+      25000,
+      69.484
+     ],
+     [
+      26000,
+      61.592
+     ],
+     [
+      27000,
+      53.584
+     ],
+     [
+      28000,
+      2.546
+     ],
+     [
+      29000,
+      53.524
+     ],
+     [
+      30000,
+      61.654
+     ],
+     [
+      31000,
+      53.944
+     ],
+     [
+      32000,
+      62.192
+     ],
+     [
+      33000,
+      70.03
+     ],
+     [
+      34000,
+      61.842
+     ],
+     [
+      35000,
+      69.666
+     ],
+     [
+      36000,
+      61.838
+     ],
+     [
+      37000,
+      69.652
+     ],
+     [
+      38000,
+      61.804
+     ],
+     [
+      39000,
+      70.03
+     ],
+     [
+      40000,
+      70.052
+     ]
+    ]
+   },
+   "mlflow_url": "https://dagshub.com/c851458/pro_final_visu2.mlflow/#/experiments/0/runs/c145edb768384bacb9929a5bf3f664f8"
+  },
+  {
+   "run_id": "d537cc08cfeb48bdb4dc0faf5f594498",
+   "nombre": "referencia-aleatoria-n1",
+   "estado": "terminado",
+   "inicio": 1793999141653,
+   "duracion_s": 2.3,
+   "tipo": "referencia",
+   "origen": "experimentar.py --baselines",
+   "nivel": "n1",
+   "environment_version": "1.0.0",
+   "familia_modelo": "warehouse-rush-v1/obs-11x15x1x2x3x40/acciones-7",
+   "hipotesis": "Referencia para comparar: lo que logra una politica sin aprendizaje.",
+   "cambios": "(base)",
+   "semilla": "0",
+   "episodios": "40000",
+   "parametros": {
+    "entorno.bateria": "False",
+    "entorno.bateria_max": "100",
+    "entorno.max_pasos": "200",
+    "entorno.bloqueos": "[]",
+    "agente.alpha": "0.1",
+    "agente.gamma": "0.99",
+    "agente.epsilon_min": "0.05",
+    "agente.fraccion_exploracion": "0.7"
+   },
+   "git_commit": "ad5c2df49e437458115a892ee85ff53ca64f7d63",
+   "config_sha256": "d87287667766882e5adb3cb8e35316c8ed08171bc821740688d940d05529ee1b",
+   "evaluation_suite_id": "n1-67493cd51b96",
+   "estado_modelo": "sin pesos (politica fija)",
+   "parent_run_id": null,
+   "model_id": null,
+   "error": null,
+   "metricas": {
+    "tasa_exito": 0.02,
+    "paquetes_entregados_medios": 0.02,
+    "pasos_medios": 198.83,
+    "pasos_medios_exitosos": 141.5,
+    "recompensa_media": -132.218,
+    "rescates_medios": 0.0,
+    "fragiles_rotos_medios": 0.0,
+    "fallos.choques_repetidos": 146.0,
+    "fallos.tiempo_agotado": 50.0,
+    "cargas_medias": 0.0,
+    "choques_medios": 28.885,
+    "acciones_invalidas_medias": 84.825,
+    "latencia_media_ms": 0.0025,
+    "pedidos_evaluados": 200.0
+   },
+   "tiempo_entrenamiento_s": null,
+   "curvas": {},
+   "mlflow_url": "https://dagshub.com/c851458/pro_final_visu2.mlflow/#/experiments/0/runs/d537cc08cfeb48bdb4dc0faf5f594498"
+  },
+  {
+   "run_id": "91def62165244b2db48d0fb3d7d32a2c",
+   "nombre": "referencia-regla-n1",
+   "estado": "terminado",
+   "inicio": 1793999144770,
+   "duracion_s": 9.1,
+   "tipo": "referencia",
+   "origen": "experimentar.py --baselines",
+   "nivel": "n1",
+   "environment_version": "1.0.0",
+   "familia_modelo": "warehouse-rush-v1/obs-11x15x1x2x3x40/acciones-7",
+   "hipotesis": "Referencia para comparar: lo que logra una politica sin aprendizaje.",
+   "cambios": "(base)",
+   "semilla": "0",
+   "episodios": "40000",
+   "parametros": {
+    "entorno.bateria": "False",
+    "entorno.bateria_max": "100",
+    "entorno.max_pasos": "200",
+    "entorno.bloqueos": "[]",
+    "agente.alpha": "0.1",
+    "agente.gamma": "0.99",
+    "agente.epsilon_min": "0.05",
+    "agente.fraccion_exploracion": "0.7"
+   },
+   "git_commit": "ad5c2df49e437458115a892ee85ff53ca64f7d63",
+   "config_sha256": "d87287667766882e5adb3cb8e35316c8ed08171bc821740688d940d05529ee1b",
+   "evaluation_suite_id": "n1-67493cd51b96",
+   "estado_modelo": "sin pesos (politica fija)",
+   "parent_run_id": null,
+   "model_id": null,
+   "error": null,
+   "metricas": {
+    "tasa_exito": 1.0,
+    "paquetes_entregados_medios": 1.0,
+    "pasos_medios": 17.1,
+    "pasos_medios_exitosos": 17.1,
+    "recompensa_media": 38.29,
+    "rescates_medios": 0.0,
+    "fragiles_rotos_medios": 0.0,
+    "cargas_medias": 0.0,
+    "choques_medios": 0.0,
+    "acciones_invalidas_medias": 0.0,
+    "latencia_media_ms": 0.0255,
+    "pedidos_evaluados": 200.0
+   },
+   "tiempo_entrenamiento_s": null,
+   "curvas": {},
+   "mlflow_url": "https://dagshub.com/c851458/pro_final_visu2.mlflow/#/experiments/0/runs/91def62165244b2db48d0fb3d7d32a2c"
+  },
+  {
+   "run_id": "c6561feb6f424fedaec30f1d4be3705e",
+   "nombre": "referencia-aleatoria-n2",
+   "estado": "terminado",
+   "inicio": 1793999156040,
+   "duracion_s": 18.6,
+   "tipo": "referencia",
+   "origen": "experimentar.py --baselines",
+   "nivel": "n2",
+   "environment_version": "1.0.0",
+   "familia_modelo": "warehouse-rush-v1/obs-11x15x5x2x3x40/acciones-7",
+   "hipotesis": "Referencia para comparar: lo que logra una politica sin aprendizaje.",
+   "cambios": "(base)",
+   "semilla": "0",
+   "episodios": "40000",
+   "parametros": {
+    "entorno.bateria": "True",
+    "entorno.bateria_max": "100",
+    "entorno.max_pasos": "400",
+    "entorno.bloqueos": "[]",
+    "agente.alpha": "0.1",
+    "agente.gamma": "0.99",
+    "agente.epsilon_min": "0.05",
+    "agente.fraccion_exploracion": "0.7"
+   },
+   "git_commit": "ad5c2df49e437458115a892ee85ff53ca64f7d63",
+   "config_sha256": "c023f25e4b58ba146eed0e7600233477df10cb77d4f6b6868801c1fc705e338b",
+   "evaluation_suite_id": "n2-7442911f5d18",
+   "estado_modelo": "sin pesos (politica fija)",
+   "parent_run_id": null,
+   "model_id": null,
+   "error": null,
+   "metricas": {
+    "fallos.bateria_agotada": 445.0,
+    "fallos.fragil_roto": 53.0,
+    "fallos.choques_repetidos": 2.0,
+    "tasa_exito": 0.0,
+    "paquetes_entregados_medios": 0.034,
+    "pasos_medios": 400.0,
+    "pasos_medios_exitosos": 0.0,
+    "recompensa_media": -336.1178,
+    "rescates_medios": 1.842,
+    "fragiles_rotos_medios": 0.244,
+    "cargas_medias": 2.99,
+    "choques_medios": 80.916,
+    "acciones_invalidas_medias": 168.068,
+    "latencia_media_ms": 0.0022,
+    "pedidos_evaluados": 500.0
+   },
+   "tiempo_entrenamiento_s": null,
+   "curvas": {},
+   "mlflow_url": "https://dagshub.com/c851458/pro_final_visu2.mlflow/#/experiments/0/runs/c6561feb6f424fedaec30f1d4be3705e"
+  },
+  {
+   "run_id": "0fc2668476f94dc595f5eb1a48d06246",
+   "nombre": "referencia-regla-n2",
+   "estado": "terminado",
+   "inicio": 1793999189170,
+   "duracion_s": 32.8,
+   "tipo": "referencia",
+   "origen": "experimentar.py --baselines",
+   "nivel": "n2",
+   "environment_version": "1.0.0",
+   "familia_modelo": "warehouse-rush-v1/obs-11x15x5x2x3x40/acciones-7",
+   "hipotesis": "Referencia para comparar: lo que logra una politica sin aprendizaje.",
+   "cambios": "(base)",
+   "semilla": "0",
+   "episodios": "40000",
+   "parametros": {
+    "entorno.bateria": "True",
+    "entorno.bateria_max": "100",
+    "entorno.max_pasos": "400",
+    "entorno.bloqueos": "[]",
+    "agente.alpha": "0.1",
+    "agente.gamma": "0.99",
+    "agente.epsilon_min": "0.05",
+    "agente.fraccion_exploracion": "0.7"
+   },
+   "git_commit": "ad5c2df49e437458115a892ee85ff53ca64f7d63",
+   "config_sha256": "c023f25e4b58ba146eed0e7600233477df10cb77d4f6b6868801c1fc705e338b",
+   "evaluation_suite_id": "n2-7442911f5d18",
+   "estado_modelo": "sin pesos (politica fija)",
+   "parent_run_id": null,
+   "model_id": null,
+   "error": null,
+   "metricas": {
+    "tasa_exito": 1.0,
+    "paquetes_entregados_medios": 3.0,
+    "pasos_medios": 60.152,
+    "pasos_medios_exitosos": 60.152,
+    "recompensa_media": 73.228,
+    "rescates_medios": 0.0,
+    "fragiles_rotos_medios": 0.0,
+    "cargas_medias": 0.472,
+    "choques_medios": 0.0,
+    "acciones_invalidas_medias": 0.0,
+    "latencia_media_ms": 0.1905,
+    "pedidos_evaluados": 500.0
+   },
+   "tiempo_entrenamiento_s": null,
+   "curvas": {},
+   "mlflow_url": "https://dagshub.com/c851458/pro_final_visu2.mlflow/#/experiments/0/runs/0fc2668476f94dc595f5eb1a48d06246"
+  },
+  {
+   "run_id": "92a52a4844d1492992e18c6ed46e8a49",
+   "nombre": "referencia-aleatoria-n3",
+   "estado": "terminado",
+   "inicio": 1793999231528,
+   "duracion_s": 34.9,
+   "tipo": "referencia",
+   "origen": "experimentar.py --baselines",
+   "nivel": "n3",
+   "environment_version": "1.0.0",
+   "familia_modelo": "warehouse-rush-v1/obs-11x15x5x2x3x40/acciones-7",
+   "hipotesis": "Referencia para comparar: lo que logra una politica sin aprendizaje.",
+   "cambios": "(base)",
+   "semilla": "0",
+   "episodios": "40000",
+   "parametros": {
+    "entorno.bateria": "True",
+    "entorno.bateria_max": "100",
+    "entorno.max_pasos": "400",
+    "entorno.bloqueos": "[[7, 4], [7, 7]]",
+    "agente.alpha": "0.1",
+    "agente.gamma": "0.99",
+    "agente.epsilon_min": "0.05",
+    "agente.fraccion_exploracion": "0.7"
+   },
+   "git_commit": "ad5c2df49e437458115a892ee85ff53ca64f7d63",
+   "config_sha256": "989f804b442d6626c55dd2567621b0a16c01a0458a170c765c3cb11b665e4288",
+   "evaluation_suite_id": "n3-b18eb8af4338",
+   "estado_modelo": "sin pesos (politica fija)",
+   "parent_run_id": null,
+   "model_id": null,
+   "error": null,
+   "metricas": {
+    "fallos.bateria_agotada": 450.0,
+    "fallos.fragil_roto": 50.0,
+    "tasa_exito": 0.0,
+    "paquetes_entregados_medios": 0.016,
+    "pasos_medios": 400.0,
+    "pasos_medios_exitosos": 0.0,
+    "recompensa_media": -343.927,
+    "rescates_medios": 1.792,
+    "fragiles_rotos_medios": 0.256,
+    "cargas_medias": 2.978,
+    "choques_medios": 89.978,
+    "acciones_invalidas_medias": 168.048,
+    "latencia_media_ms": 0.0019,
+    "pedidos_evaluados": 500.0
+   },
+   "tiempo_entrenamiento_s": null,
+   "curvas": {},
+   "mlflow_url": "https://dagshub.com/c851458/pro_final_visu2.mlflow/#/experiments/0/runs/92a52a4844d1492992e18c6ed46e8a49"
+  },
+  {
+   "run_id": "092675404a074b07852992055f7e104a",
+   "nombre": "referencia-regla-n3",
+   "estado": "terminado",
+   "inicio": 1793999275198,
+   "duracion_s": 34.7,
+   "tipo": "referencia",
+   "origen": "experimentar.py --baselines",
+   "nivel": "n3",
+   "environment_version": "1.0.0",
+   "familia_modelo": "warehouse-rush-v1/obs-11x15x5x2x3x40/acciones-7",
+   "hipotesis": "Referencia para comparar: lo que logra una politica sin aprendizaje.",
+   "cambios": "(base)",
+   "semilla": "0",
+   "episodios": "40000",
+   "parametros": {
+    "entorno.bateria": "True",
+    "entorno.bateria_max": "100",
+    "entorno.max_pasos": "400",
+    "entorno.bloqueos": "[[7, 4], [7, 7]]",
+    "agente.alpha": "0.1",
+    "agente.gamma": "0.99",
+    "agente.epsilon_min": "0.05",
+    "agente.fraccion_exploracion": "0.7"
+   },
+   "git_commit": "ad5c2df49e437458115a892ee85ff53ca64f7d63",
+   "config_sha256": "989f804b442d6626c55dd2567621b0a16c01a0458a170c765c3cb11b665e4288",
+   "evaluation_suite_id": "n3-b18eb8af4338",
+   "estado_modelo": "sin pesos (politica fija)",
+   "parent_run_id": null,
+   "model_id": null,
+   "error": null,
+   "metricas": {
+    "tasa_exito": 1.0,
+    "paquetes_entregados_medios": 3.0,
+    "pasos_medios": 80.218,
+    "pasos_medios_exitosos": 80.218,
+    "recompensa_media": 70.9882,
+    "rescates_medios": 0.0,
+    "fragiles_rotos_medios": 0.0,
+    "cargas_medias": 0.852,
+    "choques_medios": 0.0,
+    "acciones_invalidas_medias": 0.0,
+    "latencia_media_ms": 0.1901,
+    "pedidos_evaluados": 500.0
+   },
+   "tiempo_entrenamiento_s": null,
+   "curvas": {},
+   "mlflow_url": "https://dagshub.com/c851458/pro_final_visu2.mlflow/#/experiments/0/runs/092675404a074b07852992055f7e104a"
+  },
+  {
+   "run_id": "36fdf09956374a5b882980b5fb5f70fd",
+   "nombre": "evaluacion-pipeline-n2-en-n3",
+   "estado": "terminado",
+   "inicio": 1793999457646,
+   "duracion_s": 3.5,
+   "tipo": "evaluacion",
+   "origen": "experimentar.py --evaluar",
+   "nivel": "n3",
+   "environment_version": "1.0.0",
+   "familia_modelo": "warehouse-rush-v1/obs-11x15x5x2x3x40/acciones-7",
+   "hipotesis": "Incidente: el modelo de N2 no observa los bloqueos; se espera una caida fuerte de exito en N3.",
+   "cambios": "evaluar en nivel=n3",
+   "semilla": "0",
+   "episodios": "40000",
+   "parametros": {
+    "entorno.bateria": "True",
+    "entorno.bateria_max": "100",
+    "entorno.max_pasos": "400",
+    "entorno.bloqueos": "[[7, 4], [7, 7]]",
+    "agente.alpha": "0.1",
+    "agente.gamma": "0.99",
+    "agente.epsilon_min": "0.05",
+    "agente.fraccion_exploracion": "0.7"
+   },
+   "git_commit": "ad5c2df49e437458115a892ee85ff53ca64f7d63",
+   "config_sha256": "989f804b442d6626c55dd2567621b0a16c01a0458a170c765c3cb11b665e4288",
+   "evaluation_suite_id": "n3-b18eb8af4338",
+   "estado_modelo": "pesos del run de origen",
+   "parent_run_id": "c145edb768384bacb9929a5bf3f664f8",
+   "model_id": null,
+   "error": null,
+   "metricas": {
+    "tasa_exito": 0.054,
+    "paquetes_entregados_medios": 0.64,
+    "pasos_medios": 382.862,
+    "pasos_medios_exitosos": 82.6296,
+    "recompensa_media": -473.6098,
+    "fallos.bateria_agotada": 364.0,
+    "fallos.fragil_roto": 106.0,
+    "fallos.choques_repetidos": 1.0,
+    "rescates_medios": 4.002,
+    "fragiles_rotos_medios": 10.17,
+    "cargas_medias": 0.304,
+    "choques_medios": 288.884,
+    "acciones_invalidas_medias": 2.886,
+    "latencia_media_ms": 0.0032,
+    "pedidos_evaluados": 500.0,
+    "fallos.tiempo_agotado": 2.0
+   },
+   "tiempo_entrenamiento_s": null,
+   "curvas": {},
+   "mlflow_url": "https://dagshub.com/c851458/pro_final_visu2.mlflow/#/experiments/0/runs/36fdf09956374a5b882980b5fb5f70fd"
+  },
+  {
+   "run_id": "ff70cfeb63a5451582de79a3ab497eb5",
+   "nombre": "n3-recuperacion",
+   "estado": "terminado",
+   "inicio": 1793999543633,
+   "duracion_s": 440.2,
+   "tipo": "entrenamiento",
+   "origen": "experimentar.py",
+   "nivel": "n3",
+   "environment_version": "1.0.0",
+   "familia_modelo": "warehouse-rush-v1/obs-11x15x5x2x3x40/acciones-7",
+   "hipotesis": "Intervencion: continuar desde el modelo de N2 recupera >=95% de exito en N3 con 15000 episodios (menos de la mitad del presupuesto desde cero).",
+   "cambios": "nivel=n3 entrenamiento.episodios=15000 agente.epsilon_inicial=0.3",
+   "semilla": "0",
+   "episodios": "15000",
+   "parametros": {
+    "entorno.bateria": "True",
+    "entorno.bateria_max": "100",
+    "entorno.max_pasos": "400",
+    "entorno.bloqueos": "[[7, 4], [7, 7]]",
+    "agente.alpha": "0.1",
+    "agente.gamma": "0.99",
+    "agente.epsilon_min": "0.05",
+    "agente.fraccion_exploracion": "0.7",
+    "agente.epsilon_inicial": "0.3"
+   },
+   "git_commit": "ad5c2df49e437458115a892ee85ff53ca64f7d63",
+   "config_sha256": "fc11d46232cefbc76ba3b44897622e5b771d6558dd8bb19faed2a61bff876f9c",
+   "evaluation_suite_id": "n3-b18eb8af4338",
+   "estado_modelo": "checkpoint final disponible",
+   "parent_run_id": "c145edb768384bacb9929a5bf3f664f8",
+   "model_id": "n3-n3-recuperacion-85883378",
+   "error": null,
+   "metricas": {
+    "tasa_exito": 0.236,
+    "paquetes_entregados_medios": 1.166,
+    "pasos_medios": 331.662,
+    "pasos_medios_exitosos": 110.4322,
+    "recompensa_media": -278.4878,
+    "rescates_medios": 0.41,
+    "fragiles_rotos_medios": 0.034,
+    "cargas_medias": 0.232,
+    "choques_medios": 3.054,
+    "acciones_invalidas_medias": 261.45,
+    "latencia_media_ms": 0.0036,
+    "pedidos_evaluados": 500.0,
+    "fallos.tiempo_agotado": 242.0,
+    "fallos.bateria_agotada": 126.0,
+    "fallos.choques_repetidos": 11.0,
+    "fallos.fragil_roto": 3.0
+   },
+   "tiempo_entrenamiento_s": 73.86411499977112,
+   "curvas": {
+    "entrenamiento.tasa_exito": [
+     [
+      1000,
+      0.188
+     ],
+     [
+      2000,
+      0.49
+     ],
+     [
+      3000,
+      0.685
+     ],
+     [
+      4000,
+      0.856
+     ],
+     [
+      5000,
+      0.915
+     ],
+     [
+      6000,
+      0.938
+     ],
+     [
+      7000,
+      0.955
+     ],
+     [
+      8000,
+      0.96
+     ],
+     [
+      9000,
+      0.964
+     ],
+     [
+      10000,
+      0.972
+     ],
+     [
+      11000,
+      0.961
+     ],
+     [
+      12000,
+      0.964
+     ],
+     [
+      13000,
+      0.955
+     ],
+     [
+      14000,
+      0.978
+     ],
+     [
+      15000,
+      0.981
+     ]
+    ],
+    "curva_eval.tasa_exito": [
+     [
+      1000,
+      0.1
+     ],
+     [
+      2000,
+      0.12
+     ],
+     [
+      3000,
+      0.38
+     ],
+     [
+      4000,
+      0.36
+     ],
+     [
+      5000,
+      0.34
+     ],
+     [
+      6000,
+      0.34
+     ],
+     [
+      7000,
+      0.38
+     ],
+     [
+      8000,
+      0.22
+     ],
+     [
+      9000,
+      0.32
+     ],
+     [
+      10000,
+      0.26
+     ],
+     [
+      11000,
+      0.38
+     ],
+     [
+      12000,
+      0.4
+     ],
+     [
+      13000,
+      0.24
+     ],
+     [
+      14000,
+      0.6
+     ],
+     [
+      15000,
+      0.32
+     ]
+    ],
+    "entrenamiento.recompensa_media": [
+     [
+      1000,
+      -199.3261
+     ],
+     [
+      2000,
+      -112.4674
+     ],
+     [
+      3000,
+      -68.2402
+     ],
+     [
+      4000,
+      -35.0351
+     ],
+     [
+      5000,
+      -15.5079
+     ],
+     [
+      6000,
+      -4.0217
+     ],
+     [
+      7000,
+      4.0215
+     ],
+     [
+      8000,
+      4.4073
+     ],
+     [
+      9000,
+      7.717
+     ],
+     [
+      10000,
+      5.9342
+     ],
+     [
+      11000,
+      9.3178
+     ],
+     [
+      12000,
+      15.1459
+     ],
+     [
+      13000,
+      9.2902
+     ],
+     [
+      14000,
+      16.6085
+     ],
+     [
+      15000,
+      15.4896
+     ]
+    ],
+    "curva_eval.recompensa_media": [
+     [
+      1000,
+      -260.168
+     ],
+     [
+      2000,
+      -313.754
+     ],
+     [
+      3000,
+      -204.608
+     ],
+     [
+      4000,
+      -231.36
+     ],
+     [
+      5000,
+      -242.72
+     ],
+     [
+      6000,
+      -226.982
+     ],
+     [
+      7000,
+      -215.648
+     ],
+     [
+      8000,
+      -288.69
+     ],
+     [
+      9000,
+      -254.962
+     ],
+     [
+      10000,
+      -248.394
+     ],
+     [
+      11000,
+      -230.562
+     ],
+     [
+      12000,
+      -202.644
+     ],
+     [
+      13000,
+      -272.626
+     ],
+     [
+      14000,
+      -130.864
+     ],
+     [
+      15000,
+      -240.698
+     ]
+    ]
+   },
+   "mlflow_url": "https://dagshub.com/c851458/pro_final_visu2.mlflow/#/experiments/0/runs/ff70cfeb63a5451582de79a3ab497eb5"
+  },
+  {
+   "run_id": "098ea6078d1c4c6eb4602e5d33640159",
+   "nombre": "n1-base",
+   "estado": "terminado",
+   "inicio": 1793999602631,
+   "duracion_s": 359.8,
+   "tipo": "entrenamiento",
+   "origen": "experimentar.py",
+   "nivel": "n1",
+   "environment_version": "1.0.0",
+   "familia_modelo": "warehouse-rush-v1/obs-11x15x1x2x3x40/acciones-7",
+   "hipotesis": "Q-learning tabular alcanza >=95% de exito en el nivel entrenado desde cero (N1 con 20000 episodios, N3 con el mismo presupuesto que N2: 40000).",
+   "cambios": "nivel=n1 entrenamiento.episodios=20000",
+   "semilla": "0",
+   "episodios": "20000",
+   "parametros": {
+    "entorno.bateria": "False",
+    "entorno.bateria_max": "100",
+    "entorno.max_pasos": "200",
+    "entorno.bloqueos": "[]",
+    "agente.alpha": "0.1",
+    "agente.gamma": "0.99",
+    "agente.epsilon_min": "0.05",
+    "agente.fraccion_exploracion": "0.7"
+   },
+   "git_commit": "ad5c2df49e437458115a892ee85ff53ca64f7d63",
+   "config_sha256": "bbf05f8efbd7a218088d18aa5bdaa8f9c286f40e60c7ccbb2a358e7eb67ae33f",
+   "evaluation_suite_id": "n1-67493cd51b96",
+   "estado_modelo": "checkpoint final disponible",
+   "parent_run_id": null,
+   "model_id": "n1-n1-base-9c49842e",
+   "error": null,
+   "metricas": {
+    "tasa_exito": 1.0,
+    "paquetes_entregados_medios": 1.0,
+    "pasos_medios": 17.015,
+    "pasos_medios_exitosos": 17.015,
+    "recompensa_media": 38.2985,
+    "rescates_medios": 0.0,
+    "fragiles_rotos_medios": 0.0,
+    "cargas_medias": 0.0,
+    "choques_medios": 0.0,
+    "acciones_invalidas_medias": 0.0,
+    "latencia_media_ms": 0.0056,
+    "pedidos_evaluados": 200.0
+   },
+   "tiempo_entrenamiento_s": 17.62610673904419,
+   "curvas": {
+    "entrenamiento.tasa_exito": [
+     [
+      1000,
+      0.112
+     ],
+     [
+      2000,
+      0.576
+     ],
+     [
+      3000,
+      0.885
+     ],
+     [
+      4000,
+      0.97
+     ],
+     [
+      5000,
+      0.993
+     ],
+     [
+      6000,
+      0.999
+     ],
+     [
+      7000,
+      1.0
+     ],
+     [
+      8000,
+      1.0
+     ],
+     [
+      9000,
+      1.0
+     ],
+     [
+      10000,
+      1.0
+     ],
+     [
+      11000,
+      1.0
+     ],
+     [
+      12000,
+      1.0
+     ],
+     [
+      13000,
+      1.0
+     ],
+     [
+      14000,
+      1.0
+     ],
+     [
+      15000,
+      1.0
+     ],
+     [
+      16000,
+      1.0
+     ],
+     [
+      17000,
+      1.0
+     ],
+     [
+      18000,
+      1.0
+     ],
+     [
+      19000,
+      1.0
+     ],
+     [
+      20000,
+      1.0
+     ]
+    ],
+    "curva_eval.tasa_exito": [
+     [
+      1000,
+      0.12
+     ],
+     [
+      2000,
+      0.46
+     ],
+     [
+      3000,
+      0.76
+     ],
+     [
+      4000,
+      0.78
+     ],
+     [
+      5000,
+      0.94
+     ],
+     [
+      6000,
+      1.0
+     ],
+     [
+      7000,
+      1.0
+     ],
+     [
+      8000,
+      1.0
+     ],
+     [
+      9000,
+      1.0
+     ],
+     [
+      10000,
+      1.0
+     ],
+     [
+      11000,
+      1.0
+     ],
+     [
+      12000,
+      1.0
+     ],
+     [
+      13000,
+      1.0
+     ],
+     [
+      14000,
+      1.0
+     ],
+     [
+      15000,
+      1.0
+     ],
+     [
+      16000,
+      1.0
+     ],
+     [
+      17000,
+      1.0
+     ],
+     [
+      18000,
+      1.0
+     ],
+     [
+      19000,
+      1.0
+     ],
+     [
+      20000,
+      1.0
+     ]
+    ],
+    "entrenamiento.recompensa_media": [
+     [
+      1000,
+      -114.6236
+     ],
+     [
+      2000,
+      -47.492
+     ],
+     [
+      3000,
+      1.7123
+     ],
+     [
+      4000,
+      21.1605
+     ],
+     [
+      5000,
+      29.1843
+     ],
+     [
+      6000,
+      32.4588
+     ],
+     [
+      7000,
+      34.2257
+     ],
+     [
+      8000,
+      35.2624
+     ],
+     [
+      9000,
+      36.0171
+     ],
+     [
+      10000,
+      36.5674
+     ],
+     [
+      11000,
+      36.9053
+     ],
+     [
+      12000,
+      37.2596
+     ],
+     [
+      13000,
+      37.3431
+     ],
+     [
+      14000,
+      37.5785
+     ],
+     [
+      15000,
+      37.719
+     ],
+     [
+      16000,
+      37.664
+     ],
+     [
+      17000,
+      37.6691
+     ],
+     [
+      18000,
+      37.6604
+     ],
+     [
+      19000,
+      37.6471
+     ],
+     [
+      20000,
+      37.7072
+     ]
+    ],
+    "curva_eval.recompensa_media": [
+     [
+      1000,
+      -23.954
+     ],
+     [
+      2000,
+      6.976
+     ],
+     [
+      3000,
+      24.424
+     ],
+     [
+      4000,
+      25.54
+     ],
+     [
+      5000,
+      34.856
+     ],
+     [
+      6000,
+      38.3
+     ],
+     [
+      7000,
+      38.3
+     ],
+     [
+      8000,
+      38.3
+     ],
+     [
+      9000,
+      38.3
+     ],
+     [
+      10000,
+      38.3
+     ],
+     [
+      11000,
+      38.3
+     ],
+     [
+      12000,
+      38.3
+     ],
+     [
+      13000,
+      38.3
+     ],
+     [
+      14000,
+      38.3
+     ],
+     [
+      15000,
+      38.3
+     ],
+     [
+      16000,
+      38.3
+     ],
+     [
+      17000,
+      38.3
+     ],
+     [
+      18000,
+      38.3
+     ],
+     [
+      19000,
+      38.3
+     ],
+     [
+      20000,
+      38.3
+     ]
+    ]
+   },
+   "mlflow_url": "https://dagshub.com/c851458/pro_final_visu2.mlflow/#/experiments/0/runs/098ea6078d1c4c6eb4602e5d33640159"
+  },
+  {
+   "run_id": "97104c2df2d04462b484c59f4c85e381",
+   "nombre": "n3-desde-cero",
+   "estado": "terminado",
+   "inicio": 1793999712885,
+   "duracion_s": 260.1,
+   "tipo": "entrenamiento",
+   "origen": "experimentar.py",
+   "nivel": "n3",
+   "environment_version": "1.0.0",
+   "familia_modelo": "warehouse-rush-v1/obs-11x15x5x2x3x40/acciones-7",
+   "hipotesis": "Q-learning tabular alcanza >=95% de exito en el nivel entrenado desde cero (N1 con 20000 episodios, N3 con el mismo presupuesto que N2: 40000).",
+   "cambios": "nivel=n3",
+   "semilla": "0",
+   "episodios": "40000",
+   "parametros": {
+    "entorno.bateria": "True",
+    "entorno.bateria_max": "100",
+    "entorno.max_pasos": "400",
+    "entorno.bloqueos": "[[7, 4], [7, 7]]",
+    "agente.alpha": "0.1",
+    "agente.gamma": "0.99",
+    "agente.epsilon_min": "0.05",
+    "agente.fraccion_exploracion": "0.7"
+   },
+   "git_commit": "ad5c2df49e437458115a892ee85ff53ca64f7d63",
+   "config_sha256": "989f804b442d6626c55dd2567621b0a16c01a0458a170c765c3cb11b665e4288",
+   "evaluation_suite_id": "n3-b18eb8af4338",
+   "estado_modelo": "checkpoint final disponible",
+   "parent_run_id": null,
+   "model_id": "n3-n3-desde-cero-02512b0c",
+   "error": null,
+   "metricas": {
+    "fallos.tiempo_agotado": 5.0,
+    "tasa_exito": 0.99,
+    "paquetes_entregados_medios": 2.986,
+    "pasos_medios": 93.302,
+    "pasos_medios_exitosos": 90.204,
+    "recompensa_media": 63.2674,
+    "rescates_medios": 0.098,
+    "fragiles_rotos_medios": 0.0,
+    "cargas_medias": 1.148,
+    "choques_medios": 0.008,
+    "acciones_invalidas_medias": 3.538,
+    "latencia_media_ms": 0.0032,
+    "pedidos_evaluados": 500.0
+   },
+   "tiempo_entrenamiento_s": 137.30441617965698,
+   "curvas": {
+    "entrenamiento.tasa_exito": [
+     [
+      1000,
+      0.0
+     ],
+     [
+      2000,
+      0.0
+     ],
+     [
+      3000,
+      0.019
+     ],
+     [
+      4000,
+      0.122
+     ],
+     [
+      5000,
+      0.306
+     ],
+     [
+      6000,
+      0.447
+     ],
+     [
+      7000,
+      0.602
+     ],
+     [
+      8000,
+      0.724
+     ],
+     [
+      9000,
+      0.808
+     ],
+     [
+      10000,
+      0.902
+     ],
+     [
+      11000,
+      0.916
+     ],
+     [
+      12000,
+      0.969
+     ],
+     [
+      13000,
+      0.976
+     ],
+     [
+      14000,
+      0.994
+     ],
+     [
+      15000,
+      0.995
+     ],
+     [
+      16000,
+      0.997
+     ],
+     [
+      17000,
+      0.998
+     ],
+     [
+      18000,
+      1.0
+     ],
+     [
+      19000,
+      1.0
+     ],
+     [
+      20000,
+      1.0
+     ],
+     [
+      21000,
+      1.0
+     ],
+     [
+      22000,
+      1.0
+     ],
+     [
+      23000,
+      1.0
+     ],
+     [
+      24000,
+      1.0
+     ],
+     [
+      25000,
+      1.0
+     ],
+     [
+      26000,
+      1.0
+     ],
+     [
+      27000,
+      1.0
+     ],
+     [
+      28000,
+      1.0
+     ],
+     [
+      29000,
+      1.0
+     ],
+     [
+      30000,
+      1.0
+     ],
+     [
+      31000,
+      1.0
+     ],
+     [
+      32000,
+      1.0
+     ],
+     [
+      33000,
+      1.0
+     ],
+     [
+      34000,
+      1.0
+     ],
+     [
+      35000,
+      1.0
+     ],
+     [
+      36000,
+      1.0
+     ],
+     [
+      37000,
+      1.0
+     ],
+     [
+      38000,
+      1.0
+     ],
+     [
+      39000,
+      1.0
+     ],
+     [
+      40000,
+      1.0
+     ]
+    ],
+    "curva_eval.tasa_exito": [
+     [
+      1000,
+      0.0
+     ],
+     [
+      2000,
+      0.02
+     ],
+     [
+      3000,
+      0.06
+     ],
+     [
+      4000,
+      0.1
+     ],
+     [
+      5000,
+      0.18
+     ],
+     [
+      6000,
+      0.2
+     ],
+     [
+      7000,
+      0.4
+     ],
+     [
+      8000,
+      0.3
+     ],
+     [
+      9000,
+      0.4
+     ],
+     [
+      10000,
+      0.56
+     ],
+     [
+      11000,
+      0.52
+     ],
+     [
+      12000,
+      0.56
+     ],
+     [
+      13000,
+      0.78
+     ],
+     [
+      14000,
+      0.84
+     ],
+     [
+      15000,
+      0.9
+     ],
+     [
+      16000,
+      0.94
+     ],
+     [
+      17000,
+      0.92
+     ],
+     [
+      18000,
+      0.96
+     ],
+     [
+      19000,
+      0.94
+     ],
+     [
+      20000,
+      0.92
+     ],
+     [
+      21000,
+      0.96
+     ],
+     [
+      22000,
+      0.96
+     ],
+     [
+      23000,
+      0.96
+     ],
+     [
+      24000,
+      0.98
+     ],
+     [
+      25000,
+      0.98
+     ],
+     [
+      26000,
+      0.98
+     ],
+     [
+      27000,
+      0.96
+     ],
+     [
+      28000,
+      0.92
+     ],
+     [
+      29000,
+      1.0
+     ],
+     [
+      30000,
+      1.0
+     ],
+     [
+      31000,
+      1.0
+     ],
+     [
+      32000,
+      1.0
+     ],
+     [
+      33000,
+      0.98
+     ],
+     [
+      34000,
+      0.98
+     ],
+     [
+      35000,
+      0.98
+     ],
+     [
+      36000,
+      0.98
+     ],
+     [
+      37000,
+      0.98
+     ],
+     [
+      38000,
+      0.96
+     ],
+     [
+      39000,
+      1.0
+     ],
+     [
+      40000,
+      1.0
+     ]
+    ],
+    "entrenamiento.recompensa_media": [
+     [
+      1000,
+      -336.91
+     ],
+     [
+      2000,
+      -319.1282
+     ],
+     [
+      3000,
+      -302.2998
+     ],
+     [
+      4000,
+      -273.1338
+     ],
+     [
+      5000,
+      -231.4999
+     ],
+     [
+      6000,
+      -192.4763
+     ],
+     [
+      7000,
+      -147.3981
+     ],
+     [
+      8000,
+      -111.7783
+     ],
+     [
+      9000,
+      -79.1402
+     ],
+     [
+      10000,
+      -45.6707
+     ],
+     [
+      11000,
+      -27.1418
+     ],
+     [
+      12000,
+      -3.7292
+     ],
+     [
+      13000,
+      11.2843
+     ],
+     [
+      14000,
+      21.7442
+     ],
+     [
+      15000,
+      27.196
+     ],
+     [
+      16000,
+      35.1409
+     ],
+     [
+      17000,
+      40.969
+     ],
+     [
+      18000,
+      43.1574
+     ],
+     [
+      19000,
+      46.7278
+     ],
+     [
+      20000,
+      49.9517
+     ],
+     [
+      21000,
+      52.033
+     ],
+     [
+      22000,
+      53.3942
+     ],
+     [
+      23000,
+      55.3702
+     ],
+     [
+      24000,
+      57.3944
+     ],
+     [
+      25000,
+      57.3471
+     ],
+     [
+      26000,
+      59.0279
+     ],
+     [
+      27000,
+      60.2727
+     ],
+     [
+      28000,
+      60.6914
+     ],
+     [
+      29000,
+      61.8423
+     ],
+     [
+      30000,
+      60.9899
+     ],
+     [
+      31000,
+      61.2536
+     ],
+     [
+      32000,
+      60.7563
+     ],
+     [
+      33000,
+      60.9827
+     ],
+     [
+      34000,
+      61.3557
+     ],
+     [
+      35000,
+      61.0196
+     ],
+     [
+      36000,
+      61.4129
+     ],
+     [
+      37000,
+      61.864
+     ],
+     [
+      38000,
+      61.0279
+     ],
+     [
+      39000,
+      61.3879
+     ],
+     [
+      40000,
+      61.695
+     ]
+    ],
+    "curva_eval.recompensa_media": [
+     [
+      1000,
+      -377.654
+     ],
+     [
+      2000,
+      -330.714
+     ],
+     [
+      3000,
+      -293.188
+     ],
+     [
+      4000,
+      -276.576
+     ],
+     [
+      5000,
+      -268.858
+     ],
+     [
+      6000,
+      -276.512
+     ],
+     [
+      7000,
+      -195.69
+     ],
+     [
+      8000,
+      -240.192
+     ],
+     [
+      9000,
+      -172.252
+     ],
+     [
+      10000,
+      -133.226
+     ],
+     [
+      11000,
+      -140.272
+     ],
+     [
+      12000,
+      -102.578
+     ],
+     [
+      13000,
+      -31.176
+     ],
+     [
+      14000,
+      -11.762
+     ],
+     [
+      15000,
+      18.536
+     ],
+     [
+      16000,
+      40.512
+     ],
+     [
+      17000,
+      28.582
+     ],
+     [
+      18000,
+      46.196
+     ],
+     [
+      19000,
+      41.406
+     ],
+     [
+      20000,
+      32.348
+     ],
+     [
+      21000,
+      48.088
+     ],
+     [
+      22000,
+      49.13
+     ],
+     [
+      23000,
+      50.31
+     ],
+     [
+      24000,
+      59.686
+     ],
+     [
+      25000,
+      59.602
+     ],
+     [
+      26000,
+      57.294
+     ],
+     [
+      27000,
+      51.746
+     ],
+     [
+      28000,
+      33.592
+     ],
+     [
+      29000,
+      68.286
+     ],
+     [
+      30000,
+      68.258
+     ],
+     [
+      31000,
+      68.286
+     ],
+     [
+      32000,
+      67.826
+     ],
+     [
+      33000,
+      60.166
+     ],
+     [
+      34000,
+      60.166
+     ],
+     [
+      35000,
+      60.174
+     ],
+     [
+      36000,
+      60.174
+     ],
+     [
+      37000,
+      60.214
+     ],
+     [
+      38000,
+      52.52
+     ],
+     [
+      39000,
+      68.832
+     ],
+     [
+      40000,
+      68.808
+     ]
+    ]
+   },
+   "mlflow_url": "https://dagshub.com/c851458/pro_final_visu2.mlflow/#/experiments/0/runs/97104c2df2d04462b484c59f4c85e381"
+  }
+ ]
+}

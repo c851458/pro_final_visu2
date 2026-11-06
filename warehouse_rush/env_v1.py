@@ -4,6 +4,7 @@ Leyenda del mapa:
     #      pared (limite de la bodega)
     .      piso libre
     S      estanteria (no transitable)
+    X      obstaculo (pasillo bloqueado, nivel N3)
     B      estacion de carga de bateria
     1 2 3  zonas de entrega A, B y C
 
@@ -38,7 +39,8 @@ LAYOUT = [
     "###############",
 ]
 
-WALL, FLOOR, SHELF, CHARGER = "#", ".", "S", "B"
+WALL, FLOOR, SHELF, CHARGER, OBSTACLE = "#", ".", "S", "B", "X"
+BLOCKING = (WALL, SHELF, OBSTACLE)
 ZONE_CHARS = "123"
 ZONE_NAMES = ["A", "B", "C"]
 
@@ -70,9 +72,9 @@ ORDER_BONUS = 20.0
 RESCUE_PENALTY = -25.0
 
 
-def random_order(rng, n_packages, n_shelves, type_probs=TYPE_PROBS):
-    """Genera un pedido al azar: paquetes en estanterias distintas y bateria inicial (fraccion)."""
-    shelves = rng.choice(n_shelves, n_packages, replace=False)
+def random_order(rng, n_packages, shelves, type_probs=TYPE_PROBS):
+    """Genera un pedido al azar: paquetes en estanterias distintas (de `shelves`) y bateria inicial (fraccion)."""
+    shelves = [shelves[i] for i in rng.choice(len(shelves), n_packages, replace=False)]
     return {
         "paquetes": [
             {"shelf": int(s), "zone": int(rng.integers(len(ZONE_NAMES))),
@@ -96,8 +98,14 @@ class WarehouseRushV1Env(gym.Env):
 
     metadata = {"render_modes": ["ansi"], "render_fps": 8}
 
-    def __init__(self, render_mode=None, n_packages=3, use_battery=True, max_steps=400, battery_max=BATTERY_MAX):
+    def __init__(self, render_mode=None, n_packages=3, use_battery=True, max_steps=400, battery_max=BATTERY_MAX,
+                 blocked_cells=()):
         self.grid = np.array([list(row) for row in LAYOUT])
+        for r, c in blocked_cells:
+            if self.grid[r, c] != FLOOR:
+                raise ValueError(f"Solo se puede bloquear piso libre; ({r}, {c}) es '{self.grid[r, c]}'")
+            self.grid[r, c] = OBSTACLE
+        self.blocked_cells = [tuple(int(x) for x in c) for c in blocked_cells]
         self.height, self.width = self.grid.shape
         self.render_mode = render_mode
         self.n_packages = n_packages
@@ -110,6 +118,7 @@ class WarehouseRushV1Env(gym.Env):
         self.zone_cells = [set(cells(z)) for z in ZONE_CHARS]
         self.charger = cells(CHARGER)[0]
         self.start_pos = (8, 7)
+        self.reachable_shelves = self._reachable_shelves()
 
         self.action_space = spaces.Discrete(len(ACTION_NAMES))
         self.observation_space = spaces.MultiDiscrete([
@@ -120,7 +129,7 @@ class WarehouseRushV1Env(gym.Env):
     def reset(self, *, seed=None, options=None):
         """`options={"pedido": {...}}` usa un pedido fijo (del dataset); si no, se genera uno al azar."""
         super().reset(seed=seed)
-        order = (options or {}).get("pedido") or random_order(self.np_random, self.n_packages, len(self.shelf_cells))
+        order = (options or {}).get("pedido") or random_order(self.np_random, self.n_packages, self.reachable_shelves)
         self.order = [dict(p, status="pendiente", broken=0) for p in order["paquetes"]]
         self.n_packages = len(self.order)
         self.current = 0
@@ -151,7 +160,7 @@ class WarehouseRushV1Env(gym.Env):
             self._drain(HEAVY_MOVE_COST if heavy else MOVE_COST)
             dr, dc = MOVES[action]
             nxt = (self.agent_pos[0] + dr, self.agent_pos[1] + dc)
-            if self.grid[nxt] in (WALL, SHELF):
+            if self.grid[nxt] in BLOCKING:
                 reward += COLLISION_PENALTY
                 self.event = "bump"
                 if self.carrying and pkg["type"] == FRAGILE:
@@ -228,6 +237,19 @@ class WarehouseRushV1Env(gym.Env):
     def _info(self):
         return {"steps": self.steps, "delivered": self.current, "battery": self.battery,
                 "carrying": self.carrying, "success": self.success, "rescues": self.rescues}
+
+    def _reachable_shelves(self):
+        """Indices de las estanterias que tienen al menos una casilla vecina alcanzable desde el inicio."""
+        seen, frontier = {self.start_pos}, [self.start_pos]
+        while frontier:
+            r, c = frontier.pop()
+            for dr, dc in MOVES.values():
+                n = (r + dr, c + dc)
+                if n not in seen and self.grid[n] not in BLOCKING:
+                    seen.add(n)
+                    frontier.append(n)
+        return [i for i, (r, c) in enumerate(self.shelf_cells)
+                if any((r + dr, c + dc) in seen for dr, dc in MOVES.values())]
 
     @staticmethod
     def _adjacent(a, b):

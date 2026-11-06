@@ -1,93 +1,110 @@
-# pro_final_visu2
-## Warehouse Rush 3D
+# Warehouse Rush · Proyecto final de MLOps
 
-Un robot de bodega aprende con Q-learning a completar pedidos.
-La visualización 3D usa three.js en el navegador; Python ejecuta el entorno y el Q-learning.
+Un robot de bodega aprende con **Q-learning tabular** a completar pedidos: recoger paquetes (normales, pesados o
+frágiles), entregarlos en la zona de su color y cargar su batería a tiempo. El proyecto integra ambiente, agente,
+visualización 3D, experimentos, modelos, pipeline y despliegue.
 
-### Reglas (entorno `WarehouseRush-v1`)
+- **Ficha del ambiente y niveles N1/N2/N3:** [`docs/ficha_ambiente.md`](docs/ficha_ambiente.md)
+- **Web (Vercel):** `<URL del despliegue>`
+- **Experimentos (MLflow en DagsHub):** `<URL de DagsHub>.mlflow`
+- **Modelos (Hugging Face):** [`c851458/warehouse-rush-qlearning`](https://huggingface.co/c851458/warehouse-rush-qlearning)
 
-- **Pedidos de varios paquetes:** cada episodio es un pedido de 3 paquetes que se entregan en orden, uno a la vez.
-- **Varias zonas de entrega:** cada paquete lleva una etiqueta de color (zona A roja, B azul, C morada)
-  y solo se puede entregar en su zona.
-- **Tipos de paquete:**
-  - normal: sin efectos extra;
-  - pesado: mientras se lleva, cada paso gasta el doble de batería;
-  - frágil: si el robot choca mientras lo lleva, se rompe y hay que volver a buscarlo a la estantería.
-- **Batería y estación de carga:** moverse gasta batería, y la acción *cargar* en la estación ⚡ la llena.
-  Si la batería se agota, una grúa rescata al robot y lo lleva a la estación (penalización de -25).
+## Arquitectura
 
-| Evento | Recompensa |
-|---|---|
-| Cada paso | -0.1 (-0.2 con paquete pesado) |
-| Chocar | -1 |
-| Romper un frágil | -10 adicional |
-| Acción inválida (recoger, entregar o cargar donde no corresponde) | -1 |
-| Recoger | +5 |
-| Entregar en la zona correcta | +15 |
-| Completar el pedido | +20 adicional |
-| Rescate por batería agotada | -25 |
-
-El agente observa `[fila, columna, nivel de batería (4 niveles), lleva paquete, tipo del paquete que lleva, objetivo]`,
-donde *objetivo* es la estantería del paquete actual, o su zona de destino si ya lo lleva.
-Con 40 000 episodios completa el 100 % de los pedidos en modo demo, con unos 65 pasos de media.
-
-### Ejecutar
-
-```bash
-source .venv/bin/activate
-
-./train3d.py                                   # entrena (40 000 episodios, ~3 min) y anima 1 de cada 2000
-./train3d.py --demo-only --demo-episodes 5     # solo demostración con la tabla Q guardada
-./train3d.py --paquetes 2 --sin-bateria        # versión más sencilla
-./play3d.py                                    # control manual con el teclado
+```
+                 ┌──────────────────────────── Vercel (un proyecto) ───────────────────────────┐
+Docente ──HTTPS──▶  web/ (Vite + TypeScript + three.js)  ──/api──▶  api/index.py (FastAPI)       │
+                 │  catálogo · comparación · escena 3D            simulación + evaluación       │
+                 └──────────────────────────────────────────────────────┬──────────────────────┘
+                                                                        │ descarga los pesos y verifica el SHA-256
+  PC del equipo: pipeline DVC / experimentar.py ──registra──▶ MLflow (DagsHub)                   │
+                 │                                                       │                      ▼
+                 └──publicar_modelo.py──▶ Hugging Face Hub (pesos) + manifests/ (git) ──────────▶ catálogo
 ```
 
-Cada script abre el navegador automáticamente (`--no-browser` para no hacerlo) en
-`http://localhost:8765` (automático) o `http://localhost:8766` (manual).
-Si el puerto está ocupado, se usa automáticamente el siguiente libre (la terminal muestra la dirección).
-La página necesita internet para cargar three.js desde el CDN.
-
-- Cámara: arrastrar para girar, rueda para zoom, clic derecho para desplazar; teclas 1-4 cambian de vista.
-- Manual: flechas/WASD mover (relativo a la cámara), R recoger, E entregar, C cargar batería, N nuevo pedido.
-
-Las versiones anteriores, con el entorno simple `WarehouseRush-v0` (un paquete, sin batería), siguen disponibles:
-`train.py` (terminal o pygame) y `play.py` (pygame).
-
-## Versionado: datos y pipeline (DVC), experimentos (MLflow), modelos (Hugging Face)
+- **Python es la autoridad.** La API ejecuta el mismo ambiente y el mismo código de evaluación que el pipeline
+  (`warehouse_rush/`). La web solo dibuja los fotogramas que recibe, y la velocidad de animación no cambia las reglas.
+- **La API no guarda estado:** el control manual reenvía la lista de acciones y la API la reproduce desde el inicio.
+- **El catálogo lo sirve git:** `manifests/catalogo.json` (modelos y recomendado) y `manifests/runs.json` (exportado de
+  MLflow). Cada despliegue de Vercel queda atado a un commit.
 
 | Qué | Dónde | Herramienta |
 |---|---|---|
-| Dataset de pedidos (entrenamiento y evaluación) | `data/pedidos_*.json` | DVC (git guarda el hash en `dvc.lock`) |
-| Dataset de trayectorias del agente evaluado | `data/trayectorias_evaluacion.csv` | DVC |
-| Pipeline `generar_datos` → `entrenar` → `evaluar` | `dvc.yaml`, `pipeline/`, `params.yaml` | DVC + git |
-| Experimentos: parámetros, curvas, métricas, modelo de cada corrida, commit y versión del dataset | `mlflow.db`, `mlartifacts/` | MLflow |
-| Modelos publicados, con ficha y versiones (commits y tags) | [`c851458/warehouse-rush-qlearning`](https://huggingface.co/c851458/warehouse-rush-qlearning) (privado) | Hugging Face Hub |
+| Código, configuración, manifiestos | este repositorio | git (commits y tags) |
+| Niveles (ambiente + distribución de pedidos) | `configs/niveles.yaml` | git |
+| Dataset de pedidos de cada nivel y trayectorias evaluadas | `data/` | DVC |
+| Pipeline `generar_datos` → `entrenar` → `evaluar` | `dvc.yaml`, `pipeline/`, `params.yaml` | DVC |
+| Experimentos (hipótesis, parámetros, curvas, métricas, resultados por caso, modelo) | MLflow | DagsHub |
+| Modelos publicados (pesos inmutables por commit) | `modelos/<model_id>/q_table.npy` | Hugging Face Hub |
+| Manifiesto de cada modelo (SHA-256, contrato, ambiente, run, suite, semilla, origen) | `manifests/modelos/` | git |
 
-```bash
-source .venv/bin/activate
+## Estructura
 
-# Datos y pipeline (DVC): solo repite las etapas cuyo código, datos o parámetros cambiaron.
-# Cada ejecución queda también como run "pipeline" en MLflow.
-dvc repro
-dvc push                       # sube el dataset al almacenamiento de DVC
-dvc pull                       # descarga el dataset de la versión actual
-
-# Experimentos (MLflow): variantes de params.yaml, en paralelo
-./experimentar.py -e alpha-alto agente.alpha=0.2 -e gamma-bajo agente.gamma=0.95 -j 2
-mlflow ui --backend-store-uri sqlite:///mlflow.db     # comparar en http://localhost:5000
-
-# Modelos (Hugging Face): publica el modelo de un run con su ficha y lo enlaza al run de MLflow
-./publicar_modelo.py                         # modelo del pipeline
-./publicar_modelo.py --run alpha-alto        # modelo de un experimento
-./publicar_modelo.py --tag v1.1              # marca la versión
-
-# Usar un modelo publicado
-./train3d.py --demo-only --modelo hf:c851458/warehouse-rush-qlearning@v1.0
+```
+warehouse_rush/      ambiente (env_v1.py), niveles, políticas (aleatoria, regla, Q), simulación y evaluación
+configs/niveles.yaml N1, N2 y N3: ambiente y distribución de pedidos
+pipeline/            etapas de DVC, entrenamiento, registro en MLflow y exportación del catálogo
+api/index.py         API FastAPI (Vercel Function)
+web/                 frontend Vite + TypeScript + three.js
+manifests/           catálogo y manifiestos de modelos (los sirve la API)
+tests/               pruebas de reglas, observaciones, terminaciones, datos, políticas y API
+docs/                ficha del ambiente y decisiones
+experimentar.py      experimentos registrados en MLflow
+publicar_modelo.py   publicar en Hugging Face, promover y hacer rollback
+play3d.py, train3d.py  visor local en vivo (entrenamiento y control manual)
 ```
 
-- La autenticación con Hugging Face usa la sesión guardada (`hf auth login`). Los repositorios se crean privados;
-  usa `--publico` para que sean públicos.
-- El modelo se publica como `q_table.npy` (sin pickle), con `README.md` (ficha con métricas y parámetros),
-  `config.json` y `evaluacion.json`.
-- El almacenamiento de DVC es local (`/home/carolo06/dvc-storage/pro_final_visu2`). Para compartirlo, cámbialo
-  por uno en la nube: `dvc remote modify almacen url <url>`.
+## Instalación
+
+Probado con Python 3.10.12 en local (Vercel usa Python 3.12) y Node 24.
+
+```bash
+python3 -m venv .venv
+.venv/bin/pip install -r requirements-dev.txt     # versiones exactas de todo: requirements-lock.txt
+cd web && npm ci && cd ..                         # versiones del frontend: web/package-lock.json
+cp .env.example .env                              # credenciales de DagsHub (no se sube a git)
+```
+
+`requirements.txt` contiene solo lo que necesita la API (es lo que instala Vercel), y `requirements-dev.txt`
+agrega MLflow, DVC, pygame, Hugging Face y pytest.
+
+## Ejecutar en local
+
+```bash
+.venv/bin/uvicorn api.index:app --port 8800      # API
+cd web && npm run dev                            # web en http://localhost:5173 (redirige /api a la API)
+.venv/bin/python -m pytest                       # pruebas
+```
+
+Visor local en vivo, sin la web desplegada: `./train3d.py` (ver el entrenamiento) y `./play3d.py` (control manual).
+
+## Pipeline, experimentos y modelos
+
+```bash
+dvc repro                       # datasets de N1-N3 + entrenar y evaluar el nivel de params.yaml (run "pipeline-n2")
+dvc push                        # sube el dataset al almacenamiento de DVC
+
+./experimentar.py --baselines   # referencias aleatoria y de regla en cada nivel
+./experimentar.py -e alpha-alto agente.alpha=0.2 --hipotesis "..."   # un experimento con hipótesis
+./experimentar.py -e n3-recuperacion nivel=n3 --desde pipeline-n2   # continúa desde otro modelo
+
+./publicar_modelo.py --run pipeline-n2 --tag v1.1   # sube los pesos y escribe el manifiesto (estado: candidato)
+./publicar_modelo.py --recomendar <model_id>        # promueve (lo que sirve la web por defecto)
+./publicar_modelo.py --rollback                     # vuelve al recomendado anterior
+.venv/bin/python pipeline/exportar_catalogo.py      # exporta los runs de MLflow a manifests/runs.json
+```
+
+Publicar no promueve: el recomendado se cambia aparte y el historial de recomendados permite el rollback.
+Publicar dos veces el mismo artefacto no crea otra versión, porque se identifica por su SHA-256.
+
+## Despliegue en Vercel
+
+Un solo proyecto con la **raíz del repositorio** como Root Directory: `vercel.json` compila `web/` (salida
+`web/dist`) y publica `api/index.py` como función de Python en `/api/*`.
+
+| Variable (Vercel) | Uso |
+|---|---|
+| `HF_TOKEN` | Solo si el repositorio de Hugging Face es privado: token de **solo lectura** para descargar los pesos. |
+| `CORS_ORIGINS` | Opcional; por defecto `*` (la API es pública y de solo lectura). |
+
+La web consume la API en la misma URL. Para usar otra API, se compila con `VITE_API_BASE_URL` (ver `web/.env.example`).

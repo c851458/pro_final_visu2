@@ -31,6 +31,9 @@ class QLearningAgent:
         self.epsilon = max(self.epsilon_min, self.epsilon * self.epsilon_decay)
 
     def save(self, path):
+        if path.endswith(".npy"):  # formato sin pickle (el que se publica y versiona)
+            np.save(path, self.q, allow_pickle=False)
+            return
         with open(path, "wb") as f:
             pickle.dump(self.q, f)
 

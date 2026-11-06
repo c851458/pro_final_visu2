@@ -1,15 +1,15 @@
 """Utilidades compartidas por las etapas del pipeline."""
 
+import copy
 import json
 import os
 import sys
 
-import gymnasium as gym
 import yaml
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-import warehouse_rush  # noqa: E402,F401  (registra WarehouseRush-v1)
+from warehouse_rush import niveles  # noqa: E402
 
 
 def load_params(path="params.yaml"):
@@ -17,10 +17,25 @@ def load_params(path="params.yaml"):
         return yaml.safe_load(f)
 
 
-def make_env(params):
-    e = params["entorno"]
-    return gym.make("WarehouseRush-v1", n_packages=params["datos"]["paquetes_por_pedido"],
-                    use_battery=e["bateria"], battery_max=e["bateria_max"], max_steps=e["max_pasos"])
+def resolve_params(params):
+    """Configuracion completa de un entrenamiento: nivel (ambiente y datos) + agente + entrenamiento."""
+    level = niveles.resolve(params["nivel"])
+    return {
+        "nivel": params["nivel"],
+        "version_ambiente": niveles.env_version(),
+        "entorno": level["entorno"],
+        "datos": level["datos"],
+        "agente": copy.deepcopy(params["agente"]),
+        "entrenamiento": copy.deepcopy(params["entrenamiento"]),
+    }
+
+
+def make_env(cfg):
+    return niveles.make_env(cfg)
+
+
+def data_path(level, name):
+    return f"data/{level}/pedidos_{name}.json"
 
 
 def load_orders(path):
@@ -29,6 +44,6 @@ def load_orders(path):
 
 
 def write_json(path, data):
-    os.makedirs(os.path.dirname(path), exist_ok=True)
+    os.makedirs(os.path.dirname(path) or ".", exist_ok=True)
     with open(path, "w") as f:
-        json.dump(data, f, indent=2)
+        json.dump(data, f, indent=2, ensure_ascii=False)

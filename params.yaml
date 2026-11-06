@@ -1,20 +1,8 @@
-# Parametros del pipeline (versionados con git; DVC los usa para saber que etapas repetir).
-# Para un experimento: dvc exp run -S agente.alpha=0.2
+# Parametros del pipeline de DVC (versionados con git; DVC los usa para saber que etapas repetir).
+# El ambiente y el dataset de cada nivel estan en configs/niveles.yaml.
+# Para un experimento registrado en MLflow: ./experimentar.py -e nombre agente.alpha=0.2
 
-datos:
-  semilla: 42
-  pedidos_entrenamiento: 20000
-  pedidos_evaluacion: 500
-  paquetes_por_pedido: 3
-  prob_tipos: # normal, pesado, fragil
-    normal: 0.5
-    pesado: 0.25
-    fragil: 0.25
-
-entorno:
-  bateria: true
-  bateria_max: 100
-  max_pasos: 400
+nivel: n2
 
 agente:
   alpha: 0.1
@@ -25,4 +13,5 @@ agente:
 entrenamiento:
   episodios: 40000
   semilla: 0
-  registrar_cada: 1000
+  registrar_cada: 1000 # cada cuantos episodios se registran las curvas
+  casos_curva: 50 # casos de la suite de evaluacion usados para la curva sin exploracion

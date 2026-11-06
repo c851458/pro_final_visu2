@@ -3,10 +3,15 @@
   "paquetes_entregados_medios": 2.98,
   "pasos_medios": 68.066,
   "pasos_medios_exitosos": 63.35294117647059,
-  "recompensa_media": 62.59199999999993,
+  "recompensa_media": 62.592,
   "rescates_medios": 0.168,
   "fragiles_rotos_medios": 0.0,
   "cargas_medias": 0.174,
   "choques_medios": 0.014,
-  "pedidos_evaluados": 500
+  "acciones_invalidas_medias": 4.98,
+  "latencia_media_ms": 0.0033354,
+  "pedidos_evaluados": 500,
+  "fallos_por_causa": {
+    "tiempo_agotado": 7
+  }
 }

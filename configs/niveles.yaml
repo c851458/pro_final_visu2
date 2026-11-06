@@ -1,0 +1,55 @@
+# Niveles de dificultad de Warehouse Rush (ambiente WarehouseRush-v1).
+# Cambiar las reglas o recompensas de env_v1.py exige subir version_ambiente.
+# Los modelos solo son compatibles con niveles de su misma familia (mismas dimensiones de observacion/accion).
+
+version_ambiente: "1.0.0"
+
+niveles:
+  n1:
+    nombre: "N1 · Misión base"
+    decision: "Recoger un paquete normal y llevarlo a su zona. Sin batería ni obstáculos."
+    entorno:
+      bateria: false
+      bateria_max: 100
+      max_pasos: 200
+      bloqueos: []
+    datos:
+      semilla: 7
+      pedidos_entrenamiento: 5000
+      pedidos_evaluacion: 200
+      paquetes_por_pedido: 1
+      prob_tipos: {normal: 1.0, pesado: 0.0, fragil: 0.0}
+
+  n2:
+    nombre: "N2 · Más decisiones"
+    decision: >-
+      Pedidos de 3 paquetes en orden, tres zonas de entrega, paquetes pesados (más batería) y frágiles
+      (se rompen al chocar), y batería con estación de carga: decidir cuándo cargar.
+    entorno:
+      bateria: true
+      bateria_max: 100
+      max_pasos: 400
+      bloqueos: []
+    datos:
+      semilla: 42
+      pedidos_entrenamiento: 20000
+      pedidos_evaluacion: 500
+      paquetes_por_pedido: 3
+      prob_tipos: {normal: 0.5, pesado: 0.25, fragil: 0.25}
+
+  n3:
+    nombre: "N3 · Operación exigente"
+    decision: >-
+      Incidente: el corredor inferior está bloqueado en la entrada de dos pasillos (casillas (7,4) y (7,7)).
+      El agente debe recuperarse buscando rutas alternativas por el corredor superior.
+    entorno:
+      bateria: true
+      bateria_max: 100
+      max_pasos: 400
+      bloqueos: [[7, 4], [7, 7]]
+    datos:
+      semilla: 43
+      pedidos_entrenamiento: 20000
+      pedidos_evaluacion: 500
+      paquetes_por_pedido: 3
+      prob_tipos: {normal: 0.5, pesado: 0.25, fragil: 0.25}

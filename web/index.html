@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Warehouse Rush · MLOps</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23ff8a2a'/%3E%3Crect x='9' y='11' width='14' height='12' rx='3' fill='%23fff'/%3E%3Crect x='12' y='15' width='8' height='3' rx='1.5' fill='%2305070b'/%3E%3C/svg%3E">
+</head>
+<body>
+  <header id="topbar">
+    <div class="brand">Warehouse Rush <span>· MLOps</span></div>
+    <nav id="tabs">
+      <button data-tab="sim" class="active">Simulación</button>
+      <button data-tab="exp">Experimentos</button>
+      <button data-tab="mod">Modelos</button>
+    </nav>
+    <div id="mode-badge" class="badge">—</div>
+    <div id="api-status" class="api-status">Conectando…</div>
+  </header>
+
+  <main>
+    <div id="scene"></div>
+    <div id="popups"></div>
+
+    <section id="sim-panel" class="panel side left">
+      <h2>Configuración</h2>
+      <label class="field"><span>Nivel</span><select id="sel-nivel"></select></label>
+      <p id="nivel-decision" class="hint"></p>
+      <div class="field"><span>Modo</span>
+        <div id="sel-politica" class="segmented">
+          <button data-p="manual">Manual</button>
+          <button data-p="aleatoria">Aleatoria</button>
+          <button data-p="regla">Regla</button>
+          <button data-p="modelo" class="active">Modelo</button>
+        </div>
+      </div>
+      <label class="field" id="field-modelo"><span>Modelo</span><select id="sel-modelo"></select></label>
+      <div class="row2">
+        <label class="field"><span>Caso de la suite</span><input id="inp-caso" type="number" min="0" value="0"></label>
+        <button id="btn-azar" class="ghost" title="Caso al azar">🎲</button>
+      </div>
+      <div class="actions">
+        <button id="btn-episodio" class="primary">▶ Ejecutar episodio</button>
+        <div class="row2">
+          <button id="btn-evaluar">Evaluar</button>
+          <label class="field inline"><input id="inp-casos" type="number" min="1" max="500" value="50"><span>casos</span></label>
+        </div>
+      </div>
+      <label class="field"><span>Velocidad de animación</span><input id="speed" type="range" min="0" max="100" value="60"></label>
+      <p class="hint">La velocidad solo cambia la animación: las reglas y los pasos los calcula la API.</p>
+
+      <h3>Activo</h3>
+      <dl id="activo" class="kv"></dl>
+    </section>
+
+    <section id="hud-panel" class="panel side right">
+      <h2 id="episode-title">Sin episodio</h2>
+      <div id="battery-block">
+        <div class="kvrow"><span>Batería</span><b id="hud-battery">-</b></div>
+        <div class="bat-bar"><div id="bat-fill"></div></div>
+      </div>
+      <dl class="kv compact">
+        <dt>Paso</dt><dd id="hud-step">-</dd>
+        <dt>Acción</dt><dd id="hud-action">-</dd>
+        <dt>Recompensa</dt><dd id="hud-reward">-</dd>
+        <dt>Acumulada</dt><dd id="hud-total">-</dd>
+        <dt>Rescates</dt><dd id="hud-rescues">-</dd>
+      </dl>
+      <h3>Pedido</h3>
+      <ul id="order"></ul>
+      <div id="goal" class="goal"></div>
+      <div id="eval-block" hidden>
+        <h3>Evaluación <span id="eval-scope" class="muted"></span></h3>
+        <div id="eval-metrics" class="metrics"></div>
+        <div id="eval-causes"></div>
+        <div class="table-wrap small"><table id="eval-cases"></table></div>
+        <p class="hint">Clic en un caso para verlo en 3D.</p>
+      </div>
+    </section>
+
+    <section id="controls" class="panel bottom" hidden>
+      <kbd>↑</kbd><kbd>↓</kbd><kbd>←</kbd><kbd>→</kbd>/<kbd>WASD</kbd> mover ·
+      <kbd>R</kbd> recoger · <kbd>E</kbd> entregar · <kbd>C</kbd> cargar · <kbd>N</kbd> reiniciar
+    </section>
+
+    <section id="cam-panel" class="panel cam">
+      <button data-cam="iso" title="Frontal">1</button>
+      <button data-cam="top" title="Aérea">2</button>
+      <button data-cam="follow" title="Seguir robot">3</button>
+      <button data-cam="side" title="Diagonal">4</button>
+    </section>
+
+    <section id="exp-view" class="overlay" hidden>
+      <div class="overlay-inner">
+        <div class="overlay-head">
+          <h2>Experimentos registrados en MLflow</h2>
+          <div class="filters">
+            <select id="f-nivel"><option value="">Todos los niveles</option></select>
+            <select id="f-tipo"><option value="">Todos los tipos</option><option>entrenamiento</option><option>referencia</option></select>
+            <span id="exp-source" class="muted"></span>
+          </div>
+        </div>
+        <p class="hint">Se conservan también los intentos que no mejoraron, los fallidos y los interrumpidos.
+          Marca dos o más runs para compararlos.</p>
+        <div class="table-wrap"><table id="exp-table"></table></div>
+        <div id="compare" hidden>
+          <h3>Comparación</h3>
+          <div class="compare-grid">
+            <div><canvas id="chart-train" width="640" height="260"></canvas><p class="hint center">Éxito durante el entrenamiento (con exploración)</p></div>
+            <div><canvas id="chart-eval" width="640" height="260"></canvas><p class="hint center">Éxito en evaluación sin exploración (curva)</p></div>
+          </div>
+          <div class="table-wrap"><table id="compare-table"></table></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="mod-view" class="overlay" hidden>
+      <div class="overlay-inner">
+        <div class="overlay-head"><h2>Catálogo de modelos</h2><span id="mod-updated" class="muted"></span></div>
+        <p class="hint">Cada modelo tiene un manifiesto con sus pesos y SHA-256, el contrato de observaciones y acciones,
+          el ambiente compatible, la configuración, el run de MLflow y la suite de evaluación. Publicar un modelo no lo
+          promueve: el recomendado se elige aparte y se puede revertir (rollback).</p>
+        <div class="table-wrap"><table id="mod-table"></table></div>
+        <pre id="manifest-view" hidden></pre>
+      </div>
+    </section>
+
+    <div id="banner" hidden><div id="banner-title"></div><div id="banner-sub"></div></div>
+    <div id="toast" hidden></div>
+  </main>
+
+  <script type="module" src="/src/main.ts"></script>
+</body>
+</html>

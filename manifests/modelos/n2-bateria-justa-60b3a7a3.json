@@ -1,0 +1,152 @@
+{
+  "model_id": "n2-bateria-justa-60b3a7a3",
+  "run_id": "5b94ad0d6d234d93b5bffbd83d77201e",
+  "run_name": "bateria-justa",
+  "mlflow_run_url": "https://dagshub.com/c851458/pro_final_visu2.mlflow/#/experiments/0/runs/5b94ad0d6d234d93b5bffbd83d77201e",
+  "level_id": "n2",
+  "environment_version": "1.0.0",
+  "familia_modelo": "warehouse-rush-v1/obs-11x15x5x2x3x40/acciones-7",
+  "git_commit": "faa34d65049b9af4895eb20cb9e53665be08728d",
+  "git_cambios_sin_commit": true,
+  "config_sha256": "427e34ea6d0bd05a18f67bfa21e04c02bc4d67017759409b3bf2f647d3df7f81",
+  "config": {
+    "nivel": "n2",
+    "version_ambiente": "1.0.0",
+    "entorno": {
+      "bateria": true,
+      "bateria_max": 60,
+      "max_pasos": 400,
+      "bloqueos": []
+    },
+    "datos": {
+      "semilla": 42,
+      "pedidos_entrenamiento": 20000,
+      "pedidos_evaluacion": 500,
+      "paquetes_por_pedido": 3,
+      "prob_tipos": {
+        "normal": 0.5,
+        "pesado": 0.25,
+        "fragil": 0.25
+      }
+    },
+    "agente": {
+      "alpha": 0.1,
+      "gamma": 0.99,
+      "epsilon_min": 0.05,
+      "fraccion_exploracion": 0.7
+    },
+    "entrenamiento": {
+      "episodios": 40000,
+      "semilla": 0,
+      "registrar_cada": 1000
+    }
+  },
+  "model_uri": "hf://c851458/warehouse-rush-qlearning@837353ed4efe0a5e2c3e17d1166d822c44c096f2/modelos/n2-bateria-justa-60b3a7a3/q_table.npy",
+  "model_download_url": "https://huggingface.co/c851458/warehouse-rush-qlearning/resolve/837353ed4efe0a5e2c3e17d1166d822c44c096f2/modelos/n2-bateria-justa-60b3a7a3/q_table.npy",
+  "model_sha256": "60b3a7a31b00e784fe9983edc6909476760a065b05ac825ddfd2803dad65f3fd",
+  "formato": {
+    "archivo": "q_table.npy",
+    "dtype": "float32",
+    "forma": [
+      11,
+      15,
+      5,
+      2,
+      3,
+      40,
+      7
+    ]
+  },
+  "normalization_uri": null,
+  "normalizacion": "ninguna: las observaciones son enteros discretos usados como indices de la tabla Q (sin escalado ni clipping)",
+  "observacion": [
+    {
+      "nombre": "fila",
+      "unidad": "casilla",
+      "rango": "0-10"
+    },
+    {
+      "nombre": "columna",
+      "unidad": "casilla",
+      "rango": "0-14"
+    },
+    {
+      "nombre": "nivel_bateria",
+      "unidad": "cuartos de bateria (0 vacia, 4 llena); 0 fijo sin bateria",
+      "rango": "0-4"
+    },
+    {
+      "nombre": "lleva_paquete",
+      "unidad": "booleano",
+      "rango": "0-1"
+    },
+    {
+      "nombre": "tipo_paquete_cargado",
+      "unidad": "0 normal, 1 pesado, 2 fragil (0 si no lleva)",
+      "rango": "0-2"
+    },
+    {
+      "nombre": "objetivo",
+      "unidad": "indice de estanteria (sin paquete) o de zona A/B/C (con paquete)",
+      "rango": "0-39"
+    }
+  ],
+  "acciones": [
+    {
+      "id": 0,
+      "nombre": "arriba"
+    },
+    {
+      "id": 1,
+      "nombre": "abajo"
+    },
+    {
+      "id": 2,
+      "nombre": "izquierda"
+    },
+    {
+      "id": 3,
+      "nombre": "derecha"
+    },
+    {
+      "id": 4,
+      "nombre": "recoger"
+    },
+    {
+      "id": 5,
+      "nombre": "entregar"
+    },
+    {
+      "id": 6,
+      "nombre": "cargar"
+    }
+  ],
+  "runtime_ref": "github.com/c851458/pro_final_visu2@faa34d65049b9af4895eb20cb9e53665be08728d (warehouse_rush/env_v1.py, configs/niveles.yaml, requirements.txt)",
+  "evaluation_suite_id": "",
+  "seed": 0,
+  "parent_run_id": null,
+  "origen": "desde cero",
+  "optimizador": "Q-learning tabular (sin optimizador ni contador: se continua desde la tabla Q)",
+  "presupuesto": {
+    "episodios": 40000,
+    "tiempo_entrenamiento_s": null
+  },
+  "hipotesis": "",
+  "metricas_evaluacion": {
+    "tasa_exito": 0.998,
+    "paquetes_entregados_medios": 2.998,
+    "pasos_medios": 66.954,
+    "pasos_medios_exitosos": 66.28657314629258,
+    "recompensa_media": 54.99319999999996,
+    "rescates_medios": 0.664,
+    "fragiles_rotos_medios": 0.0,
+    "cargas_medias": 0.264,
+    "choques_medios": 0.14,
+    "pedidos_evaluados": 500.0
+  },
+  "fallos_por_causa": {},
+  "hf_repo": "c851458/warehouse-rush-qlearning",
+  "hf_commit": "837353ed4efe0a5e2c3e17d1166d822c44c096f2",
+  "hf_tag": null,
+  "publicado": "2026-11-06T21:21:03+00:00"
+}

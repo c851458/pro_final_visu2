@@ -1,18 +1,21 @@
-# Pipeline: DVC versiona el dataset y define las etapas.
-# Los experimentos se registran en MLflow y los modelos se publican en Hugging Face Hub.
+# Pipeline de DVC: versiona el dataset de cada nivel y define las etapas.
+# Los experimentos se registran en MLflow (DagsHub) y los modelos se publican en Hugging Face Hub.
 stages:
   generar_datos:
-    cmd: python pipeline/generar_datos.py
-    deps:
-      - pipeline/generar_datos.py
-      - pipeline/core.py
-      - pipeline/common.py
-      - warehouse_rush/env_v1.py
-    params:
-      - datos
-    outs:
-      - data/pedidos_entrenamiento.json
-      - data/pedidos_evaluacion.json
+    foreach: [n1, n2, n3]
+    do:
+      cmd: python pipeline/generar_datos.py ${item}
+      deps:
+        - pipeline/generar_datos.py
+        - pipeline/common.py
+        - warehouse_rush/niveles.py
+        - warehouse_rush/env_v1.py
+      params:
+        - configs/niveles.yaml:
+            - niveles.${item}
+      outs:
+        - data/${item}/pedidos_entrenamiento.json
+        - data/${item}/pedidos_evaluacion.json
 
   entrenar:
     cmd: python pipeline/entrenar.py
@@ -23,15 +26,19 @@ stages:
       - pipeline/tracking.py
       - warehouse_rush/env_v1.py
       - warehouse_rush/agent.py
-      - data/pedidos_entrenamiento.json
+      - warehouse_rush/simulacion.py
+      - data/${nivel}/pedidos_entrenamiento.json
+      - data/${nivel}/pedidos_evaluacion.json
     params:
-      - datos.paquetes_por_pedido
-      - entorno
+      - nivel
       - agente
       - entrenamiento
+      - configs/niveles.yaml:
+          - version_ambiente
+          - niveles.${nivel}
     outs:
       # el modelo se versiona en Hugging Face (publicar_modelo.py), no en la cache de DVC
-      - models/q_table_v1.pkl:
+      - models/q_table.npy:
           cache: false
       - metrics/mlflow_run.json:
           cache: false
@@ -43,28 +50,33 @@ stages:
     cmd: python pipeline/evaluar.py
     deps:
       - pipeline/evaluar.py
-      - pipeline/core.py
       - pipeline/common.py
       - pipeline/tracking.py
       - warehouse_rush/env_v1.py
-      - data/pedidos_evaluacion.json
-      - models/q_table_v1.pkl
+      - warehouse_rush/simulacion.py
+      - warehouse_rush/politicas.py
+      - data/${nivel}/pedidos_evaluacion.json
+      - models/q_table.npy
       - metrics/mlflow_run.json
     params:
-      - datos.paquetes_por_pedido
-      - entorno
+      - nivel
+      - configs/niveles.yaml:
+          - version_ambiente
+          - niveles.${nivel}
     outs:
       - data/trayectorias_evaluacion.csv
+      - metrics/evaluacion_por_caso.json:
+          cache: false
     metrics:
       - metrics/evaluacion.json:
           cache: false
 
 plots:
-  - tasa_de_exito:
+  - exito_entrenamiento_vs_evaluacion:
       template: linear
       x: episodio
       y:
-        metrics/entrenamiento.csv: [tasa_exito]
+        metrics/entrenamiento.csv: [tasa_exito, eval_tasa_exito]
   - rescates_por_episodio:
       template: linear
       x: episodio
@@ -74,4 +86,4 @@ plots:
       template: linear
       x: episodio
       y:
-        metrics/entrenamiento.csv: [recompensa_media]
+        metrics/entrenamiento.csv: [recompensa_media, eval_recompensa_media]
