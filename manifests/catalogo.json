@@ -1,6 +1,5 @@
 {
-  "recomendado": "n2-pipeline-n2-92bff281",
-  "historial_recomendados": [],
+  "historial_recomendados": {},
   "modelos": [
     {
       "model_id": "n2-pipeline-n2-92bff281",
@@ -32,7 +31,7 @@
       "publicado": "2026-11-06T21:19:21+00:00",
       "hipotesis": "Q-learning tabular alcanza >=95% de exito en el nivel entrenado desde cero (N1 con 20000 episodios, N3 con el mismo presupuesto que N2: 40000).",
       "tasa_exito": 1.0,
-      "estado": "candidato"
+      "estado": "recomendado"
     },
     {
       "model_id": "n3-n3-desde-cero-02512b0c",
@@ -136,5 +135,9 @@
       "motivo": "Entrenado con bateria_max=60 (otra configuracion): 99.8% de exito pero 0.66 rescates por pedido; no reemplaza a N2."
     }
   ],
-  "actualizado": "2026-11-06T21:21:10+00:00"
+  "actualizado": "2026-11-06T22:06:35+00:00",
+  "recomendados": {
+    "n2": "n2-pipeline-n2-92bff281",
+    "n1": "n1-n1-base-9c49842e"
+  }
 }

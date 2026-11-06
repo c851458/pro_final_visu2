@@ -147,6 +147,10 @@ export interface Run {
   environment_version: string;
   familia_modelo: string;
   hipotesis: string;
+  hipotesis_registro?: string;
+  resultado_hipotesis?: string;
+  grupo?: string | null;
+  brazo?: string | null;
   cambios: string;
   semilla: string;
   episodios: string;
@@ -163,7 +167,8 @@ export interface Run {
 }
 
 export interface Catalogo {
-  catalogo: { recomendado: string | null; historial_recomendados?: string[]; modelos: ModeloCatalogo[]; actualizado?: string };
+  catalogo: { recomendados: Record<string, string>; historial_recomendados?: Record<string, string[]>;
+    modelos: ModeloCatalogo[]; actualizado?: string };
   runs: { tracking?: string; runs: Run[] };
 }
 
@@ -173,5 +178,5 @@ export interface Salud {
   environment_version: string;
   git_commit: string;
   despliegue: string;
-  modelo_recomendado: string | null;
+  modelos_recomendados: Record<string, string>;
 }

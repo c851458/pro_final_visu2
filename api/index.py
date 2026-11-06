@@ -105,9 +105,9 @@ def resolve_policy(policy, model_id, level, family, seed):
         return RulePolicy(), None
     if policy != "modelo":
         raise HTTPException(400, f"Politica desconocida: {policy}")
-    model_id = model_id or (read_json("catalogo.json", default={}) or {}).get("recomendado")
+    model_id = model_id or recommended().get(level)
     if not model_id:
-        raise HTTPException(404, "No hay un modelo recomendado; elige uno del catalogo")
+        raise HTTPException(404, f"No hay un modelo recomendado para el nivel {level}; elige uno del catalogo")
     info = manifest(model_id)
     if info["familia_modelo"] != family:
         raise HTTPException(409, f"El modelo {model_id} ({info['familia_modelo']}) no es compatible con el nivel "
@@ -119,6 +119,12 @@ def resolve_policy(policy, model_id, level, family, seed):
         "hf_commit": info["hf_commit"], "git_commit": info["git_commit"]}
 
 
+def recommended():
+    """Modelo recomendado de cada nivel segun el catalogo publicado."""
+    catalog = read_json("catalogo.json", default={}) or {}
+    return catalog.get("recomendados", {})
+
+
 def environment_info(cfg, family, suite_id):
     return {"nivel": cfg["nivel"], "nombre": cfg["nombre"], "environment_version": niveles.env_version(),
             "familia_modelo": family, "evaluation_suite_id": suite_id}
@@ -128,10 +134,9 @@ def environment_info(cfg, family, suite_id):
 
 @app.get("/api/salud")
 def health():
-    catalog = read_json("catalogo.json", default={}) or {}
     return {"estado": "ok", "api_version": API_VERSION, "environment_version": niveles.env_version(),
             "git_commit": os.environ.get("VERCEL_GIT_COMMIT_SHA", "local"),
-            "despliegue": os.environ.get("VERCEL_URL", "local"), "modelo_recomendado": catalog.get("recomendado")}
+            "despliegue": os.environ.get("VERCEL_URL", "local"), "modelos_recomendados": recommended()}
 
 
 @app.get("/api/niveles")
@@ -152,7 +157,7 @@ def levels():
 
 @app.get("/api/catalogo")
 def catalog():
-    return {"catalogo": read_json("catalogo.json", default={"recomendado": None, "modelos": []}),
+    return {"catalogo": read_json("catalogo.json", default={"recomendados": {}, "modelos": []}),
             "runs": read_json("runs.json", default={"runs": []})}
 
 

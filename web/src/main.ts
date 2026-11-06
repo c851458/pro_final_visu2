@@ -23,7 +23,7 @@ const CAUSES: Record<string, string> = {
 };
 
 let niveles: Niveles;
-let catalogo: Catalogo = { catalogo: { recomendado: null, modelos: [] }, runs: { runs: [] } };
+let catalogo: Catalogo = { catalogo: { recomendados: {}, modelos: [] }, runs: { runs: [] } };
 let escena: Escena;
 const state = { nivel: 'n2', politica: 'modelo' as Politica, modelId: null as string | null, caso: 0 };
 const manual = { acciones: [] as number[], mostrados: 0, terminado: false, chain: Promise.resolve() };
@@ -80,7 +80,7 @@ function renderLevelSelect() {
 function renderModelSelect() {
   const lv = level();
   const sel = $<HTMLSelectElement>('sel-modelo');
-  const recommended = catalogo.catalogo.recomendado;
+  const recommended = catalogo.catalogo.recomendados?.[lv.nivel];
   const compatible = models().filter((m) => m.familia_modelo === lv.familia_modelo);
   const others = models().filter((m) => m.familia_modelo !== lv.familia_modelo);
   if (!compatible.some((m) => m.model_id === state.modelId)) {
@@ -346,7 +346,10 @@ function renderExperiments() {
       + `<td><b>${esc(r.nombre)}</b>${r.parent_run_id ? '<br><span class="muted">continúa otro run</span>' : ''}</td>`
       + `<td>${r.nivel.toUpperCase()}</td><td><span class="pill ${r.tipo}">${r.tipo}</span></td>`
       + `<td><span class="pill ${r.estado}">${r.estado}</span>${r.error ? `<br><span class="neg">${esc(r.error)}</span>` : ''}</td>`
-      + `<td class="wrap">${esc(r.hipotesis) || '<span class="muted">sin hipótesis registrada</span>'}<br><code>${esc(r.cambios)}</code></td>`
+      + `<td class="wrap">${r.grupo ? `<span class="pill">${esc(r.grupo)} · brazo ${esc(r.brazo)}</span><br>` : ''}`
+      + `${esc(r.hipotesis) || '<span class="muted">sin hipótesis registrada</span>'}`
+      + `${r.hipotesis_registro ? ` <span class="muted">(${esc(r.hipotesis_registro)})</span>` : ''}`
+      + `${r.resultado_hipotesis ? `<br><b>${esc(r.resultado_hipotesis)}</b>` : ''}<br><code>${esc(r.cambios)}</code></td>`
       + `<td>${esc(r.semilla ?? '-')}</td><td class="num">${r.tipo === 'entrenamiento' ? esc(r.episodios ?? '-') : '-'}</td>`
       + `<td class="num">${pct(m.tasa_exito)}</td><td class="num">${num(m.pasos_medios)}</td>`
       + `<td class="num">${num(m.rescates_medios, 2)}</td><td class="num">${num(m.choques_medios, 2)}</td>`
@@ -450,7 +453,7 @@ function renderModels() {
   $('mod-table').innerHTML = '<tr><th>Modelo</th><th>Estado</th><th>Nivel</th><th>Ambiente</th><th>Éxito eval.</th><th>SHA-256</th>'
     + '<th>Hugging Face</th><th>Commit</th><th>Publicado</th><th>Hipótesis</th><th></th></tr>'
     + (cat.modelos.length ? cat.modelos.slice().reverse().map((m) => `<tr>`
-      + `<td><b>${esc(m.model_id)}</b>${m.model_id === cat.recomendado ? ' ★' : ''}</td>`
+      + `<td><b>${esc(m.model_id)}</b>${cat.recomendados?.[m.level_id] === m.model_id ? ` ★ recomendado ${m.level_id.toUpperCase()}` : ''}</td>`
       + `<td><span class="pill ${m.estado}">${m.estado}</span>${m.motivo ? `<br><span class="muted">${esc(m.motivo)}</span>` : ''}</td><td>${m.level_id.toUpperCase()}</td>`
       + `<td>v${esc(m.environment_version)}</td><td class="num">${pct(m.tasa_exito)}</td>`
       + `<td><code>${short(m.model_sha256, 12)}</code></td>`

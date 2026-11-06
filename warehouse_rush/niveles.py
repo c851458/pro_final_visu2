@@ -95,3 +95,21 @@ def evaluation_suite(cfg):
     env = make_env(cfg)
     _, cases = generate_orders(cfg["datos"], env.unwrapped.reachable_shelves, evaluation_only=True)
     return cases, f"{cfg['nivel']}-{sha256_json(cases)[:12]}"
+
+
+def reserved_suite(cfg, seed, n_cases):
+    """Test final reservado: pedidos del nivel generados con una semilla secreta, sin repetir ningun pedido
+    de entrenamiento ni de la suite de evaluacion publica. Devuelve (casos, suite_id)."""
+    env = make_env(cfg)
+    shelves = env.unwrapped.reachable_shelves
+    training, evaluation = generate_orders(cfg["datos"], shelves)
+    seen = {_order_key(o) for o in training + evaluation}
+    rng = np.random.default_rng(seed)
+    probs = [cfg["datos"]["prob_tipos"][name] for name in TYPE_ORDER]
+    cases = []
+    while len(cases) < n_cases:
+        order = random_order(rng, cfg["datos"]["paquetes_por_pedido"], shelves, probs)
+        if _order_key(order) not in seen:
+            seen.add(_order_key(order))
+            cases.append(order)
+    return cases, f"{cfg['nivel']}-reservado-{sha256_json(cases)[:12]}"

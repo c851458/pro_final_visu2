@@ -25,7 +25,7 @@ def client(tmp_path, monkeypatch):
                 "model_download_url": weights.as_uri(), "level_id": "n2", "environment_version": "1.0.0",
                 "run_name": "prueba", "hf_commit": "x", "git_commit": "y"}
     (manifests / "modelos" / "prueba.json").write_text(json.dumps(manifest))
-    (manifests / "catalogo.json").write_text(json.dumps({"recomendado": "prueba", "modelos": [manifest]}))
+    (manifests / "catalogo.json").write_text(json.dumps({"recomendados": {"n2": "prueba"}, "modelos": [manifest]}))
     monkeypatch.setattr(api_module, "MANIFESTS", str(manifests))
     monkeypatch.setattr(api_module, "CACHE_DIR", str(tmp_path / "cache"))
     api_module.load_weights.cache_clear()
@@ -34,7 +34,7 @@ def client(tmp_path, monkeypatch):
 
 
 def test_salud_y_niveles(client):
-    assert client.get("/api/salud").json()["modelo_recomendado"] == "prueba"
+    assert client.get("/api/salud").json()["modelos_recomendados"] == {"n2": "prueba"}
     levels = client.get("/api/niveles").json()["niveles"]
     assert [lv["nivel"] for lv in levels] == ["n1", "n2", "n3"]
     assert levels[2]["mapa"]["bloqueos"] == [[7, 4], [7, 7]]
@@ -53,9 +53,13 @@ def test_episodio_con_referencias(client, policy):
 
 
 def test_evaluar_modelo_verifica_sha_y_compatibilidad(client):
-    data = client.post("/api/evaluar", json={"nivel": "n3", "politica": "modelo", "casos": 3}).json()
+    data = client.post("/api/evaluar", json={"nivel": "n2", "politica": "modelo", "casos": 3}).json()
     assert data["modelo"]["model_id"] == "prueba" and data["metricas"]["pedidos_evaluados"] == 3
-    incompatible = client.post("/api/evaluar", json={"nivel": "n1", "politica": "modelo", "casos": 3})
+    # N3 es de la misma familia: se puede evaluar el modelo de N2, pero no es su recomendado
+    same_family = client.post("/api/evaluar", json={"nivel": "n3", "politica": "modelo", "model_id": "prueba", "casos": 3})
+    assert same_family.status_code == 200
+    assert client.post("/api/evaluar", json={"nivel": "n3", "politica": "modelo", "casos": 3}).status_code == 404
+    incompatible = client.post("/api/evaluar", json={"nivel": "n1", "politica": "modelo", "model_id": "prueba", "casos": 3})
     assert incompatible.status_code == 409
 
 

@@ -1,0 +1,52 @@
+# Criterios de seleccion fijados ANTES de entrenar los finalistas (el commit de este archivo lo demuestra).
+# Los aplica pipeline/comparar_finalistas.py; no se cambian despues de ver los resultados.
+
+fijado: "2026-11-06"
+
+# Contraste principal: recuperacion del incidente del nivel N3 (pasillo bloqueado).
+contrastes:
+  contraste-n3:
+    nivel: n3
+    pregunta: >-
+      Tras el incidente, ¿conviene reentrenar desde cero en N3 o continuar desde el modelo de N2
+      con exploracion completa, que usa menos episodios?
+    semillas: [0, 1, 2]
+    brazos:
+      A:
+        nombre: desde cero
+        cambios: [nivel=n3]
+        hipotesis: >-
+          Entrenar desde cero en N3 con el mismo presupuesto que N2 (40000 episodios) alcanza >=95% de exito
+          en las tres semillas.
+      B:
+        nombre: continuar desde N2 con exploracion completa
+        desde: pipeline-n2
+        cambios: [nivel=n3, entrenamiento.episodios=25000, agente.epsilon_inicial=1.0]
+        hipotesis: >-
+          Continuar desde el modelo de N2 con epsilon inicial 1.0 alcanza >=95% de exito en N3 con 25000
+          episodios (62% del presupuesto desde cero), corrigiendo la intervencion rechazada (epsilon 0.3, 23.6%).
+
+# Requisitos que debe cumplir la media de las semillas de un brazo (suite de evaluacion del nivel).
+requisitos:
+  tasa_exito_min: 0.95
+  fragiles_rotos_medios_max: 0.05
+  rescates_medios_max: 0.30
+
+# Seleccion entre brazos que cumplen los requisitos.
+seleccion:
+  - mayor media de tasa_exito
+  - si la diferencia es menor a 0.01: menor presupuesto (episodios)
+  - si persiste el empate: menor media de pasos_medios_exitosos
+
+# Modelo a publicar del brazo ganador: la semilla con mayor tasa_exito (empate: menos pasos).
+modelo_publicado: mejor semilla del brazo ganador
+
+# Promocion a recomendado del nivel: solo si el modelo cumple los requisitos y no empeora mas de 0.005 la
+# tasa_exito del recomendado actual del nivel en la misma suite.
+promocion:
+  tolerancia_tasa_exito: 0.005
+
+# Test final reservado: suite de 500 pedidos de N3 con una semilla secreta (no esta en el repositorio publico;
+# solo se publica el hash de sus casos). Se evalua UNA vez, despues de elegir, y no se usa para ajustar nada.
+test_reservado:
+  casos: 500

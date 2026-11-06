@@ -6,14 +6,15 @@ Cada publicacion:
   - escribe manifests/modelos/<model_id>.json: pesos y SHA-256, contrato de observaciones/acciones,
     ambiente compatible, configuracion y su hash, run, semilla, presupuesto, suite y origen;
   - lo agrega a manifests/catalogo.json como candidato y lo enlaza al run de MLflow (tags hf.*).
-Publicar NO promueve: el modelo recomendado (el que sirve la web por defecto) se cambia con --recomendar,
-y --rollback vuelve al recomendado anterior. Republicar el mismo artefacto no crea otra version.
+Publicar NO promueve: cada nivel tiene un modelo recomendado (el que sirve la web por defecto), que se cambia
+con --recomendar solo si cumple los criterios de configs/criterios.yaml; --rollback NIVEL vuelve al anterior.
+Republicar el mismo artefacto no crea otra version.
 
 Uso:
     ./publicar_modelo.py --run pipeline-n2                 # publica el modelo de un run (nombre o id)
     ./publicar_modelo.py --run pipeline-n2 --tag v1.1      # con tag de version en Hugging Face
     ./publicar_modelo.py --recomendar <model_id>           # promueve un modelo publicado
-    ./publicar_modelo.py --rollback                        # restaura el recomendado anterior
+    ./publicar_modelo.py --rollback n2                     # restaura el recomendado anterior del nivel
     ./publicar_modelo.py --rechazar <model_id> --motivo "..."   # conserva el modelo marcado como rechazado
 """
 
@@ -105,10 +106,17 @@ def sha256_file(path):
 
 
 def load_catalog():
+    """Catalogo con un modelo recomendado por nivel (y su historial para rollback)."""
+    catalog = {"recomendados": {}, "historial_recomendados": {}, "modelos": []}
     if os.path.exists(CATALOG):
         with open(CATALOG) as f:
-            return json.load(f)
-    return {"recomendado": None, "historial_recomendados": [], "modelos": []}
+            catalog = json.load(f)
+    if "recomendados" not in catalog:  # formato anterior: un solo recomendado global
+        levels = {m["model_id"]: m["level_id"] for m in catalog["modelos"]}
+        old = catalog.pop("recomendado", None)
+        catalog["recomendados"] = {levels[old]: old} if old else {}
+        catalog["historial_recomendados"] = {}
+    return catalog
 
 
 def save_catalog(catalog):
@@ -232,29 +240,60 @@ def publish(run_spec, tag=None, public=False):
     return model_id
 
 
-def recommend(model_id):
+def _manifest(model_id):
+    with open(os.path.join(MANIFESTS, "modelos", f"{model_id}.json")) as f:
+        return json.load(f)
+
+
+def _requirements():
+    with open(os.path.join(ROOT, "configs", "criterios.yaml")) as f:
+        return yaml.safe_load(f)
+
+
+def recommend(model_id, force=False):
+    """Promueve un modelo a recomendado de su nivel, si cumple los criterios fijados en configs/criterios.yaml."""
     catalog = load_catalog()
-    ids = {m["model_id"] for m in catalog["modelos"]}
-    if model_id not in ids:
+    entry = next((m for m in catalog["modelos"] if m["model_id"] == model_id), None)
+    if entry is None:
         raise SystemExit(f"{model_id} no esta en el catalogo")
-    if catalog["recomendado"] and catalog["recomendado"] != model_id:
-        catalog["historial_recomendados"].append(catalog["recomendado"])
-    catalog["recomendado"] = model_id
+    level = entry["level_id"]
+    criteria = _requirements()
+    req = criteria["requisitos"]
+    candidate = _manifest(model_id)["metricas_evaluacion"]
+    problems = []
+    if candidate["tasa_exito"] < req["tasa_exito_min"]:
+        problems.append(f"tasa_exito {candidate['tasa_exito']:.3f} < {req['tasa_exito_min']}")
+    if candidate.get("fragiles_rotos_medios", 0) > req["fragiles_rotos_medios_max"]:
+        problems.append("demasiados fragiles rotos")
+    if candidate.get("rescates_medios", 0) > req["rescates_medios_max"]:
+        problems.append("demasiados rescates")
+    current = catalog["recomendados"].get(level)
+    if current and current != model_id:
+        cur = _manifest(current)
+        tolerance = criteria["promocion"]["tolerancia_tasa_exito"]
+        if cur["evaluation_suite_id"] == _manifest(model_id)["evaluation_suite_id"] and \
+                candidate["tasa_exito"] < cur["metricas_evaluacion"]["tasa_exito"] - tolerance:
+            problems.append(f"empeora al recomendado actual {current} en la misma suite")
+    if problems and not force:
+        raise SystemExit(f"No se promueve {model_id}: {'; '.join(problems)} (usa --forzar solo con justificacion)")
+    if current and current != model_id:
+        catalog["historial_recomendados"].setdefault(level, []).append(current)
+    catalog["recomendados"][level] = model_id
     for m in catalog["modelos"]:
         if m["model_id"] == model_id:
             m["estado"] = "recomendado"
-        elif m["estado"] == "recomendado":
+        elif m["model_id"] == current:
             m["estado"] = "anterior"
     save_catalog(catalog)
-    print(f"Recomendado: {model_id}")
+    print(f"Recomendado en {level}: {model_id}" + (f" (antes {current})" if current else ""))
 
 
 def reject(model_id, reason):
     catalog = load_catalog()
     for m in catalog["modelos"]:
         if m["model_id"] == model_id:
-            if m["model_id"] == catalog["recomendado"]:
-                raise SystemExit("No se puede rechazar el modelo recomendado; primero recomienda otro")
+            if model_id in catalog["recomendados"].values():
+                raise SystemExit("No se puede rechazar un modelo recomendado; primero recomienda otro")
             m["estado"] = "rechazado"
             m["motivo"] = reason
             save_catalog(catalog)
@@ -263,20 +302,22 @@ def reject(model_id, reason):
     raise SystemExit(f"{model_id} no esta en el catalogo")
 
 
-def rollback():
+def rollback(level):
+    """Restaura el recomendado anterior de un nivel (el actual queda como revertido)."""
     catalog = load_catalog()
-    if not catalog["historial_recomendados"]:
-        raise SystemExit("No hay un recomendado anterior al que volver")
-    previous = catalog["historial_recomendados"].pop()
-    current = catalog["recomendado"]
-    catalog["recomendado"] = previous
+    history = catalog["historial_recomendados"].get(level, [])
+    if not history:
+        raise SystemExit(f"No hay un recomendado anterior en {level} al que volver")
+    previous = history.pop()
+    current = catalog["recomendados"].get(level)
+    catalog["recomendados"][level] = previous
     for m in catalog["modelos"]:
         if m["model_id"] == previous:
             m["estado"] = "recomendado"
         elif m["model_id"] == current:
             m["estado"] = "revertido"
     save_catalog(catalog)
-    print(f"Rollback: {current} -> {previous}")
+    print(f"Rollback en {level}: {current} -> {previous}")
 
 
 def main():
@@ -284,8 +325,9 @@ def main():
     parser.add_argument("--run", help="nombre o id del run de MLflow cuyo modelo se publica")
     parser.add_argument("--tag", help="etiqueta de version en Hugging Face, por ejemplo v1.1")
     parser.add_argument("--publico", action="store_true", help="crear el repositorio de Hugging Face como publico")
-    parser.add_argument("--recomendar", metavar="MODEL_ID", help="promueve un modelo publicado a recomendado")
-    parser.add_argument("--rollback", action="store_true", help="vuelve al modelo recomendado anterior")
+    parser.add_argument("--recomendar", metavar="MODEL_ID", help="promueve un modelo a recomendado de su nivel")
+    parser.add_argument("--forzar", action="store_true", help="promover aunque no cumpla los criterios")
+    parser.add_argument("--rollback", metavar="NIVEL", help="vuelve al recomendado anterior de un nivel (n1, n2, n3)")
     parser.add_argument("--rechazar", metavar="MODEL_ID", help="marca un modelo publicado como rechazado")
     parser.add_argument("--motivo", default="", help="motivo del rechazo (se guarda en el catalogo)")
     args = parser.parse_args()
@@ -293,9 +335,9 @@ def main():
     if args.run:
         publish(args.run, args.tag, args.publico)
     if args.recomendar:
-        recommend(args.recomendar)
+        recommend(args.recomendar, args.forzar)
     if args.rollback:
-        rollback()
+        rollback(args.rollback)
     if args.rechazar:
         reject(args.rechazar, args.motivo)
     if not (args.run or args.recomendar or args.rollback or args.rechazar):

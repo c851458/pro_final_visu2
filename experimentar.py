@@ -11,6 +11,7 @@ Uso:
     ./experimentar.py -e n3-intervencion nivel=n3 --desde pipeline-n2      # continua desde otro run
     ./experimentar.py --baselines                                          # aleatoria y regla, todos los niveles
     ./experimentar.py --evaluar pipeline-n2 --nivel n3                     # modelo congelado en otro nivel (incidente)
+    ./experimentar.py --contraste contraste-n3                             # finalistas x semillas de configs/criterios.yaml
 """
 
 import argparse
@@ -71,7 +72,7 @@ def dataset(cfg, overrides):
 
 def run_experiment(job):
     """Entrena y evalua en un proceso aparte; el registro en MLflow lo hace el proceso principal."""
-    name, overrides, initial_model, workdir = job
+    name, overrides, initial_model, workdir = job["name"], job["overrides"], job["initial_model"], job["workdir"]
     cfg = resolve_with_overrides(overrides)
     training_orders, eval_orders, source = dataset(cfg, overrides)
     curve_cases = eval_orders[:cfg["entrenamiento"]["casos_curva"]]
@@ -84,16 +85,18 @@ def run_experiment(job):
     os.makedirs(os.path.dirname(model_path), exist_ok=True)
     agent.save(model_path)
     print(f"  terminado: {name} (exito {metrics['tasa_exito'] * 100:.1f}%)", flush=True)
-    return {"name": name, "overrides": overrides, "cfg": cfg, "curve": curve, "metrics": metrics,
+    return {"job": job, "name": name, "overrides": overrides, "cfg": cfg, "curve": curve, "metrics": metrics,
             "per_case": per_case, "model_path": model_path, "dataset": source, "tiempo": elapsed,
             "suite_id": f"{cfg['nivel']}-{niveles.sha256_json(eval_orders)[:12]}"}
 
 
-def log_to_mlflow(result, hypothesis, parent, workdir):
+def log_to_mlflow(result):
+    job = result["job"]
+    workdir, parent = job["workdir"], job["parent"]
     tags = {"cambios": " ".join(result["overrides"]) or "(base)", "dataset": result["dataset"],
-            "hipotesis": hypothesis or "", "estado_modelo": "checkpoint final disponible"}
+            "hipotesis": job["hypothesis"] or "", "estado_modelo": "checkpoint final disponible", **job["tags"]}
     if parent:
-        tags.update({"parent_run_id": parent.info.run_id, "origen_modelo": f"continuacion de {parent.info.run_name}"})
+        tags.update({"parent_run_id": parent["run_id"], "origen_modelo": f"continuacion de {parent['run_name']}"})
     else:
         tags["origen_modelo"] = "desde cero"
     with tracking.start_run(result["name"], result["cfg"], origin="experimentar.py", extra_tags=tags) as run:
@@ -111,15 +114,15 @@ def log_to_mlflow(result, hypothesis, parent, workdir):
         return run.info.run_id
 
 
-def log_failed(name, overrides, hypothesis, error):
+def log_failed(job, error):
     """Un experimento que falla antes de producir pesos queda registrado con su diagnostico."""
     try:
-        cfg = resolve_with_overrides(overrides)
+        cfg = resolve_with_overrides(job["overrides"])
     except SystemExit:
         return
-    tags = {"cambios": " ".join(overrides), "hipotesis": hypothesis or "", "estado_modelo": "sin checkpoint disponible",
-            "error": str(error)[:500]}
-    with tracking.start_run(name, cfg, origin="experimentar.py", extra_tags=tags):
+    tags = {"cambios": " ".join(job["overrides"]), "hipotesis": job["hypothesis"] or "",
+            "estado_modelo": "sin checkpoint disponible", "error": str(error)[:500], **job["tags"]}
+    with tracking.start_run(job["name"], cfg, origin="experimentar.py", extra_tags=tags):
         mlflow.end_run(status="FAILED")
 
 
@@ -128,7 +131,56 @@ def download_parent_model(spec, workdir):
     from publicar_modelo import find_run, download_model
 
     parent = find_run(spec)
-    return parent, download_model(parent, os.path.join(workdir, "padre"))
+    return parent, download_model(parent, os.path.join(workdir, f"padre-{parent.info.run_id}"))
+
+
+def make_job(name, overrides, workdir, hypothesis=None, parent_spec=None, tags=None):
+    job = {"name": name, "overrides": list(overrides), "workdir": workdir, "hypothesis": hypothesis,
+           "tags": tags or {}, "initial_model": None, "parent": None}
+    if parent_spec:
+        parent, path = download_parent_model(parent_spec, workdir)
+        job.update(initial_model=path, parent={"run_id": parent.info.run_id, "run_name": parent.info.run_name})
+    return job
+
+
+def execute(jobs, processes):
+    """Entrena los trabajos en paralelo, registra cada uno en MLflow (tambien los fallidos) y muestra el resumen."""
+    for job in jobs:  # valida los parametros antes de lanzar procesos
+        resolve_with_overrides(job["overrides"])
+    print(f"Corriendo {len(jobs)} experimento(s) con {min(processes, len(jobs))} proceso(s)...", flush=True)
+    results = []
+    with Pool(min(processes, len(jobs))) as pool:
+        outcomes = [pool.apply_async(run_experiment, (job,)) for job in jobs]
+        for job, outcome in zip(jobs, outcomes):
+            try:
+                results.append(outcome.get())
+            except Exception as error:  # noqa: BLE001  (se registra el intento fallido)
+                print(f"  FALLO: {job['name']}: {error}", flush=True)
+                log_failed(job, error)
+    for result in results:
+        result["run_id"] = log_to_mlflow(result)
+    print(f"\n{'experimento':26s} {'nivel':5s} {'exito':>7s} {'pasos':>7s} {'rescates':>9s}  run_id")
+    for r in sorted(results, key=lambda r: -r["metrics"]["tasa_exito"]):
+        m = r["metrics"]
+        print(f"{r['name']:26s} {r['cfg']['nivel']:5s} {m['tasa_exito'] * 100:6.1f}% {m['pasos_medios']:7.1f} "
+              f"{m['rescates_medios']:9.3f}  {r['run_id']}")
+    return results
+
+
+def contrast_jobs(name, workdir):
+    """Brazos x semillas de un contraste definido en configs/criterios.yaml (hipotesis fijadas de antemano)."""
+    with open(os.path.join(ROOT, "configs", "criterios.yaml")) as f:
+        criteria = yaml.safe_load(f)
+    contrast = criteria["contrastes"][name]
+    jobs = []
+    for arm_id, arm in contrast["brazos"].items():
+        for seed in contrast["semillas"]:
+            jobs.append(make_job(
+                f"{name}-{arm_id}-s{seed}", arm["cambios"] + [f"entrenamiento.semilla={seed}"], workdir,
+                hypothesis=arm["hipotesis"], parent_spec=arm.get("desde"),
+                tags={"grupo": name, "brazo": arm_id, "brazo_nombre": arm["nombre"], "tipo": "finalista",
+                      "criterios_sha256": niveles.sha256_json(criteria)}))
+    return jobs
 
 
 def run_baselines():
@@ -181,6 +233,7 @@ def main():
     parser.add_argument("--baselines", action="store_true", help="registrar las referencias aleatoria y de regla")
     parser.add_argument("--evaluar", metavar="RUN", help="evaluar el modelo de un run (congelado) en --nivel")
     parser.add_argument("--nivel", help="nivel para --evaluar")
+    parser.add_argument("--contraste", help="corre los brazos y semillas de un contraste de configs/criterios.yaml")
     parser.add_argument("-j", "--procesos", type=int, default=4, help="experimentos en paralelo")
     args = parser.parse_args()
     os.chdir(ROOT)
@@ -193,36 +246,17 @@ def main():
         if not args.nivel:
             raise SystemExit("--evaluar necesita --nivel")
         run_cross_evaluation(args.evaluar, args.nivel, args.hipotesis)
-    if not args.experimento:
+    if not (args.experimento or args.contraste):
         return
-    names = [e[0] for e in args.experimento]
-    if len(set(names)) != len(names):
-        raise SystemExit("Los nombres de experimento deben ser distintos")
-    for e in args.experimento:  # valida los parametros antes de lanzar procesos
-        resolve_with_overrides(e[1:])
-
     with tempfile.TemporaryDirectory() as workdir:
-        parent, initial_model = download_parent_model(args.desde, workdir) if args.desde else (None, None)
-        jobs = [(e[0], e[1:], initial_model, workdir) for e in args.experimento]
-        print(f"Corriendo {len(jobs)} experimento(s) con {min(args.procesos, len(jobs))} proceso(s)...", flush=True)
-        with Pool(min(args.procesos, len(jobs))) as pool:
-            outcomes = [pool.apply_async(run_experiment, (job,)) for job in jobs]
-            results = []
-            for job, outcome in zip(jobs, outcomes):
-                try:
-                    results.append(outcome.get())
-                except Exception as error:  # noqa: BLE001  (se registra el intento fallido)
-                    print(f"  FALLO: {job[0]}: {error}", flush=True)
-                    log_failed(job[0], job[1], args.hipotesis, error)
-        for result in results:
-            result["run_id"] = log_to_mlflow(result, args.hipotesis, parent, workdir)
-
-    print(f"\n{'experimento':22s} {'nivel':5s} {'exito':>7s} {'pasos':>7s} {'rescates':>9s}  run_id")
-    for r in sorted(results, key=lambda r: -r["metrics"]["tasa_exito"]):
-        m = r["metrics"]
-        print(f"{r['name']:22s} {r['cfg']['nivel']:5s} {m['tasa_exito'] * 100:6.1f}% {m['pasos_medios']:7.1f} "
-              f"{m['rescates_medios']:9.3f}  {r['run_id']}")
-
+        if args.contraste:
+            jobs = contrast_jobs(args.contraste, workdir)
+        else:
+            names = [e[0] for e in args.experimento]
+            if len(set(names)) != len(names):
+                raise SystemExit("Los nombres de experimento deben ser distintos")
+            jobs = [make_job(e[0], e[1:], workdir, args.hipotesis, args.desde) for e in args.experimento]
+        execute(jobs, args.procesos)
 
 if __name__ == "__main__":
     main()
