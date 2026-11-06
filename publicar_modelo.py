@@ -118,6 +118,25 @@ def save_catalog(catalog):
         json.dump(catalog, f, indent=2, ensure_ascii=False)
 
 
+def record_reproduction(model_id, run):
+    """Anota en el manifiesto que otro run produjo exactamente los mismos pesos (prueba de reproducibilidad)."""
+    path = os.path.join(MANIFESTS, "modelos", f"{model_id}.json")
+    with open(path) as f:
+        manifest = json.load(f)
+    entries = manifest.setdefault("reproducido_por", [])
+    if run.info.run_id in {e["run_id"] for e in entries} or run.info.run_id == manifest["run_id"]:
+        return
+    tags = run.data.tags
+    entries.append({"run_id": run.info.run_id, "run_name": run.info.run_name, "git_commit": tags.get("git.commit", ""),
+                    "git_cambios_sin_commit": tags.get("git.cambios_sin_commit") == "True",
+                    "mlflow_run_url": tracking.run_url(run)})
+    with open(path, "w") as f:
+        json.dump(manifest, f, indent=2, ensure_ascii=False)
+    tracking.setup()
+    with mlflow.start_run(run_id=run.info.run_id):
+        mlflow.set_tags({"model_id": model_id, "reproduce_modelo": model_id})
+
+
 def publish(run_spec, tag=None, public=False):
     from huggingface_hub import HfApi
 
@@ -135,7 +154,9 @@ def publish(run_spec, tag=None, public=False):
         catalog = load_catalog()
         for entry in catalog["modelos"]:
             if entry["model_sha256"] == weights_sha:
-                print(f"Ese artefacto ya esta publicado como {entry['model_id']}; no se crea otra version.")
+                record_reproduction(entry["model_id"], run)
+                print(f"Ese artefacto ya esta publicado como {entry['model_id']}; no se crea otra version "
+                      f"(el run {run.info.run_name} lo reprodujo con el mismo SHA-256).")
                 return entry["model_id"]
 
         level = cfg["nivel"]
