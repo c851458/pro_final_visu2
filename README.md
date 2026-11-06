@@ -99,7 +99,8 @@ Publicar dos veces el mismo artefacto no crea otra versión, porque se identific
 
 ## Despliegue en Vercel
 
-Un solo proyecto con la **raíz del repositorio** como Root Directory: `vercel.json` compila `web/` (salida
+El proyecto de Vercel está conectado a GitHub: **cada push a `main` despliega a producción** y cada despliegue
+queda atado a su commit (la API lo informa en `/api/salud`). Es un solo proyecto con la **raíz del repositorio** como Root Directory: `vercel.json` compila `web/` (salida
 `web/dist`) y publica `api/index.py` como función de Python en `/api/*`.
 
 | Variable (Vercel) | Uso |
