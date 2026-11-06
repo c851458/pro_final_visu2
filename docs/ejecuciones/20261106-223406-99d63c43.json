@@ -1,0 +1,53 @@
+{
+  "flujo": "warehouse-rush-pipeline",
+  "flow_run_id": "99d63c43-610b-42e7-97a7-4434d3808a6d",
+  "inicio": "2026-11-06T22:34:06.062142+00:00",
+  "parametros": {
+    "nivel": "n3",
+    "modo": "checkpoint",
+    "run": "contraste-n3-A-s2",
+    "promover": true,
+    "publicar": true
+  },
+  "etapas": {
+    "1-validar": {
+      "nivel": "n3",
+      "familia": "warehouse-rush-v1/obs-11x15x5x2x3x40/acciones-7",
+      "version_ambiente": "1.0.0",
+      "estanterias_alcanzables": 40,
+      "criterios_sha256": "256b0e91289584d9c0c89e4cd7d7a8336345957f627924595eb07eb01d64e029",
+      "git_commit": "1a30bb334fc2d08ac6d28b6d60f28ef1cfce6930",
+      "cambios_sin_commit": [],
+      "modo": "checkpoint",
+      "run": "contraste-n3-A-s2"
+    },
+    "2-pruebas": "30 passed in 17.25s",
+    "3-candidato": {
+      "run_id": "98cdb38b62fb42259f5cdfa30e9b223c",
+      "run_name": "contraste-n3-A-s2",
+      "nivel_entrenamiento": "n3",
+      "eval_tasa_exito_registrada": 0.992
+    },
+    "4-evaluar": {
+      "suite_id": "n3-b18eb8af4338",
+      "tasa_exito": 0.992,
+      "fallos_por_causa": {
+        "tiempo_agotado": 4
+      },
+      "coincide_con_mlflow": true
+    },
+    "5-registrar": {
+      "model_id": "n3-contraste-n3-A-s2-061c6801",
+      "model_sha256": "061c6801917b887caa02eb4b72553f9cf31697867dd732bb7004ca441fc58f60",
+      "model_uri": "hf://c851458/warehouse-rush-qlearning@0c073f5bcc0aa03330feb915dc4dd36731ff2c4a/modelos/n3-contraste-n3-A-s2-061c6801/q_table.npy"
+    },
+    "6-criterios": {
+      "promovido": true,
+      "motivo": "cumple los criterios",
+      "recomendado": "n3-contraste-n3-A-s2-061c6801",
+      "anterior": null
+    }
+  },
+  "estado": "verificando",
+  "fin": "2026-11-06T22:34:41.530184+00:00"
+}

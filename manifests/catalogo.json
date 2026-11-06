@@ -133,11 +133,28 @@
       "tasa_exito": 0.998,
       "estado": "rechazado",
       "motivo": "Entrenado con bateria_max=60 (otra configuracion): 99.8% de exito pero 0.66 rescates por pedido; no reemplaza a N2."
+    },
+    {
+      "model_id": "n3-contraste-n3-A-s2-061c6801",
+      "run_id": "98cdb38b62fb42259f5cdfa30e9b223c",
+      "run_name": "contraste-n3-A-s2",
+      "level_id": "n3",
+      "familia_modelo": "warehouse-rush-v1/obs-11x15x5x2x3x40/acciones-7",
+      "environment_version": "1.0.0",
+      "model_sha256": "061c6801917b887caa02eb4b72553f9cf31697867dd732bb7004ca441fc58f60",
+      "hf_commit": "0c073f5bcc0aa03330feb915dc4dd36731ff2c4a",
+      "hf_tag": null,
+      "git_commit": "3a00d177ef70dd4a3cb663d7c0ed96f0d36f4b6a",
+      "publicado": "2026-11-06T22:34:39+00:00",
+      "hipotesis": "Entrenar desde cero en N3 con el mismo presupuesto que N2 (40000 episodios) alcanza >=95% de exito en las tres semillas.",
+      "tasa_exito": 0.992,
+      "estado": "recomendado"
     }
   ],
-  "actualizado": "2026-11-06T22:06:35+00:00",
+  "actualizado": "2026-11-06T22:34:41+00:00",
   "recomendados": {
     "n2": "n2-pipeline-n2-92bff281",
-    "n1": "n1-n1-base-9c49842e"
+    "n1": "n1-n1-base-9c49842e",
+    "n3": "n3-contraste-n3-A-s2-061c6801"
   }
 }
