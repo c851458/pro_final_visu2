@@ -7,3 +7,4 @@ __pycache__/
 /mlartifacts/
 .env
 .vercel
+/.venv-prefect/

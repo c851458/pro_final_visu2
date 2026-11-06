@@ -1,0 +1,219 @@
+{
+  "contraste": "contraste-n3",
+  "brazos": {
+    "A": {
+      "runs": [
+        {
+          "run_id": "59678d6dfde04282ab30bda8dc29d584",
+          "nombre": "contraste-n3-A-s0",
+          "semilla": 0,
+          "episodios": 40000,
+          "tiempo_s": 422.3611559867859,
+          "tasa_exito": 0.99,
+          "pasos_medios_exitosos": 90.2040404040404,
+          "rescates_medios": 0.098,
+          "fragiles_rotos_medios": 0.0,
+          "choques_medios": 0.008,
+          "test_reservado": {
+            "tasa_exito": 0.988,
+            "pasos_medios_exitosos": 90.23076923076923,
+            "rescates_medios": 0.124,
+            "fragiles_rotos_medios": 0.0,
+            "choques_medios": 0.092
+          }
+        },
+        {
+          "run_id": "cd0b40435c2d410b8dea053df750959f",
+          "nombre": "contraste-n3-A-s1",
+          "semilla": 1,
+          "episodios": 40000,
+          "tiempo_s": 419.7482874393463,
+          "tasa_exito": 0.992,
+          "pasos_medios_exitosos": 91.2116935483871,
+          "rescates_medios": 0.068,
+          "fragiles_rotos_medios": 0.0,
+          "choques_medios": 0.074,
+          "test_reservado": {
+            "tasa_exito": 0.992,
+            "pasos_medios_exitosos": 89.94556451612904,
+            "rescates_medios": 0.086,
+            "fragiles_rotos_medios": 0.0,
+            "choques_medios": 0.038
+          }
+        },
+        {
+          "run_id": "98cdb38b62fb42259f5cdfa30e9b223c",
+          "nombre": "contraste-n3-A-s2",
+          "semilla": 2,
+          "episodios": 40000,
+          "tiempo_s": 421.3634400367737,
+          "tasa_exito": 0.992,
+          "pasos_medios_exitosos": 90.57056451612904,
+          "rescates_medios": 0.088,
+          "fragiles_rotos_medios": 0.0,
+          "choques_medios": 0.008,
+          "test_reservado": {
+            "tasa_exito": 0.982,
+            "pasos_medios_exitosos": 89.92668024439918,
+            "rescates_medios": 0.104,
+            "fragiles_rotos_medios": 0.0,
+            "choques_medios": 0.022
+          }
+        }
+      ],
+      "n_semillas": 3,
+      "tasa_exito": [
+        0.9913333333333333,
+        0.0011547005383792527
+      ],
+      "pasos_medios_exitosos": [
+        90.66209948951885,
+        0.5100247085613155
+      ],
+      "rescates_medios": [
+        0.08466666666666667,
+        0.015275252316519465
+      ],
+      "fragiles_rotos_medios": [
+        0.0,
+        0.0
+      ],
+      "choques_medios": [
+        0.03,
+        0.038105117766515297
+      ],
+      "tiempo_s": [
+        421.1576278209686,
+        1.3185368833220739
+      ],
+      "episodios": 40000,
+      "nombre": "desde cero",
+      "hipotesis": "Entrenar desde cero en N3 con el mismo presupuesto que N2 (40000 episodios) alcanza >=95% de exito en las tres semillas.",
+      "cumple_requisitos": true,
+      "incumplimientos": [],
+      "test_reservado_tasa_exito": [
+        0.9873333333333333,
+        0.0050332229568471705
+      ]
+    },
+    "B": {
+      "runs": [
+        {
+          "run_id": "106cef83a12d484e9b673482a3eb16c5",
+          "nombre": "contraste-n3-B-s0",
+          "semilla": 0,
+          "episodios": 25000,
+          "tiempo_s": 378.89621329307556,
+          "tasa_exito": 0.174,
+          "pasos_medios_exitosos": 112.7816091954023,
+          "rescates_medios": 0.33,
+          "fragiles_rotos_medios": 0.0,
+          "choques_medios": 3.206,
+          "test_reservado": {
+            "tasa_exito": 0.144,
+            "pasos_medios_exitosos": 124.98611111111111,
+            "rescates_medios": 0.326,
+            "fragiles_rotos_medios": 0.0,
+            "choques_medios": 3.948
+          }
+        },
+        {
+          "run_id": "7b360845f0824b6fa3016aea8ce45661",
+          "nombre": "contraste-n3-B-s1",
+          "semilla": 1,
+          "episodios": 25000,
+          "tiempo_s": 373.4211084842682,
+          "tasa_exito": 0.214,
+          "pasos_medios_exitosos": 109.70093457943925,
+          "rescates_medios": 0.312,
+          "fragiles_rotos_medios": 0.0,
+          "choques_medios": 4.266,
+          "test_reservado": {
+            "tasa_exito": 0.262,
+            "pasos_medios_exitosos": 112.54961832061069,
+            "rescates_medios": 0.36,
+            "fragiles_rotos_medios": 0.02,
+            "choques_medios": 4.592
+          }
+        },
+        {
+          "run_id": "12e545ca75c24f71a6519660fb439d10",
+          "nombre": "contraste-n3-B-s2",
+          "semilla": 2,
+          "episodios": 25000,
+          "tiempo_s": 378.0793318748474,
+          "tasa_exito": 0.138,
+          "pasos_medios_exitosos": 113.69565217391305,
+          "rescates_medios": 0.258,
+          "fragiles_rotos_medios": 0.0,
+          "choques_medios": 2.706,
+          "test_reservado": {
+            "tasa_exito": 0.17,
+            "pasos_medios_exitosos": 121.2235294117647,
+            "rescates_medios": 0.32,
+            "fragiles_rotos_medios": 0.02,
+            "choques_medios": 3.086
+          }
+        }
+      ],
+      "n_semillas": 3,
+      "tasa_exito": [
+        0.17533333333333334,
+        0.038017539811688664
+      ],
+      "pasos_medios_exitosos": [
+        112.05939864958486,
+        2.092996230112961
+      ],
+      "rescates_medios": [
+        0.3,
+        0.03746998799039039
+      ],
+      "fragiles_rotos_medios": [
+        0.0,
+        0.0
+      ],
+      "choques_medios": [
+        3.3926666666666665,
+        0.7965760059990091
+      ],
+      "tiempo_s": [
+        376.7988845507304,
+        2.953616796274568
+      ],
+      "episodios": 25000,
+      "nombre": "continuar desde N2 con exploracion completa",
+      "hipotesis": "Continuar desde el modelo de N2 con epsilon inicial 1.0 alcanza >=95% de exito en N3 con 25000 episodios (62% del presupuesto desde cero), corrigiendo la intervencion rechazada (epsilon 0.3, 23.6%).",
+      "cumple_requisitos": false,
+      "incumplimientos": [
+        "tasa_exito media 0.175 < 0.95"
+      ],
+      "test_reservado_tasa_exito": [
+        0.192,
+        0.062000000000000006
+      ]
+    }
+  },
+  "ganador": "A",
+  "motivo": "Gana A por mayor exito medio (99.1%).",
+  "seleccionado": {
+    "run_id": "98cdb38b62fb42259f5cdfa30e9b223c",
+    "nombre": "contraste-n3-A-s2",
+    "semilla": 2,
+    "episodios": 40000,
+    "tiempo_s": 421.3634400367737,
+    "tasa_exito": 0.992,
+    "pasos_medios_exitosos": 90.57056451612904,
+    "rescates_medios": 0.088,
+    "fragiles_rotos_medios": 0.0,
+    "choques_medios": 0.008,
+    "test_reservado": {
+      "tasa_exito": 0.982,
+      "pasos_medios_exitosos": 89.92668024439918,
+      "rescates_medios": 0.104,
+      "fragiles_rotos_medios": 0.0,
+      "choques_medios": 0.022
+    }
+  },
+  "test_reservado_suite_id": "n3-reservado-72b4b47801c3"
+}

@@ -1,0 +1,32 @@
+{
+  "flujo": "warehouse-rush-pipeline",
+  "flow_run_id": "fe642c18-23f5-4325-979d-8deec3feb8dc",
+  "inicio": "2026-11-06T22:18:47.830825+00:00",
+  "parametros": {
+    "nivel": "n2",
+    "modo": "checkpoint",
+    "run": "n1-base",
+    "promover": false,
+    "publicar": false
+  },
+  "etapas": {
+    "1-validar": {
+      "nivel": "n2",
+      "familia": "warehouse-rush-v1/obs-11x15x5x2x3x40/acciones-7",
+      "version_ambiente": "1.0.0",
+      "estanterias_alcanzables": 40,
+      "criterios_sha256": "256b0e91289584d9c0c89e4cd7d7a8336345957f627924595eb07eb01d64e029",
+      "git_commit": "3a00d177ef70dd4a3cb663d7c0ed96f0d36f4b6a",
+      "cambios_sin_commit": [
+        ".gitignore",
+        "requirements-dev.txt"
+      ],
+      "modo": "checkpoint",
+      "run": "n1-base"
+    },
+    "2-pruebas": "30 passed in 12.58s"
+  },
+  "error": "El checkpoint n1-base (warehouse-rush-v1/obs-11x15x1x2x3x40/acciones-7) no es compatible con n2 (warehouse-rush-v1/obs-11x15x5x2x3x40/acciones-7)",
+  "estado": "fallido",
+  "fin": "2026-11-06T22:19:38.261859+00:00"
+}

@@ -1,0 +1,6 @@
+# Servidor de Prefect (historial y UI de los flujos), en un entorno aparte: el servidor de Prefect 3.8.8
+# no es compatible con FastAPI 0.162 (la version de la API). Los flujos corren en .venv como clientes HTTP.
+#   python3 -m venv .venv-prefect && .venv-prefect/bin/pip install -r requirements-prefect-server.txt
+#   .venv-prefect/bin/prefect server start      (UI en http://127.0.0.1:4200)
+prefect==3.8.8
+fastapi==0.145.0

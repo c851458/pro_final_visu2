@@ -97,6 +97,25 @@ dvc push                        # sube el dataset al almacenamiento de DVC
 Publicar no promueve: el recomendado se cambia aparte y el historial de recomendados permite el rollback.
 Publicar dos veces el mismo artefacto no crea otra versión, porque se identifica por su SHA-256.
 
+## Orquestación con Prefect
+
+[`pipeline/flujo.py`](pipeline/flujo.py) encadena la secuencia mínima del enunciado como tareas de Prefect:
+**1** validar el perfil, el esquema, las rutas y la compatibilidad · **2** pruebas · **3** entrenar con DVC o cargar
+un checkpoint compatible · **4** evaluar la suite y comprobar que coincide con MLflow · **5** registrar el modelo con
+su hash · **6** aplicar los criterios de [`configs/criterios.yaml`](configs/criterios.yaml) · **7** exportar el
+catálogo (con `--publicar`: commit y push) · **8** verificar la versión servida en Vercel, con rollback si falla
+después de una promoción. Cada ejecución deja su estado en Prefect y su evidencia en `docs/ejecuciones/`.
+
+```bash
+# servidor de Prefect (entorno aparte: Prefect 3.8.8 no es compatible con FastAPI 0.162 de la API)
+python3 -m venv .venv-prefect && .venv-prefect/bin/pip install -r requirements-prefect-server.txt
+.venv-prefect/bin/prefect server start                 # historial y UI en http://127.0.0.1:4200
+
+.venv/bin/python pipeline/flujo.py --modo checkpoint --run pipeline-n2            # sin publicar
+.venv/bin/python pipeline/flujo.py --modo pipeline --promover --publicar          # ciclo completo
+.venv/bin/python pipeline/flujo.py --modo checkpoint --run <run> --nivel n3 --promover --publicar
+```
+
 ## Despliegue en Vercel
 
 El proyecto de Vercel está conectado a GitHub: **cada push a `main` despliega a producción** y cada despliegue

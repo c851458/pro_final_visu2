@@ -1,0 +1,66 @@
+{
+  "flujo": "warehouse-rush-pipeline",
+  "flow_run_id": "1523ae9a-4a3d-462c-9dea-e8da6ddd9b34",
+  "inicio": "2026-11-06T22:17:16.648977+00:00",
+  "parametros": {
+    "nivel": "n2",
+    "modo": "checkpoint",
+    "run": "pipeline-n2",
+    "promover": false,
+    "publicar": false
+  },
+  "etapas": {
+    "1-validar": {
+      "nivel": "n2",
+      "familia": "warehouse-rush-v1/obs-11x15x5x2x3x40/acciones-7",
+      "version_ambiente": "1.0.0",
+      "estanterias_alcanzables": 40,
+      "criterios_sha256": "256b0e91289584d9c0c89e4cd7d7a8336345957f627924595eb07eb01d64e029",
+      "git_commit": "3a00d177ef70dd4a3cb663d7c0ed96f0d36f4b6a",
+      "cambios_sin_commit": [
+        ".gitignore",
+        "requirements-dev.txt"
+      ],
+      "modo": "checkpoint",
+      "run": "pipeline-n2"
+    },
+    "2-pruebas": "30 passed in 19.58s",
+    "3-candidato": {
+      "run_id": "b6d2d957946c48b8b3bdad5dcd0f3a03",
+      "run_name": "pipeline-n2",
+      "nivel_entrenamiento": "n2",
+      "eval_tasa_exito_registrada": 0.986
+    },
+    "4-evaluar": {
+      "suite_id": "n2-7442911f5d18",
+      "tasa_exito": 0.986,
+      "fallos_por_causa": {
+        "tiempo_agotado": 7
+      },
+      "coincide_con_mlflow": true
+    },
+    "5-registrar": {
+      "model_id": "n2-pipeline-n2-92bff281",
+      "model_sha256": "92bff281d2980fbddc8edd691f315119cdbaf225b26c7a4f0af721c9afb4c557",
+      "model_uri": "hf://c851458/warehouse-rush-qlearning@cb55367044897640a729885411a55fa9e09e112b/modelos/n2-pipeline-n2-92bff281/q_table.npy"
+    },
+    "6-criterios": {
+      "promovido": false,
+      "motivo": "promocion no solicitada",
+      "recomendado": "n2-pipeline-n2-92bff281"
+    },
+    "7-catalogo": {
+      "commit": null,
+      "nota": "catalogo exportado localmente (sin --publicar)"
+    },
+    "8-verificar": {
+      "nota": "sin --publicar: se verifica la URL actual sin esperar commit",
+      "commit_servido": "3a00d177ef70dd4a3cb663d7c0ed96f0d36f4b6a",
+      "modelo_servido": "n2-pipeline-n2-92bff281",
+      "exito_20_casos": 1.0,
+      "latencia_media_ms": 0.003385
+    }
+  },
+  "estado": "completado",
+  "fin": "2026-11-06T22:18:29.061331+00:00"
+}
