@@ -169,5 +169,10 @@
       "git_cambios_sin_commit": false,
       "mlflow_run_url": "https://dagshub.com/c851458/pro_final_visu2.mlflow/#/experiments/0/runs/b6d2d957946c48b8b3bdad5dcd0f3a03"
     }
-  ]
+  ],
+  "mlflow_registro": {
+    "nombre": "warehouse-rush-n2",
+    "version": "1",
+    "url": "https://dagshub.com/c851458/pro_final_visu2.mlflow/#/models/warehouse-rush-n2/versions/1"
+  }
 }

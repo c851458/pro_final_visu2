@@ -118,7 +118,8 @@ function renderActivo(amb?: Ambiente, modelo?: ModeloInfo | null) {
       rows.push(['Modelo', `<code>${esc(meta.model_id)}</code>`], ['SHA-256', `<code>${short(meta.model_sha256, 12)}</code>`],
         ['Run', esc(meta.run_name)], ['Entrenado en', meta.level_id.toUpperCase()],
         ['Commit', `<a href="${GITHUB}/commit/${meta.git_commit}" target="_blank" rel="noopener">${short(meta.git_commit)}</a>`],
-        ['Estado', `<span class="pill ${meta.estado}">${meta.estado}</span>`]);
+        ['Estado', `<span class="pill ${meta.estado}">${meta.estado}</span>`],
+        ['MLflow Registry', meta.registro_mlflow_url ? `<a href="${esc(meta.registro_mlflow_url)}" target="_blank" rel="noopener">${esc(meta.registro_mlflow)}</a>` : '-']);
     }
   } else {
     rows.push(['Política', state.politica === 'manual' ? 'control manual' : `referencia ${state.politica}`]);
@@ -451,18 +452,19 @@ function renderModels() {
   const cat = catalogo.catalogo;
   $('mod-updated').textContent = cat.actualizado ? `actualizado ${new Date(cat.actualizado).toLocaleString()}` : '';
   $('mod-table').innerHTML = '<tr><th>Modelo</th><th>Estado</th><th>Nivel</th><th>Ambiente</th><th>Éxito eval.</th><th>SHA-256</th>'
-    + '<th>Hugging Face</th><th>Commit</th><th>Publicado</th><th>Hipótesis</th><th></th></tr>'
+    + '<th>Hugging Face</th><th>MLflow Registry</th><th>Commit</th><th>Publicado</th><th>Hipótesis</th><th></th></tr>'
     + (cat.modelos.length ? cat.modelos.slice().reverse().map((m) => `<tr>`
       + `<td><b>${esc(m.model_id)}</b>${cat.recomendados?.[m.level_id] === m.model_id ? ` ★ recomendado ${m.level_id.toUpperCase()}` : ''}</td>`
       + `<td><span class="pill ${m.estado}">${m.estado}</span>${m.motivo ? `<br><span class="muted">${esc(m.motivo)}</span>` : ''}</td><td>${m.level_id.toUpperCase()}</td>`
       + `<td>v${esc(m.environment_version)}</td><td class="num">${pct(m.tasa_exito)}</td>`
       + `<td><code>${short(m.model_sha256, 12)}</code></td>`
       + `<td><code>${short(m.hf_commit, 8)}</code>${m.hf_tag ? ` · ${esc(m.hf_tag)}` : ''}</td>`
+      + `<td>${m.registro_mlflow_url ? `<a href="${esc(m.registro_mlflow_url)}" target="_blank" rel="noopener">${esc(m.registro_mlflow)}</a>` : '-'}</td>`
       + `<td><a href="${GITHUB}/commit/${m.git_commit}" target="_blank" rel="noopener">${short(m.git_commit)}</a></td>`
       + `<td>${new Date(m.publicado).toLocaleDateString()}</td><td class="wrap">${esc(m.hipotesis)}</td>`
       + `<td><button class="small-btn" data-manifest="${esc(m.model_id)}">Manifiesto</button> `
       + `<button class="small-btn" data-load="${esc(m.model_id)}" data-nivel="${m.level_id}">Cargar</button></td></tr>`).join('')
-      : '<tr><td colspan="11" class="muted">Todavía no hay modelos publicados.</td></tr>');
+      : '<tr><td colspan="12" class="muted">Todavía no hay modelos publicados.</td></tr>');
   $('mod-table').querySelectorAll<HTMLButtonElement>('button[data-load]').forEach((b) => {
     b.addEventListener('click', () => loadModel(b.dataset.load!, b.dataset.nivel!));
   });

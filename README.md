@@ -37,6 +37,7 @@ Docente ──HTTPS──▶  web/ (Vite + TypeScript + three.js)  ──/api─
 | Experimentos (hipótesis, parámetros, curvas, métricas, resultados por caso, modelo) | MLflow | DagsHub |
 | Modelos publicados (pesos inmutables por commit) | `modelos/<model_id>/q_table.npy` | Hugging Face Hub |
 | Manifiesto de cada modelo (SHA-256, contrato, ambiente, run, suite, semilla, origen) | `manifests/modelos/` | git |
+| Versiones de modelos con su estado y alias `recomendado` por nivel | `warehouse-rush-n1`, `-n2`, `-n3` | MLflow Model Registry (DagsHub) |
 
 ## Estructura
 
@@ -94,7 +95,12 @@ dvc push                        # sube el dataset al almacenamiento de DVC
 .venv/bin/python pipeline/exportar_catalogo.py      # exporta los runs de MLflow a manifests/runs.json
 ```
 
-Publicar no promueve: el recomendado se cambia aparte y el historial de recomendados permite el rollback.
+Cada modelo publicado es una versión del **Model Registry de MLflow** (`warehouse-rush-<nivel>`), con tags de
+estado, SHA-256 y URI de Hugging Face. El alias `recomendado` de cada nivel es el modelo que sirve la web.
+`./publicar_modelo.py --sincronizar-registro` alinea el registro con el catálogo.
+
+Publicar no promueve: el recomendado de cada nivel se cambia aparte, solo si cumple `configs/criterios.yaml`, y el
+historial de recomendados permite el rollback (`--rollback n3`).
 Publicar dos veces el mismo artefacto no crea otra versión, porque se identifica por su SHA-256.
 
 ## Orquestación con Prefect

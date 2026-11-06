@@ -6,6 +6,8 @@ Cada publicacion:
   - escribe manifests/modelos/<model_id>.json: pesos y SHA-256, contrato de observaciones/acciones,
     ambiente compatible, configuracion y su hash, run, semilla, presupuesto, suite y origen;
   - lo agrega a manifests/catalogo.json como candidato y lo enlaza al run de MLflow (tags hf.*).
+Cada modelo publicado es tambien una version del Model Registry de MLflow (warehouse-rush-<nivel>), con el
+alias "recomendado" en el que sirve la web y tags con su estado, hash y URI de Hugging Face.
 Publicar NO promueve: cada nivel tiene un modelo recomendado (el que sirve la web por defecto), que se cambia
 con --recomendar solo si cumple los criterios de configs/criterios.yaml; --rollback NIVEL vuelve al anterior.
 Republicar el mismo artefacto no crea otra version.
@@ -16,6 +18,7 @@ Uso:
     ./publicar_modelo.py --recomendar <model_id>           # promueve un modelo publicado
     ./publicar_modelo.py --rollback n2                     # restaura el recomendado anterior del nivel
     ./publicar_modelo.py --rechazar <model_id> --motivo "..."   # conserva el modelo marcado como rechazado
+    ./publicar_modelo.py --sincronizar-registro            # crea/actualiza las versiones del Model Registry de MLflow
 """
 
 import argparse
@@ -103,6 +106,84 @@ def sha256_file(path):
         for chunk in iter(lambda: f.read(1 << 20), b""):
             h.update(chunk)
     return h.hexdigest()
+
+
+def registry_name(level):
+    return f"warehouse-rush-{level}"
+
+
+def _registry_url(name, version):
+    return f"{tracking.tracking_uri().rstrip('/')}/#/models/{name}/versions/{version}"
+
+
+def register_version(manifest, run=None):
+    """Crea (o reutiliza) la version del Model Registry de MLflow de un modelo publicado. Devuelve (nombre, version)."""
+    from mlflow.exceptions import MlflowException
+
+    tracking.setup()
+    client = mlflow.MlflowClient()
+    name = registry_name(manifest["level_id"])
+    try:
+        client.create_registered_model(name, description=f"Modelos Q-learning del nivel {manifest['level_id'].upper()} "
+                                                         "de Warehouse Rush (pesos en Hugging Face; ver tags).")
+    except MlflowException as error:
+        if "RESOURCE_ALREADY_EXISTS" not in str(error) and "already exists" not in str(error):
+            raise
+    for version in client.search_model_versions(f"name='{name}'"):
+        if version.tags.get("model_id") == manifest["model_id"]:
+            return name, version.version
+    run = run or find_run(manifest["run_id"])
+    version = client.create_model_version(
+        name, source=f"{run.info.artifact_uri}/modelo", run_id=run.info.run_id,
+        description=manifest.get("hipotesis") or "",
+        tags={"model_id": manifest["model_id"], "model_sha256": manifest["model_sha256"],
+              "model_uri": manifest["model_uri"], "environment_version": manifest["environment_version"],
+              "familia_modelo": manifest["familia_modelo"], "evaluation_suite_id": manifest["evaluation_suite_id"],
+              "tasa_exito": str(manifest["metricas_evaluacion"].get("tasa_exito")), "estado": "candidato"})
+    return name, version.version
+
+
+def update_registry(model_id, estado, motivo=None, alias=False):
+    """Refleja en el Model Registry el estado del catalogo (y mueve el alias "recomendado")."""
+    manifest = _manifest(model_id)
+    reg = manifest.get("mlflow_registro")
+    if not reg:
+        return
+    client = mlflow.MlflowClient()
+    client.set_model_version_tag(reg["nombre"], reg["version"], "estado", estado)
+    if motivo:
+        client.set_model_version_tag(reg["nombre"], reg["version"], "motivo", motivo[:500])
+    if alias:
+        client.set_registered_model_alias(reg["nombre"], "recomendado", reg["version"])
+
+
+def _attach_registry(model_id, name, version):
+    """Guarda la referencia al Model Registry en el manifiesto y en el catalogo."""
+    path = os.path.join(MANIFESTS, "modelos", f"{model_id}.json")
+    with open(path) as f:
+        manifest = json.load(f)
+    manifest["mlflow_registro"] = {"nombre": name, "version": str(version), "url": _registry_url(name, version)}
+    with open(path, "w") as f:
+        json.dump(manifest, f, indent=2, ensure_ascii=False)
+    catalog = load_catalog()
+    for m in catalog["modelos"]:
+        if m["model_id"] == model_id:
+            m["registro_mlflow"] = f"{name} v{version}"
+            m["registro_mlflow_url"] = _registry_url(name, version)
+    save_catalog(catalog)
+
+
+def sync_registry():
+    """Crea las versiones que falten y alinea estados y aliases con el catalogo."""
+    tracking.setup()
+    catalog = load_catalog()
+    for entry in catalog["modelos"]:
+        manifest = _manifest(entry["model_id"])
+        name, version = register_version(manifest)
+        _attach_registry(entry["model_id"], name, version)
+        update_registry(entry["model_id"], entry["estado"], entry.get("motivo"),
+                        alias=catalog["recomendados"].get(entry["level_id"]) == entry["model_id"])
+        print(f"  {entry['model_id']:40s} -> {name} v{version} ({entry['estado']})")
 
 
 def load_catalog():
@@ -236,6 +317,9 @@ def publish(run_spec, tag=None, public=False):
     with mlflow.start_run(run_id=run.info.run_id):
         mlflow.set_tags({"hf.repo": repo_id, "hf.commit": commit.oid, "model_id": model_id, "model_sha256": weights_sha,
                          **({"hf.tag": tag} if tag else {})})
+    name, version = register_version(manifest, run)
+    _attach_registry(model_id, name, version)
+    print(f"  Model Registry de MLflow: {name} v{version}")
     print(f"Publicado {model_id}\n  pesos: {manifest['model_download_url']}\n  manifiesto: manifests/modelos/{model_id}.json")
     return model_id
 
@@ -285,6 +369,10 @@ def recommend(model_id, force=False):
         elif m["model_id"] == current:
             m["estado"] = "anterior"
     save_catalog(catalog)
+    tracking.setup()
+    if current and current != model_id:
+        update_registry(current, "anterior")
+    update_registry(model_id, "recomendado", alias=True)
     print(f"Recomendado en {level}: {model_id}" + (f" (antes {current})" if current else ""))
 
 
@@ -297,6 +385,8 @@ def reject(model_id, reason):
             m["estado"] = "rechazado"
             m["motivo"] = reason
             save_catalog(catalog)
+            tracking.setup()
+            update_registry(model_id, "rechazado", reason)
             print(f"Rechazado: {model_id} ({reason})")
             return
     raise SystemExit(f"{model_id} no esta en el catalogo")
@@ -317,6 +407,9 @@ def rollback(level):
         elif m["model_id"] == current:
             m["estado"] = "revertido"
     save_catalog(catalog)
+    tracking.setup()
+    update_registry(current, "revertido")
+    update_registry(previous, "recomendado", alias=True)
     print(f"Rollback en {level}: {current} -> {previous}")
 
 
@@ -330,6 +423,7 @@ def main():
     parser.add_argument("--rollback", metavar="NIVEL", help="vuelve al recomendado anterior de un nivel (n1, n2, n3)")
     parser.add_argument("--rechazar", metavar="MODEL_ID", help="marca un modelo publicado como rechazado")
     parser.add_argument("--motivo", default="", help="motivo del rechazo (se guarda en el catalogo)")
+    parser.add_argument("--sincronizar-registro", action="store_true", help="alinear el Model Registry de MLflow")
     args = parser.parse_args()
     os.chdir(ROOT)
     if args.run:
@@ -340,7 +434,9 @@ def main():
         rollback(args.rollback)
     if args.rechazar:
         reject(args.rechazar, args.motivo)
-    if not (args.run or args.recomendar or args.rollback or args.rechazar):
+    if args.sincronizar_registro:
+        sync_registry()
+    if not (args.run or args.recomendar or args.rollback or args.rechazar or args.sincronizar_registro):
         parser.print_help()
 
 

@@ -133,6 +133,8 @@ export interface ModeloCatalogo {
   tasa_exito: number;
   estado: string;
   motivo?: string;
+  registro_mlflow?: string;
+  registro_mlflow_url?: string;
 }
 
 export interface Run {

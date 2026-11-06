@@ -9170,6 +9170,47 @@
    "tiempo_entrenamiento_s": null,
    "curvas": {},
    "mlflow_url": "https://dagshub.com/c851458/pro_final_visu2.mlflow/#/experiments/0/runs/05aba298b2084edebe64c969f57073ae"
+  },
+  {
+   "run_id": "99d7f51f699f44069f469a74251b87ee",
+   "nombre": "n2-desde-n1",
+   "estado": "fallido",
+   "inicio": 1794004932019,
+   "duracion_s": 28.6,
+   "tipo": "entrenamiento",
+   "origen": "experimentar.py",
+   "nivel": "n2",
+   "environment_version": "1.0.0",
+   "familia_modelo": "warehouse-rush-v1/obs-11x15x5x2x3x40/acciones-7",
+   "hipotesis": "Reutilizar el modelo de N1 como punto de partida acelera el aprendizaje en N2.",
+   "hipotesis_registro": "",
+   "resultado_hipotesis": "",
+   "grupo": null,
+   "brazo": null,
+   "cambios": "nivel=n2",
+   "semilla": "0",
+   "episodios": "40000",
+   "parametros": {
+    "entorno.bateria": "True",
+    "entorno.bateria_max": "100",
+    "entorno.max_pasos": "400",
+    "entorno.bloqueos": "[]",
+    "agente.alpha": "0.1",
+    "agente.gamma": "0.99",
+    "agente.epsilon_min": "0.05",
+    "agente.fraccion_exploracion": "0.7"
+   },
+   "git_commit": "6a092e7ffced03b55aa4030a10ff028e8641f349",
+   "config_sha256": "c023f25e4b58ba146eed0e7600233477df10cb77d4f6b6868801c1fc705e338b",
+   "evaluation_suite_id": "",
+   "estado_modelo": "sin checkpoint disponible",
+   "parent_run_id": null,
+   "model_id": null,
+   "error": "El modelo inicial tiene forma (11, 15, 1, 2, 3, 40, 7) y el nivel espera (11, 15, 5, 2, 3, 40, 7)",
+   "metricas": {},
+   "tiempo_entrenamiento_s": null,
+   "curvas": {},
+   "mlflow_url": "https://dagshub.com/c851458/pro_final_visu2.mlflow/#/experiments/0/runs/99d7f51f699f44069f469a74251b87ee"
   }
  ]
 }

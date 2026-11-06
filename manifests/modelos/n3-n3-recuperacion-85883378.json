@@ -166,5 +166,10 @@
   "hf_repo": "c851458/warehouse-rush-qlearning",
   "hf_commit": "4c2c0b133e2c040b1955baf8b2c3fce26e411ac2",
   "hf_tag": null,
-  "publicado": "2026-11-06T21:19:42+00:00"
+  "publicado": "2026-11-06T21:19:42+00:00",
+  "mlflow_registro": {
+    "nombre": "warehouse-rush-n3",
+    "version": "2",
+    "url": "https://dagshub.com/c851458/pro_final_visu2.mlflow/#/models/warehouse-rush-n3/versions/2"
+  }
 }
