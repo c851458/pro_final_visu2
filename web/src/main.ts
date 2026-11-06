@@ -347,7 +347,7 @@ function renderExperiments() {
       + `<td>${r.nivel.toUpperCase()}</td><td><span class="pill ${r.tipo}">${r.tipo}</span></td>`
       + `<td><span class="pill ${r.estado}">${r.estado}</span>${r.error ? `<br><span class="neg">${esc(r.error)}</span>` : ''}</td>`
       + `<td class="wrap">${esc(r.hipotesis) || '<span class="muted">sin hipótesis registrada</span>'}<br><code>${esc(r.cambios)}</code></td>`
-      + `<td>${esc(r.semilla ?? '-')}</td><td class="num">${esc(r.episodios ?? '-')}</td>`
+      + `<td>${esc(r.semilla ?? '-')}</td><td class="num">${r.tipo === 'entrenamiento' ? esc(r.episodios ?? '-') : '-'}</td>`
       + `<td class="num">${pct(m.tasa_exito)}</td><td class="num">${num(m.pasos_medios)}</td>`
       + `<td class="num">${num(m.rescates_medios, 2)}</td><td class="num">${num(m.choques_medios, 2)}</td>`
       + `<td class="num">${r.tiempo_entrenamiento_s ? `${r.tiempo_entrenamiento_s.toFixed(0)} s` : '-'}</td><td>${model}</td>`
@@ -416,7 +416,7 @@ function renderCompare() {
   drawChart($<HTMLCanvasElement>('chart-eval'), series('curva_eval.tasa_exito'));
   const metrics: [string, (r: Run) => string][] = [
     ['Nivel', (r) => r.nivel.toUpperCase()], ['Cambios', (r) => esc(r.cambios)], ['Semilla', (r) => esc(r.semilla ?? '-')],
-    ['Episodios (presupuesto)', (r) => esc(r.episodios ?? '-')], ['Suite', (r) => `<code>${esc(r.evaluation_suite_id || '-')}</code>`],
+    ['Episodios (presupuesto)', (r) => (r.tipo === 'entrenamiento' ? esc(r.episodios ?? '-') : 'sin entrenamiento')], ['Suite', (r) => `<code>${esc(r.evaluation_suite_id || '-')}</code>`],
     ['Pedidos completos', (r) => pct(r.metricas.tasa_exito)], ['Pasos medios', (r) => num(r.metricas.pasos_medios)],
     ['Pasos (exitosos)', (r) => num(r.metricas.pasos_medios_exitosos)], ['Recompensa media', (r) => num(r.metricas.recompensa_media)],
     ['Rescates / pedido', (r) => num(r.metricas.rescates_medios, 3)], ['Choques / pedido', (r) => num(r.metricas.choques_medios, 3)],

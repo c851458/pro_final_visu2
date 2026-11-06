@@ -15,7 +15,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0037,
+      "latencia_media_ms": 0.0038,
       "causa": "exito",
       "caso": 0
     },
@@ -33,7 +33,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0035,
+      "latencia_media_ms": 0.0033,
       "causa": "exito",
       "caso": 1
     },
@@ -51,7 +51,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0042,
+      "latencia_media_ms": 0.0032,
       "causa": "exito",
       "caso": 2
     },
@@ -69,7 +69,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0032,
+      "latencia_media_ms": 0.0034,
       "causa": "exito",
       "caso": 3
     },
@@ -87,7 +87,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0039,
+      "latencia_media_ms": 0.0032,
       "causa": "exito",
       "caso": 4
     },
@@ -105,7 +105,7 @@
       "cargas": 1,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0031,
+      "latencia_media_ms": 0.0048,
       "causa": "exito",
       "caso": 5
     },
@@ -123,7 +123,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0031,
+      "latencia_media_ms": 0.004,
       "causa": "exito",
       "caso": 6
     },
@@ -141,7 +141,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0034,
+      "latencia_media_ms": 0.004,
       "causa": "exito",
       "caso": 7
     },
@@ -159,7 +159,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0031,
+      "latencia_media_ms": 0.0033,
       "causa": "exito",
       "caso": 8
     },
@@ -213,7 +213,7 @@
       "cargas": 1,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0031,
+      "latencia_media_ms": 0.0033,
       "causa": "exito",
       "caso": 11
     },
@@ -231,7 +231,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0034,
+      "latencia_media_ms": 0.004,
       "causa": "exito",
       "caso": 12
     },
@@ -267,7 +267,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0031,
+      "latencia_media_ms": 0.0033,
       "causa": "exito",
       "caso": 14
     },
@@ -285,7 +285,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0031,
+      "latencia_media_ms": 0.0032,
       "causa": "exito",
       "caso": 15
     },
@@ -303,7 +303,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.003,
+      "latencia_media_ms": 0.0036,
       "causa": "exito",
       "caso": 16
     },
@@ -321,7 +321,7 @@
       "cargas": 1,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0038,
+      "latencia_media_ms": 0.0035,
       "causa": "exito",
       "caso": 17
     },
@@ -375,7 +375,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0032,
+      "latencia_media_ms": 0.0033,
       "causa": "exito",
       "caso": 20
     },
@@ -393,7 +393,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0035,
+      "latencia_media_ms": 0.0032,
       "causa": "exito",
       "caso": 21
     },
@@ -411,7 +411,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.003,
+      "latencia_media_ms": 0.0032,
       "causa": "exito",
       "caso": 22
     },
@@ -429,7 +429,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0035,
+      "latencia_media_ms": 0.0033,
       "causa": "exito",
       "caso": 23
     },
@@ -447,7 +447,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0032,
+      "latencia_media_ms": 0.0033,
       "causa": "exito",
       "caso": 24
     },
@@ -465,7 +465,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0032,
+      "latencia_media_ms": 0.0038,
       "causa": "exito",
       "caso": 25
     },
@@ -483,7 +483,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0031,
+      "latencia_media_ms": 0.0032,
       "causa": "exito",
       "caso": 26
     },
@@ -501,7 +501,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0032,
+      "latencia_media_ms": 0.0041,
       "causa": "exito",
       "caso": 27
     },
@@ -519,7 +519,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0031,
+      "latencia_media_ms": 0.0032,
       "causa": "exito",
       "caso": 28
     },
@@ -537,7 +537,7 @@
       "cargas": 1,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0032,
+      "latencia_media_ms": 0.0034,
       "causa": "exito",
       "caso": 29
     },
@@ -573,7 +573,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0031,
+      "latencia_media_ms": 0.0032,
       "causa": "exito",
       "caso": 31
     },
@@ -645,7 +645,7 @@
       "cargas": 1,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.004,
+      "latencia_media_ms": 0.0032,
       "causa": "exito",
       "caso": 35
     },
@@ -681,7 +681,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.003,
+      "latencia_media_ms": 0.0036,
       "causa": "exito",
       "caso": 37
     },
@@ -699,7 +699,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0031,
+      "latencia_media_ms": 0.0032,
       "causa": "exito",
       "caso": 38
     },
@@ -717,7 +717,7 @@
       "cargas": 1,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0034,
+      "latencia_media_ms": 0.0036,
       "causa": "exito",
       "caso": 39
     },
@@ -735,7 +735,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0035,
+      "latencia_media_ms": 0.0032,
       "causa": "exito",
       "caso": 40
     },
@@ -753,7 +753,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0035,
+      "latencia_media_ms": 0.0031,
       "causa": "exito",
       "caso": 41
     },
@@ -771,7 +771,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0035,
+      "latencia_media_ms": 0.0031,
       "causa": "exito",
       "caso": 42
     },
@@ -789,7 +789,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0032,
+      "latencia_media_ms": 0.0031,
       "causa": "exito",
       "caso": 43
     },
@@ -807,7 +807,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0033,
+      "latencia_media_ms": 0.0031,
       "causa": "exito",
       "caso": 44
     },
@@ -825,7 +825,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0032,
+      "latencia_media_ms": 0.0034,
       "causa": "exito",
       "caso": 45
     },
@@ -843,7 +843,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0033,
+      "latencia_media_ms": 0.0031,
       "causa": "exito",
       "caso": 46
     },
@@ -861,7 +861,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0032,
+      "latencia_media_ms": 0.0036,
       "causa": "exito",
       "caso": 47
     },
@@ -879,7 +879,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0031,
+      "latencia_media_ms": 0.0036,
       "causa": "exito",
       "caso": 48
     },
@@ -897,7 +897,7 @@
       "cargas": 1,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0031,
+      "latencia_media_ms": 0.0032,
       "causa": "exito",
       "caso": 49
     },
@@ -915,7 +915,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0031,
+      "latencia_media_ms": 0.0032,
       "causa": "exito",
       "caso": 50
     },
@@ -951,7 +951,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0034,
+      "latencia_media_ms": 0.0032,
       "causa": "exito",
       "caso": 52
     },
@@ -969,7 +969,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0033,
+      "latencia_media_ms": 0.0031,
       "causa": "exito",
       "caso": 53
     },
@@ -987,7 +987,7 @@
       "cargas": 1,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0032,
+      "latencia_media_ms": 0.0034,
       "causa": "exito",
       "caso": 54
     },
@@ -1005,7 +1005,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0032,
+      "latencia_media_ms": 0.0031,
       "causa": "exito",
       "caso": 55
     },
@@ -1023,7 +1023,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0031,
+      "latencia_media_ms": 0.0032,
       "causa": "exito",
       "caso": 56
     },
@@ -1059,7 +1059,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0031,
+      "latencia_media_ms": 0.0044,
       "causa": "exito",
       "caso": 58
     },
@@ -1077,7 +1077,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0031,
+      "latencia_media_ms": 0.0032,
       "causa": "exito",
       "caso": 59
     },
@@ -1095,7 +1095,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0035,
+      "latencia_media_ms": 0.0036,
       "causa": "exito",
       "caso": 60
     },
@@ -1149,7 +1149,7 @@
       "cargas": 1,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0031,
+      "latencia_media_ms": 0.0032,
       "causa": "exito",
       "caso": 63
     },
@@ -1167,7 +1167,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0031,
+      "latencia_media_ms": 0.0032,
       "causa": "exito",
       "caso": 64
     },
@@ -1185,7 +1185,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0032,
+      "latencia_media_ms": 0.0033,
       "causa": "exito",
       "caso": 65
     },
@@ -1203,7 +1203,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0042,
+      "latencia_media_ms": 0.0033,
       "causa": "exito",
       "caso": 66
     },
@@ -1239,7 +1239,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0032,
+      "latencia_media_ms": 0.0035,
       "causa": "exito",
       "caso": 68
     },
@@ -1257,7 +1257,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0031,
+      "latencia_media_ms": 0.0038,
       "causa": "exito",
       "caso": 69
     },
@@ -1275,7 +1275,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0033,
+      "latencia_media_ms": 0.0032,
       "causa": "exito",
       "caso": 70
     },
@@ -1293,7 +1293,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.003,
+      "latencia_media_ms": 0.0034,
       "causa": "exito",
       "caso": 71
     },
@@ -1329,7 +1329,7 @@
       "cargas": 1,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0037,
+      "latencia_media_ms": 0.0031,
       "causa": "exito",
       "caso": 73
     },
@@ -1347,7 +1347,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0031,
+      "latencia_media_ms": 0.0032,
       "causa": "exito",
       "caso": 74
     },
@@ -1365,7 +1365,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0031,
+      "latencia_media_ms": 0.0033,
       "causa": "exito",
       "caso": 75
     },
@@ -1383,7 +1383,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0031,
+      "latencia_media_ms": 0.0032,
       "causa": "exito",
       "caso": 76
     },
@@ -1401,7 +1401,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.003,
+      "latencia_media_ms": 0.0032,
       "causa": "exito",
       "caso": 77
     },
@@ -1419,7 +1419,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 342,
-      "latencia_media_ms": 0.0029,
+      "latencia_media_ms": 0.0031,
       "causa": "tiempo_agotado",
       "caso": 78
     },
@@ -1437,7 +1437,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0031,
+      "latencia_media_ms": 0.0034,
       "causa": "exito",
       "caso": 79
     },
@@ -1473,7 +1473,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0031,
+      "latencia_media_ms": 0.0036,
       "causa": "exito",
       "caso": 81
     },
@@ -1491,7 +1491,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.003,
+      "latencia_media_ms": 0.0032,
       "causa": "exito",
       "caso": 82
     },
@@ -1509,7 +1509,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0032,
+      "latencia_media_ms": 0.0033,
       "causa": "exito",
       "caso": 83
     },
@@ -1527,7 +1527,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0031,
+      "latencia_media_ms": 0.0032,
       "causa": "exito",
       "caso": 84
     },
@@ -1545,7 +1545,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.005,
+      "latencia_media_ms": 0.0035,
       "causa": "exito",
       "caso": 85
     },
@@ -1563,7 +1563,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0038,
+      "latencia_media_ms": 0.0033,
       "causa": "exito",
       "caso": 86
     },
@@ -1581,7 +1581,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0031,
+      "latencia_media_ms": 0.0032,
       "causa": "exito",
       "caso": 87
     },
@@ -1599,7 +1599,7 @@
       "cargas": 1,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0031,
+      "latencia_media_ms": 0.0033,
       "causa": "exito",
       "caso": 88
     },
@@ -1617,7 +1617,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0031,
+      "latencia_media_ms": 0.0038,
       "causa": "exito",
       "caso": 89
     },
@@ -1635,7 +1635,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0032,
+      "latencia_media_ms": 0.0038,
       "causa": "exito",
       "caso": 90
     },
@@ -1653,7 +1653,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0031,
+      "latencia_media_ms": 0.0032,
       "causa": "exito",
       "caso": 91
     },
@@ -1671,7 +1671,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0036,
+      "latencia_media_ms": 0.0031,
       "causa": "exito",
       "caso": 92
     },
@@ -1689,7 +1689,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0034,
+      "latencia_media_ms": 0.0035,
       "causa": "exito",
       "caso": 93
     },
@@ -1707,7 +1707,7 @@
       "cargas": 1,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0031,
+      "latencia_media_ms": 0.0032,
       "causa": "exito",
       "caso": 94
     },
@@ -1725,7 +1725,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0031,
+      "latencia_media_ms": 0.0036,
       "causa": "exito",
       "caso": 95
     },
@@ -1743,7 +1743,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0032,
+      "latencia_media_ms": 0.0035,
       "causa": "exito",
       "caso": 96
     },
@@ -1761,7 +1761,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0033,
+      "latencia_media_ms": 0.0032,
       "causa": "exito",
       "caso": 97
     },
@@ -1779,7 +1779,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.004,
+      "latencia_media_ms": 0.0032,
       "causa": "exito",
       "caso": 98
     },
@@ -1797,7 +1797,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.004,
+      "latencia_media_ms": 0.0035,
       "causa": "exito",
       "caso": 99
     },
@@ -1815,7 +1815,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0032,
+      "latencia_media_ms": 0.0035,
       "causa": "exito",
       "caso": 100
     },
@@ -1833,7 +1833,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0031,
+      "latencia_media_ms": 0.0033,
       "causa": "exito",
       "caso": 101
     },
@@ -1851,7 +1851,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0031,
+      "latencia_media_ms": 0.003,
       "causa": "exito",
       "caso": 102
     },
@@ -1869,7 +1869,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0035,
+      "latencia_media_ms": 0.0032,
       "causa": "exito",
       "caso": 103
     },
@@ -1905,7 +1905,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0032,
+      "latencia_media_ms": 0.0036,
       "causa": "exito",
       "caso": 105
     },
@@ -1923,7 +1923,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0033,
+      "latencia_media_ms": 0.0034,
       "causa": "exito",
       "caso": 106
     },
@@ -1941,7 +1941,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0067,
+      "latencia_media_ms": 0.0031,
       "causa": "exito",
       "caso": 107
     },
@@ -1959,7 +1959,7 @@
       "cargas": 1,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0036,
+      "latencia_media_ms": 0.0034,
       "causa": "exito",
       "caso": 108
     },
@@ -1977,7 +1977,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0035,
+      "latencia_media_ms": 0.0032,
       "causa": "exito",
       "caso": 109
     },
@@ -2013,7 +2013,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0033,
+      "latencia_media_ms": 0.0041,
       "causa": "exito",
       "caso": 111
     },
@@ -2031,7 +2031,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0035,
+      "latencia_media_ms": 0.0033,
       "causa": "exito",
       "caso": 112
     },
@@ -2049,7 +2049,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0031,
+      "latencia_media_ms": 0.0034,
       "causa": "exito",
       "caso": 113
     },
@@ -2085,7 +2085,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0037,
+      "latencia_media_ms": 0.0039,
       "causa": "exito",
       "caso": 115
     },
@@ -2103,7 +2103,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0032,
+      "latencia_media_ms": 0.0034,
       "causa": "exito",
       "caso": 116
     },
@@ -2139,7 +2139,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.004,
+      "latencia_media_ms": 0.0033,
       "causa": "exito",
       "caso": 118
     },
@@ -2157,7 +2157,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0031,
+      "latencia_media_ms": 0.0032,
       "causa": "exito",
       "caso": 119
     },
@@ -2175,7 +2175,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0031,
+      "latencia_media_ms": 0.0034,
       "causa": "exito",
       "caso": 120
     },
@@ -2193,7 +2193,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0033,
+      "latencia_media_ms": 0.0034,
       "causa": "exito",
       "caso": 121
     },
@@ -2229,7 +2229,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0032,
+      "latencia_media_ms": 0.0038,
       "causa": "exito",
       "caso": 123
     },
@@ -2247,7 +2247,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0031,
+      "latencia_media_ms": 0.0032,
       "causa": "exito",
       "caso": 124
     },
@@ -2265,7 +2265,7 @@
       "cargas": 1,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0032,
+      "latencia_media_ms": 0.0034,
       "causa": "exito",
       "caso": 125
     },
@@ -2301,7 +2301,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0047,
+      "latencia_media_ms": 0.0032,
       "causa": "exito",
       "caso": 127
     },
@@ -2337,7 +2337,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0034,
+      "latencia_media_ms": 0.0031,
       "causa": "exito",
       "caso": 129
     },
@@ -2355,7 +2355,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0035,
+      "latencia_media_ms": 0.0036,
       "causa": "exito",
       "caso": 130
     },
@@ -2373,7 +2373,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0032,
+      "latencia_media_ms": 0.0055,
       "causa": "exito",
       "caso": 131
     },
@@ -2391,7 +2391,7 @@
       "cargas": 1,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0033,
+      "latencia_media_ms": 0.0038,
       "causa": "exito",
       "caso": 132
     },
@@ -2409,7 +2409,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0033,
+      "latencia_media_ms": 0.0031,
       "causa": "exito",
       "caso": 133
     },
@@ -2427,7 +2427,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0034,
+      "latencia_media_ms": 0.0035,
       "causa": "exito",
       "caso": 134
     },
@@ -2445,7 +2445,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 364,
-      "latencia_media_ms": 0.0032,
+      "latencia_media_ms": 0.0031,
       "causa": "tiempo_agotado",
       "caso": 135
     },
@@ -2481,7 +2481,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0037,
+      "latencia_media_ms": 0.0032,
       "causa": "exito",
       "caso": 137
     },
@@ -2499,7 +2499,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0031,
+      "latencia_media_ms": 0.0042,
       "causa": "exito",
       "caso": 138
     },
@@ -2517,7 +2517,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0032,
+      "latencia_media_ms": 0.0051,
       "causa": "exito",
       "caso": 139
     },
@@ -2535,7 +2535,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0031,
+      "latencia_media_ms": 0.0041,
       "causa": "exito",
       "caso": 140
     },
@@ -2553,7 +2553,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0033,
+      "latencia_media_ms": 0.0039,
       "causa": "exito",
       "caso": 141
     },
@@ -2571,7 +2571,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0032,
+      "latencia_media_ms": 0.0036,
       "causa": "exito",
       "caso": 142
     },
@@ -2589,7 +2589,7 @@
       "cargas": 1,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0035,
+      "latencia_media_ms": 0.0032,
       "causa": "exito",
       "caso": 143
     },
@@ -2607,7 +2607,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0034,
+      "latencia_media_ms": 0.0032,
       "causa": "exito",
       "caso": 144
     },
@@ -2625,7 +2625,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.003,
+      "latencia_media_ms": 0.0036,
       "causa": "exito",
       "caso": 145
     },
@@ -2643,7 +2643,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0031,
+      "latencia_media_ms": 0.004,
       "causa": "exito",
       "caso": 146
     },
@@ -2661,7 +2661,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0032,
+      "latencia_media_ms": 0.0043,
       "causa": "exito",
       "caso": 147
     },
@@ -2679,7 +2679,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0031,
+      "latencia_media_ms": 0.0032,
       "causa": "exito",
       "caso": 148
     },
@@ -2697,7 +2697,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0034,
+      "latencia_media_ms": 0.0032,
       "causa": "exito",
       "caso": 149
     },
@@ -2715,7 +2715,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0032,
+      "latencia_media_ms": 0.0034,
       "causa": "exito",
       "caso": 150
     },
@@ -2751,7 +2751,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0033,
+      "latencia_media_ms": 0.0032,
       "causa": "exito",
       "caso": 152
     },
@@ -2769,7 +2769,7 @@
       "cargas": 1,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.003,
+      "latencia_media_ms": 0.0032,
       "causa": "exito",
       "caso": 153
     },
@@ -2787,7 +2787,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0032,
+      "latencia_media_ms": 0.0031,
       "causa": "exito",
       "caso": 154
     },
@@ -2805,7 +2805,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0032,
+      "latencia_media_ms": 0.0035,
       "causa": "exito",
       "caso": 155
     },
@@ -2841,7 +2841,7 @@
       "cargas": 1,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0033,
+      "latencia_media_ms": 0.0032,
       "causa": "exito",
       "caso": 157
     },
@@ -2877,7 +2877,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0037,
+      "latencia_media_ms": 0.0032,
       "causa": "exito",
       "caso": 159
     },
@@ -2895,7 +2895,7 @@
       "cargas": 1,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0031,
+      "latencia_media_ms": 0.0035,
       "causa": "exito",
       "caso": 160
     },
@@ -2913,7 +2913,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0031,
+      "latencia_media_ms": 0.0035,
       "causa": "exito",
       "caso": 161
     },
@@ -2931,7 +2931,7 @@
       "cargas": 1,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0031,
+      "latencia_media_ms": 0.0034,
       "causa": "exito",
       "caso": 162
     },
@@ -2949,7 +2949,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0031,
+      "latencia_media_ms": 0.0037,
       "causa": "exito",
       "caso": 163
     },
@@ -2967,7 +2967,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0032,
+      "latencia_media_ms": 0.0035,
       "causa": "exito",
       "caso": 164
     },
@@ -2985,7 +2985,7 @@
       "cargas": 1,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0035,
+      "latencia_media_ms": 0.004,
       "causa": "exito",
       "caso": 165
     },
@@ -3003,7 +3003,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0031,
+      "latencia_media_ms": 0.0033,
       "causa": "exito",
       "caso": 166
     },
@@ -3021,7 +3021,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0031,
+      "latencia_media_ms": 0.0032,
       "causa": "exito",
       "caso": 167
     },
@@ -3039,7 +3039,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0031,
+      "latencia_media_ms": 0.0033,
       "causa": "exito",
       "caso": 168
     },
@@ -3057,7 +3057,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0036,
+      "latencia_media_ms": 0.0039,
       "causa": "exito",
       "caso": 169
     },
@@ -3075,7 +3075,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0031,
+      "latencia_media_ms": 0.0032,
       "causa": "exito",
       "caso": 170
     },
@@ -3093,7 +3093,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0031,
+      "latencia_media_ms": 0.0035,
       "causa": "exito",
       "caso": 171
     },
@@ -3111,7 +3111,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0035,
+      "latencia_media_ms": 0.0032,
       "causa": "exito",
       "caso": 172
     },
@@ -3147,7 +3147,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0032,
+      "latencia_media_ms": 0.0035,
       "causa": "exito",
       "caso": 174
     },
@@ -3165,7 +3165,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0034,
+      "latencia_media_ms": 0.0032,
       "causa": "exito",
       "caso": 175
     },
@@ -3183,7 +3183,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0032,
+      "latencia_media_ms": 0.0035,
       "causa": "exito",
       "caso": 176
     },
@@ -3201,7 +3201,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0031,
+      "latencia_media_ms": 0.005,
       "causa": "exito",
       "caso": 177
     },
@@ -3219,7 +3219,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0033,
+      "latencia_media_ms": 0.0039,
       "causa": "exito",
       "caso": 178
     },
@@ -3237,7 +3237,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0032,
+      "latencia_media_ms": 0.0051,
       "causa": "exito",
       "caso": 179
     },
@@ -3255,7 +3255,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0032,
+      "latencia_media_ms": 0.005,
       "causa": "exito",
       "caso": 180
     },
@@ -3273,7 +3273,7 @@
       "cargas": 1,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0039,
+      "latencia_media_ms": 0.0049,
       "causa": "exito",
       "caso": 181
     },
@@ -3291,7 +3291,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.004,
+      "latencia_media_ms": 0.0065,
       "causa": "exito",
       "caso": 182
     },
@@ -3309,7 +3309,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0035,
+      "latencia_media_ms": 0.0058,
       "causa": "exito",
       "caso": 183
     },
@@ -3327,7 +3327,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0034,
+      "latencia_media_ms": 0.0033,
       "causa": "exito",
       "caso": 184
     },
@@ -3345,7 +3345,7 @@
       "cargas": 1,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0033,
+      "latencia_media_ms": 0.0043,
       "causa": "exito",
       "caso": 185
     },
@@ -3381,7 +3381,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0031,
+      "latencia_media_ms": 0.0036,
       "causa": "exito",
       "caso": 187
     },
@@ -3399,7 +3399,7 @@
       "cargas": 1,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0031,
+      "latencia_media_ms": 0.0041,
       "causa": "exito",
       "caso": 188
     },
@@ -3435,7 +3435,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0031,
+      "latencia_media_ms": 0.0035,
       "causa": "exito",
       "caso": 190
     },
@@ -3471,7 +3471,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0034,
+      "latencia_media_ms": 0.0031,
       "causa": "exito",
       "caso": 192
     },
@@ -3489,7 +3489,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0032,
+      "latencia_media_ms": 0.0038,
       "causa": "exito",
       "caso": 193
     },
@@ -3507,7 +3507,7 @@
       "cargas": 1,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0035,
+      "latencia_media_ms": 0.0032,
       "causa": "exito",
       "caso": 194
     },
@@ -3525,7 +3525,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0031,
+      "latencia_media_ms": 0.0035,
       "causa": "exito",
       "caso": 195
     },
@@ -3543,7 +3543,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0031,
+      "latencia_media_ms": 0.0038,
       "causa": "exito",
       "caso": 196
     },
@@ -3561,7 +3561,7 @@
       "cargas": 1,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0031,
+      "latencia_media_ms": 0.0042,
       "causa": "exito",
       "caso": 197
     },
@@ -3579,7 +3579,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0032,
+      "latencia_media_ms": 0.0033,
       "causa": "exito",
       "caso": 198
     },
@@ -3597,7 +3597,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0034,
+      "latencia_media_ms": 0.0036,
       "causa": "exito",
       "caso": 199
     },
@@ -3615,7 +3615,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0034,
+      "latencia_media_ms": 0.0032,
       "causa": "exito",
       "caso": 200
     },
@@ -3633,7 +3633,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0031,
+      "latencia_media_ms": 0.0032,
       "causa": "exito",
       "caso": 201
     },
@@ -3651,7 +3651,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0031,
+      "latencia_media_ms": 0.0035,
       "causa": "exito",
       "caso": 202
     },
@@ -3669,7 +3669,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0051,
+      "latencia_media_ms": 0.0031,
       "causa": "exito",
       "caso": 203
     },
@@ -3687,7 +3687,7 @@
       "cargas": 1,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0032,
+      "latencia_media_ms": 0.0036,
       "causa": "exito",
       "caso": 204
     },
@@ -3705,7 +3705,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0033,
+      "latencia_media_ms": 0.0045,
       "causa": "exito",
       "caso": 205
     },
@@ -3723,7 +3723,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0036,
+      "latencia_media_ms": 0.0038,
       "causa": "exito",
       "caso": 206
     },
@@ -3741,7 +3741,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0031,
+      "latencia_media_ms": 0.0032,
       "causa": "exito",
       "caso": 207
     },
@@ -3777,7 +3777,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0031,
+      "latencia_media_ms": 0.0037,
       "causa": "exito",
       "caso": 209
     },
@@ -3795,7 +3795,7 @@
       "cargas": 1,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0035,
+      "latencia_media_ms": 0.0031,
       "causa": "exito",
       "caso": 210
     },
@@ -3813,7 +3813,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0031,
+      "latencia_media_ms": 0.0032,
       "causa": "exito",
       "caso": 211
     },
@@ -3831,7 +3831,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0031,
+      "latencia_media_ms": 0.0035,
       "causa": "exito",
       "caso": 212
     },
@@ -3849,7 +3849,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 338,
-      "latencia_media_ms": 0.0031,
+      "latencia_media_ms": 0.0034,
       "causa": "tiempo_agotado",
       "caso": 213
     },
@@ -3867,7 +3867,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0031,
+      "latencia_media_ms": 0.0032,
       "causa": "exito",
       "caso": 214
     },
@@ -3903,7 +3903,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0033,
+      "latencia_media_ms": 0.0032,
       "causa": "exito",
       "caso": 216
     },
@@ -3939,7 +3939,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.003,
+      "latencia_media_ms": 0.0035,
       "causa": "exito",
       "caso": 218
     },
@@ -3957,7 +3957,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0031,
+      "latencia_media_ms": 0.0036,
       "causa": "exito",
       "caso": 219
     },
@@ -3975,7 +3975,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0034,
+      "latencia_media_ms": 0.0044,
       "causa": "exito",
       "caso": 220
     },
@@ -3993,7 +3993,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 362,
-      "latencia_media_ms": 0.003,
+      "latencia_media_ms": 0.0032,
       "causa": "tiempo_agotado",
       "caso": 221
     },
@@ -4011,7 +4011,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0035,
+      "latencia_media_ms": 0.0033,
       "causa": "exito",
       "caso": 222
     },
@@ -4029,7 +4029,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0032,
+      "latencia_media_ms": 0.0031,
       "causa": "exito",
       "caso": 223
     },
@@ -4065,7 +4065,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0032,
+      "latencia_media_ms": 0.0048,
       "causa": "exito",
       "caso": 225
     },
@@ -4083,7 +4083,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0031,
+      "latencia_media_ms": 0.0048,
       "causa": "exito",
       "caso": 226
     },
@@ -4101,7 +4101,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0031,
+      "latencia_media_ms": 0.004,
       "causa": "exito",
       "caso": 227
     },
@@ -4119,7 +4119,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0035,
+      "latencia_media_ms": 0.0034,
       "causa": "exito",
       "caso": 228
     },
@@ -4137,7 +4137,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0031,
+      "latencia_media_ms": 0.0032,
       "causa": "exito",
       "caso": 229
     },
@@ -4155,7 +4155,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0031,
+      "latencia_media_ms": 0.0033,
       "causa": "exito",
       "caso": 230
     },
@@ -4173,7 +4173,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0033,
+      "latencia_media_ms": 0.0032,
       "causa": "exito",
       "caso": 231
     },
@@ -4191,7 +4191,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0031,
+      "latencia_media_ms": 0.0037,
       "causa": "exito",
       "caso": 232
     },
@@ -4209,7 +4209,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0033,
+      "latencia_media_ms": 0.0032,
       "causa": "exito",
       "caso": 233
     },
@@ -4227,7 +4227,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0032,
+      "latencia_media_ms": 0.0031,
       "causa": "exito",
       "caso": 234
     },
@@ -4245,7 +4245,7 @@
       "cargas": 1,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0031,
+      "latencia_media_ms": 0.0053,
       "causa": "exito",
       "caso": 235
     },
@@ -4263,7 +4263,7 @@
       "cargas": 1,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.003,
+      "latencia_media_ms": 0.0035,
       "causa": "exito",
       "caso": 236
     },
@@ -4281,7 +4281,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0032,
+      "latencia_media_ms": 0.0036,
       "causa": "exito",
       "caso": 237
     },
@@ -4299,7 +4299,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0031,
+      "latencia_media_ms": 0.0035,
       "causa": "exito",
       "caso": 238
     },
@@ -4317,7 +4317,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0031,
+      "latencia_media_ms": 0.0032,
       "causa": "exito",
       "caso": 239
     },
@@ -4353,7 +4353,7 @@
       "cargas": 1,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0032,
+      "latencia_media_ms": 0.0031,
       "causa": "exito",
       "caso": 241
     },
@@ -4371,7 +4371,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0032,
+      "latencia_media_ms": 0.0043,
       "causa": "exito",
       "caso": 242
     },
@@ -4389,7 +4389,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0033,
+      "latencia_media_ms": 0.0056,
       "causa": "exito",
       "caso": 243
     },
@@ -4407,7 +4407,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0031,
+      "latencia_media_ms": 0.0037,
       "causa": "exito",
       "caso": 244
     },
@@ -4425,7 +4425,7 @@
       "cargas": 1,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0042,
+      "latencia_media_ms": 0.0036,
       "causa": "exito",
       "caso": 245
     },
@@ -4497,7 +4497,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0031,
+      "latencia_media_ms": 0.0033,
       "causa": "exito",
       "caso": 249
     },
@@ -4515,7 +4515,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0047,
+      "latencia_media_ms": 0.0032,
       "causa": "exito",
       "caso": 250
     },
@@ -4533,7 +4533,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0039,
+      "latencia_media_ms": 0.0037,
       "causa": "exito",
       "caso": 251
     },
@@ -4551,7 +4551,7 @@
       "cargas": 1,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0038,
+      "latencia_media_ms": 0.0034,
       "causa": "exito",
       "caso": 252
     },
@@ -4569,7 +4569,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0044,
+      "latencia_media_ms": 0.0036,
       "causa": "exito",
       "caso": 253
     },
@@ -4605,7 +4605,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0034,
+      "latencia_media_ms": 0.0035,
       "causa": "exito",
       "caso": 255
     },
@@ -4623,7 +4623,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0033,
+      "latencia_media_ms": 0.0095,
       "causa": "exito",
       "caso": 256
     },
@@ -4659,7 +4659,7 @@
       "cargas": 1,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0032,
+      "latencia_media_ms": 0.0033,
       "causa": "exito",
       "caso": 258
     },
@@ -4677,7 +4677,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0032,
+      "latencia_media_ms": 0.0033,
       "causa": "exito",
       "caso": 259
     },
@@ -4695,7 +4695,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0031,
+      "latencia_media_ms": 0.0034,
       "causa": "exito",
       "caso": 260
     },
@@ -4713,7 +4713,7 @@
       "cargas": 1,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0033,
+      "latencia_media_ms": 0.0041,
       "causa": "exito",
       "caso": 261
     },
@@ -4749,7 +4749,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0032,
+      "latencia_media_ms": 0.0034,
       "causa": "exito",
       "caso": 263
     },
@@ -4767,7 +4767,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0047,
+      "latencia_media_ms": 0.0032,
       "causa": "exito",
       "caso": 264
     },
@@ -4785,7 +4785,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0049,
+      "latencia_media_ms": 0.0032,
       "causa": "exito",
       "caso": 265
     },
@@ -4803,7 +4803,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0032,
+      "latencia_media_ms": 0.0033,
       "causa": "exito",
       "caso": 266
     },
@@ -4821,7 +4821,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0035,
+      "latencia_media_ms": 0.0038,
       "causa": "exito",
       "caso": 267
     },
@@ -4839,7 +4839,7 @@
       "cargas": 1,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0034,
+      "latencia_media_ms": 0.0033,
       "causa": "exito",
       "caso": 268
     },
@@ -4857,7 +4857,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0031,
+      "latencia_media_ms": 0.0032,
       "causa": "exito",
       "caso": 269
     },
@@ -4875,7 +4875,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0071,
+      "latencia_media_ms": 0.004,
       "causa": "exito",
       "caso": 270
     },
@@ -4893,7 +4893,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0034,
+      "latencia_media_ms": 0.0037,
       "causa": "exito",
       "caso": 271
     },
@@ -4911,7 +4911,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0031,
+      "latencia_media_ms": 0.0033,
       "causa": "exito",
       "caso": 272
     },
@@ -4929,7 +4929,7 @@
       "cargas": 1,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0034,
+      "latencia_media_ms": 0.0036,
       "causa": "exito",
       "caso": 273
     },
@@ -4947,7 +4947,7 @@
       "cargas": 1,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0031,
+      "latencia_media_ms": 0.0033,
       "causa": "exito",
       "caso": 274
     },
@@ -4965,7 +4965,7 @@
       "cargas": 1,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0033,
+      "latencia_media_ms": 0.0039,
       "causa": "exito",
       "caso": 275
     },
@@ -4983,7 +4983,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0031,
+      "latencia_media_ms": 0.0033,
       "causa": "exito",
       "caso": 276
     },
@@ -5001,7 +5001,7 @@
       "cargas": 1,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0034,
+      "latencia_media_ms": 0.0033,
       "causa": "exito",
       "caso": 277
     },
@@ -5019,7 +5019,7 @@
       "cargas": 1,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0048,
+      "latencia_media_ms": 0.0032,
       "causa": "exito",
       "caso": 278
     },
@@ -5037,7 +5037,7 @@
       "cargas": 1,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0032,
+      "latencia_media_ms": 0.0033,
       "causa": "exito",
       "caso": 279
     },
@@ -5055,7 +5055,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0032,
+      "latencia_media_ms": 0.0034,
       "causa": "exito",
       "caso": 280
     },
@@ -5091,7 +5091,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0031,
+      "latencia_media_ms": 0.0034,
       "causa": "exito",
       "caso": 282
     },
@@ -5109,7 +5109,7 @@
       "cargas": 1,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0031,
+      "latencia_media_ms": 0.0034,
       "causa": "exito",
       "caso": 283
     },
@@ -5127,7 +5127,7 @@
       "cargas": 1,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0031,
+      "latencia_media_ms": 0.0032,
       "causa": "exito",
       "caso": 284
     },
@@ -5163,7 +5163,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.003,
+      "latencia_media_ms": 0.0034,
       "causa": "exito",
       "caso": 286
     },
@@ -5181,7 +5181,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0038,
+      "latencia_media_ms": 0.0032,
       "causa": "exito",
       "caso": 287
     },
@@ -5199,7 +5199,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0031,
+      "latencia_media_ms": 0.0035,
       "causa": "exito",
       "caso": 288
     },
@@ -5217,7 +5217,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0037,
+      "latencia_media_ms": 0.0032,
       "causa": "exito",
       "caso": 289
     },
@@ -5235,7 +5235,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0032,
+      "latencia_media_ms": 0.0057,
       "causa": "exito",
       "caso": 290
     },
@@ -5253,7 +5253,7 @@
       "cargas": 1,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0049,
+      "latencia_media_ms": 0.0032,
       "causa": "exito",
       "caso": 291
     },
@@ -5271,7 +5271,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0035,
+      "latencia_media_ms": 0.0034,
       "causa": "exito",
       "caso": 292
     },
@@ -5289,7 +5289,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0034,
+      "latencia_media_ms": 0.0042,
       "causa": "exito",
       "caso": 293
     },
@@ -5307,7 +5307,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0031,
+      "latencia_media_ms": 0.0032,
       "causa": "exito",
       "caso": 294
     },
@@ -5325,7 +5325,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0031,
+      "latencia_media_ms": 0.0036,
       "causa": "exito",
       "caso": 295
     },
@@ -5343,7 +5343,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0034,
+      "latencia_media_ms": 0.0036,
       "causa": "exito",
       "caso": 296
     },
@@ -5361,7 +5361,7 @@
       "cargas": 1,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0033,
+      "latencia_media_ms": 0.0036,
       "causa": "exito",
       "caso": 297
     },
@@ -5379,7 +5379,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0032,
+      "latencia_media_ms": 0.004,
       "causa": "exito",
       "caso": 298
     },
@@ -5397,7 +5397,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0031,
+      "latencia_media_ms": 0.0032,
       "causa": "exito",
       "caso": 299
     },
@@ -5415,7 +5415,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0032,
+      "latencia_media_ms": 0.0035,
       "causa": "exito",
       "caso": 300
     },
@@ -5433,7 +5433,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0033,
+      "latencia_media_ms": 0.0032,
       "causa": "exito",
       "caso": 301
     },
@@ -5451,7 +5451,7 @@
       "cargas": 1,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0051,
+      "latencia_media_ms": 0.0032,
       "causa": "exito",
       "caso": 302
     },
@@ -5469,7 +5469,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0053,
+      "latencia_media_ms": 0.0043,
       "causa": "exito",
       "caso": 303
     },
@@ -5487,7 +5487,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0038,
+      "latencia_media_ms": 0.0032,
       "causa": "exito",
       "caso": 304
     },
@@ -5505,7 +5505,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0035,
+      "latencia_media_ms": 0.0031,
       "causa": "exito",
       "caso": 305
     },
@@ -5523,7 +5523,7 @@
       "cargas": 1,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0037,
+      "latencia_media_ms": 0.0032,
       "causa": "exito",
       "caso": 306
     },
@@ -5541,7 +5541,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0035,
+      "latencia_media_ms": 0.0032,
       "causa": "exito",
       "caso": 307
     },
@@ -5559,7 +5559,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0041,
+      "latencia_media_ms": 0.0037,
       "causa": "exito",
       "caso": 308
     },
@@ -5577,7 +5577,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0031,
+      "latencia_media_ms": 0.0034,
       "causa": "exito",
       "caso": 309
     },
@@ -5595,7 +5595,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0031,
+      "latencia_media_ms": 0.0035,
       "causa": "exito",
       "caso": 310
     },
@@ -5613,7 +5613,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0047,
+      "latencia_media_ms": 0.0035,
       "causa": "exito",
       "caso": 311
     },
@@ -5631,7 +5631,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0032,
+      "latencia_media_ms": 0.0033,
       "causa": "exito",
       "caso": 312
     },
@@ -5649,7 +5649,7 @@
       "cargas": 2,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0034,
+      "latencia_media_ms": 0.0033,
       "causa": "exito",
       "caso": 313
     },
@@ -5685,7 +5685,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0031,
+      "latencia_media_ms": 0.0032,
       "causa": "exito",
       "caso": 315
     },
@@ -5721,7 +5721,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0032,
+      "latencia_media_ms": 0.0031,
       "causa": "exito",
       "caso": 317
     },
@@ -5739,7 +5739,7 @@
       "cargas": 1,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0031,
+      "latencia_media_ms": 0.0037,
       "causa": "exito",
       "caso": 318
     },
@@ -5757,7 +5757,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0037,
+      "latencia_media_ms": 0.0033,
       "causa": "exito",
       "caso": 319
     },
@@ -5775,7 +5775,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0031,
+      "latencia_media_ms": 0.0032,
       "causa": "exito",
       "caso": 320
     },
@@ -5793,7 +5793,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0041,
+      "latencia_media_ms": 0.0034,
       "causa": "exito",
       "caso": 321
     },
@@ -5811,7 +5811,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0032,
+      "latencia_media_ms": 0.0035,
       "causa": "exito",
       "caso": 322
     },
@@ -5829,7 +5829,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0031,
+      "latencia_media_ms": 0.0032,
       "causa": "exito",
       "caso": 323
     },
@@ -5847,7 +5847,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0032,
+      "latencia_media_ms": 0.0034,
       "causa": "exito",
       "caso": 324
     },
@@ -5883,7 +5883,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0033,
+      "latencia_media_ms": 0.0032,
       "causa": "exito",
       "caso": 326
     },
@@ -5901,7 +5901,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 374,
-      "latencia_media_ms": 0.0031,
+      "latencia_media_ms": 0.0032,
       "causa": "tiempo_agotado",
       "caso": 327
     },
@@ -5919,7 +5919,7 @@
       "cargas": 1,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0031,
+      "latencia_media_ms": 0.0032,
       "causa": "exito",
       "caso": 328
     },
@@ -5937,7 +5937,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0031,
+      "latencia_media_ms": 0.0033,
       "causa": "exito",
       "caso": 329
     },
@@ -5955,7 +5955,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0032,
+      "latencia_media_ms": 0.0033,
       "causa": "exito",
       "caso": 330
     },
@@ -5973,7 +5973,7 @@
       "cargas": 1,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0031,
+      "latencia_media_ms": 0.0033,
       "causa": "exito",
       "caso": 331
     },
@@ -5991,7 +5991,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0035,
+      "latencia_media_ms": 0.0032,
       "causa": "exito",
       "caso": 332
     },
@@ -6009,7 +6009,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0042,
+      "latencia_media_ms": 0.0033,
       "causa": "exito",
       "caso": 333
     },
@@ -6045,7 +6045,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0032,
+      "latencia_media_ms": 0.0042,
       "causa": "exito",
       "caso": 335
     },
@@ -6063,7 +6063,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0031,
+      "latencia_media_ms": 0.0034,
       "causa": "exito",
       "caso": 336
     },
@@ -6081,7 +6081,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0032,
+      "latencia_media_ms": 0.0033,
       "causa": "exito",
       "caso": 337
     },
@@ -6099,7 +6099,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0035,
+      "latencia_media_ms": 0.0033,
       "causa": "exito",
       "caso": 338
     },
@@ -6117,7 +6117,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0031,
+      "latencia_media_ms": 0.0032,
       "causa": "exito",
       "caso": 339
     },
@@ -6135,7 +6135,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0031,
+      "latencia_media_ms": 0.0034,
       "causa": "exito",
       "caso": 340
     },
@@ -6153,7 +6153,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0035,
+      "latencia_media_ms": 0.0032,
       "causa": "exito",
       "caso": 341
     },
@@ -6171,7 +6171,7 @@
       "cargas": 1,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.003,
+      "latencia_media_ms": 0.0032,
       "causa": "exito",
       "caso": 342
     },
@@ -6189,7 +6189,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0031,
+      "latencia_media_ms": 0.0036,
       "causa": "exito",
       "caso": 343
     },
@@ -6207,7 +6207,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0054,
+      "latencia_media_ms": 0.0031,
       "causa": "exito",
       "caso": 344
     },
@@ -6225,7 +6225,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0035,
+      "latencia_media_ms": 0.0033,
       "causa": "exito",
       "caso": 345
     },
@@ -6261,7 +6261,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0031,
+      "latencia_media_ms": 0.0032,
       "causa": "exito",
       "caso": 347
     },
@@ -6279,7 +6279,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0031,
+      "latencia_media_ms": 0.0032,
       "causa": "exito",
       "caso": 348
     },
@@ -6297,7 +6297,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0051,
+      "latencia_media_ms": 0.0033,
       "causa": "exito",
       "caso": 349
     },
@@ -6315,7 +6315,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0035,
+      "latencia_media_ms": 0.0031,
       "causa": "exito",
       "caso": 350
     },
@@ -6333,7 +6333,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0031,
+      "latencia_media_ms": 0.0032,
       "causa": "exito",
       "caso": 351
     },
@@ -6369,7 +6369,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0031,
+      "latencia_media_ms": 0.0035,
       "causa": "exito",
       "caso": 353
     },
@@ -6387,7 +6387,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0031,
+      "latencia_media_ms": 0.0033,
       "causa": "exito",
       "caso": 354
     },
@@ -6405,7 +6405,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0041,
+      "latencia_media_ms": 0.0031,
       "causa": "exito",
       "caso": 355
     },
@@ -6423,7 +6423,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0031,
+      "latencia_media_ms": 0.0033,
       "causa": "exito",
       "caso": 356
     },
@@ -6459,7 +6459,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0031,
+      "latencia_media_ms": 0.0032,
       "causa": "exito",
       "caso": 358
     },
@@ -6477,7 +6477,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0032,
+      "latencia_media_ms": 0.0038,
       "causa": "exito",
       "caso": 359
     },
@@ -6495,7 +6495,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0031,
+      "latencia_media_ms": 0.0032,
       "causa": "exito",
       "caso": 360
     },
@@ -6531,7 +6531,7 @@
       "cargas": 1,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0032,
+      "latencia_media_ms": 0.0034,
       "causa": "exito",
       "caso": 362
     },
@@ -6549,7 +6549,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.003,
+      "latencia_media_ms": 0.0033,
       "causa": "exito",
       "caso": 363
     },
@@ -6567,7 +6567,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0032,
+      "latencia_media_ms": 0.0033,
       "causa": "exito",
       "caso": 364
     },
@@ -6585,7 +6585,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0031,
+      "latencia_media_ms": 0.0049,
       "causa": "exito",
       "caso": 365
     },
@@ -6603,7 +6603,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0031,
+      "latencia_media_ms": 0.004,
       "causa": "exito",
       "caso": 366
     },
@@ -6621,7 +6621,7 @@
       "cargas": 1,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0031,
+      "latencia_media_ms": 0.0035,
       "causa": "exito",
       "caso": 367
     },
@@ -6693,7 +6693,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0033,
+      "latencia_media_ms": 0.0032,
       "causa": "exito",
       "caso": 371
     },
@@ -6711,7 +6711,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0041,
+      "latencia_media_ms": 0.0031,
       "causa": "exito",
       "caso": 372
     },
@@ -6747,7 +6747,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0033,
+      "latencia_media_ms": 0.0031,
       "causa": "exito",
       "caso": 374
     },
@@ -6765,7 +6765,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0031,
+      "latencia_media_ms": 0.0052,
       "causa": "exito",
       "caso": 375
     },
@@ -6801,7 +6801,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0031,
+      "latencia_media_ms": 0.0035,
       "causa": "exito",
       "caso": 377
     },
@@ -6855,7 +6855,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0031,
+      "latencia_media_ms": 0.0036,
       "causa": "exito",
       "caso": 380
     },
@@ -6873,7 +6873,7 @@
       "cargas": 1,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0031,
+      "latencia_media_ms": 0.0032,
       "causa": "exito",
       "caso": 381
     },
@@ -6909,7 +6909,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0031,
+      "latencia_media_ms": 0.0033,
       "causa": "exito",
       "caso": 383
     },
@@ -6927,7 +6927,7 @@
       "cargas": 1,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0032,
+      "latencia_media_ms": 0.0033,
       "causa": "exito",
       "caso": 384
     },
@@ -6981,7 +6981,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0033,
+      "latencia_media_ms": 0.0035,
       "causa": "exito",
       "caso": 387
     },
@@ -6999,7 +6999,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0031,
+      "latencia_media_ms": 0.0032,
       "causa": "exito",
       "caso": 388
     },
@@ -7035,7 +7035,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0032,
+      "latencia_media_ms": 0.0034,
       "causa": "exito",
       "caso": 390
     },
@@ -7071,7 +7071,7 @@
       "cargas": 1,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.004,
+      "latencia_media_ms": 0.0031,
       "causa": "exito",
       "caso": 392
     },
@@ -7089,7 +7089,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0031,
+      "latencia_media_ms": 0.0032,
       "causa": "exito",
       "caso": 393
     },
@@ -7125,7 +7125,7 @@
       "cargas": 1,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0031,
+      "latencia_media_ms": 0.0032,
       "causa": "exito",
       "caso": 395
     },
@@ -7143,7 +7143,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0033,
+      "latencia_media_ms": 0.0031,
       "causa": "exito",
       "caso": 396
     },
@@ -7161,7 +7161,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0034,
+      "latencia_media_ms": 0.0033,
       "causa": "exito",
       "caso": 397
     },
@@ -7179,7 +7179,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0034,
+      "latencia_media_ms": 0.0036,
       "causa": "exito",
       "caso": 398
     },
@@ -7197,7 +7197,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0031,
+      "latencia_media_ms": 0.0032,
       "causa": "exito",
       "caso": 399
     },
@@ -7233,7 +7233,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0033,
+      "latencia_media_ms": 0.0037,
       "causa": "exito",
       "caso": 401
     },
@@ -7251,7 +7251,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0031,
+      "latencia_media_ms": 0.0032,
       "causa": "exito",
       "caso": 402
     },
@@ -7287,7 +7287,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0032,
+      "latencia_media_ms": 0.0034,
       "causa": "exito",
       "caso": 404
     },
@@ -7305,7 +7305,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0032,
+      "latencia_media_ms": 0.0031,
       "causa": "exito",
       "caso": 405
     },
@@ -7359,7 +7359,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0031,
+      "latencia_media_ms": 0.0032,
       "causa": "exito",
       "caso": 408
     },
@@ -7377,7 +7377,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0033,
+      "latencia_media_ms": 0.0032,
       "causa": "exito",
       "caso": 409
     },
@@ -7395,7 +7395,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.003,
+      "latencia_media_ms": 0.0032,
       "causa": "exito",
       "caso": 410
     },
@@ -7413,7 +7413,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0033,
+      "latencia_media_ms": 0.0032,
       "causa": "exito",
       "caso": 411
     },
@@ -7431,7 +7431,7 @@
       "cargas": 1,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0031,
+      "latencia_media_ms": 0.003,
       "causa": "exito",
       "caso": 412
     },
@@ -7467,7 +7467,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0051,
+      "latencia_media_ms": 0.0035,
       "causa": "exito",
       "caso": 414
     },
@@ -7485,7 +7485,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0031,
+      "latencia_media_ms": 0.0034,
       "causa": "exito",
       "caso": 415
     },
@@ -7503,7 +7503,7 @@
       "cargas": 1,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0031,
+      "latencia_media_ms": 0.0032,
       "causa": "exito",
       "caso": 416
     },
@@ -7521,7 +7521,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0031,
+      "latencia_media_ms": 0.0032,
       "causa": "exito",
       "caso": 417
     },
@@ -7557,7 +7557,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0032,
+      "latencia_media_ms": 0.0031,
       "causa": "exito",
       "caso": 419
     },
@@ -7575,7 +7575,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0033,
+      "latencia_media_ms": 0.0036,
       "causa": "exito",
       "caso": 420
     },
@@ -7593,7 +7593,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0031,
+      "latencia_media_ms": 0.0032,
       "causa": "exito",
       "caso": 421
     },
@@ -7611,7 +7611,7 @@
       "cargas": 1,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0033,
+      "latencia_media_ms": 0.0031,
       "causa": "exito",
       "caso": 422
     },
@@ -7647,7 +7647,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0031,
+      "latencia_media_ms": 0.0033,
       "causa": "exito",
       "caso": 424
     },
@@ -7665,7 +7665,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0032,
+      "latencia_media_ms": 0.0033,
       "causa": "exito",
       "caso": 425
     },
@@ -7719,7 +7719,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0039,
+      "latencia_media_ms": 0.0035,
       "causa": "exito",
       "caso": 428
     },
@@ -7737,7 +7737,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0046,
+      "latencia_media_ms": 0.0031,
       "causa": "exito",
       "caso": 429
     },
@@ -7755,7 +7755,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0035,
+      "latencia_media_ms": 0.003,
       "causa": "exito",
       "caso": 430
     },
@@ -7773,7 +7773,7 @@
       "cargas": 1,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0031,
+      "latencia_media_ms": 0.0033,
       "causa": "exito",
       "caso": 431
     },
@@ -7809,7 +7809,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0031,
+      "latencia_media_ms": 0.0032,
       "causa": "exito",
       "caso": 433
     },
@@ -7827,7 +7827,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0049,
+      "latencia_media_ms": 0.0031,
       "causa": "exito",
       "caso": 434
     },
@@ -7863,7 +7863,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0033,
+      "latencia_media_ms": 0.0032,
       "causa": "exito",
       "caso": 436
     },
@@ -7881,7 +7881,7 @@
       "cargas": 1,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0034,
+      "latencia_media_ms": 0.0032,
       "causa": "exito",
       "caso": 437
     },
@@ -7899,7 +7899,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0032,
+      "latencia_media_ms": 0.0031,
       "causa": "exito",
       "caso": 438
     },
@@ -7917,7 +7917,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0031,
+      "latencia_media_ms": 0.003,
       "causa": "exito",
       "caso": 439
     },
@@ -7935,7 +7935,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0032,
+      "latencia_media_ms": 0.0033,
       "causa": "exito",
       "caso": 440
     },
@@ -7971,7 +7971,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0032,
+      "latencia_media_ms": 0.0033,
       "causa": "exito",
       "caso": 442
     },
@@ -7989,7 +7989,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.003,
+      "latencia_media_ms": 0.0031,
       "causa": "exito",
       "caso": 443
     },
@@ -8025,7 +8025,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0033,
+      "latencia_media_ms": 0.0031,
       "causa": "exito",
       "caso": 445
     },
@@ -8043,7 +8043,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0034,
+      "latencia_media_ms": 0.004,
       "causa": "exito",
       "caso": 446
     },
@@ -8061,7 +8061,7 @@
       "cargas": 1,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0031,
+      "latencia_media_ms": 0.0032,
       "causa": "exito",
       "caso": 447
     },
@@ -8079,7 +8079,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0032,
+      "latencia_media_ms": 0.0033,
       "causa": "exito",
       "caso": 448
     },
@@ -8097,7 +8097,7 @@
       "cargas": 1,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0037,
+      "latencia_media_ms": 0.0032,
       "causa": "exito",
       "caso": 449
     },
@@ -8115,7 +8115,7 @@
       "cargas": 1,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0036,
+      "latencia_media_ms": 0.0035,
       "causa": "exito",
       "caso": 450
     },
@@ -8133,7 +8133,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0031,
+      "latencia_media_ms": 0.0033,
       "causa": "exito",
       "caso": 451
     },
@@ -8151,7 +8151,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0031,
+      "latencia_media_ms": 0.0032,
       "causa": "exito",
       "caso": 452
     },
@@ -8169,7 +8169,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0032,
+      "latencia_media_ms": 0.0036,
       "causa": "exito",
       "caso": 453
     },
@@ -8187,7 +8187,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0032,
+      "latencia_media_ms": 0.0035,
       "causa": "exito",
       "caso": 454
     },
@@ -8205,7 +8205,7 @@
       "cargas": 1,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0031,
+      "latencia_media_ms": 0.0034,
       "causa": "exito",
       "caso": 455
     },
@@ -8223,7 +8223,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0032,
+      "latencia_media_ms": 0.0038,
       "causa": "exito",
       "caso": 456
     },
@@ -8241,7 +8241,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0033,
+      "latencia_media_ms": 0.0031,
       "causa": "exito",
       "caso": 457
     },
@@ -8259,7 +8259,7 @@
       "cargas": 1,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0033,
+      "latencia_media_ms": 0.0031,
       "causa": "exito",
       "caso": 458
     },
@@ -8277,7 +8277,7 @@
       "cargas": 1,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0031,
+      "latencia_media_ms": 0.0038,
       "causa": "exito",
       "caso": 459
     },
@@ -8295,7 +8295,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0031,
+      "latencia_media_ms": 0.0033,
       "causa": "exito",
       "caso": 460
     },
@@ -8313,7 +8313,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0033,
+      "latencia_media_ms": 0.0037,
       "causa": "exito",
       "caso": 461
     },
@@ -8349,7 +8349,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.003,
+      "latencia_media_ms": 0.0031,
       "causa": "exito",
       "caso": 463
     },
@@ -8367,7 +8367,7 @@
       "cargas": 1,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0033,
+      "latencia_media_ms": 0.0042,
       "causa": "exito",
       "caso": 464
     },
@@ -8385,7 +8385,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0033,
+      "latencia_media_ms": 0.0031,
       "causa": "exito",
       "caso": 465
     },
@@ -8403,7 +8403,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.003,
+      "latencia_media_ms": 0.0031,
       "causa": "exito",
       "caso": 466
     },
@@ -8439,7 +8439,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.003,
+      "latencia_media_ms": 0.0032,
       "causa": "exito",
       "caso": 468
     },
@@ -8457,7 +8457,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0031,
+      "latencia_media_ms": 0.0032,
       "causa": "exito",
       "caso": 469
     },
@@ -8493,7 +8493,7 @@
       "cargas": 1,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.003,
+      "latencia_media_ms": 0.0036,
       "causa": "exito",
       "caso": 471
     },
@@ -8511,7 +8511,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0031,
+      "latencia_media_ms": 0.0033,
       "causa": "exito",
       "caso": 472
     },
@@ -8529,7 +8529,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0035,
+      "latencia_media_ms": 0.0032,
       "causa": "exito",
       "caso": 473
     },
@@ -8565,7 +8565,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0033,
+      "latencia_media_ms": 0.0037,
       "causa": "exito",
       "caso": 475
     },
@@ -8583,7 +8583,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0032,
+      "latencia_media_ms": 0.0033,
       "causa": "exito",
       "caso": 476
     },
@@ -8601,7 +8601,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0031,
+      "latencia_media_ms": 0.0034,
       "causa": "exito",
       "caso": 477
     },
@@ -8619,7 +8619,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0035,
+      "latencia_media_ms": 0.0032,
       "causa": "exito",
       "caso": 478
     },
@@ -8637,7 +8637,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0031,
+      "latencia_media_ms": 0.0032,
       "causa": "exito",
       "caso": 479
     },
@@ -8655,7 +8655,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0032,
+      "latencia_media_ms": 0.0035,
       "causa": "exito",
       "caso": 480
     },
@@ -8673,7 +8673,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0033,
+      "latencia_media_ms": 0.0032,
       "causa": "exito",
       "caso": 481
     },
@@ -8691,7 +8691,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0031,
+      "latencia_media_ms": 0.0035,
       "causa": "exito",
       "caso": 482
     },
@@ -8709,7 +8709,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0032,
+      "latencia_media_ms": 0.0031,
       "causa": "exito",
       "caso": 483
     },
@@ -8727,7 +8727,7 @@
       "cargas": 1,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0038,
+      "latencia_media_ms": 0.0032,
       "causa": "exito",
       "caso": 484
     },
@@ -8745,7 +8745,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0031,
+      "latencia_media_ms": 0.0033,
       "causa": "exito",
       "caso": 485
     },
@@ -8763,7 +8763,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0033,
+      "latencia_media_ms": 0.0031,
       "causa": "exito",
       "caso": 486
     },
@@ -8781,7 +8781,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.003,
+      "latencia_media_ms": 0.0031,
       "causa": "exito",
       "caso": 487
     },
@@ -8799,7 +8799,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0032,
+      "latencia_media_ms": 0.0034,
       "causa": "exito",
       "caso": 488
     },
@@ -8835,7 +8835,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0031,
+      "latencia_media_ms": 0.0033,
       "causa": "exito",
       "caso": 490
     },
@@ -8853,7 +8853,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0031,
+      "latencia_media_ms": 0.0037,
       "causa": "exito",
       "caso": 491
     },
@@ -8871,7 +8871,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0037,
+      "latencia_media_ms": 0.0031,
       "causa": "exito",
       "caso": 492
     },
@@ -8889,7 +8889,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0031,
+      "latencia_media_ms": 0.0033,
       "causa": "exito",
       "caso": 493
     },
@@ -8943,7 +8943,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0052,
+      "latencia_media_ms": 0.0032,
       "causa": "exito",
       "caso": 496
     },
@@ -8961,7 +8961,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0057,
+      "latencia_media_ms": 0.0034,
       "causa": "exito",
       "caso": 497
     },
@@ -8979,7 +8979,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 0,
-      "latencia_media_ms": 0.0031,
+      "latencia_media_ms": 0.0033,
       "causa": "exito",
       "caso": 498
     },
@@ -8997,7 +8997,7 @@
       "cargas": 0,
       "zona_equivocada": 0,
       "acciones_invalidas": 354,
-      "latencia_media_ms": 0.0032,
+      "latencia_media_ms": 0.0033,
       "causa": "tiempo_agotado",
       "caso": 499
     }

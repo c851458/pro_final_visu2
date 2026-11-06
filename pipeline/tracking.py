@@ -78,6 +78,21 @@ def git(*args):
         return ""
 
 
+# Archivos que el propio pipeline reescribe al ejecutarse: no cuentan como cambios de codigo.
+PIPELINE_OUTPUTS = ("dvc.lock", "metrics/", "manifests/", "data/", "models/")
+
+
+def uncommitted_code_changes():
+    """Archivos versionados con cambios sin commit, sin contar las salidas del pipeline."""
+    try:
+        out = subprocess.check_output(["git", "status", "--porcelain", "--untracked-files=no"], cwd=ROOT, text=True,
+                                      stderr=subprocess.DEVNULL)
+    except (OSError, subprocess.CalledProcessError):
+        return []
+    files = [line[3:] for line in out.splitlines() if len(line) > 3]
+    return [f for f in files if not f.startswith(PIPELINE_OUTPUTS)]
+
+
 def dataset_hashes(level):
     """Hash md5 de cada archivo del dataset del nivel segun dvc.lock (identifica la version de los datos)."""
     try:
@@ -106,7 +121,8 @@ def start_run(name, cfg, origin, extra_tags=None):
         "seed": str(cfg["entrenamiento"]["semilla"]),
         "git.commit": git("rev-parse", "HEAD"),
         "git.rama": git("rev-parse", "--abbrev-ref", "HEAD"),
-        "git.cambios_sin_commit": str(bool(git("status", "--porcelain", "--untracked-files=no"))),
+        "git.cambios_sin_commit": str(bool(changes := uncommitted_code_changes())),
+        "git.archivos_modificados": ", ".join(changes)[:500],
         **dataset_hashes(cfg["nivel"]),
         **(extra_tags or {}),
     })

@@ -119,7 +119,7 @@ stages:
       size: 3413
     - path: metrics/mlflow_run.json
       hash: md5
-      md5: b910d32bffb01d8a8e718c3bdd86a857
+      md5: 1377a2a515712c741a836c2d2eed0c82
       size: 67
     - path: models/q_table.npy
       hash: md5
@@ -134,7 +134,7 @@ stages:
       size: 162661
     - path: metrics/mlflow_run.json
       hash: md5
-      md5: b910d32bffb01d8a8e718c3bdd86a857
+      md5: 1377a2a515712c741a836c2d2eed0c82
       size: 67
     - path: models/q_table.npy
       hash: md5
@@ -195,12 +195,12 @@ stages:
       size: 1500928
     - path: metrics/evaluacion.json
       hash: md5
-      md5: 2180410604a878faf817bdb531ac5927
-      size: 430
+      md5: afd7154463bb42c8b66780643169f00a
+      size: 442
     - path: metrics/evaluacion_por_caso.json
       hash: md5
-      md5: 86cc70c7d5aca6b3086d05daa13faf58
-      size: 193530
+      md5: 6d746c48e10f169a36a460a8bd30a8e5
+      size: 193542
   generar_datos@n1:
     cmd: python pipeline/generar_datos.py n1
     deps:

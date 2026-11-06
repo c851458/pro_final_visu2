@@ -153,5 +153,14 @@
   "hf_repo": "c851458/warehouse-rush-qlearning",
   "hf_commit": "cb55367044897640a729885411a55fa9e09e112b",
   "hf_tag": "v1.1",
-  "publicado": "2026-11-06T21:11:20+00:00"
+  "publicado": "2026-11-06T21:11:20+00:00",
+  "reproducido_por": [
+    {
+      "run_id": "eabe9593411b4debaf6d7584fca4cc40",
+      "run_name": "pipeline-n2",
+      "git_commit": "bdde9bfd19f343096833bf0fe4d364541ad1417b",
+      "git_cambios_sin_commit": true,
+      "mlflow_run_url": "https://dagshub.com/c851458/pro_final_visu2.mlflow/#/experiments/0/runs/eabe9593411b4debaf6d7584fca4cc40"
+    }
+  ]
 }
