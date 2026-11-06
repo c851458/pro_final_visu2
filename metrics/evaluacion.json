@@ -9,7 +9,7 @@
   "cargas_medias": 0.174,
   "choques_medios": 0.014,
   "acciones_invalidas_medias": 4.98,
-  "latencia_media_ms": 0.0034308000000000003,
+  "latencia_media_ms": 0.008351,
   "pedidos_evaluados": 500,
   "fallos_por_causa": {
     "tiempo_agotado": 7

@@ -5,8 +5,8 @@ frágiles), entregarlos en la zona de su color y cargar su batería a tiempo. El
 visualización 3D, experimentos, modelos, pipeline y despliegue.
 
 - **Ficha del ambiente y niveles N1/N2/N3:** [`docs/ficha_ambiente.md`](docs/ficha_ambiente.md)
-- **Web (Vercel):** `<URL del despliegue>`
-- **Experimentos (MLflow en DagsHub):** `<URL de DagsHub>.mlflow`
+- **Web (Vercel):** https://profinalvisu2.vercel.app
+- **Experimentos (MLflow en DagsHub):** https://dagshub.com/c851458/pro_final_visu2.mlflow · datos DVC: https://dagshub.com/c851458/pro_final_visu2
 - **Modelos (Hugging Face):** [`c851458/warehouse-rush-qlearning`](https://huggingface.co/c851458/warehouse-rush-qlearning)
 
 ## Arquitectura

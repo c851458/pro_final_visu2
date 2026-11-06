@@ -64,8 +64,8 @@ stages:
       size: 1825
     - path: pipeline/tracking.py
       hash: md5
-      md5: c9871ecf9fa06e3bdf08e5f2280cda75
-      size: 4634
+      md5: 041eaa5148fd65ecb986ce6713327388
+      size: 5380
     - path: warehouse_rush/agent.py
       hash: md5
       md5: 67279349ca5c18cae0d15c7943bcfd84
@@ -119,7 +119,7 @@ stages:
       size: 3413
     - path: metrics/mlflow_run.json
       hash: md5
-      md5: 1377a2a515712c741a836c2d2eed0c82
+      md5: 9d2f210d20ad3f45e576931d1c53de9a
       size: 67
     - path: models/q_table.npy
       hash: md5
@@ -134,7 +134,7 @@ stages:
       size: 162661
     - path: metrics/mlflow_run.json
       hash: md5
-      md5: 1377a2a515712c741a836c2d2eed0c82
+      md5: 9d2f210d20ad3f45e576931d1c53de9a
       size: 67
     - path: models/q_table.npy
       hash: md5
@@ -150,8 +150,8 @@ stages:
       size: 1633
     - path: pipeline/tracking.py
       hash: md5
-      md5: c9871ecf9fa06e3bdf08e5f2280cda75
-      size: 4634
+      md5: 041eaa5148fd65ecb986ce6713327388
+      size: 5380
     - path: warehouse_rush/env_v1.py
       hash: md5
       md5: c5f57ac34da206023aebb57b7ef38022
@@ -195,12 +195,12 @@ stages:
       size: 1500928
     - path: metrics/evaluacion.json
       hash: md5
-      md5: afd7154463bb42c8b66780643169f00a
-      size: 442
+      md5: de55f628e43072e9570ec461645301e9
+      size: 429
     - path: metrics/evaluacion_por_caso.json
       hash: md5
-      md5: 6d746c48e10f169a36a460a8bd30a8e5
-      size: 193542
+      md5: eafebcaadb418c9daead7f5dbb63b628
+      size: 193512
   generar_datos@n1:
     cmd: python pipeline/generar_datos.py n1
     deps:

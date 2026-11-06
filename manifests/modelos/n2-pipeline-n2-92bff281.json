@@ -161,6 +161,13 @@
       "git_commit": "bdde9bfd19f343096833bf0fe4d364541ad1417b",
       "git_cambios_sin_commit": true,
       "mlflow_run_url": "https://dagshub.com/c851458/pro_final_visu2.mlflow/#/experiments/0/runs/eabe9593411b4debaf6d7584fca4cc40"
+    },
+    {
+      "run_id": "b6d2d957946c48b8b3bdad5dcd0f3a03",
+      "run_name": "pipeline-n2",
+      "git_commit": "b65389c6ebb1969c59127484a2507e95553008f4",
+      "git_cambios_sin_commit": false,
+      "mlflow_run_url": "https://dagshub.com/c851458/pro_final_visu2.mlflow/#/experiments/0/runs/b6d2d957946c48b8b3bdad5dcd0f3a03"
     }
   ]
 }
