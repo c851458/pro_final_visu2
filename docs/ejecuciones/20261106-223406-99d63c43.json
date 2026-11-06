@@ -46,8 +46,18 @@
       "motivo": "cumple los criterios",
       "recomendado": "n3-contraste-n3-A-s2-061c6801",
       "anterior": null
+    },
+    "7-catalogo": {
+      "commit": "3c80f99eb1263bb999ecb6bf7b5487dc896788ea",
+      "nota": "push de experimento1 a main"
+    },
+    "8-verificar": {
+      "commit_servido": "3c80f99eb1263bb999ecb6bf7b5487dc896788ea",
+      "modelo_servido": "n3-contraste-n3-A-s2-061c6801",
+      "exito_20_casos": 1.0,
+      "latencia_media_ms": 0.004495000000000001
     }
   },
-  "estado": "verificando",
-  "fin": "2026-11-06T22:34:41.530184+00:00"
+  "estado": "completado",
+  "fin": "2026-11-06T22:35:45.937601+00:00"
 }
