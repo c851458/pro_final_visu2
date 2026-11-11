@@ -126,7 +126,7 @@ def recommended():
 
 
 def environment_info(cfg, family, suite_id):
-    return {"nivel": cfg["nivel"], "nombre": cfg["nombre"], "environment_version": niveles.env_version(),
+    return {"nivel": cfg["nivel"], "nombre": cfg["nombre"], "environment_version": cfg["version_ambiente"],
             "familia_modelo": family, "evaluation_suite_id": suite_id}
 
 
@@ -134,7 +134,7 @@ def environment_info(cfg, family, suite_id):
 
 @app.get("/api/salud")
 def health():
-    return {"estado": "ok", "api_version": API_VERSION, "environment_version": niveles.env_version(),
+    return {"estado": "ok", "api_version": API_VERSION, "environment_versions": niveles.env_versions(),
             "git_commit": os.environ.get("VERCEL_GIT_COMMIT_SHA", "local"),
             "despliegue": os.environ.get("VERCEL_URL", "local"), "modelos_recomendados": recommended()}
 

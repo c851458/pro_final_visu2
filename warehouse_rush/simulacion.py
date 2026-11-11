@@ -63,6 +63,11 @@ def run_episode(env, policy, order, seed=0, record=True, trajectory=None):
         "acciones_invalidas": sum(events.count(e) for e in ("pick_fail", "drop_fail", "charge_fail", "wrong_zone")),
         "latencia_media_ms": round(float(np.mean(latencies)), 4),
     }
+    if hasattr(base, "sla_summary"):  # ambiente v2: KPIs de negocio (SLA y libro contable en COP)
+        sla = base.sla_summary()
+        result.update(a_tiempo=sla["a_tiempo"], tarde=sla["tarde"], express=sla["express"],
+                      express_a_tiempo=sla["express_a_tiempo"], pedido_a_tiempo=sla["pedido_a_tiempo"],
+                      libro={k: round(v) for k, v in base.ledger.items()})
     result["causa"] = failure_cause(result)
     return result, frames
 
@@ -90,6 +95,17 @@ def summarize(per_case, latencies_ms=None):
         "pedidos_evaluados": len(per_case),
         "fallos_por_causa": causes,
     }
+    if "pedido_a_tiempo" in per_case[0]:
+        packages = sum(c["paquetes"] for c in per_case)
+        express = sum(c["express"] for c in per_case)
+        metrics.update({
+            "otif": mean("pedido_a_tiempo"),  # orden completa y todos sus paquetes a tiempo
+            "cumplimiento_sla": sum(c["a_tiempo"] for c in per_case) / packages,
+            "cumplimiento_express": sum(c["express_a_tiempo"] for c in per_case) / express if express else 1.0,
+            "entregas_tarde_medias": mean("tarde"),
+            "utilidad_media_cop": mean("recompensa"),
+            **{f"{k}_medio_cop": float(np.mean([c["libro"][k] for c in per_case])) for k in per_case[0]["libro"]},
+        })
     if latencies_ms:
         metrics["latencia_p95_ms"] = float(np.percentile(latencies_ms, 95))
     return metrics

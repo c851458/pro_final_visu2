@@ -2,7 +2,7 @@
 # El ambiente y el dataset de cada nivel estan en configs/niveles.yaml.
 # Para un experimento registrado en MLflow: ./experimentar.py -e nombre agente.alpha=0.2
 
-nivel: n2
+nivel: v2-n2  # nivel oficial: ambiente v2.0.0 (negocio, COP y SLA)
 
 agente:
   alpha: 0.1

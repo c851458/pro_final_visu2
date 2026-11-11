@@ -87,8 +87,8 @@ function bolt(ctx: CanvasRenderingContext2D, cx: number, cy: number, s: number) 
 }
 
 const pkgTexCache = new Map<string, THREE.Texture>();
-function packageTexture(type: number, zone: number, zoneNames: string[]) {
-  const key = `${type}-${zone}`;
+function packageTexture(type: number, zone: number, zoneNames: string[], express = false) {
+  const key = `${type}-${zone}-${express}`;
   const cached = pkgTexCache.get(key);
   if (cached) return cached;
   const tex = canvasTexture(256, 256, (ctx, w, h) => {
@@ -138,6 +138,13 @@ function packageTexture(type: number, zone: number, zoneNames: string[]) {
     ctx.fillStyle = '#fff';
     ctx.font = 'bold 50px system-ui, sans-serif';
     ctx.fillText(zoneNames[zone], w - 58, 61);
+    if (express) {
+      ctx.fillStyle = '#d42f2f';
+      ctx.fillRect(0, 0, 130, 44);
+      ctx.fillStyle = '#fff';
+      ctx.font = 'bold 30px system-ui, sans-serif';
+      ctx.fillText('EXPRESS', 65, 24);
+    }
   });
   pkgTexCache.set(key, tex);
   return tex;
@@ -241,6 +248,10 @@ export class Escena {
   stepMs = 200;
   onFotograma: (f: Fotograma) => void = () => {};
   onFinFotograma: (f: Fotograma) => void = () => {};
+  /** Formato de la recompensa en los avisos flotantes (puntos en v1, pesos colombianos en v2). */
+  formatReward: (x: number) => string = (x) => (x >= 0 ? '+' : '') + x.toFixed(1);
+  /** Recompensas menores o iguales a este valor se muestran como aviso negativo. */
+  alertThreshold = -1;
 
   private renderer: THREE.WebGLRenderer;
   private scene = new THREE.Scene();
@@ -656,7 +667,7 @@ export class Escena {
     this.pkgs = order.map((data) => {
       const size = PKG_SIZES[data.type];
       const mesh = shadowed(new THREE.Mesh(new RoundedBoxGeometry(size, size, size, 2, 0.03),
-        new THREE.MeshStandardMaterial({ map: packageTexture(data.type, data.zone, this.zoneNames),
+        new THREE.MeshStandardMaterial({ map: packageTexture(data.type, data.zone, this.zoneNames, data.service === 1),
           roughness: data.type === HEAVY ? 0.35 : 0.55, metalness: data.type === HEAVY ? 0.6 : 0,
           emissive: 0xffb300, emissiveIntensity: 0 })));
       this.scene.add(mesh);
@@ -834,7 +845,7 @@ export class Escena {
     switch (f.event) {
       case 'pick':
         if (a.pkg) a.pkg.mode = 'carried';
-        this.popup(`+5 ${TYPE_LABELS[a.pkg?.data.type ?? 0].toLowerCase()} recogido`, 'gold', head);
+        this.popup(`${this.formatReward(f.reward)} ${TYPE_LABELS[a.pkg?.data.type ?? 0].toLowerCase()} recogido`, 'gold', head);
         break;
       case 'drop':
         if (a.pkg) {
@@ -842,32 +853,33 @@ export class Escena {
           a.pkg.mesh.position.copy(a.pkg.rest);
         }
         if (f.success) {
-          this.popup('+35 ¡pedido completo!', 'pos', head);
+          this.popup(`${this.formatReward(f.reward)} ¡pedido completo!`, 'pos', head);
           this.burst(this.cellPos(f.pos[0], f.pos[1], 0.6), [0x3dff8b, 0xffc531, 0xffffff, 0x2fa8ff, 0xff5a8a], 90, 3.4, 1.8);
         } else {
-          this.popup('+15 entregado', 'pos', head);
+          const late = f.order[f.current - 1]?.late;
+          this.popup(`${this.formatReward(f.reward)} ${late ? 'entregado TARDE' : 'entregado'}`, late ? 'neg' : 'pos', head);
           this.burst(this.cellPos(f.pos[0], f.pos[1], 0.6), [ZONE_COLORS[a.pkg?.data.zone ?? 0], 0xffffff], 30, 2.4, 1.2);
         }
         break;
       case 'break':
         if (a.dir) this.burst(this.cellPos(f.pos[0], f.pos[1], 0.45).addScaledVector(a.dir, 0.5), [0xffffff, 0xe8e2d4, 0xd42f2f], 40, 2.2, 1.2);
-        this.popup(`${f.reward.toFixed(1)} ¡se rompió!`, 'neg', head);
+        this.popup(`${this.formatReward(f.reward)} ¡se rompió!`, 'neg', head);
         break;
       case 'bump':
         if (a.dir) this.burst(this.cellPos(f.pos[0], f.pos[1], 0.35).addScaledVector(a.dir, 0.5), [0xffb02e, 0xff6a00, 0xfff1a0], 14, 1.6, 0.5);
-        this.popup(f.reward.toFixed(1), 'neg', head);
+        this.popup(this.formatReward(f.reward), 'neg', head);
         break;
       case 'charge':
         this.popup('⚡ batería llena', 'gold', head);
         break;
       case 'rescue':
-        this.popup(`${f.reward.toFixed(1)} rescate: sin batería`, 'neg', head);
+        this.popup(`${this.formatReward(f.reward)} rescate: sin batería`, 'neg', head);
         break;
       case 'wrong_zone':
-        this.popup(`${f.reward.toFixed(1)} zona equivocada`, 'neg', head);
+        this.popup(`${this.formatReward(f.reward)} zona equivocada`, 'neg', head);
         break;
       default:
-        if (f.reward <= -1) this.popup(f.reward.toFixed(1), 'neg', head);
+        if (f.reward <= this.alertThreshold) this.popup(this.formatReward(f.reward), 'neg', head);
     }
     // por si en un mismo paso ocurrieron dos cosas (p. ej. se rompio un fragil y se agoto la bateria)
     this.pkgs.forEach((p, i) => {

@@ -13,8 +13,9 @@ import gymnasium as gym
 import numpy as np
 import yaml
 
-import warehouse_rush  # noqa: F401  (registra WarehouseRush-v1)
+import warehouse_rush  # noqa: F401  (registra WarehouseRush-v1 y -v2)
 from warehouse_rush.env_v1 import random_order
+from warehouse_rush.env_v2 import random_order_v2
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 CONFIG_PATH = os.path.join(ROOT, "configs", "niveles.yaml")
@@ -26,8 +27,16 @@ def load_config(path=CONFIG_PATH):
         return yaml.safe_load(f)
 
 
-def env_version():
-    return load_config()["version_ambiente"]
+def env_version(level_id=None):
+    """Version del ambiente de un nivel (por defecto, la de los niveles v1)."""
+    if level_id is None:
+        return load_config()["version_ambiente"]
+    return resolve(level_id)["version_ambiente"]
+
+
+def env_versions():
+    """Version de ambiente de cada nivel: {nivel: version}."""
+    return {lv: resolve(lv)["version_ambiente"] for lv in level_ids()}
 
 
 def level_ids():
@@ -39,22 +48,27 @@ def resolve(level_id):
     levels = load_config()["niveles"]
     if level_id not in levels:
         raise KeyError(f"Nivel desconocido: {level_id} (disponibles: {', '.join(levels)})")
-    return dict(copy.deepcopy(levels[level_id]), nivel=level_id)
+    cfg = dict(copy.deepcopy(levels[level_id]), nivel=level_id)
+    cfg.setdefault("ambiente", "WarehouseRush-v1")
+    cfg.setdefault("version_ambiente", load_config()["version_ambiente"])
+    return cfg
 
 
 def make_env(cfg):
     """Ambiente de un nivel resuelto (o de cualquier config con las secciones entorno y datos)."""
     e, d = cfg["entorno"], cfg["datos"]
-    return gym.make("WarehouseRush-v1", n_packages=d["paquetes_por_pedido"], use_battery=e["bateria"],
+    env_id = cfg.get("ambiente", "WarehouseRush-v1")
+    extra = {"express_prob": d.get("prob_express", 0.0)} if env_id == "WarehouseRush-v2" else {}
+    return gym.make(env_id, n_packages=d["paquetes_por_pedido"], use_battery=e["bateria"],
                     battery_max=e["bateria_max"], max_steps=e["max_pasos"],
-                    blocked_cells=[tuple(c) for c in e.get("bloqueos", [])])
+                    blocked_cells=[tuple(c) for c in e.get("bloqueos", [])], **extra)
 
 
 def family(env):
     """Identificador de la familia de modelos compatibles: dimensiones de observacion y acciones."""
     base = env.unwrapped
     dims = "x".join(str(int(n)) for n in base.observation_space.nvec)
-    return f"warehouse-rush-v1/obs-{dims}/acciones-{base.action_space.n}"
+    return f"{base.FAMILY_PREFIX}/obs-{dims}/acciones-{base.action_space.n}"
 
 
 def sha256_json(data):
@@ -62,7 +76,14 @@ def sha256_json(data):
 
 
 def _order_key(order):
-    return tuple((p["shelf"], p["zone"], p["type"]) for p in order["paquetes"]) + (order["bateria_inicial"],)
+    return tuple((p["shelf"], p["zone"], p["type"], p.get("service")) for p in order["paquetes"]) + (order["bateria_inicial"],)
+
+
+def _order_fn(datos):
+    """Generador de pedidos: v2 agrega el servicio (Estandar/Express) si el nivel define prob_express."""
+    if "prob_express" in datos:
+        return lambda rng, n, shelves, probs: random_order_v2(rng, n, shelves, probs, datos["prob_express"])
+    return random_order
 
 
 def generate_orders(datos, shelves, evaluation_only=False):
@@ -75,10 +96,12 @@ def generate_orders(datos, shelves, evaluation_only=False):
     if abs(sum(probs) - 1) > 1e-9:
         raise ValueError("prob_tipos debe sumar 1")
 
+    make_order = _order_fn(datos)
+
     def generate(n, seen):
         orders = []
         while len(orders) < n:
-            order = random_order(rng, datos["paquetes_por_pedido"], shelves, probs)
+            order = make_order(rng, datos["paquetes_por_pedido"], shelves, probs)
             if _order_key(order) not in seen:
                 seen.add(_order_key(order))
                 orders.append(order)
@@ -106,9 +129,10 @@ def reserved_suite(cfg, seed, n_cases):
     seen = {_order_key(o) for o in training + evaluation}
     rng = np.random.default_rng(seed)
     probs = [cfg["datos"]["prob_tipos"][name] for name in TYPE_ORDER]
+    make_order = _order_fn(cfg["datos"])
     cases = []
     while len(cases) < n_cases:
-        order = random_order(rng, cfg["datos"]["paquetes_por_pedido"], shelves, probs)
+        order = make_order(rng, cfg["datos"]["paquetes_por_pedido"], shelves, probs)
         if _order_key(order) not in seen:
             seen.add(_order_key(order))
             cases.append(order)

@@ -5,6 +5,10 @@ frágiles), entregarlos en la zona de su color y cargar su batería a tiempo. El
 visualización 3D, experimentos, modelos, pipeline y despliegue.
 
 - **Ficha del ambiente y niveles N1/N2/N3:** [`docs/ficha_ambiente.md`](docs/ficha_ambiente.md)
+- **Contexto de negocio (ambiente v2.0.0):** centro de distribución de paquetería con recompensa en **pesos
+  colombianos** (utilidad de la operación) y servicio **Express / Estándar** con plazo (SLA). Niveles `v2-n1`,
+  `v2-n2` (oficial) y `v2-n3`; los niveles v1 se conservan para los modelos históricos. Modelo de costos y fuentes
+  en la [ficha del ambiente](docs/ficha_ambiente.md#versión-200--contexto-de-negocio-warehouserush-v2-niveles-v2-n1-v2-n2-v2-n3).
 - **Web (Vercel):** https://profinalvisu2.vercel.app
 - **Experimentos (MLflow en DagsHub):** https://dagshub.com/c851458/pro_final_visu2.mlflow · datos DVC: https://dagshub.com/c851458/pro_final_visu2
 - **Modelos (Hugging Face):** [`c851458/warehouse-rush-qlearning`](https://huggingface.co/c851458/warehouse-rush-qlearning)

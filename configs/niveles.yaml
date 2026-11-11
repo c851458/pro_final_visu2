@@ -53,3 +53,68 @@ niveles:
       pedidos_evaluacion: 500
       paquetes_por_pedido: 3
       prob_tipos: {normal: 0.5, pesado: 0.25, fragil: 0.25}
+
+  # ---------------------------------------------------------------- ambiente v2.0.0 (negocio)
+  # Centro de distribucion de paqueteria: recompensa en pesos colombianos (utilidad de la operacion) y
+  # servicio Express/Estandar con plazo (SLA). Mismos mapas que N1-N3; nueva familia de modelos.
+
+  v2-n1:
+    nombre: "N1 · Misión base (negocio)"
+    ambiente: WarehouseRush-v2
+    version_ambiente: "2.0.0"
+    decision: >-
+      Despachar un paquete al muelle de su ruta. 30% son Express (tarifa de $24.000, plazo de 40 pasos);
+      el resto Estándar ($11.000, plazo de 100 pasos). Sin batería ni obstáculos.
+    entorno:
+      bateria: false
+      bateria_max: 100
+      max_pasos: 200
+      bloqueos: []
+    datos:
+      semilla: 107
+      pedidos_entrenamiento: 5000
+      pedidos_evaluacion: 200
+      paquetes_por_pedido: 1
+      prob_tipos: {normal: 1.0, pesado: 0.0, fragil: 0.0}
+      prob_express: 0.3
+
+  v2-n2:
+    nombre: "N2 · Más decisiones (negocio)"
+    ambiente: WarehouseRush-v2
+    version_ambiente: "2.0.0"
+    decision: >-
+      Órdenes de 3 paquetes con servicio Express o Estándar: cumplir el plazo de los Express ($13.000 de
+      compensación si llegan tarde), no romper frágiles ($60.000 de indemnización) y decidir cuándo cargar la
+      batería (cada rescate cuesta $8.000 de un técnico).
+    entorno:
+      bateria: true
+      bateria_max: 100
+      max_pasos: 400
+      bloqueos: []
+    datos:
+      semilla: 142
+      pedidos_entrenamiento: 20000
+      pedidos_evaluacion: 500
+      paquetes_por_pedido: 3
+      prob_tipos: {normal: 0.5, pesado: 0.25, fragil: 0.25}
+      prob_express: 0.3
+
+  v2-n3:
+    nombre: "N3 · Operación exigente (negocio)"
+    ambiente: WarehouseRush-v2
+    version_ambiente: "2.0.0"
+    decision: >-
+      Incidente en el centro de distribución: el corredor inferior está bloqueado en (7,4) y (7,7). Las rutas
+      alternativas son más largas y ponen en riesgo el plazo de los Express.
+    entorno:
+      bateria: true
+      bateria_max: 100
+      max_pasos: 400
+      bloqueos: [[7, 4], [7, 7]]
+    datos:
+      semilla: 143
+      pedidos_entrenamiento: 20000
+      pedidos_evaluacion: 500
+      paquetes_por_pedido: 3
+      prob_tipos: {normal: 0.5, pesado: 0.25, fragil: 0.25}
+      prob_express: 0.3

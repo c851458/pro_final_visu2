@@ -36,7 +36,8 @@ def client(tmp_path, monkeypatch):
 def test_salud_y_niveles(client):
     assert client.get("/api/salud").json()["modelos_recomendados"] == {"n2": "prueba"}
     levels = client.get("/api/niveles").json()["niveles"]
-    assert [lv["nivel"] for lv in levels] == ["n1", "n2", "n3"]
+    assert [lv["nivel"] for lv in levels] == ["n1", "n2", "n3", "v2-n1", "v2-n2", "v2-n3"]
+    assert {lv["nivel"]: lv["environment_version"] for lv in levels}["v2-n2"] == "2.0.0"
     assert levels[2]["mapa"]["bloqueos"] == [[7, 4], [7, 7]]
 
 

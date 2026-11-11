@@ -87,7 +87,7 @@ def validate(level, mode, run_spec):
     changes = tracking.uncommitted_code_changes()
     if changes:
         log.warning(f"Hay cambios de codigo sin commit: {changes}")
-    info = {"nivel": level, "familia": niveles.family(env), "version_ambiente": niveles.env_version(),
+    info = {"nivel": level, "familia": niveles.family(env), "version_ambiente": cfg["version_ambiente"],
             "estanterias_alcanzables": reachable, "criterios_sha256": niveles.sha256_json(criteria),
             "git_commit": tracking.git("rev-parse", "HEAD"), "cambios_sin_commit": changes, "modo": mode, "run": run_spec}
     log.info(f"Perfil valido: {info}")

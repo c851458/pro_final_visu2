@@ -183,10 +183,10 @@ def contrast_jobs(name, workdir):
     return jobs
 
 
-def run_baselines():
+def run_baselines(levels=None):
     """Registra las referencias aleatoria y de regla en cada nivel (evaluadas en la misma suite)."""
     tracking.setup()
-    for level in niveles.level_ids():
+    for level in levels or niveles.level_ids():
         cfg = resolve_params(dict(load_params(), nivel=level))
         cases, suite_id = niveles.evaluation_suite(cfg)
         for policy in (RandomPolicy(seed=0), RulePolicy()):
@@ -230,7 +230,8 @@ def main():
                         help="nombre del experimento y cambios (nivel=n3, agente.alpha=0.2, ...); se puede repetir")
     parser.add_argument("--hipotesis", help="hipotesis del experimento (se guarda como tag en MLflow)")
     parser.add_argument("--desde", help="continuar el entrenamiento desde el modelo de otro run (nombre o id)")
-    parser.add_argument("--baselines", action="store_true", help="registrar las referencias aleatoria y de regla")
+    parser.add_argument("--baselines", nargs="*", metavar="NIVEL",
+                        help="registrar las referencias aleatoria y de regla (en todos los niveles o en los indicados)")
     parser.add_argument("--evaluar", metavar="RUN", help="evaluar el modelo de un run (congelado) en --nivel")
     parser.add_argument("--nivel", help="nivel para --evaluar")
     parser.add_argument("--contraste", help="corre los brazos y semillas de un contraste de configs/criterios.yaml")
@@ -240,8 +241,8 @@ def main():
     tracking.setup()
     print(f"MLflow: {tracking.tracking_uri()}")
 
-    if args.baselines:
-        run_baselines()
+    if args.baselines is not None:
+        run_baselines(args.baselines)
     if args.evaluar:
         if not args.nivel:
             raise SystemExit("--evaluar necesita --nivel")

@@ -97,6 +97,7 @@ class WarehouseRushV1Env(gym.Env):
     """
 
     metadata = {"render_modes": ["ansi"], "render_fps": 8}
+    FAMILY_PREFIX = "warehouse-rush-v1"
 
     def __init__(self, render_mode=None, n_packages=3, use_battery=True, max_steps=400, battery_max=BATTERY_MAX,
                  blocked_cells=()):

@@ -114,3 +114,67 @@ entrenamiento, generados con una semilla fija y solo con estanterías alcanzable
 - Recoger y entregar son acciones discretas por adyacencia, sin brazo articulado ni estabilidad.
 - Un solo robot y obstáculos estáticos dentro de cada nivel.
 - La carga de batería es instantánea (una acción).
+
+---
+
+# Versión 2.0.0 · contexto de negocio (`WarehouseRush-v2`, niveles `v2-n1`, `v2-n2`, `v2-n3`)
+
+El mismo mundo, interpretado como el **centro de distribución de un operador de paquetería** (tipo Servientrega
+o Coordinadora): un robot móvil autónomo (AMR) recoge los paquetes de una orden y los lleva al **muelle de despacho**
+de su ruta (zonas A, B y C). La recompensa es la **utilidad de la operación en pesos colombianos (COP)** y cada
+paquete tiene un **nivel de servicio**. Código: [`warehouse_rush/env_v2.py`](../warehouse_rush/env_v2.py).
+
+La versión 1.0.0 se conserva sin cambios: los modelos entrenados en v1 se siguen evaluando con sus reglas originales.
+
+## Qué cambia frente a v1
+
+| Elemento | v1 | v2 |
+|---|---|---|
+| Recompensa | puntos abstractos | utilidad en COP (ingresos − costos) |
+| Servicio del paquete | — | Estándar (70 %) o Express (30 %), con plazo |
+| Observación | 6 variables | 7: se agrega el servicio del paquete actual (0 Estándar, 1 Express) |
+| Familia de modelos | `warehouse-rush-v1/...` | `warehouse-rush-v2/obs-...x2/...` (incompatible con v1) |
+| Hito de recoger | se repetía al volver a recoger un frágil roto | **una sola vez por paquete** |
+| Cargar batería | gratis | cuesta la energía recargada |
+
+## Nivel de servicio (SLA)
+
+El plazo de cada paquete corre **desde que pasa a ser el paquete actual** de la orden. Un paso de decisión equivale
+a unos 2 segundos de operación del AMR (aproximadamente 1,5 m a 1 m/s más la maniobra).
+
+| Servicio | Probabilidad | Plazo | Tarifa | Si llega tarde |
+|---|---|---|---|---|
+| Estándar | 70 % | 100 pasos | $11.000 | descuento del 30 % (−$3.300) |
+| Express | 30 % | 40 pasos | $24.000 | se devuelve el sobrecosto Express (−$13.000): se cobra como Estándar |
+
+El agente observa si el paquete actual es Express, pero **no el tiempo restante**. Es una simplificación para
+mantener la tabla Q manejable: debe aprender que con un Express los desvíos (por ejemplo, ir a cargar) son más caros.
+
+## Modelo de costos (COP, 2026)
+
+| Concepto | Valor | Supuesto y fuente |
+|---|---|---|
+| Tarifa Estándar | $11.000 | envío urbano de 1-2 kg; rango de $9.000-$13.000 reportado para Coordinadora e Interrapidísimo ([comparativa 2026](https://www.andreybusiness.com/blog/interrapidisimo-vs-coordinadora-comparativa-2026)) |
+| Tarifa Express | $24.000 | servicio urbano "hoy mismo", primer kilo, del tarifario de Servientrega 2026 ([UIS, feb. 2026](https://documentos.uis.edu.co/wp-content/uploads/2026/02/tarifas-de-operador-de-mensajeria-externa-servientrega.pdf)) |
+| Hito de recogida | $2.000 | parte de la tarifa que se reconoce al recoger (una sola vez); el resto se cobra al despachar |
+| Costo por paso | $5 ($10 con carga pesada) | AMR de ~$140 millones amortizado en 5 años a 2 turnos (~$7.000/h con mantenimiento) más una fracción de supervisión |
+| Choque | $1.500 | inspección del robot por un supervisor (~6 min) |
+| Acción inválida | $150 | escaneo o maniobra fallida: tiempo perdido del robot |
+| Frágil roto | $60.000 | indemnización por el valor declarado promedio |
+| Rescate (batería agotada) | $8.000 | técnico 20 min (salario mínimo 2026 de $1.750.905 + $249.095 de auxilio de transporte + prestaciones ≈ $15.000/h, [Buk](https://www.buk.co/blog/salario-minimo-2026-en-colombia)) más el robot detenido |
+| Carga de batería | hasta $2.000 | batería AMR de ~2 kWh × ~$1.050/kWh, tarifa comercial de Enel ([tarifario julio 2026](https://www.enel.com.co/content/dam/enel-co/español/personas/1-17-1/2026/Consulta%20el%20tarifario%20de%20energía%20Enel%20-%20Julio%202026.pdf)); proporcional a la energía recargada |
+| Orden completa | +$4.000 | ahorro por despacho consolidado de la orden |
+
+**Límites de los valores:** no hay una cifra única y oficial para la tarifa urbana Estándar ni para la tarifa
+comercial de energía. El valor de $1.750.905 del salario mínimo fue suspendido y reemplazado por un decreto
+transitorio con el mismo valor. Son aproximaciones razonables para comparar políticas, no una contabilidad real.
+
+## KPIs de negocio
+
+| KPI | Definición |
+|---|---|
+| **OTIF** | órdenes completas con **todos** sus paquetes a tiempo |
+| Cumplimiento del SLA | paquetes entregados a tiempo / paquetes totales |
+| Cumplimiento Express | Express entregados a tiempo / Express totales |
+| Utilidad por orden | recompensa total en COP |
+| Libro de la orden | ingresos, operación del robot, daños, intervenciones humanas, compensaciones SLA y energía |

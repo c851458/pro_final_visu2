@@ -6,6 +6,9 @@ export interface Paquete {
   type: number;
   status: 'pendiente' | 'cargando' | 'entregado';
   broken: number;
+  service?: number; // v2: 0 estandar, 1 express
+  deadline?: number | null;
+  late?: boolean | null;
 }
 
 export interface Fotograma {
@@ -23,6 +26,9 @@ export interface Fotograma {
   reward: number;
   terminated: boolean;
   truncated: boolean;
+  moneda?: string; // v2: COP
+  libro?: Record<string, number>;
+  sla_restante?: number | null;
 }
 
 export interface Mapa {
@@ -104,6 +110,13 @@ export interface Metricas {
   latencia_media_ms: number;
   pedidos_evaluados: number;
   fallos_por_causa: Record<string, number>;
+  otif?: number;
+  cumplimiento_sla?: number;
+  cumplimiento_express?: number;
+  utilidad_media_cop?: number;
+  compensaciones_sla_medio_cop?: number;
+  danos_medio_cop?: number;
+  intervenciones_medio_cop?: number;
 }
 
 export interface Evaluacion {
@@ -177,7 +190,7 @@ export interface Catalogo {
 export interface Salud {
   estado: string;
   api_version: string;
-  environment_version: string;
+  environment_versions: Record<string, string>;
   git_commit: string;
   despliegue: string;
   modelos_recomendados: Record<string, string>;

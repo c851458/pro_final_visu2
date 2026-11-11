@@ -9,7 +9,16 @@ const GITHUB = 'https://github.com/c851458/pro_final_visu2';
 const $ = <T extends HTMLElement = HTMLElement>(id: string) => document.getElementById(id) as T;
 const pct = (x: number | undefined) => (x === undefined || x === null ? '-' : `${(x * 100).toFixed(1)}%`);
 const num = (x: number | undefined, d = 1) => (x === undefined || x === null ? '-' : x.toFixed(d));
-const fmt = (x: number) => (x >= 0 ? '+' : '') + x.toFixed(1);
+const fmtPts = (x: number) => (x >= 0 ? '+' : '') + x.toFixed(1);
+const money = (x: number) => `${x < 0 ? '−' : '+'}$${Math.abs(Math.round(x)).toLocaleString('es-CO')}`;
+const cop = (x: number | undefined) => (x === undefined || x === null ? '-' : `$${Math.round(x).toLocaleString('es-CO')}`);
+// v2 (negocio): recompensa en pesos colombianos; v1: puntos
+const isCop = (id = state.nivel) => level(id).environment_version.startsWith('2');
+const fmt = (x: number) => (isCop() ? money(x) : fmtPts(x));
+const LIBRO_LABELS: Record<string, string> = {
+  ingresos: 'Ingresos por envíos', costos_operacion: 'Operación del robot', danos: 'Daños (frágiles)',
+  intervenciones: 'Intervenciones humanas', compensaciones_sla: 'Compensaciones SLA', energia: 'Energía (cargas)',
+};
 const short = (s: string | null | undefined, n = 7) => (s ? s.slice(0, n) : '-');
 const esc = (s: unknown) => String(s ?? '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]!);
 
@@ -25,7 +34,7 @@ const CAUSES: Record<string, string> = {
 let niveles: Niveles;
 let catalogo: Catalogo = { catalogo: { recomendados: {}, modelos: [] }, runs: { runs: [] } };
 let escena: Escena;
-const state = { nivel: 'n2', politica: 'modelo' as Politica, modelId: null as string | null, caso: 0 };
+const state = { nivel: 'v2-n2', politica: 'modelo' as Politica, modelId: null as string | null, caso: 0 };
 const manual = { acciones: [] as number[], mostrados: 0, terminado: false, chain: Promise.resolve() };
 let lastModelo: ModeloInfo | null = null;
 
@@ -70,7 +79,11 @@ function busy(on: boolean) {
 
 function renderLevelSelect() {
   const sel = $<HTMLSelectElement>('sel-nivel');
-  sel.innerHTML = niveles.niveles.map((n) => `<option value="${n.nivel}">${esc(n.nombre)}</option>`).join('');
+  const versions = [...new Set(niveles.niveles.map((n) => n.environment_version))].sort().reverse();
+  const groupLabel = (v: string) => (v.startsWith('2') ? `Ambiente v${v} · negocio (COP y SLA)` : `Ambiente v${v} · histórico`);
+  sel.innerHTML = versions.map((v) => `<optgroup label="${esc(groupLabel(v))}">`
+    + niveles.niveles.filter((n) => n.environment_version === v)
+      .map((n) => `<option value="${n.nivel}">${esc(n.nombre)}</option>`).join('') + '</optgroup>').join('');
   sel.value = state.nivel;
   const fn = $<HTMLSelectElement>('f-nivel');
   fn.innerHTML = '<option value="">Todos los niveles</option>'
@@ -108,7 +121,7 @@ function renderActivo(amb?: Ambiente, modelo?: ModeloInfo | null) {
   const rows: [string, string][] = [
     ['Nivel', a.nombre],
     ['Ambiente', `v${a.environment_version}`],
-    ['Familia', `<code>${esc(a.familia_modelo.replace('warehouse-rush-v1/', ''))}</code>`],
+    ['Familia', `<code>${esc(a.familia_modelo)}</code>`],
     ['Suite', `<code>${esc(a.evaluation_suite_id)}</code> (${lv.casos_evaluacion} casos)`],
   ];
   if (state.politica === 'modelo') {
@@ -136,6 +149,11 @@ function selectLevel(id: string) {
   $<HTMLInputElement>('inp-caso').value = String(state.caso);
   $('battery-block').hidden = !lv.entorno.bateria;
   escena.setNivel(lv.mapa, lv.entorno.bateria, lv.entorno.bateria_max);
+  escena.formatReward = fmt;
+  escena.alertThreshold = isCop() ? -100 : -1;
+  $('libro-block').hidden = !isCop();
+  $('hud-sla').hidden = !isCop();
+  $('hud-sla-label').hidden = !isCop();
   renderModelSelect();
   renderActivo();
   resetHud();
@@ -148,7 +166,8 @@ function selectLevel(id: string) {
 const STATUS_LABELS: Record<string, string> = { pendiente: 'pendiente', cargando: 'en camino', entregado: '✔ entregado' };
 
 function resetHud() {
-  for (const id of ['hud-step', 'hud-action', 'hud-reward', 'hud-total', 'hud-rescues']) $(id).textContent = '-';
+  for (const id of ['hud-step', 'hud-action', 'hud-reward', 'hud-total', 'hud-rescues', 'hud-sla']) $(id).textContent = '-';
+  $('hud-libro').innerHTML = '';
   $('order').innerHTML = '';
   $('goal').textContent = '';
   $('episode-title').textContent = 'Sin episodio';
@@ -168,17 +187,31 @@ function updateHud(f: Fotograma) {
   $('hud-action').textContent = f.action === null ? '-' : niveles.acciones[f.action];
   const rw = $('hud-reward');
   rw.textContent = fmt(f.reward);
-  rw.className = f.reward > 0 ? 'pos' : f.reward <= -1 ? 'neg' : '';
+  rw.className = f.reward > 0 ? 'pos' : f.reward <= (isCop() ? -100 : -1) ? 'neg' : '';
   $('hud-total').textContent = fmt(f.total);
   $('hud-rescues').textContent = String(f.rescues);
   renderBattery(f.battery);
   $('order').innerHTML = f.order.map((p, i) => {
     const cls = p.status === 'entregado' ? 'done' : i === f.current ? 'current' : '';
     const broken = p.broken ? ` <span class="broken">roto ×${p.broken}</span>` : '';
-    return `<li class="${cls}"><span>${i + 1}.</span><span class="type">${TYPE_LABELS[p.type]}${broken}</span>`
+    const svc = p.service === undefined ? ''
+      : `<span class="svc ${p.service ? 'express' : 'estandar'}">${p.service ? 'EXPRESS' : 'ESTÁNDAR'}</span> `;
+    const sla = p.status === 'entregado' && p.late !== undefined && p.late !== null
+      ? (p.late ? ' <span class="late">tarde</span>' : ' <span class="ontime">a tiempo</span>') : '';
+    return `<li class="${cls}"><span>${i + 1}.</span><span class="type">${svc}${TYPE_LABELS[p.type]}${broken}</span>`
       + `<span class="zone" style="background:${ZONE_CSS[p.zone]}">${niveles.zonas[p.zone]}</span>`
-      + `<span class="st">${STATUS_LABELS[p.status]}</span></li>`;
+      + `<span class="st">${STATUS_LABELS[p.status]}${sla}</span></li>`;
   }).join('');
+  if (f.moneda === 'COP') {
+    const r = f.sla_restante;
+    const slaEl = $('hud-sla');
+    slaEl.textContent = r === null || r === undefined ? '-' : r >= 0 ? `${r} pasos` : `vencido hace ${-r}`;
+    slaEl.className = r === null || r === undefined ? '' : r < 0 ? 'neg' : r <= 10 ? 'gold' : 'pos';
+    $('hud-libro').innerHTML = Object.entries(f.libro ?? {})
+      .map(([k, v]) => `<dt>${LIBRO_LABELS[k] ?? k}</dt><dd class="${k === 'ingresos' ? 'pos' : v ? 'neg' : ''}">`
+        + `${k === 'ingresos' ? cop(v) : v ? `−${cop(v)}` : '$0'}</dd>`).join('')
+      + `<dt><b>Utilidad</b></dt><dd><b class="${f.total >= 0 ? 'pos' : 'neg'}">${money(f.total)}</b></dd>`;
+  }
   if (state.politica === 'manual') {
     const cur = f.order[Math.min(f.current, f.order.length - 1)];
     let goal = f.carrying
@@ -195,7 +228,9 @@ function updateHud(f: Fotograma) {
 function onEpisodeEnd(f: Fotograma) {
   if (!(f.terminated || f.truncated)) return;
   const delivered = f.order.filter((p) => p.status === 'entregado').length;
-  const sub = `${delivered}/${f.order.length} paquetes · ${f.steps} pasos · recompensa ${fmt(f.total)}`
+  const late = f.order.filter((p) => p.late).length;
+  const sub = `${delivered}/${f.order.length} paquetes · ${f.steps} pasos · ${isCop() ? 'utilidad' : 'recompensa'} ${fmt(f.total)}`
+    + (late ? ` · ${late} fuera de plazo` : '')
     + (f.rescues ? ` · ${f.rescues} rescate(s)` : '');
   if (f.success) showBanner('¡PEDIDO COMPLETO!', sub, 'pos');
   else showBanner('TIEMPO AGOTADO', sub, 'neg');
@@ -249,7 +284,12 @@ function renderEvaluation(ev: Evaluacion) {
   const m = ev.metricas;
   $('eval-block').hidden = false;
   $('eval-scope').textContent = `· ${m.pedidos_evaluados} casos ${ev.suite_completa ? '(suite completa)' : '(primeros de la suite)'} · ${ev.tiempo_servidor_s.toFixed(1)} s`;
+  const business: [string, string][] = m.otif === undefined ? [] : [
+    [pct(m.otif), 'OTIF (completas y a tiempo)'], [pct(m.cumplimiento_express), 'Express a tiempo'],
+    [cop(m.utilidad_media_cop), 'utilidad / orden'], [cop(m.compensaciones_sla_medio_cop), 'compensaciones SLA / orden'],
+  ];
   const tiles: [string, string][] = [
+    ...business,
     [pct(m.tasa_exito), 'pedidos completos'], [num(m.pasos_medios_exitosos), 'pasos (exitosos)'],
     [num(m.rescates_medios, 2), 'rescates / pedido'], [num(m.choques_medios, 2), 'choques / pedido'],
     [num(m.fragiles_rotos_medios, 2), 'frágiles rotos'], [`${num(m.latencia_media_ms, 3)} ms`, 'latencia / decisión'],
@@ -259,7 +299,7 @@ function renderEvaluation(ev: Evaluacion) {
   $('eval-causes').innerHTML = causes.length
     ? `<h3>Fallos por causa</h3>${causes.map(([k, v]) => `<div class="cause"><span>${CAUSES[k] ?? k}</span><b>${v}</b></div>`).join('')}`
     : '<p class="hint">Sin fallos en estos casos.</p>';
-  $('eval-cases').innerHTML = '<tr><th>Caso</th><th>Resultado</th><th>Pasos</th><th>Recomp.</th><th>Resc.</th></tr>'
+  $('eval-cases').innerHTML = `<tr><th>Caso</th><th>Resultado</th><th>Pasos</th><th>${isCop() ? 'Utilidad' : 'Recomp.'}</th><th>Resc.</th></tr>`
     + ev.por_caso.map((c) => `<tr class="clickable" data-caso="${c.caso}"><td>${c.caso}</td>`
       + `<td class="${c.exito ? 'pos' : 'neg'}">${c.exito ? 'éxito' : CAUSES[c.causa] ?? c.causa}</td>`
       + `<td class="num">${c.pasos}</td><td class="num">${fmt(c.recompensa)}</td><td class="num">${c.rescates}</td></tr>`).join('');
@@ -421,7 +461,9 @@ function renderCompare() {
   const metrics: [string, (r: Run) => string][] = [
     ['Nivel', (r) => r.nivel.toUpperCase()], ['Cambios', (r) => esc(r.cambios)], ['Semilla', (r) => esc(r.semilla ?? '-')],
     ['Episodios (presupuesto)', (r) => (r.tipo === 'entrenamiento' ? esc(r.episodios ?? '-') : 'sin entrenamiento')], ['Suite', (r) => `<code>${esc(r.evaluation_suite_id || '-')}</code>`],
-    ['Pedidos completos', (r) => pct(r.metricas.tasa_exito)], ['Pasos medios', (r) => num(r.metricas.pasos_medios)],
+    ['Pedidos completos', (r) => pct(r.metricas.tasa_exito)],
+    ['OTIF', (r) => pct(r.metricas.otif)], ['Express a tiempo', (r) => pct(r.metricas.cumplimiento_express)],
+    ['Utilidad / orden (COP)', (r) => cop(r.metricas.utilidad_media_cop)], ['Pasos medios', (r) => num(r.metricas.pasos_medios)],
     ['Pasos (exitosos)', (r) => num(r.metricas.pasos_medios_exitosos)], ['Recompensa media', (r) => num(r.metricas.recompensa_media)],
     ['Rescates / pedido', (r) => num(r.metricas.rescates_medios, 3)], ['Choques / pedido', (r) => num(r.metricas.choques_medios, 3)],
     ['Frágiles rotos', (r) => num(r.metricas.fragiles_rotos_medios, 3)], ['Latencia (ms)', (r) => num(r.metricas.latencia_media_ms, 4)],
@@ -513,7 +555,7 @@ async function init() {
     catalogo = cat;
     const st = $('api-status');
     st.className = 'api-status ok';
-    st.textContent = `API v${salud.api_version} · ambiente v${salud.environment_version} · commit ${short(salud.git_commit)}`;
+    st.textContent = `API v${salud.api_version} · ambientes ${[...new Set(Object.values(salud.environment_versions))].sort().map((v) => `v${v}`).join(' y ')} · commit ${short(salud.git_commit)}`;
   } catch (error) {
     $('api-status').className = 'api-status bad';
     $('api-status').textContent = 'API no disponible';

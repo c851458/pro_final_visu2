@@ -178,3 +178,10 @@ kbd { font: 11px ui-monospace, monospace; background: rgba(255,255,255,0.12); bo
   .api-status { display: none; }
   .compare-grid { grid-template-columns: 1fr; }
 }
+
+.svc { font-size: 10.5px; font-weight: 800; border-radius: 4px; padding: 0 5px; letter-spacing: 0.4px; }
+.svc.express { background: #d42f2f; color: #fff; }
+.svc.estandar { background: rgba(255,255,255,0.12); color: var(--dim); }
+.late { color: var(--bad); font-weight: 700; font-size: 11px; }
+.ontime { color: var(--ok); font-size: 11px; }
+optgroup { background: var(--panel-solid); color: var(--dim); }
