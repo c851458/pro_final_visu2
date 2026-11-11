@@ -52,8 +52,8 @@ stages:
       size: 198661
     - path: pipeline/common.py
       hash: md5
-      md5: 32c565126b4f5811a4d87ce69da347da
-      size: 1220
+      md5: ab1cebaba4471d416f664ecbf149322e
+      size: 1259
     - path: pipeline/core.py
       hash: md5
       md5: 32341dd85b6765b21acbf7bd49bf67ac
@@ -123,16 +123,16 @@ stages:
     outs:
     - path: metrics/entrenamiento.csv
       hash: md5
-      md5: e512b18d1ba6dbc5de60aeffd545b3cc
-      size: 3324
+      md5: 094a63019b462a822ee0e7aa14ab1b67
+      size: 2899
     - path: metrics/mlflow_run.json
       hash: md5
-      md5: f998dfe2d750ecf929051e57e65b846a
+      md5: b31ecd405ca4e779b6e00fe702410be2
       size: 70
     - path: models/q_table.npy
       hash: md5
-      md5: 6e345f1cd2df378246361424670f1e0e
-      size: 5544128
+      md5: a12e0bd79453b2707ab5c7d7221a2132
+      size: 11088128
   evaluar:
     cmd: python pipeline/evaluar.py
     deps:
@@ -142,16 +142,16 @@ stages:
       size: 198661
     - path: metrics/mlflow_run.json
       hash: md5
-      md5: f998dfe2d750ecf929051e57e65b846a
+      md5: b31ecd405ca4e779b6e00fe702410be2
       size: 70
     - path: models/q_table.npy
       hash: md5
-      md5: 6e345f1cd2df378246361424670f1e0e
-      size: 5544128
+      md5: a12e0bd79453b2707ab5c7d7221a2132
+      size: 11088128
     - path: pipeline/common.py
       hash: md5
-      md5: 32c565126b4f5811a4d87ce69da347da
-      size: 1220
+      md5: ab1cebaba4471d416f664ecbf149322e
+      size: 1259
     - path: pipeline/evaluar.py
       hash: md5
       md5: a5f37172a8c952a649b3cfb347b42202
@@ -207,23 +207,23 @@ stages:
     outs:
     - path: data/trayectorias_evaluacion.csv
       hash: md5
-      md5: adf4fb7945001318879e9226de19a921
-      size: 1443831
+      md5: cc2c1e764a1c4fad3d946376cd3224eb
+      size: 3628046
     - path: metrics/evaluacion.json
       hash: md5
-      md5: b8c99a707838a2f7b6c5e6dba0adaa56
-      size: 431
+      md5: d3c73d5d0173b9a09332d4680fcc298c
+      size: 826
     - path: metrics/evaluacion_por_caso.json
       hash: md5
-      md5: df37ce0bcbbf852da7e00581dfe2e4c7
-      size: 193430
+      md5: d4d51e5637cd60f38e19b3ddce9be8df
+      size: 351823
   generar_datos@n1:
     cmd: python pipeline/generar_datos.py n1
     deps:
     - path: pipeline/common.py
       hash: md5
-      md5: 32c565126b4f5811a4d87ce69da347da
-      size: 1220
+      md5: ab1cebaba4471d416f664ecbf149322e
+      size: 1259
     - path: pipeline/generar_datos.py
       hash: md5
       md5: 0170a516f8cdcbc62d4019fb780da13f
@@ -274,8 +274,8 @@ stages:
     deps:
     - path: pipeline/common.py
       hash: md5
-      md5: 32c565126b4f5811a4d87ce69da347da
-      size: 1220
+      md5: ab1cebaba4471d416f664ecbf149322e
+      size: 1259
     - path: pipeline/generar_datos.py
       hash: md5
       md5: 0170a516f8cdcbc62d4019fb780da13f
@@ -327,8 +327,8 @@ stages:
     deps:
     - path: pipeline/common.py
       hash: md5
-      md5: 32c565126b4f5811a4d87ce69da347da
-      size: 1220
+      md5: ab1cebaba4471d416f664ecbf149322e
+      size: 1259
     - path: pipeline/generar_datos.py
       hash: md5
       md5: 0170a516f8cdcbc62d4019fb780da13f
@@ -384,8 +384,8 @@ stages:
     deps:
     - path: pipeline/common.py
       hash: md5
-      md5: 32c565126b4f5811a4d87ce69da347da
-      size: 1220
+      md5: ab1cebaba4471d416f664ecbf149322e
+      size: 1259
     - path: pipeline/generar_datos.py
       hash: md5
       md5: 0170a516f8cdcbc62d4019fb780da13f
@@ -440,8 +440,8 @@ stages:
     deps:
     - path: pipeline/common.py
       hash: md5
-      md5: 32c565126b4f5811a4d87ce69da347da
-      size: 1220
+      md5: ab1cebaba4471d416f664ecbf149322e
+      size: 1259
     - path: pipeline/generar_datos.py
       hash: md5
       md5: 0170a516f8cdcbc62d4019fb780da13f
@@ -497,8 +497,8 @@ stages:
     deps:
     - path: pipeline/common.py
       hash: md5
-      md5: 32c565126b4f5811a4d87ce69da347da
-      size: 1220
+      md5: ab1cebaba4471d416f664ecbf149322e
+      size: 1259
     - path: pipeline/generar_datos.py
       hash: md5
       md5: 0170a516f8cdcbc62d4019fb780da13f

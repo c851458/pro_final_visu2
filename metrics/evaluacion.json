@@ -1,17 +1,29 @@
 {
-  "tasa_exito": 0.994,
-  "paquetes_entregados_medios": 2.994,
-  "pasos_medios": 65.992,
-  "pasos_medios_exitosos": 63.97585513078471,
-  "recompensa_media": 66.638,
-  "rescates_medios": 0.142,
+  "tasa_exito": 0.764,
+  "paquetes_entregados_medios": 2.55,
+  "pasos_medios": 148.734,
+  "pasos_medios_exitosos": 71.11780104712042,
+  "recompensa_media": 23962.48,
+  "rescates_medios": 0.32,
   "fragiles_rotos_medios": 0.0,
-  "cargas_medias": 0.248,
-  "choques_medios": 0.046,
-  "acciones_invalidas_medias": 2.15,
-  "latencia_media_ms": 0.0034282,
+  "cargas_medias": 0.088,
+  "choques_medios": 0.0,
+  "acciones_invalidas_medias": 82.826,
+  "latencia_media_ms": 0.00404,
   "pedidos_evaluados": 500,
   "fallos_por_causa": {
-    "tiempo_agotado": 3
-  }
+    "tiempo_agotado": 90,
+    "bateria_agotada": 28
+  },
+  "otif": 0.66,
+  "cumplimiento_sla": 0.81,
+  "cumplimiento_express": 0.7351598173515982,
+  "entregas_tarde_medias": 0.12,
+  "utilidad_media_cop": 23962.48,
+  "ingresos_medio_cop": 41402.0,
+  "costos_operacion_medio_cop": 13205.32,
+  "danos_medio_cop": 0.0,
+  "intervenciones_medio_cop": 2560.0,
+  "compensaciones_sla_medio_cop": 1560.0,
+  "energia_medio_cop": 114.2
 }
