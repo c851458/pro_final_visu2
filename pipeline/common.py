@@ -22,6 +22,7 @@ def resolve_params(params):
     level = niveles.resolve(params["nivel"])
     return {
         "nivel": params["nivel"],
+        "ambiente": level["ambiente"],
         "version_ambiente": level["version_ambiente"],
         "entorno": level["entorno"],
         "datos": level["datos"],

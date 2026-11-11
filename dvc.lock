@@ -42,18 +42,18 @@ stages:
   entrenar:
     cmd: python pipeline/entrenar.py
     deps:
-    - path: data/n2/pedidos_entrenamiento.json
+    - path: data/v2-n2/pedidos_entrenamiento.json
       hash: md5
-      md5: 8dc372f08a6e76539e665d7684ae8dc5
-      size: 6502756
-    - path: data/n2/pedidos_evaluacion.json
+      md5: 4a64ebff4313f8801e453a2bfd11f72c
+      size: 7942841
+    - path: data/v2-n2/pedidos_evaluacion.json
       hash: md5
-      md5: 4a0fdec75c884906d8826221f59d15e4
-      size: 162661
+      md5: c0f76fbaebdfc4705026ee6734460aab
+      size: 198661
     - path: pipeline/common.py
       hash: md5
-      md5: 6fa7dffed963503279d0fffe8c4f3d7b
-      size: 1216
+      md5: 32c565126b4f5811a4d87ce69da347da
+      size: 1220
     - path: pipeline/core.py
       hash: md5
       md5: 32341dd85b6765b21acbf7bd49bf67ac
@@ -72,12 +72,16 @@ stages:
       size: 1661
     - path: warehouse_rush/env_v1.py
       hash: md5
-      md5: c5f57ac34da206023aebb57b7ef38022
-      size: 11325
+      md5: 6197e1ebbb7dc58f5b386f68bb2debe7
+      size: 11365
+    - path: warehouse_rush/env_v2.py
+      hash: md5
+      md5: fd2d9eaed1bba1380f8ce48422fddb69
+      size: 10726
     - path: warehouse_rush/simulacion.py
       hash: md5
-      md5: 31f9f364c3600b63da75074fc3a6ce01
-      size: 5266
+      md5: 0bd43f83358422c1e1c971ef4ccbfb6c
+      size: 6363
     params:
       params.yaml:
         agente:
@@ -90,20 +94,23 @@ stages:
           semilla: 0
           registrar_cada: 1000
           casos_curva: 50
-        nivel: n2
+        nivel: v2-n2
       configs/niveles.yaml:
-        niveles.n2:
-          nombre: N2 · Más decisiones
-          decision: 'Pedidos de 3 paquetes en orden, tres zonas de entrega, paquetes
-            pesados (más batería) y frágiles (se rompen al chocar), y batería con
-            estación de carga: decidir cuándo cargar.'
+        niveles.v2-n2:
+          nombre: N2 · Más decisiones (negocio)
+          ambiente: WarehouseRush-v2
+          version_ambiente: 2.0.0
+          decision: 'Órdenes de 3 paquetes con servicio Express o Estándar: cumplir
+            el plazo de los Express ($13.000 de compensación si llegan tarde), no
+            romper frágiles ($60.000 de indemnización) y decidir cuándo cargar la
+            batería (cada rescate cuesta $8.000 de un técnico).'
           entorno:
             bateria: true
             bateria_max: 100
             max_pasos: 400
             bloqueos: []
           datos:
-            semilla: 42
+            semilla: 142
             pedidos_entrenamiento: 20000
             pedidos_evaluacion: 500
             paquetes_por_pedido: 3
@@ -111,39 +118,40 @@ stages:
               normal: 0.5
               pesado: 0.25
               fragil: 0.25
+            prob_express: 0.3
         version_ambiente: 1.0.0
     outs:
     - path: metrics/entrenamiento.csv
       hash: md5
-      md5: 295701ee4edf0a6926ca8fcb91df17f0
-      size: 3413
+      md5: e512b18d1ba6dbc5de60aeffd545b3cc
+      size: 3324
     - path: metrics/mlflow_run.json
       hash: md5
-      md5: 9d2f210d20ad3f45e576931d1c53de9a
-      size: 67
+      md5: f998dfe2d750ecf929051e57e65b846a
+      size: 70
     - path: models/q_table.npy
       hash: md5
-      md5: 53c12f7200fba34682f9c902a19a4db8
+      md5: 6e345f1cd2df378246361424670f1e0e
       size: 5544128
   evaluar:
     cmd: python pipeline/evaluar.py
     deps:
-    - path: data/n2/pedidos_evaluacion.json
+    - path: data/v2-n2/pedidos_evaluacion.json
       hash: md5
-      md5: 4a0fdec75c884906d8826221f59d15e4
-      size: 162661
+      md5: c0f76fbaebdfc4705026ee6734460aab
+      size: 198661
     - path: metrics/mlflow_run.json
       hash: md5
-      md5: 9d2f210d20ad3f45e576931d1c53de9a
-      size: 67
+      md5: f998dfe2d750ecf929051e57e65b846a
+      size: 70
     - path: models/q_table.npy
       hash: md5
-      md5: 53c12f7200fba34682f9c902a19a4db8
+      md5: 6e345f1cd2df378246361424670f1e0e
       size: 5544128
     - path: pipeline/common.py
       hash: md5
-      md5: 6fa7dffed963503279d0fffe8c4f3d7b
-      size: 1216
+      md5: 32c565126b4f5811a4d87ce69da347da
+      size: 1220
     - path: pipeline/evaluar.py
       hash: md5
       md5: a5f37172a8c952a649b3cfb347b42202
@@ -154,32 +162,39 @@ stages:
       size: 5380
     - path: warehouse_rush/env_v1.py
       hash: md5
-      md5: c5f57ac34da206023aebb57b7ef38022
-      size: 11325
+      md5: 6197e1ebbb7dc58f5b386f68bb2debe7
+      size: 11365
+    - path: warehouse_rush/env_v2.py
+      hash: md5
+      md5: fd2d9eaed1bba1380f8ce48422fddb69
+      size: 10726
     - path: warehouse_rush/politicas.py
       hash: md5
       md5: 846b02a1dac489a6e7a15c9fd526e2d1
       size: 3562
     - path: warehouse_rush/simulacion.py
       hash: md5
-      md5: 31f9f364c3600b63da75074fc3a6ce01
-      size: 5266
+      md5: 0bd43f83358422c1e1c971ef4ccbfb6c
+      size: 6363
     params:
       params.yaml:
-        nivel: n2
+        nivel: v2-n2
       configs/niveles.yaml:
-        niveles.n2:
-          nombre: N2 · Más decisiones
-          decision: 'Pedidos de 3 paquetes en orden, tres zonas de entrega, paquetes
-            pesados (más batería) y frágiles (se rompen al chocar), y batería con
-            estación de carga: decidir cuándo cargar.'
+        niveles.v2-n2:
+          nombre: N2 · Más decisiones (negocio)
+          ambiente: WarehouseRush-v2
+          version_ambiente: 2.0.0
+          decision: 'Órdenes de 3 paquetes con servicio Express o Estándar: cumplir
+            el plazo de los Express ($13.000 de compensación si llegan tarde), no
+            romper frágiles ($60.000 de indemnización) y decidir cuándo cargar la
+            batería (cada rescate cuesta $8.000 de un técnico).'
           entorno:
             bateria: true
             bateria_max: 100
             max_pasos: 400
             bloqueos: []
           datos:
-            semilla: 42
+            semilla: 142
             pedidos_entrenamiento: 20000
             pedidos_evaluacion: 500
             paquetes_por_pedido: 3
@@ -187,39 +202,44 @@ stages:
               normal: 0.5
               pesado: 0.25
               fragil: 0.25
+            prob_express: 0.3
         version_ambiente: 1.0.0
     outs:
     - path: data/trayectorias_evaluacion.csv
       hash: md5
-      md5: 3ba1e27db70a3460c87c5ba9f072d77b
-      size: 1500928
+      md5: adf4fb7945001318879e9226de19a921
+      size: 1443831
     - path: metrics/evaluacion.json
       hash: md5
-      md5: de55f628e43072e9570ec461645301e9
-      size: 429
+      md5: b8c99a707838a2f7b6c5e6dba0adaa56
+      size: 431
     - path: metrics/evaluacion_por_caso.json
       hash: md5
-      md5: eafebcaadb418c9daead7f5dbb63b628
-      size: 193512
+      md5: df37ce0bcbbf852da7e00581dfe2e4c7
+      size: 193430
   generar_datos@n1:
     cmd: python pipeline/generar_datos.py n1
     deps:
     - path: pipeline/common.py
       hash: md5
-      md5: 6fa7dffed963503279d0fffe8c4f3d7b
-      size: 1216
+      md5: 32c565126b4f5811a4d87ce69da347da
+      size: 1220
     - path: pipeline/generar_datos.py
       hash: md5
       md5: 0170a516f8cdcbc62d4019fb780da13f
       size: 1145
     - path: warehouse_rush/env_v1.py
       hash: md5
-      md5: c5f57ac34da206023aebb57b7ef38022
-      size: 11325
+      md5: 6197e1ebbb7dc58f5b386f68bb2debe7
+      size: 11365
+    - path: warehouse_rush/env_v2.py
+      hash: md5
+      md5: fd2d9eaed1bba1380f8ce48422fddb69
+      size: 10726
     - path: warehouse_rush/niveles.py
       hash: md5
-      md5: 55e7de1b2cacc643998aa37fb1b9143e
-      size: 3472
+      md5: 9f038e5a7f90ef4a1ee14ce4d7ed4736
+      size: 5391
     params:
       configs/niveles.yaml:
         niveles.n1:
@@ -254,20 +274,24 @@ stages:
     deps:
     - path: pipeline/common.py
       hash: md5
-      md5: 6fa7dffed963503279d0fffe8c4f3d7b
-      size: 1216
+      md5: 32c565126b4f5811a4d87ce69da347da
+      size: 1220
     - path: pipeline/generar_datos.py
       hash: md5
       md5: 0170a516f8cdcbc62d4019fb780da13f
       size: 1145
     - path: warehouse_rush/env_v1.py
       hash: md5
-      md5: c5f57ac34da206023aebb57b7ef38022
-      size: 11325
+      md5: 6197e1ebbb7dc58f5b386f68bb2debe7
+      size: 11365
+    - path: warehouse_rush/env_v2.py
+      hash: md5
+      md5: fd2d9eaed1bba1380f8ce48422fddb69
+      size: 10726
     - path: warehouse_rush/niveles.py
       hash: md5
-      md5: 55e7de1b2cacc643998aa37fb1b9143e
-      size: 3472
+      md5: 9f038e5a7f90ef4a1ee14ce4d7ed4736
+      size: 5391
     params:
       configs/niveles.yaml:
         niveles.n2:
@@ -303,20 +327,24 @@ stages:
     deps:
     - path: pipeline/common.py
       hash: md5
-      md5: 6fa7dffed963503279d0fffe8c4f3d7b
-      size: 1216
+      md5: 32c565126b4f5811a4d87ce69da347da
+      size: 1220
     - path: pipeline/generar_datos.py
       hash: md5
       md5: 0170a516f8cdcbc62d4019fb780da13f
       size: 1145
     - path: warehouse_rush/env_v1.py
       hash: md5
-      md5: c5f57ac34da206023aebb57b7ef38022
-      size: 11325
+      md5: 6197e1ebbb7dc58f5b386f68bb2debe7
+      size: 11365
+    - path: warehouse_rush/env_v2.py
+      hash: md5
+      md5: fd2d9eaed1bba1380f8ce48422fddb69
+      size: 10726
     - path: warehouse_rush/niveles.py
       hash: md5
-      md5: 55e7de1b2cacc643998aa37fb1b9143e
-      size: 3472
+      md5: 9f038e5a7f90ef4a1ee14ce4d7ed4736
+      size: 5391
     params:
       configs/niveles.yaml:
         niveles.n3:
@@ -351,3 +379,176 @@ stages:
       hash: md5
       md5: 2af481226f28cb1f433471f0a86f3ff2
       size: 162637
+  generar_datos@v2-n1:
+    cmd: python pipeline/generar_datos.py v2-n1
+    deps:
+    - path: pipeline/common.py
+      hash: md5
+      md5: 32c565126b4f5811a4d87ce69da347da
+      size: 1220
+    - path: pipeline/generar_datos.py
+      hash: md5
+      md5: 0170a516f8cdcbc62d4019fb780da13f
+      size: 1145
+    - path: warehouse_rush/env_v1.py
+      hash: md5
+      md5: 6197e1ebbb7dc58f5b386f68bb2debe7
+      size: 11365
+    - path: warehouse_rush/env_v2.py
+      hash: md5
+      md5: fd2d9eaed1bba1380f8ce48422fddb69
+      size: 10726
+    - path: warehouse_rush/niveles.py
+      hash: md5
+      md5: 9f038e5a7f90ef4a1ee14ce4d7ed4736
+      size: 5391
+    params:
+      configs/niveles.yaml:
+        niveles.v2-n1:
+          nombre: N1 · Misión base (negocio)
+          ambiente: WarehouseRush-v2
+          version_ambiente: 2.0.0
+          decision: Despachar un paquete al muelle de su ruta. 30% son Express 
+            (tarifa de $24.000, plazo de 40 pasos); el resto Estándar ($11.000, 
+            plazo de 100 pasos). Sin batería ni obstáculos.
+          entorno:
+            bateria: false
+            bateria_max: 100
+            max_pasos: 200
+            bloqueos: []
+          datos:
+            semilla: 107
+            pedidos_entrenamiento: 5000
+            pedidos_evaluacion: 200
+            paquetes_por_pedido: 1
+            prob_tipos:
+              normal: 1.0
+              pesado: 0.0
+              fragil: 0.0
+            prob_express: 0.3
+    outs:
+    - path: data/v2-n1/pedidos_entrenamiento.json
+      hash: md5
+      md5: 906fda8503f3200d464f6a79f73f2945
+      size: 898239
+    - path: data/v2-n1/pedidos_evaluacion.json
+      hash: md5
+      md5: 1a19d776f1e595982c0ff6360d397151
+      size: 36038
+  generar_datos@v2-n2:
+    cmd: python pipeline/generar_datos.py v2-n2
+    deps:
+    - path: pipeline/common.py
+      hash: md5
+      md5: 32c565126b4f5811a4d87ce69da347da
+      size: 1220
+    - path: pipeline/generar_datos.py
+      hash: md5
+      md5: 0170a516f8cdcbc62d4019fb780da13f
+      size: 1145
+    - path: warehouse_rush/env_v1.py
+      hash: md5
+      md5: 6197e1ebbb7dc58f5b386f68bb2debe7
+      size: 11365
+    - path: warehouse_rush/env_v2.py
+      hash: md5
+      md5: fd2d9eaed1bba1380f8ce48422fddb69
+      size: 10726
+    - path: warehouse_rush/niveles.py
+      hash: md5
+      md5: 9f038e5a7f90ef4a1ee14ce4d7ed4736
+      size: 5391
+    params:
+      configs/niveles.yaml:
+        niveles.v2-n2:
+          nombre: N2 · Más decisiones (negocio)
+          ambiente: WarehouseRush-v2
+          version_ambiente: 2.0.0
+          decision: 'Órdenes de 3 paquetes con servicio Express o Estándar: cumplir
+            el plazo de los Express ($13.000 de compensación si llegan tarde), no
+            romper frágiles ($60.000 de indemnización) y decidir cuándo cargar la
+            batería (cada rescate cuesta $8.000 de un técnico).'
+          entorno:
+            bateria: true
+            bateria_max: 100
+            max_pasos: 400
+            bloqueos: []
+          datos:
+            semilla: 142
+            pedidos_entrenamiento: 20000
+            pedidos_evaluacion: 500
+            paquetes_por_pedido: 3
+            prob_tipos:
+              normal: 0.5
+              pesado: 0.25
+              fragil: 0.25
+            prob_express: 0.3
+    outs:
+    - path: data/v2-n2/pedidos_entrenamiento.json
+      hash: md5
+      md5: 4a64ebff4313f8801e453a2bfd11f72c
+      size: 7942841
+    - path: data/v2-n2/pedidos_evaluacion.json
+      hash: md5
+      md5: c0f76fbaebdfc4705026ee6734460aab
+      size: 198661
+  generar_datos@v2-n3:
+    cmd: python pipeline/generar_datos.py v2-n3
+    deps:
+    - path: pipeline/common.py
+      hash: md5
+      md5: 32c565126b4f5811a4d87ce69da347da
+      size: 1220
+    - path: pipeline/generar_datos.py
+      hash: md5
+      md5: 0170a516f8cdcbc62d4019fb780da13f
+      size: 1145
+    - path: warehouse_rush/env_v1.py
+      hash: md5
+      md5: 6197e1ebbb7dc58f5b386f68bb2debe7
+      size: 11365
+    - path: warehouse_rush/env_v2.py
+      hash: md5
+      md5: fd2d9eaed1bba1380f8ce48422fddb69
+      size: 10726
+    - path: warehouse_rush/niveles.py
+      hash: md5
+      md5: 9f038e5a7f90ef4a1ee14ce4d7ed4736
+      size: 5391
+    params:
+      configs/niveles.yaml:
+        niveles.v2-n3:
+          nombre: N3 · Operación exigente (negocio)
+          ambiente: WarehouseRush-v2
+          version_ambiente: 2.0.0
+          decision: 'Incidente en el centro de distribución: el corredor inferior
+            está bloqueado en (7,4) y (7,7). Las rutas alternativas son más largas
+            y ponen en riesgo el plazo de los Express.'
+          entorno:
+            bateria: true
+            bateria_max: 100
+            max_pasos: 400
+            bloqueos:
+            - - 7
+              - 4
+            - - 7
+              - 7
+          datos:
+            semilla: 143
+            pedidos_entrenamiento: 20000
+            pedidos_evaluacion: 500
+            paquetes_por_pedido: 3
+            prob_tipos:
+              normal: 0.5
+              pesado: 0.25
+              fragil: 0.25
+            prob_express: 0.3
+    outs:
+    - path: data/v2-n3/pedidos_entrenamiento.json
+      hash: md5
+      md5: d607d4720c26e457c42cb35b2e6b2a0c
+      size: 7942704
+    - path: data/v2-n3/pedidos_evaluacion.json
+      hash: md5
+      md5: b87e2ba5c2c22533aa4ae43c3f3fedae
+      size: 198701

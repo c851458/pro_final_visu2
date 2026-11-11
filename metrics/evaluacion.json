@@ -1,17 +1,17 @@
 {
-  "tasa_exito": 0.986,
-  "paquetes_entregados_medios": 2.98,
-  "pasos_medios": 68.066,
-  "pasos_medios_exitosos": 63.35294117647059,
-  "recompensa_media": 62.592,
-  "rescates_medios": 0.168,
+  "tasa_exito": 0.994,
+  "paquetes_entregados_medios": 2.994,
+  "pasos_medios": 65.992,
+  "pasos_medios_exitosos": 63.97585513078471,
+  "recompensa_media": 66.638,
+  "rescates_medios": 0.142,
   "fragiles_rotos_medios": 0.0,
-  "cargas_medias": 0.174,
-  "choques_medios": 0.014,
-  "acciones_invalidas_medias": 4.98,
-  "latencia_media_ms": 0.008351,
+  "cargas_medias": 0.248,
+  "choques_medios": 0.046,
+  "acciones_invalidas_medias": 2.15,
+  "latencia_media_ms": 0.0034282,
   "pedidos_evaluados": 500,
   "fallos_por_causa": {
-    "tiempo_agotado": 7
+    "tiempo_agotado": 3
   }
 }

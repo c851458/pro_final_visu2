@@ -82,3 +82,14 @@ def test_niveles_v2_generan_servicios(level):
     cases, suite_id = niveles.evaluation_suite(niveles.resolve(level))
     services = [p["service"] for o in cases for p in o["paquetes"]]
     assert set(services) == {STANDARD, EXPRESS} and suite_id.startswith(level)
+
+
+@pytest.mark.parametrize("level,env_class", [("n2", "WarehouseRushV1Env"), ("v2-n2", "WarehouseRushV2Env")])
+def test_la_configuracion_de_entrenamiento_usa_el_ambiente_del_nivel(level, env_class):
+    """Regresion: resolve_params debe conservar el ambiente del nivel (antes los niveles v2 entrenaban con v1)."""
+    import sys
+    sys.path.insert(0, "pipeline")
+    from common import load_params, make_env, resolve_params
+
+    cfg = resolve_params(dict(load_params(), nivel=level))
+    assert type(make_env(cfg).unwrapped).__name__ == env_class
