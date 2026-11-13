@@ -165,7 +165,19 @@ function selectLevel(id: string) {
 
 const STATUS_LABELS: Record<string, string> = { pendiente: 'pendiente', cargando: 'en camino', entregado: '✔ entregado' };
 
+const MAX_LOG = 60;
+
+function logEvent(texto: string, tipo: 'ok' | 'alerta' | 'info', paso: number) {
+  const list = $('event-log');
+  const li = document.createElement('li');
+  li.className = tipo;
+  li.innerHTML = `<span class="paso">${String(paso).padStart(3, '0')}</span>${esc(texto)}`;
+  list.prepend(li);
+  while (list.children.length > MAX_LOG) list.lastChild?.remove();
+}
+
 function resetHud() {
+  $('event-log').innerHTML = '';
   for (const id of ['hud-step', 'hud-action', 'hud-reward', 'hud-total', 'hud-rescues', 'hud-sla']) $(id).textContent = '-';
   $('hud-libro').innerHTML = '';
   $('order').innerHTML = '';
@@ -217,8 +229,8 @@ function updateHud(f: Fotograma) {
     let goal = f.carrying
       ? `Lleva el paquete a la <b style="color:${ZONE_CSS[cur.zone]}">Zona ${niveles.zonas[cur.zone]}</b> y pulsa <kbd>E</kbd>.`
       : 'Ve junto a la estantería marcada y pulsa <kbd>R</kbd>.';
-    if (lv.entorno.bateria && f.battery / lv.entorno.bateria_max <= 0.3) goal += '<br><b class="gold">Batería baja:</b> ve a la estación ⚡ y pulsa <kbd>C</kbd>.';
-    if (f.success) goal = '¡Pedido completo! Pulsa <kbd>N</kbd> o “Ejecutar episodio” para otro.';
+    if (lv.entorno.bateria && f.battery / lv.entorno.bateria_max <= 0.3) goal += '<br><b class="gold">Batería baja:</b> ve a la estación de carga y pulsa <kbd>C</kbd>.';
+    if (f.success) goal = 'Orden despachada. Pulsa <kbd>N</kbd> o “Ejecutar episodio” para otra.';
     $('goal').innerHTML = goal;
   } else {
     $('goal').textContent = '';
@@ -232,8 +244,8 @@ function onEpisodeEnd(f: Fotograma) {
   const sub = `${delivered}/${f.order.length} paquetes · ${f.steps} pasos · ${isCop() ? 'utilidad' : 'recompensa'} ${fmt(f.total)}`
     + (late ? ` · ${late} fuera de plazo` : '')
     + (f.rescues ? ` · ${f.rescues} rescate(s)` : '');
-  if (f.success) showBanner('¡PEDIDO COMPLETO!', sub, 'pos');
-  else showBanner('TIEMPO AGOTADO', sub, 'neg');
+  if (f.success) showBanner('Orden despachada', sub, 'pos');
+  else showBanner('Orden incompleta: tiempo agotado', sub, 'neg');
 }
 
 // ---------------------------------------------------------------- acciones
@@ -563,7 +575,8 @@ async function init() {
     return;
   }
 
-  escena = new Escena($('scene'), $('popups'), niveles.zonas);
+  escena = new Escena($('scene'), niveles.zonas);
+  escena.onEvento = logEvent;
   escena.onFotograma = updateHud;
   escena.onFinFotograma = onEpisodeEnd;
   const speed = $<HTMLInputElement>('speed');

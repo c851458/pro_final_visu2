@@ -163,9 +163,11 @@ kbd { font: 11px ui-monospace, monospace; background: rgba(255,255,255,0.12); bo
 .popup { position: fixed; font-weight: 800; font-size: 18px; transform: translate(-50%, -50%);
   text-shadow: 0 2px 8px rgba(0,0,0,0.7); white-space: nowrap; }
 
-#banner { position: absolute; top: 14%; left: 50%; transform: translateX(-50%); text-align: center; pointer-events: none; z-index: 6; }
-#banner-title { font-size: 40px; font-weight: 800; letter-spacing: 2px; text-shadow: 0 4px 24px rgba(0,0,0,0.6); }
-#banner-sub { font-size: 15px; color: #dfe6ef; text-shadow: 0 2px 10px rgba(0,0,0,0.8); }
+#banner { position: absolute; top: 58px; left: 50%; transform: translateX(-50%); pointer-events: none; z-index: 6;
+  background: var(--panel); border: 1px solid var(--border); border-radius: 10px; padding: 8px 16px; text-align: center;
+  backdrop-filter: blur(8px); }
+#banner-title { font-size: 14px; font-weight: 700; letter-spacing: 0.3px; }
+#banner-sub { font-size: 12px; color: var(--dim); }
 #toast { position: absolute; bottom: 16px; left: 50%; transform: translateX(-50%); max-width: 560px; z-index: 30;
   background: #5a1d1d; border: 1px solid #a33; border-radius: 10px; padding: 10px 14px; }
 
@@ -185,3 +187,12 @@ kbd { font: 11px ui-monospace, monospace; background: rgba(255,255,255,0.12); bo
 .late { color: var(--bad); font-weight: 700; font-size: 11px; }
 .ontime { color: var(--ok); font-size: 11px; }
 optgroup { background: var(--panel-solid); color: var(--dim); }
+
+.event-log { list-style: none; padding: 0; margin: 0; max-height: 210px; overflow-y: auto; font-size: 12px;
+  font-variant-numeric: tabular-nums; border: 1px solid var(--border); border-radius: 8px; }
+.event-log li { padding: 4px 8px; border-bottom: 1px solid var(--border); border-left: 3px solid transparent; }
+.event-log li.ok { border-left-color: var(--ok); }
+.event-log li.alerta { border-left-color: var(--bad); }
+.event-log li.info { border-left-color: var(--blue); }
+.event-log .paso { color: var(--dim); font-family: ui-monospace, monospace; margin-right: 8px; }
+.event-log:empty::before { content: "Sin eventos"; display: block; padding: 6px 8px; color: var(--dim); }
