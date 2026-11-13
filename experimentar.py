@@ -20,7 +20,8 @@ import os
 import sys
 import tempfile
 import time
-from multiprocessing import Pool
+from concurrent.futures import ProcessPoolExecutor, as_completed
+from concurrent.futures.process import BrokenProcessPool
 
 import numpy as np
 import yaml
@@ -144,21 +145,32 @@ def make_job(name, overrides, workdir, hypothesis=None, parent_spec=None, tags=N
 
 
 def execute(jobs, processes):
-    """Entrena los trabajos en paralelo, registra cada uno en MLflow (tambien los fallidos) y muestra el resumen."""
+    """Entrena los trabajos en paralelo y registra cada uno en MLflow en cuanto termina.
+
+    Si un proceso muere (por ejemplo, sin memoria), ProcessPoolExecutor lo detecta en vez de quedarse esperando:
+    los trabajos afectados quedan registrados como fallidos con su diagnostico y los ya terminados no se pierden.
+    """
     for job in jobs:  # valida los parametros antes de lanzar procesos
         resolve_with_overrides(job["overrides"])
     print(f"Corriendo {len(jobs)} experimento(s) con {min(processes, len(jobs))} proceso(s)...", flush=True)
     results = []
-    with Pool(min(processes, len(jobs))) as pool:
-        outcomes = [pool.apply_async(run_experiment, (job,)) for job in jobs]
-        for job, outcome in zip(jobs, outcomes):
+    with ProcessPoolExecutor(max_workers=min(processes, len(jobs))) as pool:
+        futures = {pool.submit(run_experiment, job): job for job in jobs}
+        for future in as_completed(futures):
+            job = futures[future]
             try:
-                results.append(outcome.get())
+                result = future.result()
+            except BrokenProcessPool as error:
+                print(f"  FALLO: {job['name']}: el proceso de entrenamiento murio ({error})", flush=True)
+                log_failed(job, f"proceso de entrenamiento terminado abruptamente (posible falta de memoria): {error}")
+                continue
             except Exception as error:  # noqa: BLE001  (se registra el intento fallido)
                 print(f"  FALLO: {job['name']}: {error}", flush=True)
                 log_failed(job, error)
-    for result in results:
-        result["run_id"] = log_to_mlflow(result)
+                continue
+            result["run_id"] = log_to_mlflow(result)
+            print(f"  registrado en MLflow: {job['name']} -> {result['run_id']}", flush=True)
+            results.append(result)
     print(f"\n{'experimento':26s} {'nivel':5s} {'exito':>7s} {'pasos':>7s} {'rescates':>9s}  run_id")
     for r in sorted(results, key=lambda r: -r["metrics"]["tasa_exito"]):
         m = r["metrics"]
