@@ -284,6 +284,11 @@ def pipeline(nivel="n2", modo="checkpoint", run=None, promover=False, publicar=F
             evidence["etapas"]["8-verificar"] = {"nota": "sin --publicar: se verifica la URL actual sin esperar commit",
                                                  **verify_served(url, None, nivel, None, wait_s=60)}
         save("completado")
+        if publicar:  # la evidencia final se escribe despues del push del catalogo: se sube aparte
+            sh("git", "add", path)
+            if subprocess.run(["git", "diff", "--cached", "--quiet"], cwd=ROOT).returncode != 0:
+                sh("git", "commit", "-q", "-m", f"Evidencia final del flujo {evidence['flow_run_id'][:8]}")
+                sh("git", "push", "-q", "origin", f"{tracking.git('rev-parse', '--abbrev-ref', 'HEAD')}:main")
     except Exception as error:
         evidence["error"] = str(error)
         save("fallido")
