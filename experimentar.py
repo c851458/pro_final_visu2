@@ -101,8 +101,7 @@ def log_to_mlflow(result):
     else:
         tags["origen_modelo"] = "desde cero"
     with tracking.start_run(result["name"], result["cfg"], origin="experimentar.py", extra_tags=tags) as run:
-        for row in result["curve"]:
-            tracking.log_curve(row)
+        tracking.log_curves(result["curve"])
         mlflow.log_metric("tiempo_entrenamiento_s", result["tiempo"])
         tracking.log_evaluation(result["metrics"], result["per_case"], result["suite_id"])
         folder = os.path.join(workdir, result["name"])
@@ -136,8 +135,9 @@ def download_parent_model(spec, workdir):
 
 
 def make_job(name, overrides, workdir, hypothesis=None, parent_spec=None, tags=None):
+    # el commit se toma al crear el trabajo: es el codigo con el que se entrena, aunque se registre despues
     job = {"name": name, "overrides": list(overrides), "workdir": workdir, "hypothesis": hypothesis,
-           "tags": tags or {}, "initial_model": None, "parent": None}
+           "tags": {**tracking.code_version(), **(tags or {})}, "initial_model": None, "parent": None}
     if parent_spec:
         parent, path = download_parent_model(parent_spec, workdir)
         job.update(initial_model=path, parent={"run_id": parent.info.run_id, "run_name": parent.info.run_name})

@@ -1,0 +1,107 @@
+{
+  "contraste": "medicion-v2-n2",
+  "brazos": {
+    "A": {
+      "runs": [
+        {
+          "run_id": "db73889667dd438bbed45da5af9672c1",
+          "nombre": "medicion-v2-n2-A-s0",
+          "semilla": 0,
+          "episodios": 80000,
+          "tiempo_s": 490.4438579082489,
+          "tasa_exito": 0.998,
+          "pasos_medios_exitosos": 84.28056112224449,
+          "rescates_medios": 0.438,
+          "fragiles_rotos_medios": 0.0,
+          "choques_medios": 0.028,
+          "test_reservado": {
+            "tasa_exito": 0.998,
+            "pasos_medios_exitosos": 83.40480961923848,
+            "rescates_medios": 0.426,
+            "fragiles_rotos_medios": 0.0,
+            "choques_medios": 0.036
+          }
+        },
+        {
+          "run_id": "0758c3ecb45b4b7c958d70c9651ef2f4",
+          "nombre": "medicion-v2-n2-A-s1",
+          "semilla": 1,
+          "episodios": 80000,
+          "tiempo_s": 490.1680624485016,
+          "tasa_exito": 0.858,
+          "pasos_medios_exitosos": 77.87179487179488,
+          "rescates_medios": 0.398,
+          "fragiles_rotos_medios": 0.0,
+          "choques_medios": 0.0,
+          "test_reservado": {
+            "tasa_exito": 0.892,
+            "pasos_medios_exitosos": 75.46636771300449,
+            "rescates_medios": 0.372,
+            "fragiles_rotos_medios": 0.0,
+            "choques_medios": 0.0
+          }
+        },
+        {
+          "run_id": "3ffdae35143a459bb102e14d8059398e",
+          "nombre": "medicion-v2-n2-A-s2",
+          "semilla": 2,
+          "episodios": 80000,
+          "tiempo_s": 377.4294536113739,
+          "tasa_exito": 0.958,
+          "pasos_medios_exitosos": 79.31315240083508,
+          "rescates_medios": 0.422,
+          "fragiles_rotos_medios": 0.0,
+          "choques_medios": 0.014,
+          "test_reservado": {
+            "tasa_exito": 0.952,
+            "pasos_medios_exitosos": 79.19117647058823,
+            "rescates_medios": 0.39,
+            "fragiles_rotos_medios": 0.0,
+            "choques_medios": 0.0
+          }
+        }
+      ],
+      "n_semillas": 3,
+      "tasa_exito": [
+        0.938,
+        0.0721110255092798
+      ],
+      "pasos_medios_exitosos": [
+        80.48850279829148,
+        3.362165616210213
+      ],
+      "rescates_medios": [
+        0.41933333333333334,
+        0.020132891827388654
+      ],
+      "fragiles_rotos_medios": [
+        0.0,
+        0.0
+      ],
+      "choques_medios": [
+        0.014,
+        0.014
+      ],
+      "tiempo_s": [
+        452.6804579893748,
+        65.16942734678076
+      ],
+      "episodios": 80000,
+      "nombre": "Q-learning, 80000 episodios",
+      "hipotesis": "Con 80000 episodios Q-learning alcanza >=95% de ordenes completas en v2-n2 en las tres semillas.",
+      "cumple_requisitos": false,
+      "incumplimientos": [
+        "tasa_exito media 0.938 < 0.95",
+        "rescates 0.419 > 0.3"
+      ],
+      "test_reservado_tasa_exito": [
+        0.9473333333333334,
+        0.053153864707407045
+      ]
+    }
+  },
+  "ganador": null,
+  "motivo": "Ningun brazo cumple los requisitos: se mantiene el modelo actual.",
+  "seleccionado": null,
+  "test_reservado_suite_id": "v2-n2-reservado-1bde9e327dc2"
+}

@@ -104,6 +104,13 @@ def dataset_hashes(level):
     return {f"datos.md5.{os.path.basename(o['path'])}": o["md5"] for o in outs}
 
 
+def code_version():
+    """Commit y cambios de codigo sin commit en este momento (se toma al iniciar un entrenamiento)."""
+    changes = uncommitted_code_changes()
+    return {"git.commit": git("rev-parse", "HEAD"), "git.rama": git("rev-parse", "--abbrev-ref", "HEAD"),
+            "git.cambios_sin_commit": str(bool(changes)), "git.archivos_modificados": ", ".join(changes)[:500]}
+
+
 def start_run(name, cfg, origin, extra_tags=None):
     """Abre un run con los parametros resueltos, la configuracion completa y su procedencia."""
     from warehouse_rush import niveles
@@ -130,11 +137,33 @@ def start_run(name, cfg, origin, extra_tags=None):
     return run
 
 
-def log_curve(row):
+def _curve_metrics(row):
     step = row["episodio"]
-    mlflow.log_metrics({f"entrenamiento.{k}": v for k, v in row.items() if k != "episodio" and not k.startswith("eval_")},
-                       step=step)
-    mlflow.log_metrics({f"curva_eval.{k[5:]}": v for k, v in row.items() if k.startswith("eval_")}, step=step)
+    for k, v in row.items():
+        if k == "episodio":
+            continue
+        name = f"curva_eval.{k[5:]}" if k.startswith("eval_") else f"entrenamiento.{k}"
+        yield name, float(v), step
+
+
+def log_curve(row):
+    """Registra un punto de la curva (usado durante el entrenamiento del pipeline)."""
+    for name, value, step in _curve_metrics(row):
+        mlflow.log_metric(name, value, step=step)
+
+
+def log_curves(rows):
+    """Registra la curva completa en lotes: una peticion por cada 1000 metricas (DagsHub es lento por peticion)."""
+    import time
+
+    from mlflow.entities import Metric
+
+    run_id = mlflow.active_run().info.run_id
+    now = int(time.time() * 1000)
+    metrics = [Metric(name, value, now, step) for row in rows for name, value, step in _curve_metrics(row)]
+    client = mlflow.MlflowClient()
+    for i in range(0, len(metrics), 1000):
+        client.log_batch(run_id, metrics=metrics[i:i + 1000])
 
 
 def log_evaluation(metrics, per_case, suite_id):
