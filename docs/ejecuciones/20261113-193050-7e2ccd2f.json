@@ -44,8 +44,18 @@
       "motivo": "cumple los criterios",
       "recomendado": "v2-n1-v2-n1-base-0bc2e7d5",
       "anterior": null
+    },
+    "7-catalogo": {
+      "commit": "35ff10ada6055c12265ebf2e91dc4945054d5038",
+      "nota": "push de experimento1 a main"
+    },
+    "8-verificar": {
+      "commit_servido": "35ff10ada6055c12265ebf2e91dc4945054d5038",
+      "modelo_servido": "v2-n1-v2-n1-base-0bc2e7d5",
+      "exito_20_casos": 1.0,
+      "latencia_media_ms": 0.005595000000000001
     }
   },
-  "estado": "verificando",
-  "fin": "2026-11-13T19:31:26.770381+00:00"
+  "estado": "completado",
+  "fin": "2026-11-13T19:32:57.518088+00:00"
 }
