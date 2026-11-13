@@ -12511,7 +12511,7 @@
    "nombre": "v2-n1-base",
    "estado": "terminado",
    "inicio": 1794428333623,
-   "duracion_s": 177.7,
+   "duracion_s": 169950.9,
    "tipo": "entrenamiento",
    "origen": "experimentar.py",
    "nivel": "v2-n1",
@@ -12540,7 +12540,7 @@
    "evaluation_suite_id": "v2-n1-ee2f678a94b5",
    "estado_modelo": "checkpoint final disponible",
    "parent_run_id": null,
-   "model_id": null,
+   "model_id": "v2-n1-v2-n1-base-0bc2e7d5",
    "error": null,
    "metricas": {
     "tasa_exito": 1.0,

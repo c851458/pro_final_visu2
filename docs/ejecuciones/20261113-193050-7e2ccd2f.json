@@ -1,0 +1,51 @@
+{
+  "flujo": "warehouse-rush-pipeline",
+  "flow_run_id": "7e2ccd2f-2791-474c-b0ae-c53229a3f577",
+  "inicio": "2026-11-13T19:30:50.056501+00:00",
+  "parametros": {
+    "nivel": "v2-n1",
+    "modo": "checkpoint",
+    "run": "85f3793c233b491eabd387cc7b2b7c81",
+    "promover": true,
+    "publicar": true
+  },
+  "etapas": {
+    "1-validar": {
+      "nivel": "v2-n1",
+      "familia": "warehouse-rush-v2/obs-11x15x1x2x3x40x2/acciones-7",
+      "version_ambiente": "2.0.0",
+      "estanterias_alcanzables": 40,
+      "criterios_sha256": "ec7c4de1f29a82157e73253b93d1ed811d7749472966e2b9fbde55846aa009dd",
+      "git_commit": "6fc7b77688743fb79e64c4affd5651f917ecbe6d",
+      "cambios_sin_commit": [],
+      "modo": "checkpoint",
+      "run": "85f3793c233b491eabd387cc7b2b7c81"
+    },
+    "2-pruebas": "40 passed, 50 warnings in 18.57s",
+    "3-candidato": {
+      "run_id": "85f3793c233b491eabd387cc7b2b7c81",
+      "run_name": "v2-n1-base",
+      "nivel_entrenamiento": "v2-n1",
+      "eval_tasa_exito_registrada": 1.0
+    },
+    "4-evaluar": {
+      "suite_id": "v2-n1-ee2f678a94b5",
+      "tasa_exito": 1.0,
+      "fallos_por_causa": {},
+      "coincide_con_mlflow": true
+    },
+    "5-registrar": {
+      "model_id": "v2-n1-v2-n1-base-0bc2e7d5",
+      "model_sha256": "0bc2e7d5fcb489a74229a2a316821f4744fa7cd24890d20d3722605b83e5792c",
+      "model_uri": "hf://c851458/warehouse-rush-qlearning@7e9e68cc94da67b222b261e14c24a6666377a09e/modelos/v2-n1-v2-n1-base-0bc2e7d5/q_table.npy"
+    },
+    "6-criterios": {
+      "promovido": true,
+      "motivo": "cumple los criterios",
+      "recomendado": "v2-n1-v2-n1-base-0bc2e7d5",
+      "anterior": null
+    }
+  },
+  "estado": "verificando",
+  "fin": "2026-11-13T19:31:26.770381+00:00"
+}

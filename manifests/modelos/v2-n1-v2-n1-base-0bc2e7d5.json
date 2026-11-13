@@ -1,0 +1,174 @@
+{
+  "model_id": "v2-n1-v2-n1-base-0bc2e7d5",
+  "run_id": "85f3793c233b491eabd387cc7b2b7c81",
+  "run_name": "v2-n1-base",
+  "mlflow_run_url": "https://dagshub.com/c851458/pro_final_visu2.mlflow/#/experiments/0/runs/85f3793c233b491eabd387cc7b2b7c81",
+  "level_id": "v2-n1",
+  "environment_version": "2.0.0",
+  "familia_modelo": "warehouse-rush-v2/obs-11x15x1x2x3x40x2/acciones-7",
+  "git_commit": "39a68200c4b55c9d4e61f80b33ccb8bec2bf2087",
+  "git_cambios_sin_commit": false,
+  "config_sha256": "2fad47747972cabc5e842255cb23e16f64a6db611c16a64b0f449b654f791089",
+  "config": {
+    "nivel": "v2-n1",
+    "ambiente": "WarehouseRush-v2",
+    "version_ambiente": "2.0.0",
+    "entorno": {
+      "bateria": false,
+      "bateria_max": 100,
+      "max_pasos": 200,
+      "bloqueos": []
+    },
+    "datos": {
+      "semilla": 107,
+      "pedidos_entrenamiento": 5000,
+      "pedidos_evaluacion": 200,
+      "paquetes_por_pedido": 1,
+      "prob_tipos": {
+        "normal": 1.0,
+        "pesado": 0.0,
+        "fragil": 0.0
+      },
+      "prob_express": 0.3
+    },
+    "agente": {
+      "alpha": 0.1,
+      "gamma": 0.99,
+      "epsilon_min": 0.05,
+      "fraccion_exploracion": 0.7
+    },
+    "entrenamiento": {
+      "episodios": 20000,
+      "semilla": 0,
+      "registrar_cada": 1000,
+      "casos_curva": 50
+    }
+  },
+  "model_uri": "hf://c851458/warehouse-rush-qlearning@7e9e68cc94da67b222b261e14c24a6666377a09e/modelos/v2-n1-v2-n1-base-0bc2e7d5/q_table.npy",
+  "model_download_url": "https://huggingface.co/c851458/warehouse-rush-qlearning/resolve/7e9e68cc94da67b222b261e14c24a6666377a09e/modelos/v2-n1-v2-n1-base-0bc2e7d5/q_table.npy",
+  "model_sha256": "0bc2e7d5fcb489a74229a2a316821f4744fa7cd24890d20d3722605b83e5792c",
+  "formato": {
+    "archivo": "q_table.npy",
+    "dtype": "float32",
+    "forma": [
+      11,
+      15,
+      1,
+      2,
+      3,
+      40,
+      2,
+      7
+    ]
+  },
+  "normalization_uri": null,
+  "normalizacion": "ninguna: las observaciones son enteros discretos usados como indices de la tabla Q (sin escalado ni clipping)",
+  "observacion": [
+    {
+      "nombre": "fila",
+      "unidad": "casilla",
+      "rango": "0-10"
+    },
+    {
+      "nombre": "columna",
+      "unidad": "casilla",
+      "rango": "0-14"
+    },
+    {
+      "nombre": "nivel_bateria",
+      "unidad": "cuartos de bateria (0 vacia, 4 llena); 0 fijo sin bateria",
+      "rango": "0-4"
+    },
+    {
+      "nombre": "lleva_paquete",
+      "unidad": "booleano",
+      "rango": "0-1"
+    },
+    {
+      "nombre": "tipo_paquete_cargado",
+      "unidad": "0 normal, 1 pesado, 2 fragil (0 si no lleva)",
+      "rango": "0-2"
+    },
+    {
+      "nombre": "objetivo",
+      "unidad": "indice de estanteria (sin paquete) o de zona A/B/C (con paquete)",
+      "rango": "0-39"
+    }
+  ],
+  "acciones": [
+    {
+      "id": 0,
+      "nombre": "arriba"
+    },
+    {
+      "id": 1,
+      "nombre": "abajo"
+    },
+    {
+      "id": 2,
+      "nombre": "izquierda"
+    },
+    {
+      "id": 3,
+      "nombre": "derecha"
+    },
+    {
+      "id": 4,
+      "nombre": "recoger"
+    },
+    {
+      "id": 5,
+      "nombre": "entregar"
+    },
+    {
+      "id": 6,
+      "nombre": "cargar"
+    }
+  ],
+  "runtime_ref": "github.com/c851458/pro_final_visu2@39a68200c4b55c9d4e61f80b33ccb8bec2bf2087 (warehouse_rush/env_v1.py, configs/niveles.yaml, requirements.txt)",
+  "evaluation_suite_id": "v2-n1-ee2f678a94b5",
+  "seed": 0,
+  "parent_run_id": null,
+  "origen": "desde cero",
+  "optimizador": "Q-learning tabular (sin optimizador ni contador: se continua desde la tabla Q)",
+  "presupuesto": {
+    "episodios": 20000,
+    "tiempo_entrenamiento_s": 29.592453956604004
+  },
+  "hipotesis": "Con recompensa en COP y SLA, Q-learning tabular alcanza >=95% de ordenes completas desde cero (v2-n1 con 20000 episodios, v2-n3 con 40000).",
+  "metricas_evaluacion": {
+    "tasa_exito": 1.0,
+    "paquetes_entregados_medios": 1.0,
+    "pasos_medios": 17.175,
+    "pasos_medios_exitosos": 17.175,
+    "recompensa_media": 18814.125,
+    "rescates_medios": 0.0,
+    "fragiles_rotos_medios": 0.0,
+    "cargas_medias": 0.0,
+    "choques_medios": 0.0,
+    "acciones_invalidas_medias": 0.0,
+    "latencia_media_ms": 0.005359,
+    "pedidos_evaluados": 200.0,
+    "otif": 1.0,
+    "cumplimiento_sla": 1.0,
+    "cumplimiento_express": 1.0,
+    "entregas_tarde_medias": 0.0,
+    "utilidad_media_cop": 18814.125,
+    "ingresos_medio_cop": 18900.0,
+    "costos_operacion_medio_cop": 85.875,
+    "danos_medio_cop": 0.0,
+    "intervenciones_medio_cop": 0.0,
+    "compensaciones_sla_medio_cop": 0.0,
+    "energia_medio_cop": 0.0
+  },
+  "fallos_por_causa": {},
+  "hf_repo": "c851458/warehouse-rush-qlearning",
+  "hf_commit": "7e9e68cc94da67b222b261e14c24a6666377a09e",
+  "hf_tag": null,
+  "publicado": "2026-11-13T19:31:23+00:00",
+  "mlflow_registro": {
+    "nombre": "warehouse-rush-v2-n1",
+    "version": "1",
+    "url": "https://dagshub.com/c851458/pro_final_visu2.mlflow/#/models/warehouse-rush-v2-n1/versions/1"
+  }
+}
