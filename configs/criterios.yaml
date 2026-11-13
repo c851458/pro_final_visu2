@@ -26,6 +26,33 @@ contrastes:
           Continuar desde el modelo de N2 con epsilon inicial 1.0 alcanza >=95% de exito en N3 con 25000
           episodios (62% del presupuesto desde cero), corrigiendo la intervencion rechazada (epsilon 0.3, 23.6%).
 
+  # Ambiente v2.0.0 (negocio): medicion de estabilidad con 3 semillas, fijada antes de entrenar (2026-11-13).
+  # Corridas exploratorias previas (una semilla, 80000 episodios) dieron entre 73.6% y 99.8% de exito.
+  medicion-v2-n2:
+    nivel: v2-n2
+    pregunta: >-
+      ¿Q-learning tabular aprende de forma estable el centro de distribucion (N2, recompensa en COP y SLA) con
+      80000 episodios, el doble que v1 porque el servicio duplica los estados?
+    semillas: [0, 1, 2]
+    brazos:
+      A:
+        nombre: Q-learning, 80000 episodios
+        cambios: [nivel=v2-n2, entrenamiento.episodios=80000]
+        hipotesis: >-
+          Con 80000 episodios Q-learning alcanza >=95% de ordenes completas en v2-n2 en las tres semillas.
+  medicion-v2-n3:
+    nivel: v2-n3
+    pregunta: >-
+      ¿Q-learning tabular aprende de forma estable el centro de distribucion con el pasillo bloqueado (N3) con
+      80000 episodios?
+    semillas: [0, 1, 2]
+    brazos:
+      A:
+        nombre: Q-learning, 80000 episodios
+        cambios: [nivel=v2-n3, entrenamiento.episodios=80000]
+        hipotesis: >-
+          Con 80000 episodios Q-learning alcanza >=95% de ordenes completas en v2-n3 en las tres semillas.
+
 # Requisitos que debe cumplir la media de las semillas de un brazo (suite de evaluacion del nivel).
 requisitos:
   tasa_exito_min: 0.95
