@@ -88,6 +88,61 @@ contrastes:
           Con 3 millones de pasos PPO alcanza >=95% de ordenes completas con <=0.30 rescates en v2-n3 en las tres
           semillas.
 
+  # Imitacion del planificador de reglas (fijado 2026-11-13, antes de entrenar). PPO desde cero no cumplio
+  # (ppo-v2-n2: 63.5% +- 55.2; ppo-v2-n3: 0%): 4 de 6 redes se quedaron quietas porque no moverse es lo mas barato
+  # al inicio. La politica de reglas logra 100% de exito y 0 rescates en ambas suites, asi que sirve de maestro.
+  # Misma red (128x128, 22 caracteristicas) y mismo formato de modelo que PPO.
+  # Nota: segun la regla de seleccion, si los dos brazos cumplen y difieren en menos de 0.01 de exito, gana el de
+  # menor presupuesto (A). B solo gana si mejora la tasa de exito en 0.01 o mas.
+  imitacion-v2-n2:
+    nivel: v2-n2
+    pregunta: >-
+      ¿Una red neuronal pre-entrenada imitando al planificador de reglas (DAgger) cumple los requisitos de forma
+      estable en N2 de negocio, y el afinamiento posterior con PPO la mejora?
+    semillas: [0, 1, 2]
+    brazos:
+      A:
+        nombre: imitacion DAgger
+        algoritmo: imitacion
+        pasos: 0
+        cambios: [nivel=v2-n2, algoritmo=imitacion, imitacion.iteraciones_dagger=8, imitacion.episodios_por_iteracion=1500]
+        hipotesis: >-
+          La red entrenada por imitacion (DAgger, 8 iteraciones de 1500 pedidos) alcanza >=95% de ordenes completas
+          con <=0.30 rescates en v2-n2 en las tres semillas.
+      B:
+        nombre: imitacion DAgger + afinamiento PPO 1M pasos
+        algoritmo: imitacion+ppo
+        pasos: 1000000
+        ppo: {learning_rate: 0.00005, ent_coef: 0.0, clip_range: 0.1}
+        cambios: [nivel=v2-n2, algoritmo=imitacion+ppo, ppo.learning_rate=5e-5, ppo.ent_coef=0, ppo.clip_range=0.1]
+        hipotesis: >-
+          Afinar con PPO (1M pasos, tasa de aprendizaje baja) la red imitada mantiene >=95% de exito y <=0.30 rescates
+          en las tres semillas y mejora el OTIF respecto de A.
+  imitacion-v2-n3:
+    nivel: v2-n3
+    pregunta: >-
+      ¿Una red neuronal pre-entrenada imitando al planificador de reglas (DAgger) cumple los requisitos de forma
+      estable en N3 de negocio (pasillo bloqueado), y el afinamiento posterior con PPO la mejora?
+    semillas: [0, 1, 2]
+    brazos:
+      A:
+        nombre: imitacion DAgger
+        algoritmo: imitacion
+        pasos: 0
+        cambios: [nivel=v2-n3, algoritmo=imitacion, imitacion.iteraciones_dagger=8, imitacion.episodios_por_iteracion=1500]
+        hipotesis: >-
+          La red entrenada por imitacion (DAgger, 8 iteraciones de 1500 pedidos) alcanza >=95% de ordenes completas
+          con <=0.30 rescates en v2-n3 en las tres semillas.
+      B:
+        nombre: imitacion DAgger + afinamiento PPO 1M pasos
+        algoritmo: imitacion+ppo
+        pasos: 1000000
+        ppo: {learning_rate: 0.00005, ent_coef: 0.0, clip_range: 0.1}
+        cambios: [nivel=v2-n3, algoritmo=imitacion+ppo, ppo.learning_rate=5e-5, ppo.ent_coef=0, ppo.clip_range=0.1]
+        hipotesis: >-
+          Afinar con PPO (1M pasos, tasa de aprendizaje baja) la red imitada mantiene >=95% de exito y <=0.30 rescates
+          en las tres semillas y mejora el OTIF respecto de A.
+
 # Requisitos que debe cumplir la media de las semillas de un brazo (suite de evaluacion del nivel).
 requisitos:
   tasa_exito_min: 0.95
