@@ -48,8 +48,18 @@
       "motivo": "cumple los criterios",
       "recomendado": "v2-n2-imitacion-v2-n2-A-s0-9f293752",
       "anterior": null
+    },
+    "7-catalogo": {
+      "commit": "c5bd0d04e0aa149cc4058784b6d89b6285c70772",
+      "nota": "push de experimento1 a main"
+    },
+    "8-verificar": {
+      "commit_servido": "c5bd0d04e0aa149cc4058784b6d89b6285c70772",
+      "modelo_servido": "v2-n2-imitacion-v2-n2-A-s0-9f293752",
+      "exito_20_casos": 1.0,
+      "latencia_media_ms": 0.043875000000000004
     }
   },
-  "estado": "verificando",
-  "fin": "2026-11-14T12:40:42.338770+00:00"
+  "estado": "completado",
+  "fin": "2026-11-14T12:43:09.460508+00:00"
 }
