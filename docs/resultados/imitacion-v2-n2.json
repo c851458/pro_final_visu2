@@ -1,0 +1,217 @@
+{
+  "contraste": "imitacion-v2-n2",
+  "brazos": {
+    "A": {
+      "runs": [
+        {
+          "run_id": "fd3db2ea5ccb462bb8836bb665d4e074",
+          "nombre": "imitacion-v2-n2-A-s0",
+          "semilla": 0,
+          "episodios": 1213155,
+          "tiempo_s": 721.7734744548798,
+          "tasa_exito": 1.0,
+          "pasos_medios_exitosos": 60.1,
+          "rescates_medios": 0.0,
+          "fragiles_rotos_medios": 0.0,
+          "choques_medios": 0.0,
+          "test_reservado": {
+            "tasa_exito": 1.0,
+            "pasos_medios_exitosos": 59.612,
+            "rescates_medios": 0.0,
+            "fragiles_rotos_medios": 0.0,
+            "choques_medios": 0.0
+          }
+        },
+        {
+          "run_id": "7b63668ca70144c99b180e193d3b9b05",
+          "nombre": "imitacion-v2-n2-A-s1",
+          "semilla": 1,
+          "episodios": 1147167,
+          "tiempo_s": 698.7676312923431,
+          "tasa_exito": 1.0,
+          "pasos_medios_exitosos": 60.366,
+          "rescates_medios": 0.0,
+          "fragiles_rotos_medios": 0.0,
+          "choques_medios": 0.0,
+          "test_reservado": {
+            "tasa_exito": 1.0,
+            "pasos_medios_exitosos": 59.686,
+            "rescates_medios": 0.002,
+            "fragiles_rotos_medios": 0.0,
+            "choques_medios": 0.0
+          }
+        },
+        {
+          "run_id": "18a4136effa74b2b91f824f96ce96e5f",
+          "nombre": "imitacion-v2-n2-A-s2",
+          "semilla": 2,
+          "episodios": 1148113,
+          "tiempo_s": 701.3899519443512,
+          "tasa_exito": 0.998,
+          "pasos_medios_exitosos": 59.96993987975952,
+          "rescates_medios": 0.0,
+          "fragiles_rotos_medios": 0.0,
+          "choques_medios": 0.0,
+          "test_reservado": {
+            "tasa_exito": 0.998,
+            "pasos_medios_exitosos": 59.46492985971944,
+            "rescates_medios": 0.0,
+            "fragiles_rotos_medios": 0.0,
+            "choques_medios": 0.0
+          }
+        }
+      ],
+      "n_semillas": 3,
+      "tasa_exito": [
+        0.9993333333333333,
+        0.0011547005383792527
+      ],
+      "pasos_medios_exitosos": [
+        60.145313293253174,
+        0.20188084510500595
+      ],
+      "rescates_medios": [
+        0.0,
+        0.0
+      ],
+      "fragiles_rotos_medios": [
+        0.0,
+        0.0
+      ],
+      "choques_medios": [
+        0.0,
+        0.0
+      ],
+      "tiempo_s": [
+        707.310352563858,
+        12.593870037696949
+      ],
+      "episodios": 1213155,
+      "nombre": "imitacion DAgger",
+      "hipotesis": "La red entrenada por imitacion (DAgger, 8 iteraciones de 1500 pedidos) alcanza >=95% de ordenes completas con <=0.30 rescates en v2-n2 en las tres semillas.",
+      "cumple_requisitos": true,
+      "incumplimientos": [],
+      "test_reservado_tasa_exito": [
+        0.9993333333333333,
+        0.0011547005383792527
+      ]
+    },
+    "B": {
+      "runs": [
+        {
+          "run_id": "eb423aebcc2741b093bd93b43959da5b",
+          "nombre": "imitacion-v2-n2-B-s0",
+          "semilla": 0,
+          "episodios": 2213155,
+          "tiempo_s": 1536.8713054656982,
+          "tasa_exito": 1.0,
+          "pasos_medios_exitosos": 58.94,
+          "rescates_medios": 0.034,
+          "fragiles_rotos_medios": 0.0,
+          "choques_medios": 0.0,
+          "test_reservado": {
+            "tasa_exito": 1.0,
+            "pasos_medios_exitosos": 58.428,
+            "rescates_medios": 0.032,
+            "fragiles_rotos_medios": 0.0,
+            "choques_medios": 0.0
+          }
+        },
+        {
+          "run_id": "047a7acbb9274595a68b074fe94f1382",
+          "nombre": "imitacion-v2-n2-B-s1",
+          "semilla": 1,
+          "episodios": 2147167,
+          "tiempo_s": 1501.6876680850983,
+          "tasa_exito": 1.0,
+          "pasos_medios_exitosos": 57.964,
+          "rescates_medios": 0.048,
+          "fragiles_rotos_medios": 0.0,
+          "choques_medios": 0.0,
+          "test_reservado": {
+            "tasa_exito": 1.0,
+            "pasos_medios_exitosos": 57.38,
+            "rescates_medios": 0.042,
+            "fragiles_rotos_medios": 0.0,
+            "choques_medios": 0.0
+          }
+        },
+        {
+          "run_id": "b2b7ca3f4da04d429a7dd341ccc15bc6",
+          "nombre": "imitacion-v2-n2-B-s2",
+          "semilla": 2,
+          "episodios": 2148113,
+          "tiempo_s": 1516.8758533000946,
+          "tasa_exito": 1.0,
+          "pasos_medios_exitosos": 58.606,
+          "rescates_medios": 0.03,
+          "fragiles_rotos_medios": 0.0,
+          "choques_medios": 0.0,
+          "test_reservado": {
+            "tasa_exito": 1.0,
+            "pasos_medios_exitosos": 58.114,
+            "rescates_medios": 0.03,
+            "fragiles_rotos_medios": 0.0,
+            "choques_medios": 0.0
+          }
+        }
+      ],
+      "n_semillas": 3,
+      "tasa_exito": [
+        1.0,
+        0.0
+      ],
+      "pasos_medios_exitosos": [
+        58.50333333333333,
+        0.49603360101240446
+      ],
+      "rescates_medios": [
+        0.037333333333333336,
+        0.009451631252505217
+      ],
+      "fragiles_rotos_medios": [
+        0.0,
+        0.0
+      ],
+      "choques_medios": [
+        0.0,
+        0.0
+      ],
+      "tiempo_s": [
+        1518.4782756169636,
+        17.6464699810922
+      ],
+      "episodios": 2213155,
+      "nombre": "imitacion DAgger + afinamiento PPO 1M pasos",
+      "hipotesis": "Afinar con PPO (1M pasos, tasa de aprendizaje baja) la red imitada mantiene >=95% de exito y <=0.30 rescates en las tres semillas y mejora el OTIF respecto de A.",
+      "cumple_requisitos": true,
+      "incumplimientos": [],
+      "test_reservado_tasa_exito": [
+        1.0,
+        0.0
+      ]
+    }
+  },
+  "ganador": "A",
+  "motivo": "Empate en exito (<1 pp) entre A, B: gana A por menor presupuesto (1213155 episodios).",
+  "seleccionado": {
+    "run_id": "fd3db2ea5ccb462bb8836bb665d4e074",
+    "nombre": "imitacion-v2-n2-A-s0",
+    "semilla": 0,
+    "episodios": 1213155,
+    "tiempo_s": 721.7734744548798,
+    "tasa_exito": 1.0,
+    "pasos_medios_exitosos": 60.1,
+    "rescates_medios": 0.0,
+    "fragiles_rotos_medios": 0.0,
+    "choques_medios": 0.0,
+    "test_reservado": {
+      "tasa_exito": 1.0,
+      "pasos_medios_exitosos": 59.612,
+      "rescates_medios": 0.0,
+      "fragiles_rotos_medios": 0.0,
+      "choques_medios": 0.0
+    }
+  },
+  "test_reservado_suite_id": "v2-n2-reservado-1bde9e327dc2"
+}

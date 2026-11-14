@@ -28611,6 +28611,4513 @@
    "tiempo_entrenamiento_s": null,
    "curvas": {},
    "mlflow_url": "https://dagshub.com/c851458/pro_final_visu2.mlflow/#/experiments/0/runs/e2789e8f19b14ee294a2006224766001"
+  },
+  {
+   "run_id": "68acdeebedbd4ede8a6b1f2ad776b7aa",
+   "nombre": "ppo-v2-n2-A-s0",
+   "estado": "terminado",
+   "inicio": 1794625414892,
+   "duracion_s": 3.8,
+   "tipo": "finalista",
+   "origen": "pipeline/entrenar_ppo.py",
+   "nivel": "v2-n2",
+   "environment_version": "2.0.0",
+   "familia_modelo": "warehouse-rush-v2/ppo-caracteristicas-22/acciones-7",
+   "hipotesis": "Con 3 millones de pasos PPO alcanza >=95% de ordenes completas con <=0.30 rescates en v2-n2 en las tres semillas.",
+   "hipotesis_registro": "",
+   "resultado_hipotesis": "",
+   "grupo": "ppo-v2-n2",
+   "brazo": "A",
+   "cambios": "(base)",
+   "semilla": "0",
+   "episodios": null,
+   "parametros": {
+    "entorno.bateria": "True",
+    "entorno.bateria_max": "100",
+    "entorno.max_pasos": "400",
+    "entorno.bloqueos": "[]"
+   },
+   "git_commit": "29ba34a3198053bdf09124d64b173da0646494fd",
+   "config_sha256": "e55eb30eb369acca056d2662d862c6bc3a19a544a8b7962393846693805df461",
+   "evaluation_suite_id": "v2-n2-3505e996e8bb",
+   "estado_modelo": "checkpoint final disponible",
+   "parent_run_id": null,
+   "model_id": null,
+   "error": null,
+   "metricas": {
+    "fallos.tiempo_agotado": 1.0,
+    "tasa_exito": 0.998,
+    "paquetes_entregados_medios": 2.996,
+    "pasos_medios": 72.564,
+    "pasos_medios_exitosos": 71.9078,
+    "recompensa_media": 43428.29,
+    "rescates_medios": 0.414,
+    "fragiles_rotos_medios": 0.0,
+    "cargas_medias": 0.004,
+    "choques_medios": 0.0,
+    "acciones_invalidas_medias": 1.322,
+    "latencia_media_ms": 0.0643,
+    "pedidos_evaluados": 500.0,
+    "otif": 0.912,
+    "cumplimiento_sla": 0.968,
+    "cumplimiento_express": 0.9201,
+    "entregas_tarde_medias": 0.092,
+    "utilidad_media_cop": 43428.29,
+    "ingresos_medio_cop": 48310.0,
+    "costos_operacion_medio_cop": 598.75,
+    "danos_medio_cop": 0.0,
+    "intervenciones_medio_cop": 3312.0,
+    "compensaciones_sla_medio_cop": 963.2,
+    "energia_medio_cop": 7.76
+   },
+   "tiempo_entrenamiento_s": 1349.2498254776,
+   "curvas": {
+    "entrenamiento.tasa_exito": [
+     [
+      250000,
+      0.63
+     ],
+     [
+      500000,
+      1.0
+     ],
+     [
+      750000,
+      1.0
+     ],
+     [
+      1000000,
+      1.0
+     ],
+     [
+      1250000,
+      1.0
+     ],
+     [
+      1500000,
+      1.0
+     ],
+     [
+      1750000,
+      1.0
+     ],
+     [
+      2000000,
+      1.0
+     ],
+     [
+      2250000,
+      1.0
+     ],
+     [
+      2500000,
+      1.0
+     ],
+     [
+      2750000,
+      1.0
+     ],
+     [
+      3000000,
+      1.0
+     ]
+    ],
+    "curva_eval.tasa_exito": [
+     [
+      250000,
+      0.02
+     ],
+     [
+      500000,
+      0.9
+     ],
+     [
+      750000,
+      0.88
+     ],
+     [
+      1000000,
+      1.0
+     ],
+     [
+      1250000,
+      0.86
+     ],
+     [
+      1500000,
+      0.96
+     ],
+     [
+      1750000,
+      1.0
+     ],
+     [
+      2000000,
+      0.96
+     ],
+     [
+      2250000,
+      0.92
+     ],
+     [
+      2500000,
+      0.96
+     ],
+     [
+      2750000,
+      0.92
+     ],
+     [
+      3000000,
+      1.0
+     ]
+    ],
+    "entrenamiento.recompensa_media": [
+     [
+      250000,
+      6685.0
+     ],
+     [
+      500000,
+      45249.9
+     ],
+     [
+      750000,
+      45872.5
+     ],
+     [
+      1000000,
+      44485.65
+     ],
+     [
+      1250000,
+      48384.55
+     ],
+     [
+      1500000,
+      44940.55
+     ],
+     [
+      1750000,
+      46918.5
+     ],
+     [
+      2000000,
+      45556.3
+     ],
+     [
+      2250000,
+      44864.45
+     ],
+     [
+      2500000,
+      46274.4
+     ],
+     [
+      2750000,
+      47281.6
+     ],
+     [
+      3000000,
+      46405.15
+     ]
+    ],
+    "curva_eval.recompensa_media": [
+     [
+      250000,
+      -40603.2
+     ],
+     [
+      500000,
+      36997.5
+     ],
+     [
+      750000,
+      35097.6
+     ],
+     [
+      1000000,
+      42041.1
+     ],
+     [
+      1250000,
+      31556.5
+     ],
+     [
+      1500000,
+      41158.0
+     ],
+     [
+      1750000,
+      41850.0
+     ],
+     [
+      2000000,
+      40521.0
+     ],
+     [
+      2250000,
+      38395.1
+     ],
+     [
+      2500000,
+      35855.5
+     ],
+     [
+      2750000,
+      37162.6
+     ],
+     [
+      3000000,
+      41990.9
+     ]
+    ]
+   },
+   "mlflow_url": "https://dagshub.com/c851458/pro_final_visu2.mlflow/#/experiments/0/runs/68acdeebedbd4ede8a6b1f2ad776b7aa"
+  },
+  {
+   "run_id": "a11c8cf0bc1e48d6b28663709966b14a",
+   "nombre": "ppo-v2-n2-A-s1",
+   "estado": "terminado",
+   "inicio": 1794625444850,
+   "duracion_s": 3.5,
+   "tipo": "finalista",
+   "origen": "pipeline/entrenar_ppo.py",
+   "nivel": "v2-n2",
+   "environment_version": "2.0.0",
+   "familia_modelo": "warehouse-rush-v2/ppo-caracteristicas-22/acciones-7",
+   "hipotesis": "Con 3 millones de pasos PPO alcanza >=95% de ordenes completas con <=0.30 rescates en v2-n2 en las tres semillas.",
+   "hipotesis_registro": "",
+   "resultado_hipotesis": "",
+   "grupo": "ppo-v2-n2",
+   "brazo": "A",
+   "cambios": "(base)",
+   "semilla": "1",
+   "episodios": null,
+   "parametros": {
+    "entorno.bateria": "True",
+    "entorno.bateria_max": "100",
+    "entorno.max_pasos": "400",
+    "entorno.bloqueos": "[]"
+   },
+   "git_commit": "29ba34a3198053bdf09124d64b173da0646494fd",
+   "config_sha256": "21fd1cc199daba3d3ad77cbbe7c53787b4ed5291c3ce72da093b99fc2fd6fa91",
+   "evaluation_suite_id": "v2-n2-3505e996e8bb",
+   "estado_modelo": "checkpoint final disponible",
+   "parent_run_id": null,
+   "model_id": null,
+   "error": null,
+   "metricas": {
+    "fallos.bateria_agotada": 46.0,
+    "tasa_exito": 0.908,
+    "paquetes_entregados_medios": 2.802,
+    "pasos_medios": 106.626,
+    "pasos_medios_exitosos": 76.9009,
+    "recompensa_media": 37276.94,
+    "rescates_medios": 0.754,
+    "fragiles_rotos_medios": 0.0,
+    "cargas_medias": 2.748,
+    "choques_medios": 0.0,
+    "acciones_invalidas_medias": 0.016,
+    "latencia_media_ms": 0.0544,
+    "pedidos_evaluados": 500.0,
+    "otif": 0.788,
+    "cumplimiento_sla": 0.892,
+    "cumplimiento_express": 0.8425,
+    "entregas_tarde_medias": 0.126,
+    "utilidad_media_cop": 37276.94,
+    "ingresos_medio_cop": 45088.0,
+    "costos_operacion_medio_cop": 569.62,
+    "danos_medio_cop": 0.0,
+    "intervenciones_medio_cop": 6032.0,
+    "compensaciones_sla_medio_cop": 1191.8,
+    "energia_medio_cop": 17.64
+   },
+   "tiempo_entrenamiento_s": 1363.9688024520874,
+   "curvas": {
+    "entrenamiento.tasa_exito": [
+     [
+      250000,
+      1.0
+     ],
+     [
+      500000,
+      0.99
+     ],
+     [
+      750000,
+      1.0
+     ],
+     [
+      1000000,
+      1.0
+     ],
+     [
+      1250000,
+      1.0
+     ],
+     [
+      1500000,
+      1.0
+     ],
+     [
+      1750000,
+      1.0
+     ],
+     [
+      2000000,
+      1.0
+     ],
+     [
+      2250000,
+      1.0
+     ],
+     [
+      2500000,
+      1.0
+     ],
+     [
+      2750000,
+      1.0
+     ],
+     [
+      3000000,
+      1.0
+     ]
+    ],
+    "curva_eval.tasa_exito": [
+     [
+      250000,
+      0.92
+     ],
+     [
+      500000,
+      0.98
+     ],
+     [
+      750000,
+      0.98
+     ],
+     [
+      1000000,
+      0.96
+     ],
+     [
+      1250000,
+      0.84
+     ],
+     [
+      1500000,
+      1.0
+     ],
+     [
+      1750000,
+      1.0
+     ],
+     [
+      2000000,
+      0.96
+     ],
+     [
+      2250000,
+      1.0
+     ],
+     [
+      2500000,
+      1.0
+     ],
+     [
+      2750000,
+      1.0
+     ],
+     [
+      3000000,
+      0.94
+     ]
+    ],
+    "entrenamiento.recompensa_media": [
+     [
+      250000,
+      36129.6
+     ],
+     [
+      500000,
+      43763.05
+     ],
+     [
+      750000,
+      46546.05
+     ],
+     [
+      1000000,
+      46689.35
+     ],
+     [
+      1250000,
+      45552.45
+     ],
+     [
+      1500000,
+      47208.55
+     ],
+     [
+      1750000,
+      45980.15
+     ],
+     [
+      2000000,
+      44453.7
+     ],
+     [
+      2250000,
+      46255.85
+     ],
+     [
+      2500000,
+      47940.55
+     ],
+     [
+      2750000,
+      45953.05
+     ],
+     [
+      3000000,
+      47249.9
+     ]
+    ],
+    "curva_eval.recompensa_media": [
+     [
+      250000,
+      33015.4
+     ],
+     [
+      500000,
+      -78966.7
+     ],
+     [
+      750000,
+      41289.8
+     ],
+     [
+      1000000,
+      41700.7
+     ],
+     [
+      1250000,
+      34328.7
+     ],
+     [
+      1500000,
+      42469.4
+     ],
+     [
+      1750000,
+      42158.7
+     ],
+     [
+      2000000,
+      38984.3
+     ],
+     [
+      2250000,
+      41865.2
+     ],
+     [
+      2500000,
+      40504.5
+     ],
+     [
+      2750000,
+      41883.7
+     ],
+     [
+      3000000,
+      38969.8
+     ]
+    ]
+   },
+   "mlflow_url": "https://dagshub.com/c851458/pro_final_visu2.mlflow/#/experiments/0/runs/a11c8cf0bc1e48d6b28663709966b14a"
+  },
+  {
+   "run_id": "969494d84d7a4cbc9853a4039fc92fe4",
+   "nombre": "ppo-v2-n2-A-s2",
+   "estado": "terminado",
+   "inicio": 1794625498010,
+   "duracion_s": 3.9,
+   "tipo": "finalista",
+   "origen": "pipeline/entrenar_ppo.py",
+   "nivel": "v2-n2",
+   "environment_version": "2.0.0",
+   "familia_modelo": "warehouse-rush-v2/ppo-caracteristicas-22/acciones-7",
+   "hipotesis": "Con 3 millones de pasos PPO alcanza >=95% de ordenes completas con <=0.30 rescates en v2-n2 en las tres semillas.",
+   "hipotesis_registro": "",
+   "resultado_hipotesis": "",
+   "grupo": "ppo-v2-n2",
+   "brazo": "A",
+   "cambios": "(base)",
+   "semilla": "2",
+   "episodios": null,
+   "parametros": {
+    "entorno.bateria": "True",
+    "entorno.bateria_max": "100",
+    "entorno.max_pasos": "400",
+    "entorno.bloqueos": "[]"
+   },
+   "git_commit": "29ba34a3198053bdf09124d64b173da0646494fd",
+   "config_sha256": "a43be037af1be528dae0dcb9603297f0cafe059aee6e54a5089fddac097ee8a3",
+   "evaluation_suite_id": "v2-n2-3505e996e8bb",
+   "estado_modelo": "checkpoint final disponible",
+   "parent_run_id": null,
+   "model_id": null,
+   "error": null,
+   "metricas": {
+    "fallos.tiempo_agotado": 490.0,
+    "fallos.bateria_agotada": 10.0,
+    "tasa_exito": 0.0,
+    "paquetes_entregados_medios": 0.0,
+    "pasos_medios": 400.0,
+    "pasos_medios_exitosos": 0.0,
+    "recompensa_media": -2650.77,
+    "rescates_medios": 0.02,
+    "fragiles_rotos_medios": 0.0,
+    "cargas_medias": 382.354,
+    "choques_medios": 0.0,
+    "acciones_invalidas_medias": 3.306,
+    "latencia_media_ms": 0.0522,
+    "pedidos_evaluados": 500.0,
+    "otif": 0.0,
+    "cumplimiento_sla": 0.0,
+    "cumplimiento_express": 0.0,
+    "entregas_tarde_medias": 0.0,
+    "utilidad_media_cop": -2650.77,
+    "ingresos_medio_cop": 1000.0,
+    "costos_operacion_medio_cop": 2768.01,
+    "danos_medio_cop": 0.0,
+    "intervenciones_medio_cop": 160.0,
+    "compensaciones_sla_medio_cop": 0.0,
+    "energia_medio_cop": 722.76
+   },
+   "tiempo_entrenamiento_s": 1389.28609085083,
+   "curvas": {
+    "entrenamiento.tasa_exito": [
+     [
+      250000,
+      0.0
+     ],
+     [
+      500000,
+      0.0
+     ],
+     [
+      750000,
+      0.0
+     ],
+     [
+      1000000,
+      0.0
+     ],
+     [
+      1250000,
+      0.0
+     ],
+     [
+      1500000,
+      0.0
+     ],
+     [
+      1750000,
+      0.0
+     ],
+     [
+      2000000,
+      0.0
+     ],
+     [
+      2250000,
+      0.0
+     ],
+     [
+      2500000,
+      0.0
+     ],
+     [
+      2750000,
+      0.0
+     ],
+     [
+      3000000,
+      0.0
+     ]
+    ],
+    "curva_eval.tasa_exito": [
+     [
+      250000,
+      0.0
+     ],
+     [
+      500000,
+      0.0
+     ],
+     [
+      750000,
+      0.0
+     ],
+     [
+      1000000,
+      0.0
+     ],
+     [
+      1250000,
+      0.0
+     ],
+     [
+      1500000,
+      0.0
+     ],
+     [
+      1750000,
+      0.0
+     ],
+     [
+      2000000,
+      0.0
+     ],
+     [
+      2250000,
+      0.0
+     ],
+     [
+      2500000,
+      0.0
+     ],
+     [
+      2750000,
+      0.0
+     ],
+     [
+      3000000,
+      0.0
+     ]
+    ],
+    "entrenamiento.recompensa_media": [
+     [
+      250000,
+      -2933.3
+     ],
+     [
+      500000,
+      -2673.2
+     ],
+     [
+      750000,
+      -2637.7
+     ],
+     [
+      1000000,
+      -2687.4
+     ],
+     [
+      1250000,
+      -2591.4
+     ],
+     [
+      1500000,
+      -2668.3
+     ],
+     [
+      1750000,
+      -5730.1
+     ],
+     [
+      2000000,
+      -5742.7
+     ],
+     [
+      2250000,
+      -2497.25
+     ],
+     [
+      2500000,
+      -2460.55
+     ],
+     [
+      2750000,
+      -2092.6
+     ],
+     [
+      3000000,
+      -2137.05
+     ]
+    ],
+    "curva_eval.recompensa_media": [
+     [
+      250000,
+      -2592.0
+     ],
+     [
+      500000,
+      -2592.0
+     ],
+     [
+      750000,
+      -2592.0
+     ],
+     [
+      1000000,
+      -2592.0
+     ],
+     [
+      1250000,
+      -2592.0
+     ],
+     [
+      1500000,
+      -2592.0
+     ],
+     [
+      1750000,
+      -4167.8
+     ],
+     [
+      2000000,
+      -2407.0
+     ],
+     [
+      2250000,
+      -8409.4
+     ],
+     [
+      2500000,
+      -10303.4
+     ],
+     [
+      2750000,
+      -3016.5
+     ],
+     [
+      3000000,
+      -2150.5
+     ]
+    ]
+   },
+   "mlflow_url": "https://dagshub.com/c851458/pro_final_visu2.mlflow/#/experiments/0/runs/969494d84d7a4cbc9853a4039fc92fe4"
+  },
+  {
+   "run_id": "07c04d2893f24dd088d02f8a7798c3cf",
+   "nombre": "ppo-v2-n3-A-s0",
+   "estado": "terminado",
+   "inicio": 1794625506826,
+   "duracion_s": 36.8,
+   "tipo": "finalista",
+   "origen": "pipeline/entrenar_ppo.py",
+   "nivel": "v2-n3",
+   "environment_version": "2.0.0",
+   "familia_modelo": "warehouse-rush-v2/ppo-caracteristicas-22/acciones-7",
+   "hipotesis": "Con 3 millones de pasos PPO alcanza >=95% de ordenes completas con <=0.30 rescates en v2-n3 en las tres semillas.",
+   "hipotesis_registro": "",
+   "resultado_hipotesis": "",
+   "grupo": "ppo-v2-n3",
+   "brazo": "A",
+   "cambios": "(base)",
+   "semilla": "0",
+   "episodios": null,
+   "parametros": {
+    "entorno.bateria": "True",
+    "entorno.bateria_max": "100",
+    "entorno.max_pasos": "400",
+    "entorno.bloqueos": "[[7, 4], [7, 7]]"
+   },
+   "git_commit": "29ba34a3198053bdf09124d64b173da0646494fd",
+   "config_sha256": "26f5460ba2255a83d7e8322aab065d2e87dc66e7ddefca65704b7241ffe18973",
+   "evaluation_suite_id": "v2-n3-c4bdbe6fabed",
+   "estado_modelo": "checkpoint final disponible",
+   "parent_run_id": null,
+   "model_id": null,
+   "error": null,
+   "metricas": {
+    "fallos.tiempo_agotado": 498.0,
+    "fallos.bateria_agotada": 2.0,
+    "tasa_exito": 0.0,
+    "paquetes_entregados_medios": 0.0,
+    "pasos_medios": 400.0,
+    "pasos_medios_exitosos": 0.0,
+    "recompensa_media": -2929.7,
+    "rescates_medios": 0.004,
+    "fragiles_rotos_medios": 0.0,
+    "cargas_medias": 379.918,
+    "choques_medios": 0.0,
+    "acciones_invalidas_medias": 0.006,
+    "latencia_media_ms": 0.05,
+    "pedidos_evaluados": 500.0,
+    "otif": 0.0,
+    "cumplimiento_sla": 0.0,
+    "cumplimiento_express": 0.0,
+    "entregas_tarde_medias": 0.0,
+    "utilidad_media_cop": -2929.7,
+    "ingresos_medio_cop": 0.0,
+    "costos_operacion_medio_cop": 2000.9,
+    "danos_medio_cop": 0.0,
+    "intervenciones_medio_cop": 32.0,
+    "compensaciones_sla_medio_cop": 0.0,
+    "energia_medio_cop": 896.8
+   },
+   "tiempo_entrenamiento_s": 1383.49200797081,
+   "curvas": {
+    "entrenamiento.tasa_exito": [
+     [
+      250000,
+      0.0
+     ],
+     [
+      500000,
+      0.0
+     ],
+     [
+      750000,
+      0.0
+     ],
+     [
+      1000000,
+      0.0
+     ],
+     [
+      1250000,
+      0.0
+     ],
+     [
+      1500000,
+      0.0
+     ],
+     [
+      1750000,
+      0.0
+     ],
+     [
+      2000000,
+      0.0
+     ],
+     [
+      2250000,
+      0.0
+     ],
+     [
+      2500000,
+      0.0
+     ],
+     [
+      2750000,
+      0.0
+     ],
+     [
+      3000000,
+      0.0
+     ]
+    ],
+    "curva_eval.tasa_exito": [
+     [
+      250000,
+      0.0
+     ],
+     [
+      500000,
+      0.0
+     ],
+     [
+      750000,
+      0.0
+     ],
+     [
+      1000000,
+      0.0
+     ],
+     [
+      1250000,
+      0.0
+     ],
+     [
+      1500000,
+      0.0
+     ],
+     [
+      1750000,
+      0.0
+     ],
+     [
+      2000000,
+      0.0
+     ],
+     [
+      2250000,
+      0.0
+     ],
+     [
+      2500000,
+      0.0
+     ],
+     [
+      2750000,
+      0.0
+     ],
+     [
+      3000000,
+      0.0
+     ]
+    ],
+    "entrenamiento.recompensa_media": [
+     [
+      250000,
+      -3261.8
+     ],
+     [
+      500000,
+      -2972.3
+     ],
+     [
+      750000,
+      -3065.6
+     ],
+     [
+      1000000,
+      -2932.5
+     ],
+     [
+      1250000,
+      -2877.8
+     ],
+     [
+      1500000,
+      -5692.2
+     ],
+     [
+      1750000,
+      -2953.0
+     ],
+     [
+      2000000,
+      -4173.7
+     ],
+     [
+      2250000,
+      -3081.2
+     ],
+     [
+      2500000,
+      -3035.9
+     ],
+     [
+      2750000,
+      -2844.1
+     ],
+     [
+      3000000,
+      -3531.7
+     ]
+    ],
+    "curva_eval.recompensa_media": [
+     [
+      250000,
+      -5185.6
+     ],
+     [
+      500000,
+      -2943.2
+     ],
+     [
+      750000,
+      -2943.2
+     ],
+     [
+      1000000,
+      -4107.8
+     ],
+     [
+      1250000,
+      -2903.2
+     ],
+     [
+      1500000,
+      -3500.0
+     ],
+     [
+      1750000,
+      -3393.2
+     ],
+     [
+      2000000,
+      -5501.4
+     ],
+     [
+      2250000,
+      -2915.2
+     ],
+     [
+      2500000,
+      -3485.2
+     ],
+     [
+      2750000,
+      -3049.2
+     ],
+     [
+      3000000,
+      -3072.8
+     ]
+    ]
+   },
+   "mlflow_url": "https://dagshub.com/c851458/pro_final_visu2.mlflow/#/experiments/0/runs/07c04d2893f24dd088d02f8a7798c3cf"
+  },
+  {
+   "run_id": "759e601a4c17482fbfc1fb5c14679e91",
+   "nombre": "ppo-v2-n3-A-s1",
+   "estado": "terminado",
+   "inicio": 1794625515448,
+   "duracion_s": 75.2,
+   "tipo": "finalista",
+   "origen": "pipeline/entrenar_ppo.py",
+   "nivel": "v2-n3",
+   "environment_version": "2.0.0",
+   "familia_modelo": "warehouse-rush-v2/ppo-caracteristicas-22/acciones-7",
+   "hipotesis": "Con 3 millones de pasos PPO alcanza >=95% de ordenes completas con <=0.30 rescates en v2-n3 en las tres semillas.",
+   "hipotesis_registro": "",
+   "resultado_hipotesis": "",
+   "grupo": "ppo-v2-n3",
+   "brazo": "A",
+   "cambios": "(base)",
+   "semilla": "1",
+   "episodios": null,
+   "parametros": {
+    "entorno.bateria": "True",
+    "entorno.bateria_max": "100",
+    "entorno.max_pasos": "400",
+    "entorno.bloqueos": "[[7, 4], [7, 7]]"
+   },
+   "git_commit": "29ba34a3198053bdf09124d64b173da0646494fd",
+   "config_sha256": "43820e797cee1669caa416bab6dcb527f14dbfdfe1f0bb8d2671072c8e5f022e",
+   "evaluation_suite_id": "v2-n3-c4bdbe6fabed",
+   "estado_modelo": "checkpoint final disponible",
+   "parent_run_id": null,
+   "model_id": null,
+   "error": null,
+   "metricas": {
+    "tasa_exito": 0.0,
+    "paquetes_entregados_medios": 0.0,
+    "pasos_medios": 400.0,
+    "pasos_medios_exitosos": 0.0,
+    "recompensa_media": -2763.28,
+    "rescates_medios": 0.0,
+    "fragiles_rotos_medios": 0.0,
+    "cargas_medias": 387.0,
+    "choques_medios": 0.0,
+    "acciones_invalidas_medias": 0.0,
+    "latencia_media_ms": 0.0379,
+    "pedidos_evaluados": 500.0,
+    "otif": 0.0,
+    "cumplimiento_sla": 0.0,
+    "cumplimiento_express": 0.0,
+    "entregas_tarde_medias": 0.0,
+    "utilidad_media_cop": -2763.28,
+    "ingresos_medio_cop": 0.0,
+    "costos_operacion_medio_cop": 2000.0,
+    "danos_medio_cop": 0.0,
+    "intervenciones_medio_cop": 0.0,
+    "compensaciones_sla_medio_cop": 0.0,
+    "fallos.tiempo_agotado": 500.0,
+    "energia_medio_cop": 763.28
+   },
+   "tiempo_entrenamiento_s": 1381.1558063030243,
+   "curvas": {
+    "entrenamiento.tasa_exito": [
+     [
+      250000,
+      0.0
+     ],
+     [
+      500000,
+      0.0
+     ],
+     [
+      750000,
+      0.0
+     ],
+     [
+      1000000,
+      0.0
+     ],
+     [
+      1250000,
+      0.0
+     ],
+     [
+      1500000,
+      0.0
+     ],
+     [
+      1750000,
+      0.0
+     ],
+     [
+      2000000,
+      0.0
+     ],
+     [
+      2250000,
+      0.0
+     ],
+     [
+      2500000,
+      0.0
+     ],
+     [
+      2750000,
+      0.0
+     ],
+     [
+      3000000,
+      0.0
+     ]
+    ],
+    "curva_eval.tasa_exito": [
+     [
+      250000,
+      0.0
+     ],
+     [
+      500000,
+      0.0
+     ],
+     [
+      750000,
+      0.0
+     ],
+     [
+      1000000,
+      0.0
+     ],
+     [
+      1250000,
+      0.0
+     ],
+     [
+      1500000,
+      0.0
+     ],
+     [
+      1750000,
+      0.0
+     ],
+     [
+      2000000,
+      0.0
+     ],
+     [
+      2250000,
+      0.0
+     ],
+     [
+      2500000,
+      0.0
+     ],
+     [
+      2750000,
+      0.0
+     ],
+     [
+      3000000,
+      0.0
+     ]
+    ],
+    "entrenamiento.recompensa_media": [
+     [
+      250000,
+      -2883.0
+     ],
+     [
+      500000,
+      -3181.5
+     ],
+     [
+      750000,
+      -2865.3
+     ],
+     [
+      1000000,
+      -2815.8
+     ],
+     [
+      1250000,
+      -2812.1
+     ],
+     [
+      1500000,
+      -2737.8
+     ],
+     [
+      1750000,
+      -2770.4
+     ],
+     [
+      2000000,
+      -2805.2
+     ],
+     [
+      2250000,
+      -2770.6
+     ],
+     [
+      2500000,
+      -2809.2
+     ],
+     [
+      2750000,
+      -2730.6
+     ],
+     [
+      3000000,
+      -2914.6
+     ]
+    ],
+    "curva_eval.recompensa_media": [
+     [
+      250000,
+      -2790.4
+     ],
+     [
+      500000,
+      -3252.4
+     ],
+     [
+      750000,
+      -2786.4
+     ],
+     [
+      1000000,
+      -2783.2
+     ],
+     [
+      1250000,
+      -2783.2
+     ],
+     [
+      1500000,
+      -3467.6
+     ],
+     [
+      1750000,
+      -2783.2
+     ],
+     [
+      2000000,
+      -3622.8
+     ],
+     [
+      2250000,
+      -2944.0
+     ],
+     [
+      2500000,
+      -2783.2
+     ],
+     [
+      2750000,
+      -2783.2
+     ],
+     [
+      3000000,
+      -2783.2
+     ]
+    ]
+   },
+   "mlflow_url": "https://dagshub.com/c851458/pro_final_visu2.mlflow/#/experiments/0/runs/759e601a4c17482fbfc1fb5c14679e91"
+  },
+  {
+   "run_id": "68a5fc146ace4f04acda9f9ebd9c0bc8",
+   "nombre": "ppo-v2-n3-A-s2",
+   "estado": "terminado",
+   "inicio": 1794625515509,
+   "duracion_s": 63.5,
+   "tipo": "finalista",
+   "origen": "pipeline/entrenar_ppo.py",
+   "nivel": "v2-n3",
+   "environment_version": "2.0.0",
+   "familia_modelo": "warehouse-rush-v2/ppo-caracteristicas-22/acciones-7",
+   "hipotesis": "Con 3 millones de pasos PPO alcanza >=95% de ordenes completas con <=0.30 rescates en v2-n3 en las tres semillas.",
+   "hipotesis_registro": "",
+   "resultado_hipotesis": "",
+   "grupo": "ppo-v2-n3",
+   "brazo": "A",
+   "cambios": "(base)",
+   "semilla": "2",
+   "episodios": null,
+   "parametros": {
+    "entorno.bateria": "True",
+    "entorno.bateria_max": "100",
+    "entorno.max_pasos": "400",
+    "entorno.bloqueos": "[[7, 4], [7, 7]]"
+   },
+   "git_commit": "29ba34a3198053bdf09124d64b173da0646494fd",
+   "config_sha256": "7f196623f40b80a631a49eff0b93364e965f9de9f7ded15bebb12ec419fe0138",
+   "evaluation_suite_id": "v2-n3-c4bdbe6fabed",
+   "estado_modelo": "checkpoint final disponible",
+   "parent_run_id": null,
+   "model_id": null,
+   "error": null,
+   "metricas": {
+    "fallos.tiempo_agotado": 456.0,
+    "fallos.bateria_agotada": 44.0,
+    "tasa_exito": 0.0,
+    "paquetes_entregados_medios": 0.0,
+    "pasos_medios": 400.0,
+    "pasos_medios_exitosos": 0.0,
+    "recompensa_media": -3119.52,
+    "rescates_medios": 0.088,
+    "fragiles_rotos_medios": 0.0,
+    "cargas_medias": 378.092,
+    "choques_medios": 0.078,
+    "acciones_invalidas_medias": 0.0,
+    "latencia_media_ms": 0.0429,
+    "pedidos_evaluados": 500.0,
+    "otif": 0.0,
+    "cumplimiento_sla": 0.0,
+    "cumplimiento_express": 0.0,
+    "entregas_tarde_medias": 0.0,
+    "utilidad_media_cop": -3119.52,
+    "ingresos_medio_cop": 648.0,
+    "costos_operacion_medio_cop": 2285.64,
+    "danos_medio_cop": 0.0,
+    "intervenciones_medio_cop": 704.0,
+    "compensaciones_sla_medio_cop": 0.0,
+    "energia_medio_cop": 777.88
+   },
+   "tiempo_entrenamiento_s": 1360.90833735466,
+   "curvas": {
+    "entrenamiento.tasa_exito": [
+     [
+      250000,
+      0.0
+     ],
+     [
+      500000,
+      0.0
+     ],
+     [
+      750000,
+      0.0
+     ],
+     [
+      1000000,
+      0.0
+     ],
+     [
+      1250000,
+      0.0
+     ],
+     [
+      1500000,
+      0.0
+     ],
+     [
+      1750000,
+      0.0
+     ],
+     [
+      2000000,
+      0.0
+     ],
+     [
+      2250000,
+      0.0
+     ],
+     [
+      2500000,
+      0.0
+     ],
+     [
+      2750000,
+      0.0
+     ],
+     [
+      3000000,
+      0.0
+     ]
+    ],
+    "curva_eval.tasa_exito": [
+     [
+      250000,
+      0.0
+     ],
+     [
+      500000,
+      0.0
+     ],
+     [
+      750000,
+      0.0
+     ],
+     [
+      1000000,
+      0.0
+     ],
+     [
+      1250000,
+      0.0
+     ],
+     [
+      1500000,
+      0.0
+     ],
+     [
+      1750000,
+      0.0
+     ],
+     [
+      2000000,
+      0.0
+     ],
+     [
+      2250000,
+      0.0
+     ],
+     [
+      2500000,
+      0.0
+     ],
+     [
+      2750000,
+      0.0
+     ],
+     [
+      3000000,
+      0.0
+     ]
+    ],
+    "entrenamiento.recompensa_media": [
+     [
+      250000,
+      -2966.1
+     ],
+     [
+      500000,
+      -2797.9
+     ],
+     [
+      750000,
+      -2764.0
+     ],
+     [
+      1000000,
+      -3881.4
+     ],
+     [
+      1250000,
+      -3098.5
+     ],
+     [
+      1500000,
+      -7340.75
+     ],
+     [
+      1750000,
+      -2726.8
+     ],
+     [
+      2000000,
+      -3524.75
+     ],
+     [
+      2250000,
+      -3425.25
+     ],
+     [
+      2500000,
+      -20534.45
+     ],
+     [
+      2750000,
+      -2380.3
+     ],
+     [
+      3000000,
+      -2331.1
+     ]
+    ],
+    "curva_eval.recompensa_media": [
+     [
+      250000,
+      -2807.2
+     ],
+     [
+      500000,
+      -2802.4
+     ],
+     [
+      750000,
+      -2792.8
+     ],
+     [
+      1000000,
+      -2783.2
+     ],
+     [
+      1250000,
+      -6222.2
+     ],
+     [
+      1500000,
+      -2827.2
+     ],
+     [
+      1750000,
+      -2812.0
+     ],
+     [
+      2000000,
+      -3000.9
+     ],
+     [
+      2250000,
+      -2540.1
+     ],
+     [
+      2500000,
+      -2584.5
+     ],
+     [
+      2750000,
+      -5765.7
+     ],
+     [
+      3000000,
+      -3067.9
+     ]
+    ]
+   },
+   "mlflow_url": "https://dagshub.com/c851458/pro_final_visu2.mlflow/#/experiments/0/runs/68a5fc146ace4f04acda9f9ebd9c0bc8"
+  },
+  {
+   "run_id": "a037979dfe1945759ec5fe2570e261c0",
+   "nombre": "decision-ppo-v2-n2",
+   "estado": "terminado",
+   "inicio": 1794625626865,
+   "duracion_s": 2.2,
+   "tipo": "decision",
+   "origen": "pipeline/comparar_finalistas.py",
+   "nivel": "v2-n2",
+   "environment_version": "2.0.0",
+   "familia_modelo": "warehouse-rush-v2/obs-11x15x5x2x3x40x2/acciones-7",
+   "hipotesis": "¿Una politica PPO (red 128x128, 22 caracteristicas) entrenada 3 millones de pasos cumple los requisitos en el centro de distribucion N2 de forma estable en tres semillas, donde Q-learning no los cumplio?",
+   "hipotesis_registro": "",
+   "resultado_hipotesis": "Ningun brazo cumple los requisitos: se mantiene el modelo actual.",
+   "grupo": "ppo-v2-n2",
+   "brazo": null,
+   "cambios": "comparacion de brazos A",
+   "semilla": "0",
+   "episodios": "40000",
+   "parametros": {
+    "entorno.bateria": "True",
+    "entorno.bateria_max": "100",
+    "entorno.max_pasos": "400",
+    "entorno.bloqueos": "[]",
+    "agente.alpha": "0.1",
+    "agente.gamma": "0.99",
+    "agente.epsilon_min": "0.05",
+    "agente.fraccion_exploracion": "0.7"
+   },
+   "git_commit": "df7cae4c87449e97f571e8b2b20a5bda610576dd",
+   "config_sha256": "b24f643827a2230c6c978ad5fdd63d173e8352ef08e2c1d3fb6055119127215c",
+   "evaluation_suite_id": "",
+   "estado_modelo": "sin pesos (decision)",
+   "parent_run_id": null,
+   "model_id": null,
+   "error": null,
+   "metricas": {},
+   "tiempo_entrenamiento_s": null,
+   "curvas": {},
+   "mlflow_url": "https://dagshub.com/c851458/pro_final_visu2.mlflow/#/experiments/0/runs/a037979dfe1945759ec5fe2570e261c0"
+  },
+  {
+   "run_id": "28aaaf3d2e6249a8be6b274c1df87b69",
+   "nombre": "decision-ppo-v2-n3",
+   "estado": "terminado",
+   "inicio": 1794625667056,
+   "duracion_s": 2.2,
+   "tipo": "decision",
+   "origen": "pipeline/comparar_finalistas.py",
+   "nivel": "v2-n3",
+   "environment_version": "2.0.0",
+   "familia_modelo": "warehouse-rush-v2/obs-11x15x5x2x3x40x2/acciones-7",
+   "hipotesis": "¿Una politica PPO (red 128x128, 22 caracteristicas) entrenada 3 millones de pasos cumple los requisitos en el centro de distribucion N3 (pasillo bloqueado) de forma estable en tres semillas?",
+   "hipotesis_registro": "",
+   "resultado_hipotesis": "Ningun brazo cumple los requisitos: se mantiene el modelo actual.",
+   "grupo": "ppo-v2-n3",
+   "brazo": null,
+   "cambios": "comparacion de brazos A",
+   "semilla": "0",
+   "episodios": "40000",
+   "parametros": {
+    "entorno.bateria": "True",
+    "entorno.bateria_max": "100",
+    "entorno.max_pasos": "400",
+    "entorno.bloqueos": "[[7, 4], [7, 7]]",
+    "agente.alpha": "0.1",
+    "agente.gamma": "0.99",
+    "agente.epsilon_min": "0.05",
+    "agente.fraccion_exploracion": "0.7"
+   },
+   "git_commit": "df7cae4c87449e97f571e8b2b20a5bda610576dd",
+   "config_sha256": "3379bf0a04afced56d1fe209049b31d454ac6ae485d19e65c93be9b4e861fadb",
+   "evaluation_suite_id": "",
+   "estado_modelo": "sin pesos (decision)",
+   "parent_run_id": null,
+   "model_id": null,
+   "error": null,
+   "metricas": {},
+   "tiempo_entrenamiento_s": null,
+   "curvas": {},
+   "mlflow_url": "https://dagshub.com/c851458/pro_final_visu2.mlflow/#/experiments/0/runs/28aaaf3d2e6249a8be6b274c1df87b69"
+  },
+  {
+   "run_id": "7b63668ca70144c99b180e193d3b9b05",
+   "nombre": "imitacion-v2-n2-A-s1",
+   "estado": "terminado",
+   "inicio": 1794629138616,
+   "duracion_s": 4.5,
+   "tipo": "finalista",
+   "origen": "pipeline/entrenar_ppo.py",
+   "nivel": "v2-n2",
+   "environment_version": "2.0.0",
+   "familia_modelo": "warehouse-rush-v2/ppo-caracteristicas-22/acciones-7",
+   "hipotesis": "La red entrenada por imitacion (DAgger, 8 iteraciones de 1500 pedidos) alcanza >=95% de ordenes completas con <=0.30 rescates en v2-n2 en las tres semillas.",
+   "hipotesis_registro": "",
+   "resultado_hipotesis": "",
+   "grupo": "imitacion-v2-n2",
+   "brazo": "A",
+   "cambios": "(base)",
+   "semilla": "1",
+   "episodios": null,
+   "parametros": {
+    "entorno.bateria": "True",
+    "entorno.bateria_max": "100",
+    "entorno.max_pasos": "400",
+    "entorno.bloqueos": "[]"
+   },
+   "git_commit": "0ddada0851e5f921acff306cb17618b6441def65",
+   "config_sha256": "3b9a4c32d62e13bf5a22f38313f9aeaa69332288101bcac4f2501e4ec1003f88",
+   "evaluation_suite_id": "v2-n2-3505e996e8bb",
+   "estado_modelo": "checkpoint final disponible",
+   "parent_run_id": null,
+   "model_id": null,
+   "error": null,
+   "metricas": {
+    "tasa_exito": 1.0,
+    "paquetes_entregados_medios": 3.0,
+    "pasos_medios": 60.366,
+    "pasos_medios_exitosos": 60.366,
+    "recompensa_media": 47179.58,
+    "rescates_medios": 0.0,
+    "fragiles_rotos_medios": 0.0,
+    "cargas_medias": 0.47,
+    "choques_medios": 0.0,
+    "acciones_invalidas_medias": 0.0,
+    "latencia_media_ms": 0.0497,
+    "pedidos_evaluados": 500.0,
+    "otif": 0.994,
+    "cumplimiento_sla": 0.998,
+    "cumplimiento_express": 0.9932,
+    "entregas_tarde_medias": 0.006,
+    "utilidad_media_cop": 47179.58,
+    "ingresos_medio_cop": 48388.0,
+    "costos_operacion_medio_cop": 346.02,
+    "danos_medio_cop": 0.0,
+    "intervenciones_medio_cop": 0.0,
+    "compensaciones_sla_medio_cop": 78.0,
+    "energia_medio_cop": 784.4
+   },
+   "tiempo_entrenamiento_s": 698.7676312923431,
+   "curvas": {
+    "entrenamiento.tasa_exito": [
+     [
+      90007,
+      0.54
+     ],
+     [
+      474812,
+      0.8
+     ],
+     [
+      678449,
+      1.0
+     ],
+     [
+      785354,
+      1.0
+     ],
+     [
+      877183,
+      1.0
+     ],
+     [
+      967321,
+      1.0
+     ],
+     [
+      1057720,
+      1.0
+     ],
+     [
+      1147167,
+      1.0
+     ]
+    ],
+    "curva_eval.tasa_exito": [
+     [
+      90007,
+      0.54
+     ],
+     [
+      474812,
+      0.8
+     ],
+     [
+      678449,
+      1.0
+     ],
+     [
+      785354,
+      1.0
+     ],
+     [
+      877183,
+      1.0
+     ],
+     [
+      967321,
+      1.0
+     ],
+     [
+      1057720,
+      1.0
+     ],
+     [
+      1147167,
+      1.0
+     ]
+    ],
+    "entrenamiento.recompensa_media": [
+     [
+      90007,
+      6227.9
+     ],
+     [
+      474812,
+      30798.7
+     ],
+     [
+      678449,
+      43798.1
+     ],
+     [
+      785354,
+      46409.0
+     ],
+     [
+      877183,
+      46427.2
+     ],
+     [
+      967321,
+      46297.0
+     ],
+     [
+      1057720,
+      46167.0
+     ],
+     [
+      1147167,
+      46113.6
+     ]
+    ],
+    "curva_eval.recompensa_media": [
+     [
+      90007,
+      6227.9
+     ],
+     [
+      474812,
+      30798.7
+     ],
+     [
+      678449,
+      43798.1
+     ],
+     [
+      785354,
+      46409.0
+     ],
+     [
+      877183,
+      46427.2
+     ],
+     [
+      967321,
+      46297.0
+     ],
+     [
+      1057720,
+      46167.0
+     ],
+     [
+      1147167,
+      46113.6
+     ]
+    ]
+   },
+   "mlflow_url": "https://dagshub.com/c851458/pro_final_visu2.mlflow/#/experiments/0/runs/7b63668ca70144c99b180e193d3b9b05"
+  },
+  {
+   "run_id": "fd3db2ea5ccb462bb8836bb665d4e074",
+   "nombre": "imitacion-v2-n2-A-s0",
+   "estado": "terminado",
+   "inicio": 1794629145945,
+   "duracion_s": 30893.3,
+   "tipo": "finalista",
+   "origen": "pipeline/entrenar_ppo.py",
+   "nivel": "v2-n2",
+   "environment_version": "2.0.0",
+   "familia_modelo": "warehouse-rush-v2/ppo-caracteristicas-22/acciones-7",
+   "hipotesis": "La red entrenada por imitacion (DAgger, 8 iteraciones de 1500 pedidos) alcanza >=95% de ordenes completas con <=0.30 rescates en v2-n2 en las tres semillas.",
+   "hipotesis_registro": "",
+   "resultado_hipotesis": "",
+   "grupo": "imitacion-v2-n2",
+   "brazo": "A",
+   "cambios": "(base)",
+   "semilla": "0",
+   "episodios": null,
+   "parametros": {
+    "entorno.bateria": "True",
+    "entorno.bateria_max": "100",
+    "entorno.max_pasos": "400",
+    "entorno.bloqueos": "[]"
+   },
+   "git_commit": "0ddada0851e5f921acff306cb17618b6441def65",
+   "config_sha256": "4424a7fb28637901a86e24b11b1f1c224bef75f9d9ae9a9b236f42523df6b4e5",
+   "evaluation_suite_id": "v2-n2-3505e996e8bb",
+   "estado_modelo": "checkpoint final disponible",
+   "parent_run_id": null,
+   "model_id": "v2-n2-imitacion-v2-n2-A-s0-9f293752",
+   "error": null,
+   "metricas": {
+    "tasa_exito": 1.0,
+    "paquetes_entregados_medios": 3.0,
+    "pasos_medios": 60.1,
+    "pasos_medios_exitosos": 60.1,
+    "recompensa_media": 47162.95,
+    "rescates_medios": 0.0,
+    "fragiles_rotos_medios": 0.0,
+    "cargas_medias": 0.472,
+    "choques_medios": 0.0,
+    "acciones_invalidas_medias": 0.0,
+    "latencia_media_ms": 0.048,
+    "pedidos_evaluados": 500.0,
+    "otif": 0.992,
+    "cumplimiento_sla": 0.9973,
+    "cumplimiento_express": 0.9909,
+    "entregas_tarde_medias": 0.008,
+    "utilidad_media_cop": 47162.95,
+    "ingresos_medio_cop": 48388.0,
+    "costos_operacion_medio_cop": 344.45,
+    "danos_medio_cop": 0.0,
+    "intervenciones_medio_cop": 0.0,
+    "compensaciones_sla_medio_cop": 104.0,
+    "energia_medio_cop": 776.6
+   },
+   "tiempo_entrenamiento_s": 721.7734744548798,
+   "curvas": {
+    "entrenamiento.tasa_exito": [
+     [
+      90448,
+      0.64
+     ],
+     [
+      464569,
+      0.64
+     ],
+     [
+      738539,
+      1.0
+     ],
+     [
+      846542,
+      1.0
+     ],
+     [
+      943014,
+      1.0
+     ],
+     [
+      1032422,
+      1.0
+     ],
+     [
+      1122398,
+      1.0
+     ],
+     [
+      1213155,
+      1.0
+     ]
+    ],
+    "curva_eval.tasa_exito": [
+     [
+      90448,
+      0.64
+     ],
+     [
+      464569,
+      0.64
+     ],
+     [
+      738539,
+      1.0
+     ],
+     [
+      846542,
+      1.0
+     ],
+     [
+      943014,
+      1.0
+     ],
+     [
+      1032422,
+      1.0
+     ],
+     [
+      1122398,
+      1.0
+     ],
+     [
+      1213155,
+      1.0
+     ]
+    ],
+    "entrenamiento.recompensa_media": [
+     [
+      90448,
+      14979.5
+     ],
+     [
+      464569,
+      23094.7
+     ],
+     [
+      738539,
+      44989.3
+     ],
+     [
+      846542,
+      45416.1
+     ],
+     [
+      943014,
+      45905.1
+     ],
+     [
+      1032422,
+      46164.6
+     ],
+     [
+      1122398,
+      46156.4
+     ],
+     [
+      1213155,
+      45893.2
+     ]
+    ],
+    "curva_eval.recompensa_media": [
+     [
+      90448,
+      14979.5
+     ],
+     [
+      464569,
+      23094.7
+     ],
+     [
+      738539,
+      44989.3
+     ],
+     [
+      846542,
+      45416.1
+     ],
+     [
+      943014,
+      45905.1
+     ],
+     [
+      1032422,
+      46164.6
+     ],
+     [
+      1122398,
+      46156.4
+     ],
+     [
+      1213155,
+      45893.2
+     ]
+    ]
+   },
+   "mlflow_url": "https://dagshub.com/c851458/pro_final_visu2.mlflow/#/experiments/0/runs/fd3db2ea5ccb462bb8836bb665d4e074"
+  },
+  {
+   "run_id": "18a4136effa74b2b91f824f96ce96e5f",
+   "nombre": "imitacion-v2-n2-A-s2",
+   "estado": "terminado",
+   "inicio": 1794629156203,
+   "duracion_s": 25.4,
+   "tipo": "finalista",
+   "origen": "pipeline/entrenar_ppo.py",
+   "nivel": "v2-n2",
+   "environment_version": "2.0.0",
+   "familia_modelo": "warehouse-rush-v2/ppo-caracteristicas-22/acciones-7",
+   "hipotesis": "La red entrenada por imitacion (DAgger, 8 iteraciones de 1500 pedidos) alcanza >=95% de ordenes completas con <=0.30 rescates en v2-n2 en las tres semillas.",
+   "hipotesis_registro": "",
+   "resultado_hipotesis": "",
+   "grupo": "imitacion-v2-n2",
+   "brazo": "A",
+   "cambios": "(base)",
+   "semilla": "2",
+   "episodios": null,
+   "parametros": {
+    "entorno.bateria": "True",
+    "entorno.bateria_max": "100",
+    "entorno.max_pasos": "400",
+    "entorno.bloqueos": "[]"
+   },
+   "git_commit": "0ddada0851e5f921acff306cb17618b6441def65",
+   "config_sha256": "e18f5c216998fc75b5de87f6c622d6a7b249d9e90cd7e1df4328242abd6d2826",
+   "evaluation_suite_id": "v2-n2-3505e996e8bb",
+   "estado_modelo": "checkpoint final disponible",
+   "parent_run_id": null,
+   "model_id": null,
+   "error": null,
+   "metricas": {
+    "tasa_exito": 0.998,
+    "paquetes_entregados_medios": 2.998,
+    "pasos_medios": 60.65,
+    "pasos_medios_exitosos": 59.9699,
+    "recompensa_media": 47204.05,
+    "rescates_medios": 0.0,
+    "fragiles_rotos_medios": 0.0,
+    "cargas_medias": 0.474,
+    "choques_medios": 0.0,
+    "acciones_invalidas_medias": 0.0,
+    "fallos.tiempo_agotado": 1.0,
+    "latencia_media_ms": 0.0507,
+    "pedidos_evaluados": 500.0,
+    "otif": 0.996,
+    "cumplimiento_sla": 0.9987,
+    "cumplimiento_express": 0.9977,
+    "entregas_tarde_medias": 0.002,
+    "utilidad_media_cop": 47204.05,
+    "ingresos_medio_cop": 48358.0,
+    "costos_operacion_medio_cop": 346.59,
+    "danos_medio_cop": 0.0,
+    "intervenciones_medio_cop": 0.0,
+    "compensaciones_sla_medio_cop": 26.0,
+    "energia_medio_cop": 781.36
+   },
+   "tiempo_entrenamiento_s": 701.3899519443512,
+   "curvas": {
+    "entrenamiento.tasa_exito": [
+     [
+      89299,
+      0.62
+     ],
+     [
+      495533,
+      0.86
+     ],
+     [
+      678215,
+      1.0
+     ],
+     [
+      784811,
+      1.0
+     ],
+     [
+      878349,
+      1.0
+     ],
+     [
+      968543,
+      1.0
+     ],
+     [
+      1057857,
+      1.0
+     ],
+     [
+      1148113,
+      1.0
+     ]
+    ],
+    "curva_eval.tasa_exito": [
+     [
+      89299,
+      0.62
+     ],
+     [
+      495533,
+      0.86
+     ],
+     [
+      678215,
+      1.0
+     ],
+     [
+      784811,
+      1.0
+     ],
+     [
+      878349,
+      1.0
+     ],
+     [
+      968543,
+      1.0
+     ],
+     [
+      1057857,
+      1.0
+     ],
+     [
+      1148113,
+      1.0
+     ]
+    ],
+    "entrenamiento.recompensa_media": [
+     [
+      89299,
+      13665.0
+     ],
+     [
+      495533,
+      34784.2
+     ],
+     [
+      678215,
+      44270.1
+     ],
+     [
+      784811,
+      45507.5
+     ],
+     [
+      878349,
+      46143.3
+     ],
+     [
+      968543,
+      46414.3
+     ],
+     [
+      1057857,
+      46407.2
+     ],
+     [
+      1148113,
+      46417.3
+     ]
+    ],
+    "curva_eval.recompensa_media": [
+     [
+      89299,
+      13665.0
+     ],
+     [
+      495533,
+      34784.2
+     ],
+     [
+      678215,
+      44270.1
+     ],
+     [
+      784811,
+      45507.5
+     ],
+     [
+      878349,
+      46143.3
+     ],
+     [
+      968543,
+      46414.3
+     ],
+     [
+      1057857,
+      46407.2
+     ],
+     [
+      1148113,
+      46417.3
+     ]
+    ]
+   },
+   "mlflow_url": "https://dagshub.com/c851458/pro_final_visu2.mlflow/#/experiments/0/runs/18a4136effa74b2b91f824f96ce96e5f"
+  },
+  {
+   "run_id": "f1f13a6b7a8647248b8e5e49b09cf054",
+   "nombre": "imitacion-v2-n3-A-s0",
+   "estado": "terminado",
+   "inicio": 1794629396181,
+   "duracion_s": 3.7,
+   "tipo": "finalista",
+   "origen": "pipeline/entrenar_ppo.py",
+   "nivel": "v2-n3",
+   "environment_version": "2.0.0",
+   "familia_modelo": "warehouse-rush-v2/ppo-caracteristicas-22/acciones-7",
+   "hipotesis": "La red entrenada por imitacion (DAgger, 8 iteraciones de 1500 pedidos) alcanza >=95% de ordenes completas con <=0.30 rescates en v2-n3 en las tres semillas.",
+   "hipotesis_registro": "",
+   "resultado_hipotesis": "",
+   "grupo": "imitacion-v2-n3",
+   "brazo": "A",
+   "cambios": "(base)",
+   "semilla": "0",
+   "episodios": null,
+   "parametros": {
+    "entorno.bateria": "True",
+    "entorno.bateria_max": "100",
+    "entorno.max_pasos": "400",
+    "entorno.bloqueos": "[[7, 4], [7, 7]]"
+   },
+   "git_commit": "0ddada0851e5f921acff306cb17618b6441def65",
+   "config_sha256": "a0311d389509590d1fdc0e47f8870177915b37daee32e700a73b22437a41eb75",
+   "evaluation_suite_id": "v2-n3-c4bdbe6fabed",
+   "estado_modelo": "checkpoint final disponible",
+   "parent_run_id": null,
+   "model_id": null,
+   "error": null,
+   "metricas": {
+    "tasa_exito": 1.0,
+    "paquetes_entregados_medios": 3.0,
+    "pasos_medios": 81.74,
+    "pasos_medios_exitosos": 81.74,
+    "recompensa_media": 45853.17,
+    "rescates_medios": 0.0,
+    "fragiles_rotos_medios": 0.0,
+    "cargas_medias": 0.884,
+    "choques_medios": 0.0,
+    "acciones_invalidas_medias": 0.0,
+    "latencia_media_ms": 0.0376,
+    "pedidos_evaluados": 500.0,
+    "otif": 0.94,
+    "cumplimiento_sla": 0.98,
+    "cumplimiento_express": 0.9323,
+    "entregas_tarde_medias": 0.06,
+    "utilidad_media_cop": 45853.17,
+    "ingresos_medio_cop": 48518.0,
+    "costos_operacion_medio_cop": 465.63,
+    "danos_medio_cop": 0.0,
+    "intervenciones_medio_cop": 0.0,
+    "compensaciones_sla_medio_cop": 780.0,
+    "energia_medio_cop": 1419.2
+   },
+   "tiempo_entrenamiento_s": 880.8268728256226,
+   "curvas": {
+    "entrenamiento.tasa_exito": [
+     [
+      119634,
+      0.26
+     ],
+     [
+      568789,
+      0.8
+     ],
+     [
+      768852,
+      1.0
+     ],
+     [
+      895388,
+      0.98
+     ],
+     [
+      1019181,
+      1.0
+     ],
+     [
+      1141067,
+      1.0
+     ],
+     [
+      1261937,
+      1.0
+     ],
+     [
+      1382791,
+      1.0
+     ]
+    ],
+    "curva_eval.tasa_exito": [
+     [
+      119634,
+      0.26
+     ],
+     [
+      568789,
+      0.8
+     ],
+     [
+      768852,
+      1.0
+     ],
+     [
+      895388,
+      0.98
+     ],
+     [
+      1019181,
+      1.0
+     ],
+     [
+      1141067,
+      1.0
+     ],
+     [
+      1261937,
+      1.0
+     ],
+     [
+      1382791,
+      1.0
+     ]
+    ],
+    "entrenamiento.recompensa_media": [
+     [
+      119634,
+      -111516.5
+     ],
+     [
+      568789,
+      35067.9
+     ],
+     [
+      768852,
+      44703.7
+     ],
+     [
+      895388,
+      44370.7
+     ],
+     [
+      1019181,
+      45085.7
+     ],
+     [
+      1141067,
+      45080.6
+     ],
+     [
+      1261937,
+      45193.5
+     ],
+     [
+      1382791,
+      45220.6
+     ]
+    ],
+    "curva_eval.recompensa_media": [
+     [
+      119634,
+      -111516.5
+     ],
+     [
+      568789,
+      35067.9
+     ],
+     [
+      768852,
+      44703.7
+     ],
+     [
+      895388,
+      44370.7
+     ],
+     [
+      1019181,
+      45085.7
+     ],
+     [
+      1141067,
+      45080.6
+     ],
+     [
+      1261937,
+      45193.5
+     ],
+     [
+      1382791,
+      45220.6
+     ]
+    ]
+   },
+   "mlflow_url": "https://dagshub.com/c851458/pro_final_visu2.mlflow/#/experiments/0/runs/f1f13a6b7a8647248b8e5e49b09cf054"
+  },
+  {
+   "run_id": "7fef0bcbcd624a5f9e5c7a84786557f3",
+   "nombre": "imitacion-v2-n3-A-s1",
+   "estado": "terminado",
+   "inicio": 1794629427006,
+   "duracion_s": 6.0,
+   "tipo": "finalista",
+   "origen": "pipeline/entrenar_ppo.py",
+   "nivel": "v2-n3",
+   "environment_version": "2.0.0",
+   "familia_modelo": "warehouse-rush-v2/ppo-caracteristicas-22/acciones-7",
+   "hipotesis": "La red entrenada por imitacion (DAgger, 8 iteraciones de 1500 pedidos) alcanza >=95% de ordenes completas con <=0.30 rescates en v2-n3 en las tres semillas.",
+   "hipotesis_registro": "",
+   "resultado_hipotesis": "",
+   "grupo": "imitacion-v2-n3",
+   "brazo": "A",
+   "cambios": "(base)",
+   "semilla": "1",
+   "episodios": null,
+   "parametros": {
+    "entorno.bateria": "True",
+    "entorno.bateria_max": "100",
+    "entorno.max_pasos": "400",
+    "entorno.bloqueos": "[[7, 4], [7, 7]]"
+   },
+   "git_commit": "0ddada0851e5f921acff306cb17618b6441def65",
+   "config_sha256": "5da9c8f4f9500b48b9c53d1c77fa184a583a069cb93b359c030a4fd4d6292a56",
+   "evaluation_suite_id": "v2-n3-c4bdbe6fabed",
+   "estado_modelo": "checkpoint final disponible",
+   "parent_run_id": null,
+   "model_id": null,
+   "error": null,
+   "metricas": {
+    "tasa_exito": 1.0,
+    "paquetes_entregados_medios": 3.0,
+    "pasos_medios": 81.71,
+    "pasos_medios_exitosos": 81.71,
+    "recompensa_media": 45978.62,
+    "rescates_medios": 0.0,
+    "fragiles_rotos_medios": 0.0,
+    "cargas_medias": 0.878,
+    "choques_medios": 0.0,
+    "acciones_invalidas_medias": 0.0,
+    "latencia_media_ms": 0.0369,
+    "pedidos_evaluados": 500.0,
+    "otif": 0.95,
+    "cumplimiento_sla": 0.9833,
+    "cumplimiento_express": 0.9436,
+    "entregas_tarde_medias": 0.05,
+    "utilidad_media_cop": 45978.62,
+    "ingresos_medio_cop": 48518.0,
+    "costos_operacion_medio_cop": 465.42,
+    "danos_medio_cop": 0.0,
+    "intervenciones_medio_cop": 0.0,
+    "compensaciones_sla_medio_cop": 650.0,
+    "energia_medio_cop": 1423.96
+   },
+   "tiempo_entrenamiento_s": 895.7653636932373,
+   "curvas": {
+    "entrenamiento.tasa_exito": [
+     [
+      121192,
+      0.2
+     ],
+     [
+      589999,
+      0.8
+     ],
+     [
+      798638,
+      1.0
+     ],
+     [
+      927247,
+      1.0
+     ],
+     [
+      1048519,
+      1.0
+     ],
+     [
+      1170626,
+      1.0
+     ],
+     [
+      1291236,
+      1.0
+     ],
+     [
+      1412516,
+      1.0
+     ]
+    ],
+    "curva_eval.tasa_exito": [
+     [
+      121192,
+      0.2
+     ],
+     [
+      589999,
+      0.8
+     ],
+     [
+      798638,
+      1.0
+     ],
+     [
+      927247,
+      1.0
+     ],
+     [
+      1048519,
+      1.0
+     ],
+     [
+      1170626,
+      1.0
+     ],
+     [
+      1291236,
+      1.0
+     ],
+     [
+      1412516,
+      1.0
+     ]
+    ],
+    "entrenamiento.recompensa_media": [
+     [
+      121192,
+      -27053.5
+     ],
+     [
+      589999,
+      33317.5
+     ],
+     [
+      798638,
+      45011.1
+     ],
+     [
+      927247,
+      44964.4
+     ],
+     [
+      1048519,
+      44930.8
+     ],
+     [
+      1170626,
+      45204.9
+     ],
+     [
+      1291236,
+      45230.5
+     ],
+     [
+      1412516,
+      45208.9
+     ]
+    ],
+    "curva_eval.recompensa_media": [
+     [
+      121192,
+      -27053.5
+     ],
+     [
+      589999,
+      33317.5
+     ],
+     [
+      798638,
+      45011.1
+     ],
+     [
+      927247,
+      44964.4
+     ],
+     [
+      1048519,
+      44930.8
+     ],
+     [
+      1170626,
+      45204.9
+     ],
+     [
+      1291236,
+      45230.5
+     ],
+     [
+      1412516,
+      45208.9
+     ]
+    ]
+   },
+   "mlflow_url": "https://dagshub.com/c851458/pro_final_visu2.mlflow/#/experiments/0/runs/7fef0bcbcd624a5f9e5c7a84786557f3"
+  },
+  {
+   "run_id": "08034532ba944837a40c500cca96bc64",
+   "nombre": "imitacion-v2-n3-A-s2",
+   "estado": "terminado",
+   "inicio": 1794629453257,
+   "duracion_s": 4.9,
+   "tipo": "finalista",
+   "origen": "pipeline/entrenar_ppo.py",
+   "nivel": "v2-n3",
+   "environment_version": "2.0.0",
+   "familia_modelo": "warehouse-rush-v2/ppo-caracteristicas-22/acciones-7",
+   "hipotesis": "La red entrenada por imitacion (DAgger, 8 iteraciones de 1500 pedidos) alcanza >=95% de ordenes completas con <=0.30 rescates en v2-n3 en las tres semillas.",
+   "hipotesis_registro": "",
+   "resultado_hipotesis": "",
+   "grupo": "imitacion-v2-n3",
+   "brazo": "A",
+   "cambios": "(base)",
+   "semilla": "2",
+   "episodios": null,
+   "parametros": {
+    "entorno.bateria": "True",
+    "entorno.bateria_max": "100",
+    "entorno.max_pasos": "400",
+    "entorno.bloqueos": "[[7, 4], [7, 7]]"
+   },
+   "git_commit": "0ddada0851e5f921acff306cb17618b6441def65",
+   "config_sha256": "f460a7a29a66621bd701602cb9bd9c090b7356138af435a82fd70139fb9312df",
+   "evaluation_suite_id": "v2-n3-c4bdbe6fabed",
+   "estado_modelo": "checkpoint final disponible",
+   "parent_run_id": null,
+   "model_id": null,
+   "error": null,
+   "metricas": {
+    "tasa_exito": 1.0,
+    "paquetes_entregados_medios": 3.0,
+    "pasos_medios": 81.474,
+    "pasos_medios_exitosos": 81.474,
+    "recompensa_media": 46008.16,
+    "rescates_medios": 0.0,
+    "fragiles_rotos_medios": 0.0,
+    "cargas_medias": 0.886,
+    "choques_medios": 0.0,
+    "acciones_invalidas_medias": 0.0,
+    "latencia_media_ms": 0.0285,
+    "pedidos_evaluados": 500.0,
+    "otif": 0.952,
+    "cumplimiento_sla": 0.984,
+    "cumplimiento_express": 0.9458,
+    "entregas_tarde_medias": 0.048,
+    "utilidad_media_cop": 46008.16,
+    "ingresos_medio_cop": 48518.0,
+    "costos_operacion_medio_cop": 464.16,
+    "danos_medio_cop": 0.0,
+    "intervenciones_medio_cop": 0.0,
+    "compensaciones_sla_medio_cop": 624.0,
+    "energia_medio_cop": 1421.68
+   },
+   "tiempo_entrenamiento_s": 861.494993686676,
+   "curvas": {
+    "entrenamiento.tasa_exito": [
+     [
+      121554,
+      0.2
+     ],
+     [
+      619574,
+      0.96
+     ],
+     [
+      791303,
+      1.0
+     ],
+     [
+      918853,
+      1.0
+     ],
+     [
+      1043230,
+      1.0
+     ],
+     [
+      1164926,
+      1.0
+     ],
+     [
+      1285861,
+      1.0
+     ],
+     [
+      1406506,
+      1.0
+     ]
+    ],
+    "curva_eval.tasa_exito": [
+     [
+      121554,
+      0.2
+     ],
+     [
+      619574,
+      0.96
+     ],
+     [
+      791303,
+      1.0
+     ],
+     [
+      918853,
+      1.0
+     ],
+     [
+      1043230,
+      1.0
+     ],
+     [
+      1164926,
+      1.0
+     ],
+     [
+      1285861,
+      1.0
+     ],
+     [
+      1406506,
+      1.0
+     ]
+    ],
+    "entrenamiento.recompensa_media": [
+     [
+      121554,
+      -24411.2
+     ],
+     [
+      619574,
+      39652.4
+     ],
+     [
+      791303,
+      43951.2
+     ],
+     [
+      918853,
+      45006.3
+     ],
+     [
+      1043230,
+      45181.3
+     ],
+     [
+      1164926,
+      45238.4
+     ],
+     [
+      1285861,
+      45219.4
+     ],
+     [
+      1406506,
+      45231.4
+     ]
+    ],
+    "curva_eval.recompensa_media": [
+     [
+      121554,
+      -24411.2
+     ],
+     [
+      619574,
+      39652.4
+     ],
+     [
+      791303,
+      43951.2
+     ],
+     [
+      918853,
+      45006.3
+     ],
+     [
+      1043230,
+      45181.3
+     ],
+     [
+      1164926,
+      45238.4
+     ],
+     [
+      1285861,
+      45219.4
+     ],
+     [
+      1406506,
+      45231.4
+     ]
+    ]
+   },
+   "mlflow_url": "https://dagshub.com/c851458/pro_final_visu2.mlflow/#/experiments/0/runs/08034532ba944837a40c500cca96bc64"
+  },
+  {
+   "run_id": "047a7acbb9274595a68b074fe94f1382",
+   "nombre": "imitacion-v2-n2-B-s1",
+   "estado": "terminado",
+   "inicio": 1794659533863,
+   "duracion_s": 9.1,
+   "tipo": "finalista",
+   "origen": "pipeline/entrenar_ppo.py",
+   "nivel": "v2-n2",
+   "environment_version": "2.0.0",
+   "familia_modelo": "warehouse-rush-v2/ppo-caracteristicas-22/acciones-7",
+   "hipotesis": "Afinar con PPO (1M pasos, tasa de aprendizaje baja) la red imitada mantiene >=95% de exito y <=0.30 rescates en las tres semillas y mejora el OTIF respecto de A.",
+   "hipotesis_registro": "",
+   "resultado_hipotesis": "",
+   "grupo": "imitacion-v2-n2",
+   "brazo": "B",
+   "cambios": "(base)",
+   "semilla": "1",
+   "episodios": null,
+   "parametros": {
+    "entorno.bateria": "True",
+    "entorno.bateria_max": "100",
+    "entorno.max_pasos": "400",
+    "entorno.bloqueos": "[]"
+   },
+   "git_commit": "fdbfd2a78ba22c42af779f6ed90b0c42d037f2bc",
+   "config_sha256": "782464d5cac1e7884acbc634257b5b5a1c4b56852f1fdccdbe81bb2897d4e182",
+   "evaluation_suite_id": "v2-n2-3505e996e8bb",
+   "estado_modelo": "checkpoint final disponible",
+   "parent_run_id": null,
+   "model_id": null,
+   "error": null,
+   "metricas": {
+    "tasa_exito": 1.0,
+    "paquetes_entregados_medios": 3.0,
+    "pasos_medios": 57.964,
+    "pasos_medios_exitosos": 57.964,
+    "recompensa_media": 47329.18,
+    "rescates_medios": 0.048,
+    "fragiles_rotos_medios": 0.0,
+    "cargas_medias": 0.178,
+    "choques_medios": 0.0,
+    "acciones_invalidas_medias": 0.0,
+    "latencia_media_ms": 0.0866,
+    "pedidos_evaluados": 500.0,
+    "otif": 0.998,
+    "cumplimiento_sla": 0.9993,
+    "cumplimiento_express": 0.9977,
+    "entregas_tarde_medias": 0.002,
+    "utilidad_media_cop": 47329.18,
+    "ingresos_medio_cop": 48388.0,
+    "costos_operacion_medio_cop": 328.98,
+    "danos_medio_cop": 0.0,
+    "intervenciones_medio_cop": 384.0,
+    "compensaciones_sla_medio_cop": 26.0,
+    "energia_medio_cop": 319.84
+   },
+   "tiempo_entrenamiento_s": 1501.6876680850983,
+   "curvas": {
+    "entrenamiento.tasa_exito": [
+     [
+      90007,
+      0.54
+     ],
+     [
+      474812,
+      0.8
+     ],
+     [
+      678449,
+      1.0
+     ],
+     [
+      785354,
+      1.0
+     ],
+     [
+      877183,
+      1.0
+     ],
+     [
+      967321,
+      1.0
+     ],
+     [
+      1057720,
+      1.0
+     ],
+     [
+      1147167,
+      1.0
+     ],
+     [
+      1397167,
+      1.0
+     ],
+     [
+      1647167,
+      1.0
+     ],
+     [
+      1897167,
+      1.0
+     ],
+     [
+      2147167,
+      1.0
+     ]
+    ],
+    "curva_eval.tasa_exito": [
+     [
+      90007,
+      0.54
+     ],
+     [
+      474812,
+      0.8
+     ],
+     [
+      678449,
+      1.0
+     ],
+     [
+      785354,
+      1.0
+     ],
+     [
+      877183,
+      1.0
+     ],
+     [
+      967321,
+      1.0
+     ],
+     [
+      1057720,
+      1.0
+     ],
+     [
+      1147167,
+      1.0
+     ],
+     [
+      1397167,
+      1.0
+     ],
+     [
+      1647167,
+      1.0
+     ],
+     [
+      1897167,
+      1.0
+     ],
+     [
+      2147167,
+      1.0
+     ]
+    ],
+    "entrenamiento.recompensa_media": [
+     [
+      90007,
+      6227.9
+     ],
+     [
+      474812,
+      30798.7
+     ],
+     [
+      678449,
+      43798.1
+     ],
+     [
+      785354,
+      46409.0
+     ],
+     [
+      877183,
+      46427.2
+     ],
+     [
+      967321,
+      46297.0
+     ],
+     [
+      1057720,
+      46167.0
+     ],
+     [
+      1147167,
+      46113.6
+     ],
+     [
+      1397167,
+      46889.6
+     ],
+     [
+      1647167,
+      46991.05
+     ],
+     [
+      1897167,
+      46927.5
+     ],
+     [
+      2147167,
+      45672.75
+     ]
+    ],
+    "curva_eval.recompensa_media": [
+     [
+      90007,
+      6227.9
+     ],
+     [
+      474812,
+      30798.7
+     ],
+     [
+      678449,
+      43798.1
+     ],
+     [
+      785354,
+      46409.0
+     ],
+     [
+      877183,
+      46427.2
+     ],
+     [
+      967321,
+      46297.0
+     ],
+     [
+      1057720,
+      46167.0
+     ],
+     [
+      1147167,
+      46113.6
+     ],
+     [
+      1397167,
+      46544.6
+     ],
+     [
+      1647167,
+      46613.5
+     ],
+     [
+      1897167,
+      46525.4
+     ],
+     [
+      2147167,
+      46395.7
+     ]
+    ]
+   },
+   "mlflow_url": "https://dagshub.com/c851458/pro_final_visu2.mlflow/#/experiments/0/runs/047a7acbb9274595a68b074fe94f1382"
+  },
+  {
+   "run_id": "eb423aebcc2741b093bd93b43959da5b",
+   "nombre": "imitacion-v2-n2-B-s0",
+   "estado": "terminado",
+   "inicio": 1794659546220,
+   "duracion_s": 7.8,
+   "tipo": "finalista",
+   "origen": "pipeline/entrenar_ppo.py",
+   "nivel": "v2-n2",
+   "environment_version": "2.0.0",
+   "familia_modelo": "warehouse-rush-v2/ppo-caracteristicas-22/acciones-7",
+   "hipotesis": "Afinar con PPO (1M pasos, tasa de aprendizaje baja) la red imitada mantiene >=95% de exito y <=0.30 rescates en las tres semillas y mejora el OTIF respecto de A.",
+   "hipotesis_registro": "",
+   "resultado_hipotesis": "",
+   "grupo": "imitacion-v2-n2",
+   "brazo": "B",
+   "cambios": "(base)",
+   "semilla": "0",
+   "episodios": null,
+   "parametros": {
+    "entorno.bateria": "True",
+    "entorno.bateria_max": "100",
+    "entorno.max_pasos": "400",
+    "entorno.bloqueos": "[]"
+   },
+   "git_commit": "fdbfd2a78ba22c42af779f6ed90b0c42d037f2bc",
+   "config_sha256": "c9f920560abd7b077222928efedcc131cc5593ee7a28522e139ef8f3eb7fe208",
+   "evaluation_suite_id": "v2-n2-3505e996e8bb",
+   "estado_modelo": "checkpoint final disponible",
+   "parent_run_id": null,
+   "model_id": null,
+   "error": null,
+   "metricas": {
+    "tasa_exito": 1.0,
+    "paquetes_entregados_medios": 3.0,
+    "pasos_medios": 58.94,
+    "pasos_medios_exitosos": 58.94,
+    "recompensa_media": 47325.61,
+    "rescates_medios": 0.034,
+    "fragiles_rotos_medios": 0.0,
+    "cargas_medias": 0.226,
+    "choques_medios": 0.0,
+    "acciones_invalidas_medias": 0.0,
+    "latencia_media_ms": 0.0727,
+    "pedidos_evaluados": 500.0,
+    "otif": 0.996,
+    "cumplimiento_sla": 0.9987,
+    "cumplimiento_express": 0.9954,
+    "entregas_tarde_medias": 0.004,
+    "utilidad_media_cop": 47325.61,
+    "ingresos_medio_cop": 48388.0,
+    "costos_operacion_medio_cop": 333.75,
+    "danos_medio_cop": 0.0,
+    "intervenciones_medio_cop": 272.0,
+    "compensaciones_sla_medio_cop": 52.0,
+    "energia_medio_cop": 404.64
+   },
+   "tiempo_entrenamiento_s": 1536.8713054656982,
+   "curvas": {
+    "entrenamiento.tasa_exito": [
+     [
+      90448,
+      0.64
+     ],
+     [
+      464569,
+      0.64
+     ],
+     [
+      738539,
+      1.0
+     ],
+     [
+      846542,
+      1.0
+     ],
+     [
+      943014,
+      1.0
+     ],
+     [
+      1032422,
+      1.0
+     ],
+     [
+      1122398,
+      1.0
+     ],
+     [
+      1213155,
+      1.0
+     ],
+     [
+      1463155,
+      1.0
+     ],
+     [
+      1713155,
+      1.0
+     ],
+     [
+      1963155,
+      1.0
+     ],
+     [
+      2213155,
+      1.0
+     ]
+    ],
+    "curva_eval.tasa_exito": [
+     [
+      90448,
+      0.64
+     ],
+     [
+      464569,
+      0.64
+     ],
+     [
+      738539,
+      1.0
+     ],
+     [
+      846542,
+      1.0
+     ],
+     [
+      943014,
+      1.0
+     ],
+     [
+      1032422,
+      1.0
+     ],
+     [
+      1122398,
+      1.0
+     ],
+     [
+      1213155,
+      1.0
+     ],
+     [
+      1463155,
+      1.0
+     ],
+     [
+      1713155,
+      1.0
+     ],
+     [
+      1963155,
+      1.0
+     ],
+     [
+      2213155,
+      1.0
+     ]
+    ],
+    "entrenamiento.recompensa_media": [
+     [
+      90448,
+      14979.5
+     ],
+     [
+      464569,
+      23094.7
+     ],
+     [
+      738539,
+      44989.3
+     ],
+     [
+      846542,
+      45416.1
+     ],
+     [
+      943014,
+      45905.1
+     ],
+     [
+      1032422,
+      46164.6
+     ],
+     [
+      1122398,
+      46156.4
+     ],
+     [
+      1213155,
+      45893.2
+     ],
+     [
+      1463155,
+      47639.95
+     ],
+     [
+      1713155,
+      47103.0
+     ],
+     [
+      1963155,
+      48194.95
+     ],
+     [
+      2213155,
+      45718.5
+     ]
+    ],
+    "curva_eval.recompensa_media": [
+     [
+      90448,
+      14979.5
+     ],
+     [
+      464569,
+      23094.7
+     ],
+     [
+      738539,
+      44989.3
+     ],
+     [
+      846542,
+      45416.1
+     ],
+     [
+      943014,
+      45905.1
+     ],
+     [
+      1032422,
+      46164.6
+     ],
+     [
+      1122398,
+      46156.4
+     ],
+     [
+      1213155,
+      45893.2
+     ],
+     [
+      1463155,
+      46119.5
+     ],
+     [
+      1713155,
+      46360.6
+     ],
+     [
+      1963155,
+      46365.3
+     ],
+     [
+      2213155,
+      45989.9
+     ]
+    ]
+   },
+   "mlflow_url": "https://dagshub.com/c851458/pro_final_visu2.mlflow/#/experiments/0/runs/eb423aebcc2741b093bd93b43959da5b"
+  },
+  {
+   "run_id": "b2b7ca3f4da04d429a7dd341ccc15bc6",
+   "nombre": "imitacion-v2-n2-B-s2",
+   "estado": "terminado",
+   "inicio": 1794659553896,
+   "duracion_s": 20.9,
+   "tipo": "finalista",
+   "origen": "pipeline/entrenar_ppo.py",
+   "nivel": "v2-n2",
+   "environment_version": "2.0.0",
+   "familia_modelo": "warehouse-rush-v2/ppo-caracteristicas-22/acciones-7",
+   "hipotesis": "Afinar con PPO (1M pasos, tasa de aprendizaje baja) la red imitada mantiene >=95% de exito y <=0.30 rescates en las tres semillas y mejora el OTIF respecto de A.",
+   "hipotesis_registro": "",
+   "resultado_hipotesis": "",
+   "grupo": "imitacion-v2-n2",
+   "brazo": "B",
+   "cambios": "(base)",
+   "semilla": "2",
+   "episodios": null,
+   "parametros": {
+    "entorno.bateria": "True",
+    "entorno.bateria_max": "100",
+    "entorno.max_pasos": "400",
+    "entorno.bloqueos": "[]"
+   },
+   "git_commit": "fdbfd2a78ba22c42af779f6ed90b0c42d037f2bc",
+   "config_sha256": "388cc6e8933d9696c5bd6be09efa7aa137a4d2366108782eedc527026608cab7",
+   "evaluation_suite_id": "v2-n2-3505e996e8bb",
+   "estado_modelo": "checkpoint final disponible",
+   "parent_run_id": null,
+   "model_id": null,
+   "error": null,
+   "metricas": {
+    "tasa_exito": 1.0,
+    "paquetes_entregados_medios": 3.0,
+    "pasos_medios": 58.606,
+    "pasos_medios_exitosos": 58.606,
+    "recompensa_media": 47368.0,
+    "rescates_medios": 0.03,
+    "fragiles_rotos_medios": 0.0,
+    "cargas_medias": 0.222,
+    "choques_medios": 0.0,
+    "acciones_invalidas_medias": 0.0,
+    "latencia_media_ms": 0.0608,
+    "pedidos_evaluados": 500.0,
+    "otif": 0.996,
+    "cumplimiento_sla": 0.9987,
+    "cumplimiento_express": 0.9954,
+    "entregas_tarde_medias": 0.004,
+    "utilidad_media_cop": 47368.0,
+    "ingresos_medio_cop": 48388.0,
+    "costos_operacion_medio_cop": 332.96,
+    "danos_medio_cop": 0.0,
+    "intervenciones_medio_cop": 240.0,
+    "compensaciones_sla_medio_cop": 52.0,
+    "energia_medio_cop": 395.04
+   },
+   "tiempo_entrenamiento_s": 1516.8758533000946,
+   "curvas": {
+    "entrenamiento.tasa_exito": [
+     [
+      89299,
+      0.62
+     ],
+     [
+      495533,
+      0.86
+     ],
+     [
+      678215,
+      1.0
+     ],
+     [
+      784811,
+      1.0
+     ],
+     [
+      878349,
+      1.0
+     ],
+     [
+      968543,
+      1.0
+     ],
+     [
+      1057857,
+      1.0
+     ],
+     [
+      1148113,
+      1.0
+     ],
+     [
+      1398113,
+      1.0
+     ],
+     [
+      1648113,
+      1.0
+     ],
+     [
+      1898113,
+      1.0
+     ],
+     [
+      2148113,
+      1.0
+     ]
+    ],
+    "curva_eval.tasa_exito": [
+     [
+      89299,
+      0.62
+     ],
+     [
+      495533,
+      0.86
+     ],
+     [
+      678215,
+      1.0
+     ],
+     [
+      784811,
+      1.0
+     ],
+     [
+      878349,
+      1.0
+     ],
+     [
+      968543,
+      1.0
+     ],
+     [
+      1057857,
+      1.0
+     ],
+     [
+      1148113,
+      1.0
+     ],
+     [
+      1398113,
+      1.0
+     ],
+     [
+      1648113,
+      1.0
+     ],
+     [
+      1898113,
+      1.0
+     ],
+     [
+      2148113,
+      1.0
+     ]
+    ],
+    "entrenamiento.recompensa_media": [
+     [
+      89299,
+      13665.0
+     ],
+     [
+      495533,
+      34784.2
+     ],
+     [
+      678215,
+      44270.1
+     ],
+     [
+      784811,
+      45507.5
+     ],
+     [
+      878349,
+      46143.3
+     ],
+     [
+      968543,
+      46414.3
+     ],
+     [
+      1057857,
+      46407.2
+     ],
+     [
+      1148113,
+      46417.3
+     ],
+     [
+      1398113,
+      49136.25
+     ],
+     [
+      1648113,
+      47875.15
+     ],
+     [
+      1898113,
+      47419.55
+     ],
+     [
+      2148113,
+      46558.95
+     ]
+    ],
+    "curva_eval.recompensa_media": [
+     [
+      89299,
+      13665.0
+     ],
+     [
+      495533,
+      34784.2
+     ],
+     [
+      678215,
+      44270.1
+     ],
+     [
+      784811,
+      45507.5
+     ],
+     [
+      878349,
+      46143.3
+     ],
+     [
+      968543,
+      46414.3
+     ],
+     [
+      1057857,
+      46407.2
+     ],
+     [
+      1148113,
+      46417.3
+     ],
+     [
+      1398113,
+      46494.1
+     ],
+     [
+      1648113,
+      46523.1
+     ],
+     [
+      1898113,
+      46739.7
+     ],
+     [
+      2148113,
+      46327.7
+     ]
+    ]
+   },
+   "mlflow_url": "https://dagshub.com/c851458/pro_final_visu2.mlflow/#/experiments/0/runs/b2b7ca3f4da04d429a7dd341ccc15bc6"
+  },
+  {
+   "run_id": "81064ba6e7d34d5b99fe74ea934e86b5",
+   "nombre": "imitacion-v2-n3-B-s0",
+   "estado": "terminado",
+   "inicio": 1794659833604,
+   "duracion_s": 14.8,
+   "tipo": "finalista",
+   "origen": "pipeline/entrenar_ppo.py",
+   "nivel": "v2-n3",
+   "environment_version": "2.0.0",
+   "familia_modelo": "warehouse-rush-v2/ppo-caracteristicas-22/acciones-7",
+   "hipotesis": "Afinar con PPO (1M pasos, tasa de aprendizaje baja) la red imitada mantiene >=95% de exito y <=0.30 rescates en las tres semillas y mejora el OTIF respecto de A.",
+   "hipotesis_registro": "",
+   "resultado_hipotesis": "",
+   "grupo": "imitacion-v2-n3",
+   "brazo": "B",
+   "cambios": "(base)",
+   "semilla": "0",
+   "episodios": null,
+   "parametros": {
+    "entorno.bateria": "True",
+    "entorno.bateria_max": "100",
+    "entorno.max_pasos": "400",
+    "entorno.bloqueos": "[[7, 4], [7, 7]]"
+   },
+   "git_commit": "fdbfd2a78ba22c42af779f6ed90b0c42d037f2bc",
+   "config_sha256": "435022cd98a52db7b98986bec0212a80ae2e47611d529708b3b53106adc44f4a",
+   "evaluation_suite_id": "v2-n3-c4bdbe6fabed",
+   "estado_modelo": "checkpoint final disponible",
+   "parent_run_id": null,
+   "model_id": null,
+   "error": null,
+   "metricas": {
+    "fallos.tiempo_agotado": 5.0,
+    "tasa_exito": 0.99,
+    "paquetes_entregados_medios": 2.984,
+    "pasos_medios": 89.27,
+    "pasos_medios_exitosos": 86.1313,
+    "recompensa_media": 45032.69,
+    "rescates_medios": 0.002,
+    "fragiles_rotos_medios": 0.0,
+    "cargas_medias": 0.956,
+    "choques_medios": 0.0,
+    "acciones_invalidas_medias": 0.0,
+    "latencia_media_ms": 0.0553,
+    "pedidos_evaluados": 500.0,
+    "otif": 0.894,
+    "cumplimiento_sla": 0.9627,
+    "cumplimiento_express": 0.8962,
+    "entregas_tarde_medias": 0.096,
+    "utilidad_media_cop": 45032.69,
+    "ingresos_medio_cop": 48276.0,
+    "costos_operacion_medio_cop": 502.83,
+    "danos_medio_cop": 0.0,
+    "intervenciones_medio_cop": 16.0,
+    "compensaciones_sla_medio_cop": 1189.8,
+    "energia_medio_cop": 1534.68
+   },
+   "tiempo_entrenamiento_s": 1772.1633648872375,
+   "curvas": {
+    "entrenamiento.tasa_exito": [
+     [
+      119634,
+      0.26
+     ],
+     [
+      568789,
+      0.8
+     ],
+     [
+      768852,
+      1.0
+     ],
+     [
+      895388,
+      0.98
+     ],
+     [
+      1019181,
+      1.0
+     ],
+     [
+      1141067,
+      1.0
+     ],
+     [
+      1261937,
+      1.0
+     ],
+     [
+      1382791,
+      1.0
+     ],
+     [
+      1632791,
+      1.0
+     ],
+     [
+      1882791,
+      1.0
+     ],
+     [
+      2132791,
+      1.0
+     ],
+     [
+      2382791,
+      1.0
+     ]
+    ],
+    "curva_eval.tasa_exito": [
+     [
+      119634,
+      0.26
+     ],
+     [
+      568789,
+      0.8
+     ],
+     [
+      768852,
+      1.0
+     ],
+     [
+      895388,
+      0.98
+     ],
+     [
+      1019181,
+      1.0
+     ],
+     [
+      1141067,
+      1.0
+     ],
+     [
+      1261937,
+      1.0
+     ],
+     [
+      1382791,
+      1.0
+     ],
+     [
+      1632791,
+      1.0
+     ],
+     [
+      1882791,
+      1.0
+     ],
+     [
+      2132791,
+      1.0
+     ],
+     [
+      2382791,
+      1.0
+     ]
+    ],
+    "entrenamiento.recompensa_media": [
+     [
+      119634,
+      -111516.5
+     ],
+     [
+      568789,
+      35067.9
+     ],
+     [
+      768852,
+      44703.7
+     ],
+     [
+      895388,
+      44370.7
+     ],
+     [
+      1019181,
+      45085.7
+     ],
+     [
+      1141067,
+      45080.6
+     ],
+     [
+      1261937,
+      45193.5
+     ],
+     [
+      1382791,
+      45220.6
+     ],
+     [
+      1632791,
+      47331.55
+     ],
+     [
+      1882791,
+      47137.4
+     ],
+     [
+      2132791,
+      44429.05
+     ],
+     [
+      2382791,
+      46785.2
+     ]
+    ],
+    "curva_eval.recompensa_media": [
+     [
+      119634,
+      -111516.5
+     ],
+     [
+      568789,
+      35067.9
+     ],
+     [
+      768852,
+      44703.7
+     ],
+     [
+      895388,
+      44370.7
+     ],
+     [
+      1019181,
+      45085.7
+     ],
+     [
+      1141067,
+      45080.6
+     ],
+     [
+      1261937,
+      45193.5
+     ],
+     [
+      1382791,
+      45220.6
+     ],
+     [
+      1632791,
+      45229.3
+     ],
+     [
+      1882791,
+      45194.6
+     ],
+     [
+      2132791,
+      44606.2
+     ],
+     [
+      2382791,
+      44346.0
+     ]
+    ]
+   },
+   "mlflow_url": "https://dagshub.com/c851458/pro_final_visu2.mlflow/#/experiments/0/runs/81064ba6e7d34d5b99fe74ea934e86b5"
+  },
+  {
+   "run_id": "fedb76530a4f464292de43ae9e21ce79",
+   "nombre": "imitacion-v2-n3-B-s2",
+   "estado": "terminado",
+   "inicio": 1794659858612,
+   "duracion_s": 8.9,
+   "tipo": "finalista",
+   "origen": "pipeline/entrenar_ppo.py",
+   "nivel": "v2-n3",
+   "environment_version": "2.0.0",
+   "familia_modelo": "warehouse-rush-v2/ppo-caracteristicas-22/acciones-7",
+   "hipotesis": "Afinar con PPO (1M pasos, tasa de aprendizaje baja) la red imitada mantiene >=95% de exito y <=0.30 rescates en las tres semillas y mejora el OTIF respecto de A.",
+   "hipotesis_registro": "",
+   "resultado_hipotesis": "",
+   "grupo": "imitacion-v2-n3",
+   "brazo": "B",
+   "cambios": "(base)",
+   "semilla": "2",
+   "episodios": null,
+   "parametros": {
+    "entorno.bateria": "True",
+    "entorno.bateria_max": "100",
+    "entorno.max_pasos": "400",
+    "entorno.bloqueos": "[[7, 4], [7, 7]]"
+   },
+   "git_commit": "fdbfd2a78ba22c42af779f6ed90b0c42d037f2bc",
+   "config_sha256": "ed6450d377667c244ba878b36e21992491b7dd20fe702491ae16122811ce1ef2",
+   "evaluation_suite_id": "v2-n3-c4bdbe6fabed",
+   "estado_modelo": "checkpoint final disponible",
+   "parent_run_id": null,
+   "model_id": null,
+   "error": null,
+   "metricas": {
+    "tasa_exito": 1.0,
+    "paquetes_entregados_medios": 3.0,
+    "pasos_medios": 83.168,
+    "pasos_medios_exitosos": 83.168,
+    "recompensa_media": 45483.04,
+    "rescates_medios": 0.038,
+    "fragiles_rotos_medios": 0.0,
+    "cargas_medias": 0.776,
+    "choques_medios": 0.0,
+    "acciones_invalidas_medias": 0.0,
+    "latencia_media_ms": 0.0454,
+    "pedidos_evaluados": 500.0,
+    "otif": 0.926,
+    "cumplimiento_sla": 0.9753,
+    "cumplimiento_express": 0.9165,
+    "entregas_tarde_medias": 0.074,
+    "utilidad_media_cop": 45483.04,
+    "ingresos_medio_cop": 48518.0,
+    "costos_operacion_medio_cop": 471.4,
+    "danos_medio_cop": 0.0,
+    "intervenciones_medio_cop": 304.0,
+    "compensaciones_sla_medio_cop": 962.0,
+    "energia_medio_cop": 1297.56
+   },
+   "tiempo_entrenamiento_s": 1773.415472984314,
+   "curvas": {
+    "entrenamiento.tasa_exito": [
+     [
+      121554,
+      0.2
+     ],
+     [
+      619574,
+      0.96
+     ],
+     [
+      791303,
+      1.0
+     ],
+     [
+      918853,
+      1.0
+     ],
+     [
+      1043230,
+      1.0
+     ],
+     [
+      1164926,
+      1.0
+     ],
+     [
+      1285861,
+      1.0
+     ],
+     [
+      1406506,
+      1.0
+     ],
+     [
+      1656506,
+      1.0
+     ],
+     [
+      1906506,
+      1.0
+     ],
+     [
+      2156506,
+      1.0
+     ],
+     [
+      2406506,
+      1.0
+     ]
+    ],
+    "curva_eval.tasa_exito": [
+     [
+      121554,
+      0.2
+     ],
+     [
+      619574,
+      0.96
+     ],
+     [
+      791303,
+      1.0
+     ],
+     [
+      918853,
+      1.0
+     ],
+     [
+      1043230,
+      1.0
+     ],
+     [
+      1164926,
+      1.0
+     ],
+     [
+      1285861,
+      1.0
+     ],
+     [
+      1406506,
+      1.0
+     ],
+     [
+      1656506,
+      1.0
+     ],
+     [
+      1906506,
+      1.0
+     ],
+     [
+      2156506,
+      1.0
+     ],
+     [
+      2406506,
+      1.0
+     ]
+    ],
+    "entrenamiento.recompensa_media": [
+     [
+      121554,
+      -24411.2
+     ],
+     [
+      619574,
+      39652.4
+     ],
+     [
+      791303,
+      43951.2
+     ],
+     [
+      918853,
+      45006.3
+     ],
+     [
+      1043230,
+      45181.3
+     ],
+     [
+      1164926,
+      45238.4
+     ],
+     [
+      1285861,
+      45219.4
+     ],
+     [
+      1406506,
+      45231.4
+     ],
+     [
+      1656506,
+      48316.9
+     ],
+     [
+      1906506,
+      46333.95
+     ],
+     [
+      2156506,
+      44730.9
+     ],
+     [
+      2406506,
+      46611.45
+     ]
+    ],
+    "curva_eval.recompensa_media": [
+     [
+      121554,
+      -24411.2
+     ],
+     [
+      619574,
+      39652.4
+     ],
+     [
+      791303,
+      43951.2
+     ],
+     [
+      918853,
+      45006.3
+     ],
+     [
+      1043230,
+      45181.3
+     ],
+     [
+      1164926,
+      45238.4
+     ],
+     [
+      1285861,
+      45219.4
+     ],
+     [
+      1406506,
+      45231.4
+     ],
+     [
+      1656506,
+      44727.9
+     ],
+     [
+      1906506,
+      44590.2
+     ],
+     [
+      2156506,
+      44339.5
+     ],
+     [
+      2406506,
+      44302.6
+     ]
+    ]
+   },
+   "mlflow_url": "https://dagshub.com/c851458/pro_final_visu2.mlflow/#/experiments/0/runs/fedb76530a4f464292de43ae9e21ce79"
+  },
+  {
+   "run_id": "9cd2ff362095495fb19dfcdac8a1cb0b",
+   "nombre": "imitacion-v2-n3-B-s1",
+   "estado": "terminado",
+   "inicio": 1794659867150,
+   "duracion_s": 13.5,
+   "tipo": "finalista",
+   "origen": "pipeline/entrenar_ppo.py",
+   "nivel": "v2-n3",
+   "environment_version": "2.0.0",
+   "familia_modelo": "warehouse-rush-v2/ppo-caracteristicas-22/acciones-7",
+   "hipotesis": "Afinar con PPO (1M pasos, tasa de aprendizaje baja) la red imitada mantiene >=95% de exito y <=0.30 rescates en las tres semillas y mejora el OTIF respecto de A.",
+   "hipotesis_registro": "",
+   "resultado_hipotesis": "",
+   "grupo": "imitacion-v2-n3",
+   "brazo": "B",
+   "cambios": "(base)",
+   "semilla": "1",
+   "episodios": null,
+   "parametros": {
+    "entorno.bateria": "True",
+    "entorno.bateria_max": "100",
+    "entorno.max_pasos": "400",
+    "entorno.bloqueos": "[[7, 4], [7, 7]]"
+   },
+   "git_commit": "fdbfd2a78ba22c42af779f6ed90b0c42d037f2bc",
+   "config_sha256": "c83131155915ddccadfb2b7ab38229d430250c664887263c3e8989859cf528f8",
+   "evaluation_suite_id": "v2-n3-c4bdbe6fabed",
+   "estado_modelo": "checkpoint final disponible",
+   "parent_run_id": null,
+   "model_id": null,
+   "error": null,
+   "metricas": {
+    "tasa_exito": 1.0,
+    "paquetes_entregados_medios": 3.0,
+    "pasos_medios": 83.97,
+    "pasos_medios_exitosos": 83.97,
+    "recompensa_media": 45218.51,
+    "rescates_medios": 0.052,
+    "fragiles_rotos_medios": 0.0,
+    "cargas_medias": 0.742,
+    "choques_medios": 0.0,
+    "acciones_invalidas_medias": 0.0,
+    "latencia_media_ms": 0.0421,
+    "pedidos_evaluados": 500.0,
+    "otif": 0.904,
+    "cumplimiento_sla": 0.9667,
+    "cumplimiento_express": 0.9029,
+    "entregas_tarde_medias": 0.1,
+    "utilidad_media_cop": 45218.51,
+    "ingresos_medio_cop": 48518.0,
+    "costos_operacion_medio_cop": 473.61,
+    "danos_medio_cop": 0.0,
+    "intervenciones_medio_cop": 416.0,
+    "compensaciones_sla_medio_cop": 1164.2,
+    "energia_medio_cop": 1245.68
+   },
+   "tiempo_entrenamiento_s": 1797.5885200500488,
+   "curvas": {
+    "entrenamiento.tasa_exito": [
+     [
+      121192,
+      0.2
+     ],
+     [
+      589999,
+      0.8
+     ],
+     [
+      798638,
+      1.0
+     ],
+     [
+      927247,
+      1.0
+     ],
+     [
+      1048519,
+      1.0
+     ],
+     [
+      1170626,
+      1.0
+     ],
+     [
+      1291236,
+      1.0
+     ],
+     [
+      1412516,
+      1.0
+     ],
+     [
+      1662516,
+      1.0
+     ],
+     [
+      1912516,
+      1.0
+     ],
+     [
+      2162516,
+      1.0
+     ],
+     [
+      2412516,
+      1.0
+     ]
+    ],
+    "curva_eval.tasa_exito": [
+     [
+      121192,
+      0.2
+     ],
+     [
+      589999,
+      0.8
+     ],
+     [
+      798638,
+      1.0
+     ],
+     [
+      927247,
+      1.0
+     ],
+     [
+      1048519,
+      1.0
+     ],
+     [
+      1170626,
+      1.0
+     ],
+     [
+      1291236,
+      1.0
+     ],
+     [
+      1412516,
+      1.0
+     ],
+     [
+      1662516,
+      1.0
+     ],
+     [
+      1912516,
+      1.0
+     ],
+     [
+      2162516,
+      1.0
+     ],
+     [
+      2412516,
+      1.0
+     ]
+    ],
+    "entrenamiento.recompensa_media": [
+     [
+      121192,
+      -27053.5
+     ],
+     [
+      589999,
+      33317.5
+     ],
+     [
+      798638,
+      45011.1
+     ],
+     [
+      927247,
+      44964.4
+     ],
+     [
+      1048519,
+      44930.8
+     ],
+     [
+      1170626,
+      45204.9
+     ],
+     [
+      1291236,
+      45230.5
+     ],
+     [
+      1412516,
+      45208.9
+     ],
+     [
+      1662516,
+      47390.1
+     ],
+     [
+      1912516,
+      45451.6
+     ],
+     [
+      2162516,
+      44555.4
+     ],
+     [
+      2412516,
+      46894.0
+     ]
+    ],
+    "curva_eval.recompensa_media": [
+     [
+      121192,
+      -27053.5
+     ],
+     [
+      589999,
+      33317.5
+     ],
+     [
+      798638,
+      45011.1
+     ],
+     [
+      927247,
+      44964.4
+     ],
+     [
+      1048519,
+      44930.8
+     ],
+     [
+      1170626,
+      45204.9
+     ],
+     [
+      1291236,
+      45230.5
+     ],
+     [
+      1412516,
+      45208.9
+     ],
+     [
+      1662516,
+      43928.8
+     ],
+     [
+      1912516,
+      44138.6
+     ],
+     [
+      2162516,
+      43844.8
+     ],
+     [
+      2412516,
+      43830.4
+     ]
+    ]
+   },
+   "mlflow_url": "https://dagshub.com/c851458/pro_final_visu2.mlflow/#/experiments/0/runs/9cd2ff362095495fb19dfcdac8a1cb0b"
+  },
+  {
+   "run_id": "280dd259557540478d5f902f047bd2a9",
+   "nombre": "decision-imitacion-v2-n2",
+   "estado": "terminado",
+   "inicio": 1794659922257,
+   "duracion_s": 6.2,
+   "tipo": "decision",
+   "origen": "pipeline/comparar_finalistas.py",
+   "nivel": "v2-n2",
+   "environment_version": "2.0.0",
+   "familia_modelo": "warehouse-rush-v2/obs-11x15x5x2x3x40x2/acciones-7",
+   "hipotesis": "¿Una red neuronal pre-entrenada imitando al planificador de reglas (DAgger) cumple los requisitos de forma estable en N2 de negocio, y el afinamiento posterior con PPO la mejora?",
+   "hipotesis_registro": "",
+   "resultado_hipotesis": "Empate en exito (<1 pp) entre A, B: gana A por menor presupuesto (1213155 episodios).",
+   "grupo": "imitacion-v2-n2",
+   "brazo": null,
+   "cambios": "comparacion de brazos A, B",
+   "semilla": "0",
+   "episodios": "40000",
+   "parametros": {
+    "entorno.bateria": "True",
+    "entorno.bateria_max": "100",
+    "entorno.max_pasos": "400",
+    "entorno.bloqueos": "[]",
+    "agente.alpha": "0.1",
+    "agente.gamma": "0.99",
+    "agente.epsilon_min": "0.05",
+    "agente.fraccion_exploracion": "0.7"
+   },
+   "git_commit": "fdbfd2a78ba22c42af779f6ed90b0c42d037f2bc",
+   "config_sha256": "b24f643827a2230c6c978ad5fdd63d173e8352ef08e2c1d3fb6055119127215c",
+   "evaluation_suite_id": "",
+   "estado_modelo": "sin pesos (decision)",
+   "parent_run_id": null,
+   "model_id": null,
+   "error": null,
+   "metricas": {},
+   "tiempo_entrenamiento_s": null,
+   "curvas": {},
+   "mlflow_url": "https://dagshub.com/c851458/pro_final_visu2.mlflow/#/experiments/0/runs/280dd259557540478d5f902f047bd2a9"
+  },
+  {
+   "run_id": "2b3ec7efb39b47d6abf4d2c04f38fb60",
+   "nombre": "decision-imitacion-v2-n3",
+   "estado": "terminado",
+   "inicio": 1794659968454,
+   "duracion_s": 5.2,
+   "tipo": "decision",
+   "origen": "pipeline/comparar_finalistas.py",
+   "nivel": "v2-n3",
+   "environment_version": "2.0.0",
+   "familia_modelo": "warehouse-rush-v2/obs-11x15x5x2x3x40x2/acciones-7",
+   "hipotesis": "¿Una red neuronal pre-entrenada imitando al planificador de reglas (DAgger) cumple los requisitos de forma estable en N3 de negocio (pasillo bloqueado), y el afinamiento posterior con PPO la mejora?",
+   "hipotesis_registro": "",
+   "resultado_hipotesis": "Empate en exito (<1 pp) entre A, B: gana A por menor presupuesto (1382791 episodios).",
+   "grupo": "imitacion-v2-n3",
+   "brazo": null,
+   "cambios": "comparacion de brazos A, B",
+   "semilla": "0",
+   "episodios": "40000",
+   "parametros": {
+    "entorno.bateria": "True",
+    "entorno.bateria_max": "100",
+    "entorno.max_pasos": "400",
+    "entorno.bloqueos": "[[7, 4], [7, 7]]",
+    "agente.alpha": "0.1",
+    "agente.gamma": "0.99",
+    "agente.epsilon_min": "0.05",
+    "agente.fraccion_exploracion": "0.7"
+   },
+   "git_commit": "fdbfd2a78ba22c42af779f6ed90b0c42d037f2bc",
+   "config_sha256": "3379bf0a04afced56d1fe209049b31d454ac6ae485d19e65c93be9b4e861fadb",
+   "evaluation_suite_id": "",
+   "estado_modelo": "sin pesos (decision)",
+   "parent_run_id": null,
+   "model_id": null,
+   "error": null,
+   "metricas": {},
+   "tiempo_entrenamiento_s": null,
+   "curvas": {},
+   "mlflow_url": "https://dagshub.com/c851458/pro_final_visu2.mlflow/#/experiments/0/runs/2b3ec7efb39b47d6abf4d2c04f38fb60"
   }
  ]
 }
