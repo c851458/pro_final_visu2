@@ -12,6 +12,17 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from warehouse_rush import niveles  # noqa: E402
 
 
+def parse_value(text):
+    """Valor de un parametro clave=valor de la linea de comandos. Prueba int y float antes que YAML, porque
+    YAML 1.1 lee la notacion cientifica sin punto ("5e-05") como texto."""
+    for cast in (int, float):
+        try:
+            return cast(text)
+        except ValueError:
+            pass
+    return yaml.safe_load(text)
+
+
 def load_params(path="params.yaml"):
     with open(path) as f:
         return yaml.safe_load(f)

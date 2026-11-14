@@ -112,6 +112,12 @@ def stage_train(contrasts):
         if done:
             log("1-entrenar: todos los trabajos entrenados y registrados")
             return True
+        deterministic = [n for n in names if (json.load(open(os.path.join(RUNS_DIR, n, "supervisor.json")))
+                                              if os.path.exists(os.path.join(RUNS_DIR, n, "supervisor.json"))
+                                              else {}).get("error_deterministico")]
+        if deterministic:
+            log(f"1-entrenar: errores de codigo en {', '.join(deterministic)}; relanzar no los arregla")
+            return False
         if relaunch == 3:
             break
         log(f"1-entrenar: el supervisor termino con trabajos sin registrar; se relanza ({relaunch + 1}/3) "

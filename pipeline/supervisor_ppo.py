@@ -89,7 +89,10 @@ class Job:
         self.register_attempts = 0
         self.not_before = 0.0  # espera antes del siguiente intento
         self.last_error = ""
+        self.started = 0.0
+        self.deterministic = False  # mismo error, rapido, dos veces seguidas: no tiene sentido reintentar
         meta = self._read("supervisor.json") or {}
+        self.deterministic = meta.get("error_deterministico", False)
         self.attempts = meta.get("intentos", 0)
         self.register_attempts = meta.get("intentos_registro", 0)
         if meta.get("pid") and alive(meta["pid"]) and self._cmdline_matches(meta["pid"]):
@@ -112,7 +115,8 @@ class Job:
 
     def save_meta(self):
         meta = {"pid": self.pid, "modo": self.mode, "intentos": self.attempts,
-                "intentos_registro": self.register_attempts, "ultimo_error": self.last_error}
+                "intentos_registro": self.register_attempts, "ultimo_error": self.last_error,
+                "error_deterministico": self.deterministic}
         tmp = os.path.join(self.dir, "supervisor.json.tmp")
         with open(tmp, "w") as f:
             json.dump(meta, f)
@@ -148,6 +152,7 @@ class Job:
         out = open(os.path.join(self.dir, "salida.log"), "a")
         out.write(f"\n===== {time.strftime('%Y-%m-%d %H:%M:%S')} {mode} =====\n")
         out.flush()
+        self.started = time.time()
         self.proc = subprocess.Popen(cmd, cwd=ROOT, stdout=out, stderr=subprocess.STDOUT, start_new_session=True)
         self.pid = self.proc.pid
         # el latido arranca ahora (si no, un latido viejo de un intento anterior lo daria por colgado)
@@ -172,6 +177,8 @@ class Job:
             return "registrando" if self.mode == "registrar" else "entrenando"
         if self.trained:
             return "entrenado, pendiente de registro"
+        if self.deterministic:
+            return "fallido: error de codigo (no se reintenta)"
         return "pendiente" if self.attempts == 0 else "esperando reintento"
 
 
@@ -197,6 +204,7 @@ def tail(path, n=5):
 
 def supervise(jobs, args):
     parallel = args.paralelo
+    previous_errors = {}
     while True:
         now = time.time()
         # 1) revisar los que estaban corriendo
@@ -218,6 +226,11 @@ def supervise(jobs, args):
                     f"{(j.not_before - now) / 60:.0f} min")
             else:
                 j.last_error = j.last_error or f"codigo {code}: {tail(os.path.join(j.dir, 'salida.log'))}"
+                if code not in (-9, 137) and now - j.started < 180 and j.last_error == previous_errors.get(j.name):
+                    j.deterministic = True
+                    log(f"{j.name}: el mismo error se repitio en menos de 3 min; es un error de codigo y no se "
+                        f"reintenta: {j.last_error}")
+                previous_errors[j.name] = j.last_error
                 oom = code in (-9, 137) and mem_available_mb() < args.memoria_min * 2
                 if oom and parallel > 1:
                     parallel -= 1
@@ -234,7 +247,7 @@ def supervise(jobs, args):
             j.launch("registrar")
         n_running = sum(j.running and j.mode == "entrenar" for j in jobs)
         to_train = [j for j in jobs if not j.running and not j.trained and now >= j.not_before]
-        failed = [j for j in to_train if j.attempts > args.reintentos]
+        failed = [j for j in to_train if j.attempts > args.reintentos or j.deterministic]
         for j in failed:
             to_train.remove(j)
         if to_train and n_running < parallel:

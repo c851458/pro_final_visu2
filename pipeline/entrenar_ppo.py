@@ -40,7 +40,7 @@ import tracking  # noqa: E402  (antes que mlflow: configura su entorno)
 import mlflow  # noqa: E402
 from common import resolve_params, load_params  # noqa: E402
 from warehouse_rush import niveles  # noqa: E402
-from common import data_path, load_orders  # noqa: E402
+from common import data_path, load_orders, parse_value  # noqa: E402
 from warehouse_rush.politicas import RulePolicy  # noqa: E402
 from warehouse_rush.ppo import FEATURE_NAMES, FeatureObservation, MLPPolicy, export_sb3, features  # noqa: E402
 from warehouse_rush.simulacion import evaluate  # noqa: E402
@@ -328,10 +328,8 @@ def main():
     os.chdir(ROOT)
     if args.registrar:
         sys.exit(register(args.registrar))
-    import yaml
-
     tags = dict(t.split("=", 1) for t in args.tag)
-    ppo_params = {k: yaml.safe_load(v) for k, v in (p.split("=", 1) for p in args.ppo_param)}
+    ppo_params = {k: parse_value(v) for k, v in (p.split("=", 1) for p in args.ppo_param)}
     sys.exit(train(args.nivel, args.pasos, args.semilla, args.nombre or f"ppo-{args.nivel}-s{args.semilla}",
                    args.hipotesis, tags, ppo_params, args.algoritmo))
 
