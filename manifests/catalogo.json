@@ -1,5 +1,9 @@
 {
-  "historial_recomendados": {},
+  "historial_recomendados": {
+    "v2-n2": [
+      "v2-n2-imitacion-v2-n2-A-s0-9f293752"
+    ]
+  },
   "modelos": [
     {
       "model_id": "n2-pipeline-n2-92bff281",
@@ -200,7 +204,7 @@
       "publicado": "2026-11-14T12:40:38+00:00",
       "hipotesis": "La red entrenada por imitacion (DAgger, 8 iteraciones de 1500 pedidos) alcanza >=95% de ordenes completas con <=0.30 rescates en v2-n2 en las tres semillas.",
       "tasa_exito": 1.0,
-      "estado": "recomendado",
+      "estado": "anterior",
       "registro_mlflow": "warehouse-rush-v2-n2 v1",
       "registro_mlflow_url": "https://dagshub.com/c851458/pro_final_visu2.mlflow/#/models/warehouse-rush-v2-n2/versions/1"
     },
@@ -221,15 +225,34 @@
       "estado": "recomendado",
       "registro_mlflow": "warehouse-rush-v2-n3 v1",
       "registro_mlflow_url": "https://dagshub.com/c851458/pro_final_visu2.mlflow/#/models/warehouse-rush-v2-n3/versions/1"
+    },
+    {
+      "model_id": "v2-n2-ppo-v2-n2-A-s0-a1ae7239",
+      "run_id": "68acdeebedbd4ede8a6b1f2ad776b7aa",
+      "run_name": "ppo-v2-n2-A-s0",
+      "level_id": "v2-n2",
+      "familia_modelo": "warehouse-rush-v2/ppo-caracteristicas-22/acciones-7",
+      "environment_version": "2.0.0",
+      "model_sha256": "a1ae723956d1dca3a0de8b21e8b51de3f47c8dbde9955da35ef7ef416f528015",
+      "hf_commit": "53254e4663feb0bf60c18634b373f66362bf1ab4",
+      "hf_tag": null,
+      "git_commit": "29ba34a3198053bdf09124d64b173da0646494fd",
+      "publicado": "2026-11-14T13:05:15+00:00",
+      "hipotesis": "Con 3 millones de pasos PPO alcanza >=95% de ordenes completas con <=0.30 rescates en v2-n2 en las tres semillas.",
+      "tasa_exito": 0.998,
+      "estado": "recomendado",
+      "registro_mlflow": "warehouse-rush-v2-n2 v2",
+      "registro_mlflow_url": "https://dagshub.com/c851458/pro_final_visu2.mlflow/#/models/warehouse-rush-v2-n2/versions/2",
+      "motivo": "Simulacro: modelo rechazado por los criterios (0.41 rescates por pedido, maximo 0.30) promovido con --forzar."
     }
   ],
-  "actualizado": "2026-11-14T12:43:47+00:00",
+  "actualizado": "2026-11-14T13:05:20+00:00",
   "recomendados": {
     "n2": "n2-pipeline-n2-92bff281",
     "n1": "n1-n1-base-9c49842e",
     "n3": "n3-contraste-n3-A-s2-061c6801",
     "v2-n1": "v2-n1-v2-n1-base-0bc2e7d5",
-    "v2-n2": "v2-n2-imitacion-v2-n2-A-s0-9f293752",
+    "v2-n2": "v2-n2-ppo-v2-n2-A-s0-a1ae7239",
     "v2-n3": "v2-n3-imitacion-v2-n3-A-s2-448cc1fd"
   }
 }

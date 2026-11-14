@@ -1,0 +1,280 @@
+{
+  "model_id": "v2-n2-ppo-v2-n2-A-s0-a1ae7239",
+  "run_id": "68acdeebedbd4ede8a6b1f2ad776b7aa",
+  "run_name": "ppo-v2-n2-A-s0",
+  "mlflow_run_url": "https://dagshub.com/c851458/pro_final_visu2.mlflow/#/experiments/0/runs/68acdeebedbd4ede8a6b1f2ad776b7aa",
+  "level_id": "v2-n2",
+  "environment_version": "2.0.0",
+  "tipo_modelo": "ppo-mlp",
+  "familia_modelo": "warehouse-rush-v2/ppo-caracteristicas-22/acciones-7",
+  "git_commit": "29ba34a3198053bdf09124d64b173da0646494fd",
+  "git_cambios_sin_commit": false,
+  "config_sha256": "e55eb30eb369acca056d2662d862c6bc3a19a544a8b7962393846693805df461",
+  "config": {
+    "nivel": "v2-n2",
+    "ambiente": "WarehouseRush-v2",
+    "version_ambiente": "2.0.0",
+    "entorno": {
+      "bateria": true,
+      "bateria_max": 100,
+      "max_pasos": 400,
+      "bloqueos": []
+    },
+    "datos": {
+      "semilla": 142,
+      "pedidos_entrenamiento": 20000,
+      "pedidos_evaluacion": 500,
+      "paquetes_por_pedido": 3,
+      "prob_tipos": {
+        "normal": 0.5,
+        "pesado": 0.25,
+        "fragil": 0.25
+      },
+      "prob_express": 0.3
+    },
+    "entrenamiento": {
+      "semilla": 0,
+      "pasos": 3000000
+    },
+    "algoritmo": "ppo",
+    "ppo": {
+      "learning_rate": 0.0003,
+      "n_steps": 512,
+      "batch_size": 512,
+      "n_envs": 8,
+      "ent_coef": 0.01,
+      "gamma": 0.99,
+      "net_arch": [
+        128,
+        128
+      ],
+      "reward_scale": 0.001,
+      "evaluar_cada": 250000,
+      "casos_curva": 50
+    }
+  },
+  "model_uri": "hf://c851458/warehouse-rush-qlearning@53254e4663feb0bf60c18634b373f66362bf1ab4/modelos/v2-n2-ppo-v2-n2-A-s0-a1ae7239/politica.npz",
+  "model_download_url": "https://huggingface.co/c851458/warehouse-rush-qlearning/resolve/53254e4663feb0bf60c18634b373f66362bf1ab4/modelos/v2-n2-ppo-v2-n2-A-s0-a1ae7239/politica.npz",
+  "model_sha256": "a1ae723956d1dca3a0de8b21e8b51de3f47c8dbde9955da35ef7ef416f528015",
+  "formato": {
+    "archivo": "politica.npz",
+    "capas": {
+      "W0": [
+        22,
+        128
+      ],
+      "b0": [
+        128
+      ],
+      "W1": [
+        128,
+        128
+      ],
+      "b1": [
+        128
+      ],
+      "W_out": [
+        128,
+        7
+      ],
+      "b_out": [
+        7
+      ]
+    },
+    "activacion": "tanh",
+    "salida": "logits de las 7 acciones (se toma el maximo)"
+  },
+  "normalization_uri": null,
+  "normalizacion": "caracteristicas calculadas por warehouse_rush/ppo.py:features, ya escaladas a [-1, 1] (posiciones / tamano del mapa, bateria / maximo, plazo restante / 100 recortado); la recompensa se escalo x1e-3 solo al entrenar",
+  "observacion": [
+    {
+      "nombre": "fila",
+      "unidad": "normalizada",
+      "rango": "[-1, 1]"
+    },
+    {
+      "nombre": "columna",
+      "unidad": "normalizada",
+      "rango": "[-1, 1]"
+    },
+    {
+      "nombre": "bateria",
+      "unidad": "normalizada",
+      "rango": "[-1, 1]"
+    },
+    {
+      "nombre": "lleva_paquete",
+      "unidad": "normalizada",
+      "rango": "[-1, 1]"
+    },
+    {
+      "nombre": "tipo_normal",
+      "unidad": "normalizada",
+      "rango": "[-1, 1]"
+    },
+    {
+      "nombre": "tipo_pesado",
+      "unidad": "normalizada",
+      "rango": "[-1, 1]"
+    },
+    {
+      "nombre": "tipo_fragil",
+      "unidad": "normalizada",
+      "rango": "[-1, 1]"
+    },
+    {
+      "nombre": "express",
+      "unidad": "normalizada",
+      "rango": "[-1, 1]"
+    },
+    {
+      "nombre": "sla_restante",
+      "unidad": "normalizada",
+      "rango": "[-1, 1]"
+    },
+    {
+      "nombre": "objetivo_dfila",
+      "unidad": "normalizada",
+      "rango": "[-1, 1]"
+    },
+    {
+      "nombre": "objetivo_dcolumna",
+      "unidad": "normalizada",
+      "rango": "[-1, 1]"
+    },
+    {
+      "nombre": "objetivo_distancia",
+      "unidad": "normalizada",
+      "rango": "[-1, 1]"
+    },
+    {
+      "nombre": "cargador_dfila",
+      "unidad": "normalizada",
+      "rango": "[-1, 1]"
+    },
+    {
+      "nombre": "cargador_dcolumna",
+      "unidad": "normalizada",
+      "rango": "[-1, 1]"
+    },
+    {
+      "nombre": "bloqueado_arriba",
+      "unidad": "normalizada",
+      "rango": "[-1, 1]"
+    },
+    {
+      "nombre": "bloqueado_abajo",
+      "unidad": "normalizada",
+      "rango": "[-1, 1]"
+    },
+    {
+      "nombre": "bloqueado_izquierda",
+      "unidad": "normalizada",
+      "rango": "[-1, 1]"
+    },
+    {
+      "nombre": "bloqueado_derecha",
+      "unidad": "normalizada",
+      "rango": "[-1, 1]"
+    },
+    {
+      "nombre": "junto_a_estanteria_objetivo",
+      "unidad": "normalizada",
+      "rango": "[-1, 1]"
+    },
+    {
+      "nombre": "en_muelle_destino",
+      "unidad": "normalizada",
+      "rango": "[-1, 1]"
+    },
+    {
+      "nombre": "en_cargador",
+      "unidad": "normalizada",
+      "rango": "[-1, 1]"
+    },
+    {
+      "nombre": "paquetes_restantes",
+      "unidad": "normalizada",
+      "rango": "[-1, 1]"
+    }
+  ],
+  "acciones": [
+    {
+      "id": 0,
+      "nombre": "arriba"
+    },
+    {
+      "id": 1,
+      "nombre": "abajo"
+    },
+    {
+      "id": 2,
+      "nombre": "izquierda"
+    },
+    {
+      "id": 3,
+      "nombre": "derecha"
+    },
+    {
+      "id": 4,
+      "nombre": "recoger"
+    },
+    {
+      "id": 5,
+      "nombre": "entregar"
+    },
+    {
+      "id": 6,
+      "nombre": "cargar"
+    }
+  ],
+  "runtime_ref": "github.com/c851458/pro_final_visu2@29ba34a3198053bdf09124d64b173da0646494fd (warehouse_rush/env_v1.py, configs/niveles.yaml, requirements.txt)",
+  "evaluation_suite_id": "v2-n2-3505e996e8bb",
+  "seed": 0,
+  "parent_run_id": null,
+  "origen": "desde cero",
+  "optimizador": "PPO de Stable-Baselines3 (Adam, {'learning_rate': 0.0003, 'n_steps': 512, 'batch_size': 512, 'n_envs': 8, 'ent_coef': 0.01, 'gamma': 0.99, 'net_arch': [128, 128], 'reward_scale': 0.001, 'evaluar_cada': 250000, 'casos_curva': 50}); el optimizador no se exporta",
+  "presupuesto": {
+    "episodios": null,
+    "pasos": 3000000,
+    "tiempo_entrenamiento_s": 1349.2498254776
+  },
+  "hipotesis": "Con 3 millones de pasos PPO alcanza >=95% de ordenes completas con <=0.30 rescates en v2-n2 en las tres semillas.",
+  "metricas_evaluacion": {
+    "tasa_exito": 0.998,
+    "paquetes_entregados_medios": 2.996,
+    "pasos_medios": 72.564,
+    "pasos_medios_exitosos": 71.90781563126252,
+    "recompensa_media": 43428.29,
+    "rescates_medios": 0.414,
+    "fragiles_rotos_medios": 0.0,
+    "cargas_medias": 0.004,
+    "choques_medios": 0.0,
+    "acciones_invalidas_medias": 1.322,
+    "latencia_media_ms": 0.064292,
+    "pedidos_evaluados": 500.0,
+    "otif": 0.912,
+    "cumplimiento_sla": 0.968,
+    "cumplimiento_express": 0.9200913242009132,
+    "entregas_tarde_medias": 0.092,
+    "utilidad_media_cop": 43428.29,
+    "ingresos_medio_cop": 48310.0,
+    "costos_operacion_medio_cop": 598.75,
+    "danos_medio_cop": 0.0,
+    "intervenciones_medio_cop": 3312.0,
+    "compensaciones_sla_medio_cop": 963.2,
+    "energia_medio_cop": 7.76
+  },
+  "fallos_por_causa": {
+    "tiempo_agotado": 1.0
+  },
+  "hf_repo": "c851458/warehouse-rush-qlearning",
+  "hf_commit": "53254e4663feb0bf60c18634b373f66362bf1ab4",
+  "hf_tag": null,
+  "publicado": "2026-11-14T13:05:15+00:00",
+  "mlflow_registro": {
+    "nombre": "warehouse-rush-v2-n2",
+    "version": "2",
+    "url": "https://dagshub.com/c851458/pro_final_visu2.mlflow/#/models/warehouse-rush-v2-n2/versions/2"
+  }
+}

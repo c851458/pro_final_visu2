@@ -28617,7 +28617,7 @@
    "nombre": "ppo-v2-n2-A-s0",
    "estado": "terminado",
    "inicio": 1794625414892,
-   "duracion_s": 3.8,
+   "duracion_s": 36101.9,
    "tipo": "finalista",
    "origen": "pipeline/entrenar_ppo.py",
    "nivel": "v2-n2",
@@ -28642,7 +28642,7 @@
    "evaluation_suite_id": "v2-n2-3505e996e8bb",
    "estado_modelo": "checkpoint final disponible",
    "parent_run_id": null,
-   "model_id": null,
+   "model_id": "v2-n2-ppo-v2-n2-A-s0-a1ae7239",
    "error": null,
    "metricas": {
     "fallos.tiempo_agotado": 1.0,
