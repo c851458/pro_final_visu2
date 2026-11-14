@@ -78,7 +78,10 @@ class Job:
         self.cmd = [PYTHON, "-u", TRAIN, "--nivel", c["nivel"], "--pasos", str(arm["pasos"]), "--semilla", str(seed),
                     "--nombre", self.name, "--hipotesis", " ".join(arm["hipotesis"].split()),
                     "--tag", f"grupo={contrast}", "--tag", f"brazo={arm_id}", "--tag", f"brazo_nombre={arm['nombre']}",
-                    "--tag", "tipo=finalista", "--tag", f"criterios_sha256={sha256_json(criteria)}"]
+                    "--tag", "tipo=finalista", "--tag", f"criterios_sha256={sha256_json(criteria)}",
+                    "--algoritmo", arm.get("algoritmo", "ppo")]
+        for k, v in (arm.get("ppo") or {}).items():
+            self.cmd += ["--ppo-param", f"{k}={v}"]
         self.proc = None       # Popen si lo lanzo este supervisor
         self.pid = None        # pid (propio o adoptado)
         self.mode = None       # "entrenar" o "registrar"
