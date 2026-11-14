@@ -1,0 +1,107 @@
+{
+  "contraste": "ppo-v2-n2",
+  "brazos": {
+    "A": {
+      "runs": [
+        {
+          "run_id": "68acdeebedbd4ede8a6b1f2ad776b7aa",
+          "nombre": "ppo-v2-n2-A-s0",
+          "semilla": 0,
+          "episodios": 3000000,
+          "tiempo_s": 1349.2498254776,
+          "tasa_exito": 0.998,
+          "pasos_medios_exitosos": 71.90781563126252,
+          "rescates_medios": 0.414,
+          "fragiles_rotos_medios": 0.0,
+          "choques_medios": 0.0,
+          "test_reservado": {
+            "tasa_exito": 0.998,
+            "pasos_medios_exitosos": 71.3627254509018,
+            "rescates_medios": 0.384,
+            "fragiles_rotos_medios": 0.0,
+            "choques_medios": 0.0
+          }
+        },
+        {
+          "run_id": "a11c8cf0bc1e48d6b28663709966b14a",
+          "nombre": "ppo-v2-n2-A-s1",
+          "semilla": 1,
+          "episodios": 3000000,
+          "tiempo_s": 1363.9688024520874,
+          "tasa_exito": 0.908,
+          "pasos_medios_exitosos": 76.90088105726872,
+          "rescates_medios": 0.754,
+          "fragiles_rotos_medios": 0.0,
+          "choques_medios": 0.0,
+          "test_reservado": {
+            "tasa_exito": 0.896,
+            "pasos_medios_exitosos": 74.046875,
+            "rescates_medios": 0.766,
+            "fragiles_rotos_medios": 0.0,
+            "choques_medios": 0.0
+          }
+        },
+        {
+          "run_id": "969494d84d7a4cbc9853a4039fc92fe4",
+          "nombre": "ppo-v2-n2-A-s2",
+          "semilla": 2,
+          "episodios": 3000000,
+          "tiempo_s": 1389.28609085083,
+          "tasa_exito": 0.0,
+          "pasos_medios_exitosos": 0.0,
+          "rescates_medios": 0.02,
+          "fragiles_rotos_medios": 0.0,
+          "choques_medios": 0.0,
+          "test_reservado": {
+            "tasa_exito": 0.0,
+            "pasos_medios_exitosos": 0.0,
+            "rescates_medios": 0.012,
+            "fragiles_rotos_medios": 0.0,
+            "choques_medios": 0.0
+          }
+        }
+      ],
+      "n_semillas": 3,
+      "tasa_exito": [
+        0.6353333333333333,
+        0.5520519299244713
+      ],
+      "pasos_medios_exitosos": [
+        49.60289889617708,
+        43.02985428473316
+      ],
+      "rescates_medios": [
+        0.396,
+        0.36733091348265257
+      ],
+      "fragiles_rotos_medios": [
+        0.0,
+        0.0
+      ],
+      "choques_medios": [
+        0.0,
+        0.0
+      ],
+      "tiempo_s": [
+        1367.5015729268391,
+        20.250579909705845
+      ],
+      "episodios": 3000000,
+      "nombre": "PPO red neuronal, 3M pasos",
+      "hipotesis": "Con 3 millones de pasos PPO alcanza >=95% de ordenes completas con <=0.30 rescates en v2-n2 en las tres semillas.",
+      "cumple_requisitos": false,
+      "incumplimientos": [
+        "tasa_exito media 0.635 < 0.95",
+        "rescates 0.396 > 0.3"
+      ],
+      "test_reservado_tasa_exito": [
+        0.6313333333333333,
+        0.5491241511109608
+      ]
+    }
+  },
+  "ganador": null,
+  "motivo": "Ningun brazo cumple los requisitos: se mantiene el modelo actual.",
+  "seleccionado": null,
+  "test_reservado_suite_id": "v2-n2-reservado-1bde9e327dc2"
+}
