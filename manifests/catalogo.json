@@ -203,14 +203,33 @@
       "estado": "recomendado",
       "registro_mlflow": "warehouse-rush-v2-n2 v1",
       "registro_mlflow_url": "https://dagshub.com/c851458/pro_final_visu2.mlflow/#/models/warehouse-rush-v2-n2/versions/1"
+    },
+    {
+      "model_id": "v2-n3-imitacion-v2-n3-A-s2-448cc1fd",
+      "run_id": "08034532ba944837a40c500cca96bc64",
+      "run_name": "imitacion-v2-n3-A-s2",
+      "level_id": "v2-n3",
+      "familia_modelo": "warehouse-rush-v2/ppo-caracteristicas-22/acciones-7",
+      "environment_version": "2.0.0",
+      "model_sha256": "448cc1fdcf5260b0f08678da484b6b2b3805f1da7ad9ddc04d4dceecee0cee47",
+      "hf_commit": "a163971cd90a19c397832f52fb5a366f246d6b27",
+      "hf_tag": null,
+      "git_commit": "0ddada0851e5f921acff306cb17618b6441def65",
+      "publicado": "2026-11-14T12:43:43+00:00",
+      "hipotesis": "La red entrenada por imitacion (DAgger, 8 iteraciones de 1500 pedidos) alcanza >=95% de ordenes completas con <=0.30 rescates en v2-n3 en las tres semillas.",
+      "tasa_exito": 1.0,
+      "estado": "recomendado",
+      "registro_mlflow": "warehouse-rush-v2-n3 v1",
+      "registro_mlflow_url": "https://dagshub.com/c851458/pro_final_visu2.mlflow/#/models/warehouse-rush-v2-n3/versions/1"
     }
   ],
-  "actualizado": "2026-11-14T12:40:40+00:00",
+  "actualizado": "2026-11-14T12:43:47+00:00",
   "recomendados": {
     "n2": "n2-pipeline-n2-92bff281",
     "n1": "n1-n1-base-9c49842e",
     "n3": "n3-contraste-n3-A-s2-061c6801",
     "v2-n1": "v2-n1-v2-n1-base-0bc2e7d5",
-    "v2-n2": "v2-n2-imitacion-v2-n2-A-s0-9f293752"
+    "v2-n2": "v2-n2-imitacion-v2-n2-A-s0-9f293752",
+    "v2-n3": "v2-n3-imitacion-v2-n3-A-s2-448cc1fd"
   }
 }

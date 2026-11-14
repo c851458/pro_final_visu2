@@ -31271,7 +31271,7 @@
    "nombre": "imitacion-v2-n3-A-s2",
    "estado": "terminado",
    "inicio": 1794629453257,
-   "duracion_s": 4.9,
+   "duracion_s": 30771.8,
    "tipo": "finalista",
    "origen": "pipeline/entrenar_ppo.py",
    "nivel": "v2-n3",
@@ -31296,7 +31296,7 @@
    "evaluation_suite_id": "v2-n3-c4bdbe6fabed",
    "estado_modelo": "checkpoint final disponible",
    "parent_run_id": null,
-   "model_id": null,
+   "model_id": "v2-n3-imitacion-v2-n3-A-s2-448cc1fd",
    "error": null,
    "metricas": {
     "tasa_exito": 1.0,

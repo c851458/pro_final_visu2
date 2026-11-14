@@ -1,0 +1,299 @@
+{
+  "model_id": "v2-n3-imitacion-v2-n3-A-s2-448cc1fd",
+  "run_id": "08034532ba944837a40c500cca96bc64",
+  "run_name": "imitacion-v2-n3-A-s2",
+  "mlflow_run_url": "https://dagshub.com/c851458/pro_final_visu2.mlflow/#/experiments/0/runs/08034532ba944837a40c500cca96bc64",
+  "level_id": "v2-n3",
+  "environment_version": "2.0.0",
+  "tipo_modelo": "ppo-mlp",
+  "familia_modelo": "warehouse-rush-v2/ppo-caracteristicas-22/acciones-7",
+  "git_commit": "0ddada0851e5f921acff306cb17618b6441def65",
+  "git_cambios_sin_commit": false,
+  "config_sha256": "f460a7a29a66621bd701602cb9bd9c090b7356138af435a82fd70139fb9312df",
+  "config": {
+    "nivel": "v2-n3",
+    "ambiente": "WarehouseRush-v2",
+    "version_ambiente": "2.0.0",
+    "entorno": {
+      "bateria": true,
+      "bateria_max": 100,
+      "max_pasos": 400,
+      "bloqueos": [
+        [
+          7,
+          4
+        ],
+        [
+          7,
+          7
+        ]
+      ]
+    },
+    "datos": {
+      "semilla": 143,
+      "pedidos_entrenamiento": 20000,
+      "pedidos_evaluacion": 500,
+      "paquetes_por_pedido": 3,
+      "prob_tipos": {
+        "normal": 0.5,
+        "pesado": 0.25,
+        "fragil": 0.25
+      },
+      "prob_express": 0.3
+    },
+    "entrenamiento": {
+      "semilla": 2,
+      "pasos": 1406506,
+      "pasos_imitacion": 1406506,
+      "pasos_ppo": 0
+    },
+    "algoritmo": "imitacion",
+    "ppo": {
+      "learning_rate": 0.0003,
+      "n_steps": 512,
+      "batch_size": 512,
+      "n_envs": 8,
+      "ent_coef": 0.01,
+      "gamma": 0.99,
+      "clip_range": 0.2,
+      "net_arch": [
+        128,
+        128
+      ],
+      "reward_scale": 0.001,
+      "evaluar_cada": 250000,
+      "casos_curva": 50
+    },
+    "imitacion": {
+      "iteraciones_dagger": 8,
+      "episodios_por_iteracion": 1500,
+      "epocas": 4,
+      "lr": 0.001,
+      "lote": 1024,
+      "peso_valor": 0.5,
+      "maestro": "politica de reglas (BFS)"
+    }
+  },
+  "model_uri": "hf://c851458/warehouse-rush-qlearning@a163971cd90a19c397832f52fb5a366f246d6b27/modelos/v2-n3-imitacion-v2-n3-A-s2-448cc1fd/politica.npz",
+  "model_download_url": "https://huggingface.co/c851458/warehouse-rush-qlearning/resolve/a163971cd90a19c397832f52fb5a366f246d6b27/modelos/v2-n3-imitacion-v2-n3-A-s2-448cc1fd/politica.npz",
+  "model_sha256": "448cc1fdcf5260b0f08678da484b6b2b3805f1da7ad9ddc04d4dceecee0cee47",
+  "formato": {
+    "archivo": "politica.npz",
+    "capas": {
+      "W0": [
+        22,
+        128
+      ],
+      "b0": [
+        128
+      ],
+      "W1": [
+        128,
+        128
+      ],
+      "b1": [
+        128
+      ],
+      "W_out": [
+        128,
+        7
+      ],
+      "b_out": [
+        7
+      ]
+    },
+    "activacion": "tanh",
+    "salida": "logits de las 7 acciones (se toma el maximo)"
+  },
+  "normalization_uri": null,
+  "normalizacion": "caracteristicas calculadas por warehouse_rush/ppo.py:features, ya escaladas a [-1, 1] (posiciones / tamano del mapa, bateria / maximo, plazo restante / 100 recortado); la recompensa se escalo x1e-3 solo al entrenar",
+  "observacion": [
+    {
+      "nombre": "fila",
+      "unidad": "normalizada",
+      "rango": "[-1, 1]"
+    },
+    {
+      "nombre": "columna",
+      "unidad": "normalizada",
+      "rango": "[-1, 1]"
+    },
+    {
+      "nombre": "bateria",
+      "unidad": "normalizada",
+      "rango": "[-1, 1]"
+    },
+    {
+      "nombre": "lleva_paquete",
+      "unidad": "normalizada",
+      "rango": "[-1, 1]"
+    },
+    {
+      "nombre": "tipo_normal",
+      "unidad": "normalizada",
+      "rango": "[-1, 1]"
+    },
+    {
+      "nombre": "tipo_pesado",
+      "unidad": "normalizada",
+      "rango": "[-1, 1]"
+    },
+    {
+      "nombre": "tipo_fragil",
+      "unidad": "normalizada",
+      "rango": "[-1, 1]"
+    },
+    {
+      "nombre": "express",
+      "unidad": "normalizada",
+      "rango": "[-1, 1]"
+    },
+    {
+      "nombre": "sla_restante",
+      "unidad": "normalizada",
+      "rango": "[-1, 1]"
+    },
+    {
+      "nombre": "objetivo_dfila",
+      "unidad": "normalizada",
+      "rango": "[-1, 1]"
+    },
+    {
+      "nombre": "objetivo_dcolumna",
+      "unidad": "normalizada",
+      "rango": "[-1, 1]"
+    },
+    {
+      "nombre": "objetivo_distancia",
+      "unidad": "normalizada",
+      "rango": "[-1, 1]"
+    },
+    {
+      "nombre": "cargador_dfila",
+      "unidad": "normalizada",
+      "rango": "[-1, 1]"
+    },
+    {
+      "nombre": "cargador_dcolumna",
+      "unidad": "normalizada",
+      "rango": "[-1, 1]"
+    },
+    {
+      "nombre": "bloqueado_arriba",
+      "unidad": "normalizada",
+      "rango": "[-1, 1]"
+    },
+    {
+      "nombre": "bloqueado_abajo",
+      "unidad": "normalizada",
+      "rango": "[-1, 1]"
+    },
+    {
+      "nombre": "bloqueado_izquierda",
+      "unidad": "normalizada",
+      "rango": "[-1, 1]"
+    },
+    {
+      "nombre": "bloqueado_derecha",
+      "unidad": "normalizada",
+      "rango": "[-1, 1]"
+    },
+    {
+      "nombre": "junto_a_estanteria_objetivo",
+      "unidad": "normalizada",
+      "rango": "[-1, 1]"
+    },
+    {
+      "nombre": "en_muelle_destino",
+      "unidad": "normalizada",
+      "rango": "[-1, 1]"
+    },
+    {
+      "nombre": "en_cargador",
+      "unidad": "normalizada",
+      "rango": "[-1, 1]"
+    },
+    {
+      "nombre": "paquetes_restantes",
+      "unidad": "normalizada",
+      "rango": "[-1, 1]"
+    }
+  ],
+  "acciones": [
+    {
+      "id": 0,
+      "nombre": "arriba"
+    },
+    {
+      "id": 1,
+      "nombre": "abajo"
+    },
+    {
+      "id": 2,
+      "nombre": "izquierda"
+    },
+    {
+      "id": 3,
+      "nombre": "derecha"
+    },
+    {
+      "id": 4,
+      "nombre": "recoger"
+    },
+    {
+      "id": 5,
+      "nombre": "entregar"
+    },
+    {
+      "id": 6,
+      "nombre": "cargar"
+    }
+  ],
+  "runtime_ref": "github.com/c851458/pro_final_visu2@0ddada0851e5f921acff306cb17618b6441def65 (warehouse_rush/env_v1.py, configs/niveles.yaml, requirements.txt)",
+  "evaluation_suite_id": "v2-n3-c4bdbe6fabed",
+  "seed": 2,
+  "parent_run_id": null,
+  "origen": "imitacion de la politica de reglas (DAgger)",
+  "optimizador": "PPO de Stable-Baselines3 (Adam, {'learning_rate': 0.0003, 'n_steps': 512, 'batch_size': 512, 'n_envs': 8, 'ent_coef': 0.01, 'gamma': 0.99, 'clip_range': 0.2, 'net_arch': [128, 128], 'reward_scale': 0.001, 'evaluar_cada': 250000, 'casos_curva': 50}); el optimizador no se exporta",
+  "presupuesto": {
+    "episodios": null,
+    "pasos": 1406506,
+    "tiempo_entrenamiento_s": 861.494993686676
+  },
+  "hipotesis": "La red entrenada por imitacion (DAgger, 8 iteraciones de 1500 pedidos) alcanza >=95% de ordenes completas con <=0.30 rescates en v2-n3 en las tres semillas.",
+  "metricas_evaluacion": {
+    "tasa_exito": 1.0,
+    "paquetes_entregados_medios": 3.0,
+    "pasos_medios": 81.474,
+    "pasos_medios_exitosos": 81.474,
+    "recompensa_media": 46008.16,
+    "rescates_medios": 0.0,
+    "fragiles_rotos_medios": 0.0,
+    "cargas_medias": 0.886,
+    "choques_medios": 0.0,
+    "acciones_invalidas_medias": 0.0,
+    "latencia_media_ms": 0.0285424,
+    "pedidos_evaluados": 500.0,
+    "otif": 0.952,
+    "cumplimiento_sla": 0.984,
+    "cumplimiento_express": 0.945823927765237,
+    "entregas_tarde_medias": 0.048,
+    "utilidad_media_cop": 46008.16,
+    "ingresos_medio_cop": 48518.0,
+    "costos_operacion_medio_cop": 464.16,
+    "danos_medio_cop": 0.0,
+    "intervenciones_medio_cop": 0.0,
+    "compensaciones_sla_medio_cop": 624.0,
+    "energia_medio_cop": 1421.68
+  },
+  "fallos_por_causa": {},
+  "hf_repo": "c851458/warehouse-rush-qlearning",
+  "hf_commit": "a163971cd90a19c397832f52fb5a366f246d6b27",
+  "hf_tag": null,
+  "publicado": "2026-11-14T12:43:43+00:00",
+  "mlflow_registro": {
+    "nombre": "warehouse-rush-v2-n3",
+    "version": "1",
+    "url": "https://dagshub.com/c851458/pro_final_visu2.mlflow/#/models/warehouse-rush-v2-n3/versions/1"
+  }
+}
