@@ -42,7 +42,9 @@ def summarize_arm(runs):
                                 **{k: m.get(f"eval.{k}") for k in METRICS}})
     for k in METRICS + ("tiempo_s",):
         summary[k] = mean_std([r[k] for r in summary["runs"]])
-    summary["episodios"] = summary["runs"][0]["episodios"]
+    summary["episodios"] = summary["runs"][0]["episodios"]  # presupuesto (la clave se conserva por compatibilidad)
+    params = runs[0].data.params
+    summary["unidad_presupuesto"] = "episodios" if params.get("entrenamiento.episodios") else "pasos del ambiente"
     return summary
 
 
@@ -66,7 +68,7 @@ def decide(arms, criteria):
     if len(tied) > 1:
         tied.sort(key=lambda k: (passing[k]["episodios"], passing[k]["pasos_medios_exitosos"][0]))
         return tied[0], (f"Empate en exito (<1 pp) entre {', '.join(tied)}: gana {tied[0]} por menor presupuesto "
-                         f"({passing[tied[0]]['episodios']} episodios).")
+                         f"({passing[tied[0]]['episodios']} {passing[tied[0]].get('unidad_presupuesto', 'episodios')}).")
     winner = next(k for k, a in passing.items() if a is best)
     return winner, f"Gana {winner} por mayor exito medio ({best['tasa_exito'][0] * 100:.1f}%)."
 
@@ -98,10 +100,11 @@ def write_report(name, contrast, arms, winner, reason, selected, suite_reserved)
              "Criterios fijados antes de entrenar: [`configs/criterios.yaml`](../../configs/criterios.yaml). "
              "Media ± desviación estándar de 3 semillas de entrenamiento, en la suite de evaluación del nivel "
              f"{contrast['nivel'].upper()} (500 pedidos).", "",
-             "| Brazo | Episodios | Éxito | Pasos (exitosos) | Rescates | Frágiles rotos | Choques | Cumple |",
+             "| Brazo | Presupuesto | Éxito | Pasos (exitosos) | Rescates | Frágiles rotos | Choques | Cumple |",
              "|---|---|---|---|---|---|---|---|"]
     for k, a in arms.items():
-        lines.append(f"| **{k}** · {a['nombre']} | {a['episodios']} | {pct(a['tasa_exito'])} | "
+        lines.append(f"| **{k}** · {a['nombre']} | {a['episodios']:,} {a.get('unidad_presupuesto', 'episodios')} | "
+                     f"{pct(a['tasa_exito'])} | "
                      f"{num(a['pasos_medios_exitosos'], 1)} | {num(a['rescates_medios'])} | "
                      f"{num(a['fragiles_rotos_medios'])} | {num(a['choques_medios'])} | "
                      f"{'sí' if a['cumple_requisitos'] else 'no: ' + '; '.join(a['incumplimientos'])} |")

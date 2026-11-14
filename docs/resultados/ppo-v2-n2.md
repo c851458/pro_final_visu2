@@ -1,5 +1,7 @@
 # ppo-v2-n2: ¿Una politica PPO (red 128x128, 22 caracteristicas) entrenada 3 millones de pasos cumple los requisitos en el centro de distribucion N2 de forma estable en tres semillas, donde Q-learning no los cumplio?
 
+> **Aclaración (2026-11-14), sin cambios en la decisión:** en las redes neuronales el presupuesto de la columna "Episodios" y del motivo de la decisión son **pasos del ambiente**, no episodios. La etiqueta venía del formato de Q-learning y se corrigió en `pipeline/comparar_finalistas.py`; este informe no se regeneró porque el test reservado se evalúa una sola vez.
+
 Criterios fijados antes de entrenar: [`configs/criterios.yaml`](../../configs/criterios.yaml). Media ± desviación estándar de 3 semillas de entrenamiento, en la suite de evaluación del nivel V2-N2 (500 pedidos).
 
 | Brazo | Episodios | Éxito | Pasos (exitosos) | Rescates | Frágiles rotos | Choques | Cumple |

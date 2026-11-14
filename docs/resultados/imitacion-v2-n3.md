@@ -1,5 +1,7 @@
 # imitacion-v2-n3: ¿Una red neuronal pre-entrenada imitando al planificador de reglas (DAgger) cumple los requisitos de forma estable en N3 de negocio (pasillo bloqueado), y el afinamiento posterior con PPO la mejora?
 
+> **Aclaración (2026-11-14), sin cambios en la decisión:** en las redes neuronales el presupuesto de la columna "Episodios" y del motivo de la decisión son **pasos del ambiente**, no episodios. La etiqueta venía del formato de Q-learning y se corrigió en `pipeline/comparar_finalistas.py`; este informe no se regeneró porque el test reservado se evalúa una sola vez.
+
 Criterios fijados antes de entrenar: [`configs/criterios.yaml`](../../configs/criterios.yaml). Media ± desviación estándar de 3 semillas de entrenamiento, en la suite de evaluación del nivel V2-N3 (500 pedidos).
 
 | Brazo | Episodios | Éxito | Pasos (exitosos) | Rescates | Frágiles rotos | Choques | Cumple |

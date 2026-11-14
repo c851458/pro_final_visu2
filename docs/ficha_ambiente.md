@@ -178,3 +178,34 @@ transitorio con el mismo valor. Son aproximaciones razonables para comparar pol�
 | Cumplimiento Express | Express entregados a tiempo / Express totales |
 | Utilidad por orden | recompensa total en COP |
 | Libro de la orden | ingresos, operación del robot, daños, intervenciones humanas, compensaciones SLA y energía |
+
+## Observación para redes neuronales (familia `ppo-caracteristicas-22`)
+
+Los modelos de red neuronal (PPO e imitación) no usan la observación tabular. Reciben un vector de **22
+características continuas** calculado del estado del ambiente por `warehouse_rush/ppo.py::features`. La misma
+función se usa al entrenar y al servir, así que la API evalúa exactamente lo que se entrenó. Incluye lo que la tabla Q
+no ve: la **batería exacta** y el **plazo restante del SLA**.
+
+| Características | Normalización |
+|---|---|
+| fila, columna | posición / tamaño de la grilla, en [0, 1] |
+| batería | batería / batería máxima (1 si el nivel no tiene batería) |
+| lleva paquete; tipo normal, pesado o frágil (one-hot); Express | 0 o 1 |
+| plazo restante del SLA | (vencimiento − paso actual) / 100, recortado a [−1, 1] |
+| distancia al objetivo en filas y columnas, y distancia Manhattan | diferencias / tamaño de la grilla |
+| distancia al cargador en filas y columnas | diferencias / tamaño de la grilla |
+| bloqueado arriba, abajo, izquierda, derecha | 0 o 1 (pared, estantería u obstáculo) |
+| junto a la estantería objetivo; en el muelle de destino; en el cargador | 0 o 1 |
+| paquetes restantes del pedido | restantes / total |
+
+El **objetivo** es la estantería del paquete actual o, si ya lo lleva, el centro del muelle de su zona.
+
+- **Familia:** `warehouse-rush-v2/ppo-caracteristicas-22/acciones-7`. Es compatible con `v2-n2` y `v2-n3`, y la API
+  rechaza servirla en niveles de otra familia.
+- **Red:** 22 → 128 → 128 → 7, con activación tanh. La acción servida es el argmax de los logits, sin exploración.
+- **Artefacto:** los pesos se exportan a NumPy (`politica.npz`) y la inferencia es NumPy puro, así que la API no
+  necesita PyTorch (~700 MB) y cabe en el límite de 500 MB de Vercel. El manifiesto lo identifica con
+  `tipo_modelo: ppo-mlp`.
+- **Normalización:** fija y escrita en el código (tabla de arriba), sin estadísticas aprendidas. Por eso no hay un
+  archivo de normalización (`normalization_uri` es nulo): el campo `normalizacion` del manifiesto describe estas
+  reglas. La recompensa se escaló ×10⁻³ solo durante el entrenamiento PPO.
