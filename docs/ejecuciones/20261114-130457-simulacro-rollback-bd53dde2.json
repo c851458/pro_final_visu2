@@ -1,0 +1,159 @@
+{
+  "flujo": "warehouse-rush-simulacro-rollback",
+  "flow_run_id": "bd53dde2-9868-4a36-8e09-ccd2ed7a95cb",
+  "inicio": "2026-11-14T13:04:57.490898+00:00",
+  "parametros": {
+    "nivel": "v2-n2",
+    "run": "68acdeebedbd4ede8a6b1f2ad776b7aa",
+    "url": "https://profinalvisu2.vercel.app",
+    "casos": 50
+  },
+  "etapas": {
+    "1-estado-inicial": {
+      "commit_servido": "09b6a858b8f2e18185d272bf5bbacf39a4d1c57b",
+      "generado": "2026-11-14T13:04:59+00:00",
+      "niveles": {
+        "v2-n2": {
+          "estado": "ok",
+          "modelo": "v2-n2-imitacion-v2-n2-A-s0-9f293752",
+          "sonda": {
+            "tasa_exito": 1.0,
+            "otif": 0.96,
+            "rescates_medios": 0.0,
+            "fragiles_rotos_medios": 0.0,
+            "utilidad_media_cop": 45893.2,
+            "casos": 50
+          },
+          "alertas": [],
+          "anteriores": []
+        }
+      }
+    },
+    "2-publicar-defectuoso": {
+      "model_id": "v2-n2-ppo-v2-n2-A-s0-a1ae7239",
+      "metricas_registradas": {
+        "tasa_exito": 0.998,
+        "otif": 0.912,
+        "rescates_medios": 0.414,
+        "utilidad_media_cop": 43428.29
+      }
+    },
+    "3-promover-forzado": {
+      "anterior": "v2-n2-imitacion-v2-n2-A-s0-9f293752",
+      "forzado": "v2-n2-ppo-v2-n2-A-s0-a1ae7239",
+      "motivo": "Simulacro: modelo rechazado por los criterios (0.41 rescates por pedido, maximo 0.30) promovido con --forzar.",
+      "commit": "4ac7230bffd9ffda5d7613408ad1983edc1c3620"
+    },
+    "3b-verificar-forzado": {
+      "commit_servido": "4ac7230bffd9ffda5d7613408ad1983edc1c3620",
+      "modelo_servido": "v2-n2-ppo-v2-n2-A-s0-a1ae7239",
+      "exito_20_casos": 0.95,
+      "latencia_media_ms": 0.039409999999999994
+    },
+    "4-vigilancia": {
+      "flujo": "warehouse-rush-vigilancia",
+      "flow_run_id": "311d5bfb-f4a6-4388-9ea5-ad2980645795",
+      "inicio": "2026-11-14T13:07:41.551804+00:00",
+      "parametros": {
+        "url": "https://profinalvisu2.vercel.app",
+        "casos": 50,
+        "revertir": true,
+        "niveles": [
+          "v2-n2"
+        ]
+      },
+      "etapas": {
+        "1-sondear": {
+          "commit_servido": "4ac7230bffd9ffda5d7613408ad1983edc1c3620",
+          "generado": "2026-11-14T13:07:44+00:00",
+          "niveles": {
+            "v2-n2": {
+              "estado": "alerta",
+              "modelo": "v2-n2-ppo-v2-n2-A-s0-a1ae7239",
+              "sonda": {
+                "tasa_exito": 0.98,
+                "otif": 0.9,
+                "rescates_medios": 0.5,
+                "fragiles_rotos_medios": 0.0,
+                "utilidad_media_cop": 40444.1,
+                "casos": 50
+              },
+              "alertas": [
+                "rescates 0.50 por pedido, maximo 0.3"
+              ],
+              "anteriores": [
+                "v2-n2-imitacion-v2-n2-A-s0-9f293752"
+              ]
+            }
+          }
+        },
+        "2-decidir": {
+          "revertir": [
+            "v2-n2"
+          ],
+          "requieren_intervencion": [],
+          "motivos": {
+            "v2-n2": [
+              "rescates 0.50 por pedido, maximo 0.3"
+            ]
+          }
+        },
+        "3-revertir": {
+          "cambios": {
+            "v2-n2": {
+              "desde": "v2-n2-ppo-v2-n2-A-s0-a1ae7239",
+              "hacia": "v2-n2-imitacion-v2-n2-A-s0-9f293752",
+              "motivo": "rescates 0.50 por pedido, maximo 0.3"
+            }
+          },
+          "commit": "4343a748147aafb5c9b084650669fffb8c753594"
+        },
+        "4-verificar": {
+          "commit_servido": "4343a748147aafb5c9b084650669fffb8c753594",
+          "generado": "2026-11-14T13:10:09+00:00",
+          "niveles": {
+            "v2-n2": {
+              "estado": "ok",
+              "modelo": "v2-n2-imitacion-v2-n2-A-s0-9f293752",
+              "sonda": {
+                "tasa_exito": 1.0,
+                "otif": 0.96,
+                "rescates_medios": 0.0,
+                "fragiles_rotos_medios": 0.0,
+                "utilidad_media_cop": 45893.2,
+                "casos": 50
+              },
+              "alertas": [],
+              "anteriores": []
+            }
+          }
+        }
+      },
+      "estado": "completado",
+      "fin": "2026-11-14T13:10:09.678200+00:00"
+    },
+    "5-estado-final": {
+      "commit_servido": "4343a748147aafb5c9b084650669fffb8c753594",
+      "generado": "2026-11-14T13:10:12+00:00",
+      "niveles": {
+        "v2-n2": {
+          "estado": "ok",
+          "modelo": "v2-n2-imitacion-v2-n2-A-s0-9f293752",
+          "sonda": {
+            "tasa_exito": 1.0,
+            "otif": 0.96,
+            "rescates_medios": 0.0,
+            "fragiles_rotos_medios": 0.0,
+            "utilidad_media_cop": 45893.2,
+            "casos": 50
+          },
+          "alertas": [],
+          "anteriores": []
+        }
+      }
+    }
+  },
+  "estado": "completado",
+  "fin": "2026-11-14T13:10:12.047833+00:00",
+  "duracion_s": 314.55699
+}
