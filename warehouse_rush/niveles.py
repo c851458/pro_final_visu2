@@ -71,6 +71,22 @@ def family(env):
     return f"{base.FAMILY_PREFIX}/obs-{dims}/acciones-{base.action_space.n}"
 
 
+def ppo_family(env):
+    """Familia de las redes PPO: dependen de la version del ambiente y de las caracteristicas, no de la tabla."""
+    from warehouse_rush.ppo import N_FEATURES
+
+    base = env.unwrapped
+    return f"{base.FAMILY_PREFIX}/ppo-caracteristicas-{N_FEATURES}/acciones-{base.action_space.n}"
+
+
+def compatible_families(env):
+    """Familias de modelos que se pueden evaluar en el ambiente de un nivel."""
+    families = [family(env)]
+    if type(env.unwrapped).__name__ == "WarehouseRushV2Env":  # las caracteristicas PPO usan el plazo del SLA
+        families.append(ppo_family(env))
+    return families
+
+
 def sha256_json(data):
     return hashlib.sha256(json.dumps(data, sort_keys=True, ensure_ascii=False).encode()).hexdigest()
 

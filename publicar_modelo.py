@@ -40,8 +40,15 @@ import tracking  # noqa: E402  (antes que mlflow: configura su entorno)
 import mlflow  # noqa: E402
 from warehouse_rush import niveles  # noqa: E402
 from warehouse_rush.env_v1 import ACTION_NAMES  # noqa: E402
+from warehouse_rush.modelos import FILES, TABULAR, model_type  # noqa: E402
+from warehouse_rush.ppo import FEATURE_NAMES  # noqa: E402
 
 REPO_NAME = "warehouse-rush-qlearning"
+NORMALIZATION = {
+    "tabla-q": "ninguna: las observaciones son enteros discretos usados como indices de la tabla Q (sin escalado ni clipping)",
+    "ppo-mlp": ("caracteristicas calculadas por warehouse_rush/ppo.py:features, ya escaladas a [-1, 1] (posiciones / tamano "
+                "del mapa, bateria / maximo, plazo restante / 100 recortado); la recompensa se escalo x1e-3 solo al entrenar"),
+}
 GITHUB_REPO = "github.com/c851458/pro_final_visu2"
 MANIFESTS = os.path.join(ROOT, "manifests")
 CATALOG = os.path.join(MANIFESTS, "catalogo.json")
@@ -54,6 +61,9 @@ OBSERVATION_CONTRACT = [
     {"nombre": "tipo_paquete_cargado", "unidad": "0 normal, 1 pesado, 2 fragil (0 si no lleva)", "rango": "0-2"},
     {"nombre": "objetivo", "unidad": "indice de estanteria (sin paquete) o de zona A/B/C (con paquete)", "rango": "0-39"},
 ]
+
+
+PPO_OBSERVATION = [{"nombre": n, "unidad": "normalizada", "rango": "[-1, 1]"} for n in FEATURE_NAMES]
 
 
 def find_run(spec):
@@ -69,9 +79,12 @@ def find_run(spec):
 
 
 def download_model(run, folder):
-    """Descarga los pesos de un run (formato .npy, o .pkl de runs antiguos) y devuelve la ruta al .npy."""
+    """Descarga el modelo de un run y devuelve su ruta: politica.npz (PPO) o q_table.npy (tabla Q; tambien
+    convierte el .pkl de los runs antiguos)."""
     os.makedirs(folder, exist_ok=True)
     src = mlflow.artifacts.download_artifacts(run_id=run.info.run_id, artifact_path="modelo", dst_path=folder)
+    if os.path.exists(os.path.join(src, "politica.npz")):
+        return os.path.join(src, "politica.npz")
     npy = os.path.join(src, "q_table.npy")
     if not os.path.exists(npy):
         from warehouse_rush import QLearningAgent
@@ -251,9 +264,18 @@ def publish(run_spec, tag=None, public=False):
         level = cfg["nivel"]
         model_id = f"{level}-{run.info.run_name}-{weights_sha[:8]}"
         env = niveles.make_env(cfg)
-        q = np.load(npy)
-        if tuple(q.shape) != tuple(env.observation_space.nvec) + (env.action_space.n,):
-            raise SystemExit(f"Los pesos {q.shape} no coinciden con el ambiente del nivel {level}")
+        kind = model_type(npy)
+        if kind == TABULAR:
+            q = np.load(npy)
+            if tuple(q.shape) != tuple(env.observation_space.nvec) + (env.action_space.n,):
+                raise SystemExit(f"Los pesos {q.shape} no coinciden con el ambiente del nivel {level}")
+            fmt = {"archivo": FILES[kind], "dtype": str(q.dtype), "forma": list(q.shape)}
+            family = niveles.family(env)
+        else:
+            with np.load(npy, allow_pickle=False) as data:
+                fmt = {"archivo": FILES[kind], "capas": {k: list(data[k].shape) for k in data.files if k != "n_layers"},
+                       "activacion": "tanh", "salida": "logits de las 7 acciones (se toma el maximo)"}
+            family = niveles.ppo_family(env)
         tags = run.data.tags
         eval_metrics = {k[5:]: v for k, v in metrics.items() if k.startswith("eval.") and not k.startswith("eval.fallos.")}
         failures = {k[12:]: v for k, v in metrics.items() if k.startswith("eval.fallos.")}
@@ -261,7 +283,7 @@ def publish(run_spec, tag=None, public=False):
         api.create_repo(repo_id, private=not public, exist_ok=True)
         folder = f"modelos/{model_id}"
         message = f"Modelo {model_id} (run {run.info.run_name}): {metrics['eval.tasa_exito'] * 100:.1f}% de pedidos completos"
-        commit = api.upload_file(path_or_fileobj=npy, path_in_repo=f"{folder}/q_table.npy", repo_id=repo_id,
+        commit = api.upload_file(path_or_fileobj=npy, path_in_repo=f"{folder}/{FILES[kind]}", repo_id=repo_id,
                                  commit_message=message)
         if tag:
             api.create_tag(repo_id, tag=tag, revision=commit.oid, tag_message=message)
@@ -273,27 +295,29 @@ def publish(run_spec, tag=None, public=False):
         "mlflow_run_url": tracking.run_url(run),
         "level_id": level,
         "environment_version": cfg["version_ambiente"],
-        "familia_modelo": niveles.family(env),
+        "tipo_modelo": kind,
+        "familia_modelo": family,
         "git_commit": tags.get("git.commit", ""),
         # True: el run se entreno con cambios sin commit, el codigo exacto no es git_commit
         "git_cambios_sin_commit": tags.get("git.cambios_sin_commit") == "True",
         "config_sha256": niveles.sha256_json(cfg),
         "config": cfg,
-        "model_uri": f"hf://{repo_id}@{commit.oid}/{folder}/q_table.npy",
-        "model_download_url": f"https://huggingface.co/{repo_id}/resolve/{commit.oid}/{folder}/q_table.npy",
+        "model_uri": f"hf://{repo_id}@{commit.oid}/{folder}/{FILES[kind]}",
+        "model_download_url": f"https://huggingface.co/{repo_id}/resolve/{commit.oid}/{folder}/{FILES[kind]}",
         "model_sha256": weights_sha,
-        "formato": {"archivo": "q_table.npy", "dtype": str(q.dtype), "forma": list(q.shape)},
+        "formato": fmt,
         "normalization_uri": None,
-        "normalizacion": "ninguna: las observaciones son enteros discretos usados como indices de la tabla Q (sin escalado ni clipping)",
-        "observacion": OBSERVATION_CONTRACT,
+        "normalizacion": NORMALIZATION[kind],
+        "observacion": OBSERVATION_CONTRACT if kind == TABULAR else PPO_OBSERVATION,
         "acciones": [{"id": i, "nombre": n} for i, n in enumerate(ACTION_NAMES)],
         "runtime_ref": f"{GITHUB_REPO}@{tags.get('git.commit', '')} (warehouse_rush/env_v1.py, configs/niveles.yaml, requirements.txt)",
         "evaluation_suite_id": tags.get("evaluation_suite_id", ""),
         "seed": cfg["entrenamiento"]["semilla"],
         "parent_run_id": tags.get("parent_run_id"),
         "origen": tags.get("origen_modelo", "desde cero"),
-        "optimizador": "Q-learning tabular (sin optimizador ni contador: se continua desde la tabla Q)",
-        "presupuesto": {"episodios": cfg["entrenamiento"]["episodios"],
+        "optimizador": ("Q-learning tabular (sin optimizador ni contador: se continua desde la tabla Q)" if kind == TABULAR
+                        else f"PPO de Stable-Baselines3 (Adam, {cfg.get('ppo', {})}); el optimizador no se exporta"),
+        "presupuesto": {"episodios": cfg["entrenamiento"].get("episodios"), "pasos": cfg["entrenamiento"].get("pasos"),
                         "tiempo_entrenamiento_s": metrics.get("tiempo_entrenamiento_s")},
         "hipotesis": tags.get("hipotesis", ""),
         "metricas_evaluacion": eval_metrics,

@@ -34,6 +34,7 @@ import mlflow  # noqa: E402
 from common import data_path, load_orders, load_params, make_env, resolve_params  # noqa: E402
 from core import train  # noqa: E402
 from warehouse_rush import niveles  # noqa: E402
+from warehouse_rush.modelos import load_policy  # noqa: E402
 from warehouse_rush.politicas import QTablePolicy, RandomPolicy, RulePolicy  # noqa: E402
 from warehouse_rush.simulacion import evaluate  # noqa: E402
 
@@ -219,12 +220,12 @@ def run_cross_evaluation(run_spec, level, hypothesis):
     cfg = resolve_params(dict(load_params(), nivel=level))
     env = make_env(cfg)
     family = niveles.family(env)
-    if source.data.tags.get("familia_modelo", family) != family:
+    if source.data.tags.get("familia_modelo", family) not in niveles.compatible_families(env):
         raise SystemExit(f"El modelo de {source.info.run_name} no es compatible con el nivel {level}")
     cases, suite_id = niveles.evaluation_suite(cfg)
     with tempfile.TemporaryDirectory() as workdir:
         _, model_path = download_parent_model(run_spec, workdir)
-        metrics, per_case = evaluate(env, QTablePolicy(np.load(model_path)), cases)
+        metrics, per_case = evaluate(env, load_policy(model_path), cases)
         name = f"evaluacion-{source.info.run_name}-en-{level}"
         tags = {"tipo": "evaluacion", "parent_run_id": source.info.run_id, "estado_modelo": "pesos del run de origen",
                 "origen_modelo": f"modelo congelado de {source.info.run_name} (nivel {source.data.tags.get('nivel', 'n2')})",

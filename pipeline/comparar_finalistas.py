@@ -21,7 +21,7 @@ import yaml
 import tracking
 from common import load_params, make_env, resolve_params
 from warehouse_rush import niveles
-from warehouse_rush.politicas import QTablePolicy
+from warehouse_rush.modelos import load_policy
 from warehouse_rush.simulacion import evaluate
 
 METRICS = ("tasa_exito", "pasos_medios_exitosos", "rescates_medios", "fragiles_rotos_medios", "choques_medios")
@@ -37,7 +37,7 @@ def summarize_arm(runs):
     for run in sorted(runs, key=lambda r: int(r.data.tags.get("seed", 0))):
         m = run.data.metrics
         summary["runs"].append({"run_id": run.info.run_id, "nombre": run.info.run_name, "semilla": int(run.data.tags["seed"]),
-                                "episodios": int(run.data.params["entrenamiento.episodios"]),
+                                "episodios": int(run.data.params.get("entrenamiento.episodios") or run.data.params["entrenamiento.pasos"]),
                                 "tiempo_s": m.get("tiempo_entrenamiento_s"),
                                 **{k: m.get(f"eval.{k}") for k in METRICS}})
     for k in METRICS + ("tiempo_s",):
@@ -83,8 +83,8 @@ def reserved_test(arms, level, n_cases):
     with tempfile.TemporaryDirectory() as tmp:
         for arm in arms.values():
             for r in arm["runs"]:
-                q = np.load(download_model(find_run(r["run_id"]), os.path.join(tmp, r["run_id"])))
-                metrics, _ = evaluate(make_env(cfg), QTablePolicy(q), cases)
+                policy = load_policy(download_model(find_run(r["run_id"]), os.path.join(tmp, r["run_id"])))
+                metrics, _ = evaluate(make_env(cfg), policy, cases)
                 r["test_reservado"] = {k: metrics[k] for k in METRICS}
             arm["test_reservado_tasa_exito"] = mean_std([r["test_reservado"]["tasa_exito"] for r in arm["runs"]])
     return suite_id

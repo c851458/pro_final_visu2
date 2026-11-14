@@ -87,7 +87,7 @@ def validate(level, mode, run_spec):
     changes = tracking.uncommitted_code_changes()
     if changes:
         log.warning(f"Hay cambios de codigo sin commit: {changes}")
-    info = {"nivel": level, "familia": niveles.family(env), "version_ambiente": cfg["version_ambiente"],
+    info = {"nivel": level, "familia": niveles.family(env), "familias_compatibles": niveles.compatible_families(env), "version_ambiente": cfg["version_ambiente"],
             "estanterias_alcanzables": reachable, "criterios_sha256": niveles.sha256_json(criteria),
             "git_commit": tracking.git("rev-parse", "HEAD"), "cambios_sin_commit": changes, "modo": mode, "run": run_spec}
     log.info(f"Perfil valido: {info}")
@@ -107,7 +107,7 @@ def run_tests():
 # ---------------------------------------------------------------- 3. candidato
 
 @task(name="3-candidato", retries=1, retry_delay_seconds=30)
-def candidate(mode, run_spec, level, family):
+def candidate(mode, run_spec, level, families):
     from publicar_modelo import find_run
 
     log = get_run_logger()
@@ -119,8 +119,8 @@ def candidate(mode, run_spec, level, family):
         log.info(f"Entrenado con DVC: run {run_spec}")
     run = find_run(run_spec)
     run_family = run.data.tags.get("familia_modelo")
-    if run_family and run_family != family:
-        raise ValueError(f"El checkpoint {run.info.run_name} ({run_family}) no es compatible con {level} ({family})")
+    if run_family and run_family not in families:
+        raise ValueError(f"El checkpoint {run.info.run_name} ({run_family}) no es compatible con {level} ({families[0]})")
     if run.data.tags.get("nivel", level) != level:
         log.warning(f"El checkpoint se entreno en {run.data.tags.get('nivel')}; se usara en {level} (misma familia)")
     return {"run_id": run.info.run_id, "run_name": run.info.run_name, "nivel_entrenamiento": run.data.tags.get("nivel"),
@@ -133,15 +133,15 @@ def candidate(mode, run_spec, level, family):
 def evaluate_suite(cand, level, workdir):
     from publicar_modelo import download_model, find_run
     from warehouse_rush import niveles
-    from warehouse_rush.politicas import QTablePolicy
+    from warehouse_rush.modelos import load_policy
     from warehouse_rush.simulacion import evaluate
 
     log = get_run_logger()
     cfg = resolve_params(dict(load_params(os.path.join(ROOT, "params.yaml")), nivel=level))
     cases = load_orders(os.path.join(ROOT, data_path(level, "evaluacion")))
     suite_id = f"{level}-{niveles.sha256_json(cases)[:12]}"
-    q = np.load(download_model(find_run(cand["run_id"]), os.path.join(workdir, "modelo")))
-    metrics, per_case = evaluate(make_env(cfg), QTablePolicy(q), cases)
+    policy = load_policy(download_model(find_run(cand["run_id"]), os.path.join(workdir, "modelo")))
+    metrics, per_case = evaluate(make_env(cfg), policy, cases)
     with open(os.path.join(workdir, "evaluacion_por_caso.json"), "w") as f:
         json.dump({"suite_id": suite_id, "casos": per_case}, f)
     registered = cand["eval_tasa_exito_registrada"]
@@ -264,7 +264,7 @@ def pipeline(nivel="n2", modo="checkpoint", run=None, promover=False, publicar=F
         with tempfile.TemporaryDirectory() as workdir:
             info = evidence["etapas"]["1-validar"] = validate(nivel, modo, run)
             evidence["etapas"]["2-pruebas"] = run_tests()
-            cand = evidence["etapas"]["3-candidato"] = candidate(modo, run, nivel, info["familia"])
+            cand = evidence["etapas"]["3-candidato"] = candidate(modo, run, nivel, info["familias_compatibles"])
             evidence["etapas"]["4-evaluar"] = evaluate_suite(cand, nivel, workdir)
             model = evidence["etapas"]["5-registrar"] = register(cand)
             decision = evidence["etapas"]["6-criterios"] = apply_criteria(model, nivel, promover)

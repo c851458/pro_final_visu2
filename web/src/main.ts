@@ -94,8 +94,8 @@ function renderModelSelect() {
   const lv = level();
   const sel = $<HTMLSelectElement>('sel-modelo');
   const recommended = catalogo.catalogo.recomendados?.[lv.nivel];
-  const compatible = models().filter((m) => m.familia_modelo === lv.familia_modelo);
-  const others = models().filter((m) => m.familia_modelo !== lv.familia_modelo);
+  const compatible = models().filter((m) => lv.familias_compatibles.includes(m.familia_modelo));
+  const others = models().filter((m) => !lv.familias_compatibles.includes(m.familia_modelo));
   if (!compatible.some((m) => m.model_id === state.modelId)) {
     state.modelId = compatible.find((m) => m.model_id === recommended)?.model_id ?? compatible[0]?.model_id ?? null;
   }
@@ -129,6 +129,7 @@ function renderActivo(amb?: Ambiente, modelo?: ModeloInfo | null) {
     const meta = models().find((x) => x.model_id === (m?.model_id ?? state.modelId));
     if (meta) {
       rows.push(['Modelo', `<code>${esc(meta.model_id)}</code>`], ['SHA-256', `<code>${short(meta.model_sha256, 12)}</code>`],
+        ['Tipo', meta.familia_modelo.includes('/ppo-') ? 'red neuronal PPO' : 'tabla Q'],
         ['Run', esc(meta.run_name)], ['Entrenado en', meta.level_id.toUpperCase()],
         ['Commit', `<a href="${GITHUB}/commit/${meta.git_commit}" target="_blank" rel="noopener">${short(meta.git_commit)}</a>`],
         ['Estado', `<span class="pill ${meta.estado}">${meta.estado}</span>`],
@@ -488,8 +489,8 @@ function loadModel(modelId: string, nivel: string) {
   const meta = models().find((m) => m.model_id === modelId);
   if (!meta) return toast(`El modelo ${modelId} no está en el catálogo publicado.`);
   switchTab('sim');
-  const compatible = niveles.niveles.find((n) => n.nivel === nivel && n.familia_modelo === meta.familia_modelo)
-    ?? niveles.niveles.find((n) => n.familia_modelo === meta.familia_modelo)!;
+  const compatible = niveles.niveles.find((n) => n.nivel === nivel && n.familias_compatibles.includes(meta.familia_modelo))
+    ?? niveles.niveles.find((n) => n.familias_compatibles.includes(meta.familia_modelo))!;
   $<HTMLSelectElement>('sel-nivel').value = compatible.nivel;
   selectLevel(compatible.nivel);
   state.politica = 'modelo';
@@ -613,7 +614,7 @@ async function init() {
   document.querySelectorAll<HTMLButtonElement>('[data-cam]').forEach((b) => b.addEventListener('click', () => {
     escena.setCamara(b.dataset.cam as 'iso' | 'top' | 'follow' | 'side');
   }));
-  if (state.politica === 'modelo' && !models().some((m) => m.familia_modelo === level().familia_modelo)) {
+  if (state.politica === 'modelo' && !models().some((m) => level().familias_compatibles.includes(m.familia_modelo))) {
     state.politica = 'regla';
     renderPolicy();
     renderActivo();

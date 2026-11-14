@@ -28,9 +28,9 @@ def client(tmp_path, monkeypatch):
     (manifests / "catalogo.json").write_text(json.dumps({"recomendados": {"n2": "prueba"}, "modelos": [manifest]}))
     monkeypatch.setattr(api_module, "MANIFESTS", str(manifests))
     monkeypatch.setattr(api_module, "CACHE_DIR", str(tmp_path / "cache"))
-    api_module.load_weights.cache_clear()
+    api_module.load_model.cache_clear()
     yield TestClient(api_module.app)
-    api_module.load_weights.cache_clear()
+    api_module.load_model.cache_clear()
 
 
 def test_salud_y_niveles(client):
@@ -68,3 +68,32 @@ def test_errores_claros(client):
     assert client.post("/api/episodio", json={"nivel": "n9"}).status_code == 404
     assert client.post("/api/episodio", json={"nivel": "n1", "caso": 9999}).status_code == 400
     assert client.get("/api/modelos/no-existe").status_code == 404
+
+
+def test_modelo_ppo_se_sirve_en_numpy_solo_en_niveles_compatibles(tmp_path, monkeypatch):
+    """Una red PPO exportada (.npz) se evalua sin PyTorch en niveles v2 y se rechaza en v1."""
+    import numpy as np
+    from warehouse_rush.ppo import N_FEATURES
+
+    rng = np.random.default_rng(0)
+    weights = tmp_path / "politica.npz"
+    np.savez(weights, n_layers=np.array(2), W0=rng.normal(size=(N_FEATURES, 8)).astype(np.float32),
+             b0=np.zeros(8, np.float32), W1=rng.normal(size=(8, 8)).astype(np.float32), b1=np.zeros(8, np.float32),
+             W_out=rng.normal(size=(8, 7)).astype(np.float32), b_out=np.zeros(7, np.float32))
+    sha = hashlib.sha256(weights.read_bytes()).hexdigest()
+    manifests = tmp_path / "manifests"
+    (manifests / "modelos").mkdir(parents=True)
+    env = niveles.make_env(niveles.resolve("v2-n2"))
+    manifest = {"model_id": "ppo", "tipo_modelo": "ppo-mlp", "familia_modelo": niveles.ppo_family(env),
+                "model_sha256": sha, "model_download_url": weights.as_uri(), "level_id": "v2-n2",
+                "environment_version": "2.0.0", "run_name": "ppo", "hf_commit": "x", "git_commit": "y"}
+    (manifests / "modelos" / "ppo.json").write_text(json.dumps(manifest))
+    (manifests / "catalogo.json").write_text(json.dumps({"recomendados": {}, "modelos": [manifest]}))
+    monkeypatch.setattr(api_module, "MANIFESTS", str(manifests))
+    monkeypatch.setattr(api_module, "CACHE_DIR", str(tmp_path / "cache"))
+    api_module.load_model.cache_clear()
+    client = TestClient(api_module.app)
+    ok = client.post("/api/evaluar", json={"nivel": "v2-n3", "politica": "modelo", "model_id": "ppo", "casos": 2})
+    assert ok.status_code == 200 and ok.json()["modelo"]["tipo_modelo"] == "ppo-mlp"
+    assert client.post("/api/evaluar", json={"nivel": "n2", "politica": "modelo", "model_id": "ppo", "casos": 2}).status_code == 409
+    api_module.load_model.cache_clear()

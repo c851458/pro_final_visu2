@@ -24,7 +24,6 @@ import urllib.request
 from functools import lru_cache
 from typing import Literal, Optional
 
-import numpy as np
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, Field
@@ -34,7 +33,8 @@ sys.path.insert(0, ROOT)
 
 from warehouse_rush import niveles  # noqa: E402
 from warehouse_rush.env_v1 import ACTION_NAMES, LAYOUT, TYPE_NAMES, ZONE_NAMES  # noqa: E402
-from warehouse_rush.politicas import QTablePolicy, RandomPolicy, RulePolicy  # noqa: E402
+from warehouse_rush.modelos import FILES, TABULAR, load_policy  # noqa: E402
+from warehouse_rush.politicas import RandomPolicy, RulePolicy  # noqa: E402
 from warehouse_rush.simulacion import evaluate, replay_manual, run_episode  # noqa: E402
 
 API_VERSION = "1.0.0"
@@ -68,6 +68,11 @@ def level_bundle(level):
     return cfg, niveles.family(env), cases, suite_id
 
 
+@lru_cache(maxsize=8)
+def level_families(level):
+    return tuple(niveles.compatible_families(niveles.make_env(niveles.resolve(level))))
+
+
 def manifest(model_id):
     data = read_json("modelos", f"{model_id}.json")
     if data is None:
@@ -76,10 +81,13 @@ def manifest(model_id):
 
 
 @lru_cache(maxsize=16)
-def load_weights(model_id):
-    """Descarga los pesos (con cache en /tmp) y verifica su SHA-256 contra el manifiesto."""
+def load_model(model_id):
+    """Descarga el modelo (con cache en /tmp), verifica su SHA-256 contra el manifiesto y devuelve su politica.
+
+    Tabla Q (.npy) o red PPO exportada a NumPy (.npz), segun `tipo_modelo` del manifiesto."""
     info = manifest(model_id)
-    path = os.path.join(CACHE_DIR, f"{info['model_sha256']}.npy")
+    extension = os.path.splitext(FILES[info.get("tipo_modelo", TABULAR)])[1]
+    path = os.path.join(CACHE_DIR, f"{info['model_sha256']}{extension}")
     if not os.path.exists(path):
         os.makedirs(CACHE_DIR, exist_ok=True)
         request = urllib.request.Request(info["model_download_url"])
@@ -94,7 +102,7 @@ def load_weights(model_id):
             raise HTTPException(502, f"El SHA-256 del modelo {model_id} no coincide con su manifiesto")
         with open(path, "wb") as f:
             f.write(data)
-    return np.load(path, allow_pickle=False)
+    return load_policy(path)
 
 
 def resolve_policy(policy, model_id, level, family, seed):
@@ -109,12 +117,12 @@ def resolve_policy(policy, model_id, level, family, seed):
     if not model_id:
         raise HTTPException(404, f"No hay un modelo recomendado para el nivel {level}; elige uno del catalogo")
     info = manifest(model_id)
-    if info["familia_modelo"] != family:
+    if info["familia_modelo"] not in level_families(level):
         raise HTTPException(409, f"El modelo {model_id} ({info['familia_modelo']}) no es compatible con el nivel "
                                  f"{level} ({family}): sus observaciones tienen otras dimensiones")
-    weights = load_weights(model_id)
-    return QTablePolicy(weights), {
-        "model_id": model_id, "model_sha256": info["model_sha256"], "nivel_entrenamiento": info["level_id"],
+    return load_model(model_id), {
+        "model_id": model_id, "tipo_modelo": info.get("tipo_modelo", TABULAR),
+        "model_sha256": info["model_sha256"], "nivel_entrenamiento": info["level_id"],
         "environment_version": info["environment_version"], "run_name": info["run_name"],
         "hf_commit": info["hf_commit"], "git_commit": info["git_commit"]}
 
@@ -146,7 +154,8 @@ def levels():
         cfg, family, cases, suite_id = level_bundle(level)
         env = niveles.make_env(cfg).unwrapped
         result.append({
-            **environment_info(cfg, family, suite_id), "decision": cfg["decision"], "entorno": cfg["entorno"],
+            **environment_info(cfg, family, suite_id), "familias_compatibles": list(level_families(level)),
+            "decision": cfg["decision"], "entorno": cfg["entorno"],
             "datos": cfg["datos"], "casos_evaluacion": len(cases),
             "mapa": {"layout": LAYOUT, "shelf_cells": [list(p) for p in env.shelf_cells],
                      "zone_cells": [sorted(list(p) for p in z) for z in env.zone_cells], "charger": list(env.charger),

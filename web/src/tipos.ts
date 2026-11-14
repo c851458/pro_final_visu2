@@ -49,6 +49,7 @@ export interface Ambiente {
 }
 
 export interface Nivel extends Ambiente {
+  familias_compatibles: string[];
   decision: string;
   entorno: { bateria: boolean; bateria_max: number; max_pasos: number; bloqueos: number[][] };
   datos: Record<string, unknown>;
@@ -65,6 +66,7 @@ export interface Niveles {
 
 export interface ModeloInfo {
   model_id: string;
+  tipo_modelo?: string;
   model_sha256: string;
   nivel_entrenamiento: string;
   environment_version: string;
