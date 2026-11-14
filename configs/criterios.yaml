@@ -53,6 +53,41 @@ contrastes:
         hipotesis: >-
           Con 80000 episodios Q-learning alcanza >=95% de ordenes completas en v2-n3 en las tres semillas.
 
+  # PPO con red neuronal (fijado 2026-11-13, antes de entrenar). Q-learning no cumplio en v2-n2 (93.8% +- 7.2,
+  # rescates 0.42) ni en v2-n3 (75.7% +- 20.1, rescates 0.59): la tabla no observa el plazo restante del SLA ni la
+  # bateria exacta. La red recibe 22 caracteristicas que si los incluyen (warehouse_rush/ppo.py). Un piloto de una
+  # semilla llego a 90% de exito con 500k pasos y se detuvo; no se usa para elegir nada.
+  ppo-v2-n2:
+    nivel: v2-n2
+    pregunta: >-
+      ¿Una politica PPO (red 128x128, 22 caracteristicas) entrenada 3 millones de pasos cumple los requisitos en
+      el centro de distribucion N2 de forma estable en tres semillas, donde Q-learning no los cumplio?
+    semillas: [0, 1, 2]
+    brazos:
+      A:
+        nombre: PPO red neuronal, 3M pasos
+        algoritmo: ppo
+        pasos: 3000000
+        cambios: [nivel=v2-n2, algoritmo=ppo, entrenamiento.pasos=3000000]
+        hipotesis: >-
+          Con 3 millones de pasos PPO alcanza >=95% de ordenes completas con <=0.30 rescates en v2-n2 en las tres
+          semillas.
+  ppo-v2-n3:
+    nivel: v2-n3
+    pregunta: >-
+      ¿Una politica PPO (red 128x128, 22 caracteristicas) entrenada 3 millones de pasos cumple los requisitos en
+      el centro de distribucion N3 (pasillo bloqueado) de forma estable en tres semillas?
+    semillas: [0, 1, 2]
+    brazos:
+      A:
+        nombre: PPO red neuronal, 3M pasos
+        algoritmo: ppo
+        pasos: 3000000
+        cambios: [nivel=v2-n3, algoritmo=ppo, entrenamiento.pasos=3000000]
+        hipotesis: >-
+          Con 3 millones de pasos PPO alcanza >=95% de ordenes completas con <=0.30 rescates en v2-n3 en las tres
+          semillas.
+
 # Requisitos que debe cumplir la media de las semillas de un brazo (suite de evaluacion del nivel).
 requisitos:
   tasa_exito_min: 0.95
