@@ -10,11 +10,15 @@ Endpoints:
     GET  /api/modelos/{model_id}  manifiesto completo de un modelo
     POST /api/episodio            ejecuta un pedido (manual, aleatoria, regla o modelo) y devuelve los fotogramas
     POST /api/evaluar             evalua una politica en la suite del nivel (resultados por caso y fallos por causa)
+    GET  /api/monitoreo           sonda del modelo servido en cada nivel (contra lo registrado y los criterios) y
+                                  peticiones, latencias y errores de esta instancia
 
 Variables de entorno: HF_TOKEN (solo si el repositorio de modelos es privado), CORS_ORIGINS,
 MANIFESTS_DIR (solo para pruebas locales).
 """
 
+import collections
+import datetime
 import hashlib
 import json
 import os
@@ -24,7 +28,9 @@ import urllib.request
 from functools import lru_cache
 from typing import Literal, Optional
 
-from fastapi import FastAPI, HTTPException
+import yaml
+from fastapi import FastAPI, HTTPException, Query, Request
+from fastapi.exception_handlers import http_exception_handler
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, Field
 
@@ -45,6 +51,61 @@ MAX_EVAL_CASES = 500
 app = FastAPI(title="Warehouse Rush API", version=API_VERSION)
 app.add_middleware(CORSMiddleware, allow_origins=os.environ.get("CORS_ORIGINS", "*").split(","),
                    allow_methods=["GET", "POST"], allow_headers=["*"])
+
+
+# ---------------------------------------------------------------- monitoreo de la instancia
+# La API no tiene estado persistente: estos registros viven en la memoria de la instancia de Vercel que atiende
+# la peticion y se reinician en cada arranque en frio. La sonda de /api/monitoreo no depende de ellos.
+
+STARTED = time.time()
+REQUESTS = collections.deque(maxlen=500)
+ERRORS = collections.deque(maxlen=50)
+
+
+def _now():
+    return datetime.datetime.now(datetime.timezone.utc).isoformat(timespec="seconds")
+
+
+@app.middleware("http")
+async def record_request(request: Request, call_next):
+    start = time.perf_counter()
+    status = 500
+    try:
+        response = await call_next(request)
+        status = response.status_code
+        return response
+    except Exception as error:  # error no controlado: se registra y se propaga (respuesta 500)
+        ERRORS.append({"t": _now(), "ruta": request.url.path, "estado": 500,
+                       "detalle": f"{type(error).__name__}: {error}"[:300]})
+        raise
+    finally:
+        if request.url.path.startswith("/api"):
+            REQUESTS.append({"t": _now(), "ruta": request.url.path, "metodo": request.method, "estado": status,
+                             "ms": round((time.perf_counter() - start) * 1000, 1)})
+
+
+@app.exception_handler(HTTPException)
+async def record_http_error(request: Request, error: HTTPException):
+    ERRORS.append({"t": _now(), "ruta": request.url.path, "estado": error.status_code,
+                   "detalle": str(error.detail)[:300]})
+    return await http_exception_handler(request, error)
+
+
+def instance_stats():
+    by_route = collections.defaultdict(list)
+    for r in REQUESTS:
+        by_route[f"{r['metodo']} {r['ruta']}"].append(r)
+    routes = {}
+    for route, rows in sorted(by_route.items()):
+        ms = sorted(r["ms"] for r in rows)
+        routes[route] = {"peticiones": len(rows), "errores": sum(r["estado"] >= 400 for r in rows),
+                         "p50_ms": ms[len(ms) // 2], "p95_ms": ms[min(len(ms) - 1, int(len(ms) * 0.95))]}
+    return {"inicio": datetime.datetime.fromtimestamp(STARTED, datetime.timezone.utc).isoformat(timespec="seconds"),
+            "segundos_activa": round(time.time() - STARTED), "peticiones": len(REQUESTS),
+            "errores_4xx": sum(400 <= r["estado"] < 500 for r in REQUESTS),
+            "errores_5xx": sum(r["estado"] >= 500 for r in REQUESTS), "por_ruta": routes,
+            "ultimos_errores": list(ERRORS)[-15:][::-1],
+            "nota": "memoria de esta instancia de Vercel: se reinicia en cada arranque en frio"}
 
 
 # ---------------------------------------------------------------- datos versionados
@@ -201,6 +262,85 @@ def episode(req: EpisodeRequest):
     return {"modo": "evaluacion" if req.politica == "modelo" else req.politica, "ambiente": info, "modelo": model,
             "caso": req.caso, "resultado": result, "fotogramas": frames,
             "tiempo_servidor_ms": round((time.perf_counter() - start) * 1000, 2)}
+
+
+# ---------------------------------------------------------------- monitoreo del modelo servido
+
+PROBE_KEYS = ("tasa_exito", "otif", "cumplimiento_express", "rescates_medios", "fragiles_rotos_medios",
+              "utilidad_media_cop", "pasos_medios", "latencia_media_ms")
+DRIFT_TOLERANCE = 0.10  # caida de exito frente a lo registrado que se marca como deriva
+
+
+@lru_cache(maxsize=1)
+def requirements():
+    """Requisitos de configs/criterios.yaml (los mismos que se exigen para promover un modelo)."""
+    defaults = {"tasa_exito_min": 0.95, "fragiles_rotos_medios_max": 0.05, "rescates_medios_max": 0.30}
+    try:
+        with open(os.path.join(ROOT, "configs", "criterios.yaml")) as f:
+            return {**defaults, **yaml.safe_load(f)["requisitos"]}
+    except (OSError, KeyError, TypeError, yaml.YAMLError):
+        return defaults
+
+
+def check(metrics, registered, req):
+    alerts = []
+    if metrics["tasa_exito"] < req["tasa_exito_min"]:
+        alerts.append(f"exito {metrics['tasa_exito']:.1%} por debajo del minimo {req['tasa_exito_min']:.0%}")
+    if metrics.get("rescates_medios", 0) > req["rescates_medios_max"]:
+        alerts.append(f"rescates {metrics['rescates_medios']:.2f} por pedido, maximo {req['rescates_medios_max']}")
+    if metrics.get("fragiles_rotos_medios", 0) > req["fragiles_rotos_medios_max"]:
+        alerts.append(f"fragiles rotos {metrics['fragiles_rotos_medios']:.2f} por pedido, "
+                      f"maximo {req['fragiles_rotos_medios_max']}")
+    if registered.get("tasa_exito") is not None and registered["tasa_exito"] - metrics["tasa_exito"] > DRIFT_TOLERANCE:
+        alerts.append(f"deriva: exito {metrics['tasa_exito']:.1%} frente a {registered['tasa_exito']:.1%} registrado")
+    return alerts
+
+
+def probe_level(level, catalog, n_cases, req):
+    cfg, family, cases, suite_id = level_bundle(level)
+    item = {"nivel": level, "nombre": cfg["nombre"], "environment_version": cfg["version_ambiente"],
+            "evaluation_suite_id": suite_id, "historial": catalog.get("historial_recomendados", {}).get(level, [])}
+    model_id = catalog.get("recomendados", {}).get(level)
+    if not model_id:
+        return {**item, "estado": "sin_modelo", "alertas": ["no hay un modelo recomendado; se sirve la politica de reglas"]}
+    try:
+        info = manifest(model_id)
+        item["modelo"] = {"model_id": model_id, "tipo_modelo": info.get("tipo_modelo", TABULAR),
+                          "model_sha256": info["model_sha256"], "run_name": info["run_name"],
+                          "publicado": info.get("publicado"), "hf_commit": info["hf_commit"],
+                          "git_commit": info["git_commit"]}
+        registered = info.get("metricas_evaluacion", {})
+        item["registrado"] = {k: registered.get(k) for k in PROBE_KEYS if registered.get(k) is not None}
+        item["registrado"]["casos"] = int(registered.get("pedidos_evaluados", len(cases)))
+        start = time.perf_counter()
+        policy, _ = resolve_policy("modelo", model_id, level, family, seed=0)
+        metrics, per_case = evaluate(niveles.make_env(cfg), policy, cases[:n_cases])
+    except HTTPException as error:  # modelo inaccesible, SHA distinto, familia incompatible...
+        return {**item, "estado": "error", "alertas": [f"error de inferencia ({error.status_code}): {error.detail}"]}
+    except Exception as error:  # noqa: BLE001
+        ERRORS.append({"t": _now(), "ruta": f"/api/monitoreo ({level})", "estado": 500,
+                       "detalle": f"{type(error).__name__}: {error}"[:300]})
+        return {**item, "estado": "error", "alertas": [f"error de inferencia: {type(error).__name__}: {error}"]}
+    item["sonda"] = {k: metrics.get(k) for k in PROBE_KEYS if metrics.get(k) is not None}
+    elapsed = time.perf_counter() - start
+    by_order = sorted(c["latencia_media_ms"] for c in per_case)  # latencia media por decision en cada pedido
+    item["sonda"].update(casos=len(per_case), fallos_por_causa=metrics["fallos_por_causa"], tiempo_s=round(elapsed, 3),
+                         latencia_p95_ms=round(by_order[min(len(by_order) - 1, int(len(by_order) * 0.95))], 4),
+                         ms_por_pedido=round(elapsed * 1000 / len(per_case), 2))
+    alerts = check(metrics, registered, req)
+    return {**item, "estado": "alerta" if alerts else "ok", "alertas": alerts}
+
+
+@app.get("/api/monitoreo")
+def monitoring(casos: int = Query(50, ge=5, le=200, description="pedidos de la suite que ejecuta la sonda por nivel")):
+    req = requirements()
+    catalog = read_json("catalogo.json", default={}) or {}
+    result = [probe_level(level, catalog, casos, req) for level in niveles.level_ids()]
+    return {"generado": _now(), "git_commit": os.environ.get("VERCEL_GIT_COMMIT_SHA", "local"),
+            "api_version": API_VERSION, "environment_versions": niveles.env_versions(), "requisitos": req,
+            "tolerancia_deriva": DRIFT_TOLERANCE, "casos_sonda": casos, "catalogo_actualizado": catalog.get("actualizado"),
+            "resumen": {e: sum(r["estado"] == e for r in result) for e in ("ok", "alerta", "error", "sin_modelo")},
+            "niveles": result, "instancia": instance_stats()}
 
 
 class EvaluationRequest(BaseModel):

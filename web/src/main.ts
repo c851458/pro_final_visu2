@@ -2,7 +2,7 @@
 import './style.css';
 import { api, ApiError } from './api';
 import { Escena, TYPE_LABELS, ZONE_CSS, batteryColor } from './escena';
-import type { Ambiente, Catalogo, Evaluacion, Fotograma, ModeloCatalogo, ModeloInfo, Nivel, Niveles, Run } from './tipos';
+import type { Ambiente, Catalogo, Evaluacion, Fotograma, ModeloCatalogo, ModeloInfo, Monitoreo, Nivel, Niveles, Run } from './tipos';
 
 const [PICK, DROP, CHARGE] = [4, 5, 6];
 const GITHUB = 'https://github.com/c851458/pro_final_visu2';
@@ -538,6 +538,96 @@ function renderModels() {
   });
 }
 
+// ---------------------------------------------------------------- monitoreo
+
+let monitoreo: Monitoreo | null = null;
+
+const ago = (iso: string) => {
+  const s = Math.max(0, (Date.now() - new Date(iso).getTime()) / 1000);
+  return s < 90 ? `hace ${Math.round(s)} s` : s < 5400 ? `hace ${Math.round(s / 60)} min` : `hace ${Math.round(s / 3600)} h`;
+};
+const ESTADO_LABEL: Record<string, string> = { ok: 'OK', alerta: 'alerta', error: 'error', sin_modelo: 'sin modelo' };
+
+async function runProbe() {
+  const btn = $('mon-run') as HTMLButtonElement;
+  btn.disabled = true;
+  $('mon-updated').textContent = 'Ejecutando la sonda…';
+  try {
+    monitoreo = await api.monitoreo(Number(($('mon-casos') as HTMLSelectElement).value));
+    catalogo = await api.catalogo(); // el historial de promociones puede haber cambiado
+    renderMonitoring();
+  } catch (error) {
+    $('mon-updated').textContent = '';
+    fail(error);
+  } finally {
+    btn.disabled = false;
+  }
+}
+
+function renderMonitoring() {
+  const m = monitoreo;
+  if (!m) return;
+  const req = m.requisitos;
+  $('mon-updated').textContent = `sonda de ${m.casos_sonda} pedidos por nivel · ${new Date(m.generado).toLocaleTimeString()}`;
+  const chip = (label: string, value: string) => `<div class="chip"><span class="muted">${label}</span><b>${value}</b></div>`;
+  $('mon-summary').innerHTML = [
+    chip('Commit servido', m.git_commit === 'local' ? 'local'
+      : `<a href="${GITHUB}/commit/${esc(m.git_commit)}" target="_blank" rel="noopener">${short(m.git_commit)}</a>`),
+    chip('API', `v${esc(m.api_version)}`),
+    chip('Ambientes', Object.entries(m.environment_versions).map(([k, v]) => `${esc(k)} v${esc(v)}`).join(' · ')),
+    chip('Niveles OK', `<span class="pos">${m.resumen.ok ?? 0}</span> / ${m.niveles.length}`),
+    chip('En alerta', `<span class="${m.resumen.alerta ? 'gold' : ''}">${m.resumen.alerta ?? 0}</span>`),
+    chip('Con error', `<span class="${m.resumen.error ? 'neg' : ''}">${m.resumen.error ?? 0}</span>`),
+    chip('Requisitos', `éxito ≥ ${pct(req.tasa_exito_min)} · rescates ≤ ${req.rescates_medios_max}`),
+    chip('Catálogo', m.catalogo_actualizado ? ago(m.catalogo_actualizado) : '-'),
+  ].join('');
+
+  const vs = (probe: number | undefined, reg: number | undefined, f: (x: number | undefined) => string) =>
+    `${f(probe)}${reg !== undefined && reg !== null ? `<br><span class="mon-vs">registrado ${f(reg)}</span>` : ''}`;
+  $('mon-table').innerHTML = '<tr><th>Nivel</th><th>Estado</th><th>Modelo servido</th><th>Éxito</th><th>OTIF</th>'
+    + '<th>Rescates</th><th>Utilidad/pedido</th><th>Latencia por decisión</th><th>Fallos (sonda)</th><th>Alertas</th></tr>'
+    + m.niveles.map((n) => {
+      const s = n.sonda; const r = n.registrado;
+      const fallos = s?.fallos_por_causa && Object.keys(s.fallos_por_causa).length
+        ? Object.entries(s.fallos_por_causa).map(([k, v]) => `${esc(k)}: ${v}`).join('<br>') : (s ? 'ninguno' : '-');
+      const resc = s ? `<span class="${s.rescates_medios > req.rescates_medios_max ? 'neg' : ''}">${num(s.rescates_medios, 2)}</span>` : '-';
+      return `<tr><td><b>${esc(n.nivel.toUpperCase())}</b><br><span class="muted">v${esc(n.environment_version)}</span></td>`
+        + `<td><span class="pill ${n.estado}">${ESTADO_LABEL[n.estado] ?? n.estado}</span></td>`
+        + `<td>${n.modelo ? `<b>${esc(n.modelo.model_id)}</b><br><span class="muted">${esc(n.modelo.tipo_modelo)} · sha ${short(n.modelo.model_sha256, 10)}`
+          + `${n.modelo.publicado ? ` · ${new Date(n.modelo.publicado).toLocaleDateString()}` : ''}</span>` : '<span class="muted">política de reglas</span>'}</td>`
+        + `<td class="num">${s ? vs(s.tasa_exito, r?.tasa_exito, pct) : '-'}</td>`
+        + `<td class="num">${s && s.otif !== undefined ? vs(s.otif, r?.otif, pct) : '-'}</td>`
+        + `<td class="num">${s ? `${resc}${r ? `<br><span class="mon-vs">registrado ${num(r.rescates_medios, 2)}</span>` : ''}` : '-'}</td>`
+        + `<td class="num">${s && s.utilidad_media_cop !== undefined ? vs(s.utilidad_media_cop, r?.utilidad_media_cop, cop) : '-'}</td>`
+        + `<td class="num">${s ? `media ${num(s.latencia_media_ms, 3)} ms<br><span class="mon-vs">p95 ${num(s.latencia_p95_ms, 3)} ms · ${num(s.ms_por_pedido, 1)} ms/pedido</span>` : '-'}</td>`
+        + `<td>${fallos}</td>`
+        + `<td>${n.alertas.length ? `<ul class="mon-alerts">${n.alertas.map((a) => `<li>${esc(a)}</li>`).join('')}</ul>` : '<span class="pos">sin alertas</span>'}</td></tr>`;
+    }).join('');
+
+  const cat = catalogo.catalogo;
+  const byLevel = (lv: string) => cat.modelos.filter((x) => x.level_id === lv && ['recomendado', 'anterior', 'revertido'].includes(x.estado));
+  $('mon-history').innerHTML = '<tr><th>Nivel</th><th>Recomendado</th><th>Anteriores (rollback)</th><th>Revertidos</th></tr>'
+    + m.niveles.map((n) => {
+      const prev = (cat.historial_recomendados?.[n.nivel] ?? []).slice().reverse();
+      const reverted = byLevel(n.nivel).filter((x) => x.estado === 'revertido');
+      return `<tr><td><b>${esc(n.nivel.toUpperCase())}</b></td>`
+        + `<td>${cat.recomendados[n.nivel] ? `<span class="pill recomendado">${esc(cat.recomendados[n.nivel])}</span>` : '<span class="muted">ninguno</span>'}</td>`
+        + `<td>${prev.length ? prev.map((id) => `<span class="pill anterior">${esc(id)}</span>`).join(' ') : '<span class="muted">ninguno</span>'}</td>`
+        + `<td>${reverted.length ? reverted.map((x) => `<span class="pill revertido">${esc(x.model_id)}</span>`).join(' ') : '<span class="muted">ninguno</span>'}</td></tr>`;
+    }).join('');
+
+  const inst = m.instancia;
+  $('mon-instance-note').textContent = `Activa desde ${new Date(inst.inicio).toLocaleTimeString()} (${ago(inst.inicio)}) · `
+    + `${inst.peticiones} peticiones · ${inst.errores_4xx} errores 4xx · ${inst.errores_5xx} errores 5xx. Nota: ${inst.nota}.`;
+  const routes = Object.entries(inst.por_ruta);
+  $('mon-routes').innerHTML = '<tr><th>Ruta</th><th>Peticiones</th><th>Errores</th><th>p50</th><th>p95</th></tr>'
+    + (routes.length ? routes.map(([route, x]) => `<tr><td><code>${esc(route)}</code></td><td class="num">${x.peticiones}</td>`
+      + `<td class="num ${x.errores ? 'neg' : ''}">${x.errores}</td><td class="num">${num(x.p50_ms, 1)} ms</td><td class="num">${num(x.p95_ms, 1)} ms</td></tr>`).join('')
+      : '<tr><td colspan="5" class="muted">Sin peticiones registradas en esta instancia.</td></tr>');
+  $('mon-errors').innerHTML = inst.ultimos_errores.map((e) => `<li class="alerta"><span class="paso">${esc(e.estado)}</span>`
+    + `${esc(new Date(e.t).toLocaleTimeString())} · <code>${esc(e.ruta)}</code> · ${esc(e.detalle)}</li>`).join('');
+}
+
 // ---------------------------------------------------------------- pestanas e inicio
 
 // Enlaces profundos: ?tab=exp&nivel=n3&politica=modelo&modelo=<id>&caso=4
@@ -556,12 +646,15 @@ function switchTab(tab: string) {
   document.querySelectorAll<HTMLButtonElement>('#tabs button').forEach((b) => b.classList.toggle('active', b.dataset.tab === tab));
   $('exp-view').hidden = tab !== 'exp';
   $('mod-view').hidden = tab !== 'mod';
+  $('mon-view').hidden = tab !== 'mon';
   if (tab === 'exp') renderExperiments();
   if (tab === 'mod') renderModels();
+  if (tab === 'mon' && !monitoreo) runProbe();
 }
 
 async function init() {
   document.querySelectorAll<HTMLButtonElement>('#tabs button').forEach((b) => b.addEventListener('click', () => switchTab(b.dataset.tab!)));
+  $('mon-run').addEventListener('click', runProbe);
   try {
     const [salud, nv, cat] = await Promise.all([api.salud(), api.niveles(), api.catalogo()]);
     niveles = nv;

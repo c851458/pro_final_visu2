@@ -97,3 +97,31 @@ def test_modelo_ppo_se_sirve_en_numpy_solo_en_niveles_compatibles(tmp_path, monk
     assert ok.status_code == 200 and ok.json()["modelo"]["tipo_modelo"] == "ppo-mlp"
     assert client.post("/api/evaluar", json={"nivel": "n2", "politica": "modelo", "model_id": "ppo", "casos": 2}).status_code == 409
     api_module.load_model.cache_clear()
+
+
+def test_monitoreo_detecta_alertas_y_niveles_sin_modelo(client):
+    """El modelo de prueba (tabla Q en ceros) no completa pedidos: la sonda debe marcar alerta en N2."""
+    client.get("/api/modelos/no-existe")  # un error 404 que debe quedar registrado en la instancia
+    data = client.get("/api/monitoreo?casos=5").json()
+    by_level = {n["nivel"]: n for n in data["niveles"]}
+    n2 = by_level["n2"]
+    assert n2["estado"] == "alerta" and n2["modelo"]["model_id"] == "prueba"
+    assert n2["sonda"]["casos"] == 5 and n2["sonda"]["tasa_exito"] < data["requisitos"]["tasa_exito_min"]
+    assert any("por debajo del minimo" in a for a in n2["alertas"])
+    assert by_level["n1"]["estado"] == "sin_modelo" and data["resumen"]["alerta"] == 1
+    assert data["requisitos"]["rescates_medios_max"] == 0.30  # leidos de configs/criterios.yaml
+    errors = data["instancia"]["ultimos_errores"]
+    assert any(e["estado"] == 404 and e["ruta"] == "/api/modelos/no-existe" for e in errors)
+
+
+def test_monitoreo_informa_errores_de_inferencia_sin_caerse(client, monkeypatch, tmp_path):
+    """Si el modelo servido no se puede cargar (SHA distinto), el nivel queda en error y la sonda sigue."""
+    path = tmp_path / "manifests" / "modelos" / "prueba.json"
+    manifest = json.loads(path.read_text())
+    manifest["model_sha256"] = "0" * 64
+    path.write_text(json.dumps(manifest))
+    api_module.load_model.cache_clear()
+    response = client.get("/api/monitoreo?casos=5")
+    assert response.status_code == 200
+    n2 = {n["nivel"]: n for n in response.json()["niveles"]}["n2"]
+    assert n2["estado"] == "error" and "SHA-256" in n2["alertas"][0]

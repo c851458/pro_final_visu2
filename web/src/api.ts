@@ -1,5 +1,5 @@
 // Cliente de la API. VITE_API_BASE_URL vacío = mismo dominio (Vercel sirve web y API juntas).
-import type { Catalogo, Episodio, Evaluacion, Niveles, Salud } from './tipos';
+import type { Catalogo, Episodio, Evaluacion, Monitoreo, Niveles, Salud } from './tipos';
 
 const BASE = (import.meta.env.VITE_API_BASE_URL ?? '').replace(/\/$/, '');
 
@@ -35,6 +35,7 @@ export const api = {
   salud: () => request<Salud>('/api/salud'),
   niveles: () => request<Niveles>('/api/niveles'),
   catalogo: () => request<Catalogo>('/api/catalogo'),
+  monitoreo: (casos: number) => request<Monitoreo>(`/api/monitoreo?casos=${casos}`),
   episodio: (body: { nivel: string; politica: string; model_id?: string | null; caso: number; acciones?: number[] }) =>
     request<Episodio>('/api/episodio', body),
   evaluar: (body: { nivel: string; politica: string; model_id?: string | null; casos: number }) =>

@@ -197,3 +197,28 @@ export interface Salud {
   despliegue: string;
   modelos_recomendados: Record<string, string>;
 }
+
+export interface MetricasSonda {
+  tasa_exito: number; otif?: number; cumplimiento_express?: number; rescates_medios: number;
+  fragiles_rotos_medios: number; utilidad_media_cop?: number; pasos_medios: number; latencia_media_ms: number;
+  latencia_p95_ms?: number; casos: number; fallos_por_causa?: Record<string, number>; tiempo_s?: number;
+  ms_por_pedido?: number;
+}
+
+export interface NivelMonitoreo {
+  nivel: string; nombre: string; environment_version: string; evaluation_suite_id: string; historial: string[];
+  estado: 'ok' | 'alerta' | 'error' | 'sin_modelo'; alertas: string[];
+  modelo?: { model_id: string; tipo_modelo: string; model_sha256: string; run_name: string; publicado?: string;
+    hf_commit: string; git_commit: string };
+  registrado?: MetricasSonda; sonda?: MetricasSonda;
+}
+
+export interface Monitoreo {
+  generado: string; git_commit: string; api_version: string; environment_versions: Record<string, string>;
+  requisitos: { tasa_exito_min: number; rescates_medios_max: number; fragiles_rotos_medios_max: number };
+  tolerancia_deriva: number; casos_sonda: number; catalogo_actualizado?: string;
+  resumen: Record<string, number>; niveles: NivelMonitoreo[];
+  instancia: { inicio: string; segundos_activa: number; peticiones: number; errores_4xx: number; errores_5xx: number;
+    por_ruta: Record<string, { peticiones: number; errores: number; p50_ms: number; p95_ms: number }>;
+    ultimos_errores: { t: string; ruta: string; estado: number; detalle: string }[]; nota: string };
+}

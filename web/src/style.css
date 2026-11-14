@@ -196,3 +196,15 @@ optgroup { background: var(--panel-solid); color: var(--dim); }
 .event-log li.info { border-left-color: var(--blue); }
 .event-log .paso { color: var(--dim); font-family: ui-monospace, monospace; margin-right: 8px; }
 .event-log:empty::before { content: "Sin eventos"; display: block; padding: 6px 8px; color: var(--dim); }
+
+.pill.ok, .pill.anterior { background: rgba(79, 209, 139, 0.2); color: var(--ok); }
+.pill.anterior { opacity: 0.75; }
+.pill.alerta, .pill.sin_modelo { background: rgba(255, 197, 49, 0.18); color: var(--gold); }
+.pill.error { background: rgba(255, 107, 94, 0.2); color: var(--bad); }
+.mon-summary { display: flex; flex-wrap: wrap; gap: 8px; margin: 6px 0 12px; }
+.mon-summary .chip { border: 1px solid var(--border); border-radius: 8px; padding: 6px 10px; font-size: 12px; }
+.mon-summary .chip b { display: block; font-size: 15px; }
+.mon-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(420px, 1fr)); gap: 18px; margin-top: 16px; }
+.mon-alerts { margin: 0; padding-left: 16px; font-size: 12px; color: var(--gold); }
+.mon-vs { color: var(--dim); font-size: 11px; }
+@media (max-width: 520px) { .mon-grid { grid-template-columns: 1fr; } }

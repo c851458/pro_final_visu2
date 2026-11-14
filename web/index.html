@@ -13,6 +13,7 @@
       <button data-tab="sim" class="active">Simulación</button>
       <button data-tab="exp">Experimentos</button>
       <button data-tab="mod">Modelos</button>
+      <button data-tab="mon">Monitoreo</button>
     </nav>
     <div id="mode-badge" class="badge">—</div>
     <div id="api-status" class="api-status">Conectando…</div>
@@ -128,6 +129,38 @@
           promueve: el recomendado se elige aparte y se puede revertir (rollback).</p>
         <div class="table-wrap"><table id="mod-table"></table></div>
         <pre id="manifest-view" hidden></pre>
+      </div>
+    </section>
+
+    <section id="mon-view" class="overlay" hidden>
+      <div class="overlay-inner">
+        <div class="overlay-head">
+          <h2>Monitoreo del modelo servido</h2>
+          <div class="filters">
+            <select id="mon-casos"><option value="20">20 pedidos</option><option value="50" selected>50 pedidos</option><option value="100">100 pedidos</option></select>
+            <button id="mon-run" class="small-btn">Ejecutar sonda</button>
+            <span id="mon-updated" class="muted"></span>
+          </div>
+        </div>
+        <p class="hint">La sonda ejecuta el modelo recomendado de cada nivel, desde esta URL, sobre los primeros pedidos de su
+          suite de evaluación y lo compara con lo registrado al publicarlo y con los requisitos de promoción. Si un nivel queda
+          en alerta, el flujo de vigilancia (<code>pipeline/vigilar.py</code>) revierte al recomendado anterior.</p>
+        <div id="mon-summary" class="mon-summary"></div>
+        <div class="table-wrap"><table id="mon-table"></table></div>
+        <div class="mon-grid">
+          <div>
+            <h3>Promociones y rollback</h3>
+            <p class="hint">Recomendado actual, anteriores disponibles para rollback y modelos revertidos, por nivel.</p>
+            <div class="table-wrap"><table id="mon-history"></table></div>
+          </div>
+          <div>
+            <h3>Esta instancia de la API</h3>
+            <p id="mon-instance-note" class="hint"></p>
+            <div class="table-wrap"><table id="mon-routes"></table></div>
+            <h3>Últimos errores</h3>
+            <ol id="mon-errors" class="event-log"></ol>
+          </div>
+        </div>
       </div>
     </section>
 
