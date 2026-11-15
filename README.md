@@ -21,6 +21,9 @@ monitoreo y rollback.
 | v2-n1 | v2.0.0 | `v2-n1-v2-n1-base` | tabla Q | 100 % | 100 % | 0,00 | $18.814 |
 | v2-n2 | v2.0.0 | `v2-n2-imitacion-v2-n2-A-s0` | red neuronal | 100 % | 99,2 % | 0,00 | $47.163 |
 | v2-n3 | v2.0.0 | `v2-n3-imitacion-v2-n3-A-s2` | red neuronal | 100 % | 95,2 % | 0,00 | $46.008 |
+| v3-n1 | v3.0.0 | `v3-n1-imitacion-v3-n1-A-s0` | red neuronal | 100 % | 97,5 % | 0,00 | $17.568 |
+| v3-n2 | v3.0.0 | `v3-n2-imitacion-v3-n2-A-s2` | red neuronal | 100 % | 91,2 % | 0,00 | $44.520 |
+| v3-n3 | v3.0.0 | `v3-n3-imitacion-v3-n3-A-s0` | red neuronal | 100 % | 85,0 % | 0,00 | $43.442 |
 
 Métricas sobre la suite de evaluación de cada nivel (500 pedidos que no se usaron para entrenar). La pestaña
 **Monitoreo** las vuelve a medir sobre la URL pública.
@@ -28,6 +31,12 @@ Métricas sobre la suite de evaluación de cada nivel (500 pedidos que no se usa
 **Contexto de negocio (ambiente v2.0.0):** recompensa en **pesos colombianos** (utilidad de la operación) y servicio
 **Express / Estándar** con plazo (SLA). Los niveles v1 se conservan con sus modelos históricos. Modelo de costos y
 fuentes en la [ficha del ambiente](docs/ficha_ambiente.md#versión-200--contexto-de-negocio-warehouserush-v2-niveles-v2-n1-v2-n2-v2-n3).
+
+**Dos pisos y hora de corte (ambiente v3.0.0):** el centro crece a **dos pisos** con las mismas estanterías, unidos
+por un **montacargas** (8 pasos por viaje), y cada ruta tiene un **camión con hora de corte**: el paquete que llega
+tarde a su muelle sale al día siguiente (compensación al cliente y $3.750 de reproceso). La web muestra los pisos
+apilados, el montacargas y los camiones con su cuenta regresiva. Detalle en la
+[ficha del ambiente](docs/ficha_ambiente.md#versión-300--dos-pisos-y-hora-de-corte-warehouserush-v3-niveles-v3-n1-v3-n2-v3-n3).
 
 ## Experimentos y decisiones
 
@@ -42,11 +51,18 @@ secreta. Requisitos: éxito ≥ 95 %, rescates ≤ 0,30 y frágiles rotos ≤ 0,
 | [`medicion-v2-n2`](docs/resultados/medicion-v2-n2.md), [`-n3`](docs/resultados/medicion-v2-n3.md) | ¿Q-learning es estable en el negocio? | No: 93,8 % ± 7,2 y 75,7 % ± 20,1 |
 | [`ppo-v2-n2`](docs/resultados/ppo-v2-n2.md), [`-n3`](docs/resultados/ppo-v2-n3.md) | ¿PPO desde cero lo resuelve? | No: 63,5 % ± 55,2 y 0 %; 4 de 6 redes aprendieron a quedarse quietas |
 | [`imitacion-v2-n2`](docs/resultados/imitacion-v2-n2.md), [`-n3`](docs/resultados/imitacion-v2-n3.md) | ¿Imitar al planificador de reglas (DAgger), y afinar con PPO? | Sí: 99,8–100 % en las 6 semillas; promovido |
+| [`imitacion-v3-n1`](docs/resultados/imitacion-v3-n1.md), [`-n2`](docs/resultados/imitacion-v3-n2.md), [`-n3`](docs/resultados/imitacion-v3-n3.md) | ¿La misma receta escala a dos pisos con hora de corte? | Sí: 100 % en las 9 semillas y en el test reservado; promovido. OTIF por debajo del planificador en n2 y n3 |
 
 Q-learning falla en el negocio porque la tabla no observa el plazo del SLA ni la batería exacta. PPO desde cero
 falla porque, con la recompensa en pesos, quedarse quieto es lo más barato al inicio. La red pre-entrenada imitando
 al planificador nunca cae en esa trampa. Afinarla con PPO mejoró la utilidad en v2-n2 ($47.326–47.368 por pedido frente a
 $47.163–47.204 de la imitación sola), pero empeoró el OTIF en v2-n3 (89–93 % frente a 94–95 %). Según la regla de selección, en un empate de éxito gana el de menor presupuesto.
+
+En v3 la receta de imitación escaló sin cambios: completa todas las órdenes en los dos pisos, sin rescates ni
+frágiles rotos. Pero es menos puntual que su maestro cuando la operación se complica: OTIF de 90,7 % ± 0,8 frente a
+94,6 % en v3-n2 y 85,0 % ± 0,6 frente a 87,6 % en v3-n3, con más camiones perdidos (0,053 y 0,116 por orden frente a
+0,032 y 0,086). En v3-n1 lo iguala exactamente. El OTIF no era requisito (se fijó así antes de entrenar), así que el
+modelo se promovió; mejorar la puntualidad queda como trabajo futuro.
 
 ## Arquitectura
 
