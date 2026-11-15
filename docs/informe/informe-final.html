@@ -1,0 +1,254 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Informe final · Warehouse Rush · MLOps</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&family=Source+Sans+3:wght@400;600;700&family=Source+Code+Pro:wght@400;500&display=swap" rel="stylesheet">
+<!--
+  Fuente del informe final. Para regenerar el PDF: abrir este archivo en Chrome o Edge → Imprimir →
+  "Guardar como PDF" (tamaño A4, márgenes predeterminados, con gráficos de fondo).
+-->
+<style>
+  @page { size: A4; margin: 18mm 17mm 18mm 17mm;
+    @bottom-left { content: "Warehouse Rush · Informe final de MLOps"; font: 8pt "Source Sans 3", sans-serif; color: #6b7280; }
+    @bottom-right { content: counter(page) " / " counter(pages); font: 8pt "Source Sans 3", sans-serif; color: #6b7280; } }
+  :root { --ink: #1f2328; --dim: #57606a; --line: #d8dee4; --accent: #1d5c3f; --accent-soft: #eaf3ee; --warn: #8a4b08; --warn-soft: #fdf3e6; --bad: #a12a2a; }
+  * { box-sizing: border-box; }
+  html { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  body { font-family: "Source Serif 4", "DejaVu Serif", Georgia, serif; font-size: 10pt; line-height: 1.45; color: var(--ink); margin: 0; background: #fff; }
+  .page { max-width: 176mm; margin: 0 auto; }
+  h1, h2, h3, .label, table, .kpi, .meta, figcaption { font-family: "Source Sans 3", "DejaVu Sans", Arial, sans-serif; }
+  h1 { font-size: 21pt; line-height: 1.15; margin: 0 0 4pt; color: var(--accent); letter-spacing: -0.2pt; }
+  h2 { font-size: 13pt; margin: 16pt 0 5pt; padding-bottom: 3pt; border-bottom: 1.5pt solid var(--accent); color: var(--accent); break-after: avoid; }
+  h3 { font-size: 10.5pt; margin: 10pt 0 3pt; break-after: avoid; }
+  p { margin: 0 0 6pt; text-align: justify; hyphens: auto; }
+  ul, ol { margin: 0 0 6pt; padding-left: 15pt; } li { margin: 0 0 2.5pt; }
+  code { font-family: "Source Code Pro", "DejaVu Sans Mono", monospace; font-size: 8.3pt; background: #f3f4f6; padding: 0 2pt; border-radius: 2pt; overflow-wrap: anywhere; }
+  a { color: var(--accent); text-decoration: none; }
+  .subtitle { font-size: 11.5pt; color: var(--dim); margin: 0 0 10pt; font-style: italic; }
+  .meta { display: grid; grid-template-columns: repeat(3, 1fr); gap: 4pt 14pt; font-size: 8.6pt; border-top: 0.6pt solid var(--line); border-bottom: 0.6pt solid var(--line); padding: 6pt 0; margin-bottom: 10pt; }
+  .meta b { display: block; font-size: 7.4pt; text-transform: uppercase; letter-spacing: 0.6pt; color: var(--dim); font-weight: 600; }
+  .kpis { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6pt; margin: 6pt 0 10pt; }
+  .kpi { border: 0.6pt solid var(--line); border-radius: 4pt; padding: 6pt 7pt; background: var(--accent-soft); }
+  .kpi b { display: block; font-size: 14pt; color: var(--accent); line-height: 1.1; }
+  .kpi span { font-size: 8pt; color: var(--dim); }
+  table { width: 100%; border-collapse: collapse; font-size: 8.4pt; margin: 4pt 0 8pt; break-inside: auto; }
+  thead { display: table-header-group; }
+  tr { break-inside: avoid; }
+  th { text-align: left; background: var(--accent); color: #fff; font-weight: 600; padding: 3.5pt 5pt; }
+  td { padding: 3pt 5pt; border-bottom: 0.5pt solid var(--line); vertical-align: top; }
+  tr:nth-child(even) td { background: #f8faf9; }
+  td.n, th.n { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .yes { color: var(--accent); font-weight: 700; } .no { color: var(--bad); font-weight: 700; } .part { color: var(--warn); font-weight: 700; }
+  .note { font-family: "Source Sans 3", sans-serif; font-size: 8.8pt; border-left: 3pt solid var(--accent); background: var(--accent-soft); padding: 5pt 8pt; margin: 6pt 0 8pt; border-radius: 0 3pt 3pt 0; }
+  .note.warn { border-color: var(--warn); background: var(--warn-soft); }
+  .two { display: grid; grid-template-columns: 1fr 1fr; gap: 12pt; }
+  .fill { color: var(--warn); font-style: italic; }
+  .small { font-size: 8.6pt; color: var(--dim); }
+  .avoid { break-inside: avoid; }
+  @media screen { body { padding: 24px 16px; background: #eef1f4; } .page { background: #fff; padding: 18mm 17mm; box-shadow: 0 1px 6px rgba(0,0,0,.12); } }
+</style>
+</head>
+<body>
+<div class="page">
+
+<h1>Warehouse Rush: un robot de centro de distribución que aprende, se versiona y se puede recuperar</h1>
+<p class="subtitle">Informe final del proyecto de MLOps · decisiones, resultados, límites y contribuciones</p>
+
+<div class="meta">
+  <div><b>Curso</b>MLOps · Visualización 2</div>
+  <div><b>Institución</b>Universidad Externado de Colombia · Departamento de Matemáticas</div>
+  <div><b>Docente</b>Julián Zuluaga</div>
+  <div><b>Grupo</b><span class="fill">[A o B]</span></div>
+  <div><b>Escenario</b>Warehouse Rush</div>
+  <div><b>Fecha</b>14 de noviembre de 2026</div>
+  <div><b>Integrantes</b><span class="fill">[nombres completos de los tres integrantes]</span></div>
+  <div><b>Versión entregada</b>tag <code>v3.0</code> (SHA completo en el correo de entrega)</div>
+  <div><b>Enlaces</b><a href="https://profinalvisu2.vercel.app">profinalvisu2.vercel.app</a> · <a href="https://github.com/c851458/pro_final_visu2">GitHub</a> · <a href="https://dagshub.com/c851458/pro_final_visu2.mlflow">MLflow</a></div>
+</div>
+
+<h2>1. Resumen</h2>
+<p>Un robot móvil autónomo (AMR) de un centro de distribución de paquetería recoge los paquetes de cada orden y los
+despacha en el muelle de su ruta. Construimos el ambiente en Gymnasium con tres generaciones de reglas (v1: puntos;
+v2: utilidad en pesos colombianos y nivel de servicio; v3: dos pisos con montacargas y hora de corte de los camiones),
+cada una con tres niveles de dificultad. Probamos Q-learning, PPO y una red neuronal entrenada por imitación (DAgger),
+con criterios fijados antes de entrenar, tres semillas por brazo y un test reservado con semilla secreta. Todo queda
+versionado (Git, DVC, MLflow, Hugging Face y manifiestos), se publica con un flujo de Prefect, se sirve desde Vercel y
+se vigila con una sonda que revierte automáticamente un modelo degradado.</p>
+
+<div class="kpis">
+  <div class="kpi"><b>9 niveles</b><span>3 versiones del ambiente, todas servidas y monitoreadas</span></div>
+  <div class="kpi"><b>99,9–100 %</b><span>éxito de la red imitada en los 5 niveles donde se usa (v2-n2, v2-n3 y v3), también en el test reservado</span></div>
+  <div class="kpi"><b>92 runs</b><span>en MLflow, incluidos 2 interrumpidos y 1 fallido; 10 decisiones</span></div>
+  <div class="kpi"><b>5,2 min</b><span>de un modelo forzado a producción hasta su rollback automático</span></div>
+</div>
+
+<h2>2. Problema y valor de negocio</h2>
+<p>Un operador de paquetería urbana gana por paquete despachado y pierde cuando el robot choca, rompe un frágil, se
+queda sin batería (un técnico debe rescatarlo) o entrega tarde un envío Express. La decisión que aprende el agente es
+cómo moverse, cuándo recoger y entregar, y cuándo cargar, para maximizar la utilidad por orden. Desde v2 la recompensa
+es esa utilidad en COP: tarifas de $11.000 (Estándar) y $24.000 (Express), costos por paso del robot amortizado,
+$8.000 por rescate, $60.000 por frágil roto y compensaciones por incumplir el plazo. Los valores y sus fuentes están en
+la ficha del ambiente; son aproximaciones razonables para comparar políticas, no contabilidad real.</p>
+
+<h2>3. El ambiente</h2>
+<div class="two">
+<div>
+<h3>Contrato (Gymnasium)</h3>
+<ul>
+  <li><b>Mundo:</b> cuadrícula de 11 × 15 casillas por piso, 40 estanterías por piso, muelles A, B y C, estación de carga.</li>
+  <li><b>Acciones:</b> <code>Discrete(7)</code>: mover en 4 direcciones, recoger, entregar y cargar; v3 agrega usar el montacargas (<code>Discrete(8)</code>).</li>
+  <li><b>Paso:</b> una decisión por <code>step()</code> (~2 s de operación); sin <code>dt</code> físico. La animación web no cambia las reglas.</li>
+  <li><b>Episodio:</b> un pedido de 1 a 3 paquetes, entregados en orden.</li>
+  <li><b><code>terminated</code>:</b> éxito, se entregó el último paquete. Agotar la batería no termina el episodio: produce un rescate penalizado.</li>
+  <li><b><code>truncated</code>:</b> se agotó el presupuesto de pasos (200 a 600 según el nivel).</li>
+  <li><b>Causas de fallo:</b> frágil roto, batería agotada, choques repetidos o tiempo agotado.</li>
+</ul>
+</div>
+<div>
+<h3>Observaciones</h3>
+<ul>
+  <li><b>Tabla Q:</b> enteros usados como índices, sin normalización: fila, columna, batería en 5 niveles, si lleva paquete, tipo, objetivo y (v2) servicio. Discretizar la batería pierde resolución y se documenta.</li>
+  <li><b>Redes:</b> 22 características continuas en [−1, 1] (v2) o 30 (v3), calculadas del estado por la misma función al entrenar y al servir: batería exacta, plazo restante del SLA, distancias, bloqueos y, en v3, piso, montacargas y tiempo hasta la salida del camión.</li>
+  <li>Si cambian las dimensiones o el significado de observaciones o acciones, se crea una <b>familia</b> nueva; la API rechaza servir un modelo en un nivel de otra familia.</li>
+</ul>
+</div>
+</div>
+
+<table class="avoid">
+  <thead><tr><th>Nivel</th><th>Decisión nueva del agente</th><th>v1 (puntos)</th><th>v2 (negocio, COP y SLA)</th><th>v3 (dos pisos y hora de corte)</th></tr></thead>
+  <tbody>
+    <tr><td><b>N1</b> · misión base</td><td>Ir a la estantería, recoger y entregar</td><td>1 paquete, sin batería</td><td>+ servicio Express/Estándar con plazo</td><td>+ el paquete puede estar en el piso 2; camión con salida en 60–200 pasos</td></tr>
+    <tr><td><b>N2</b> · más decisiones</td><td>Varias entregas, tipos de paquete y cuándo cargar</td><td>3 paquetes, batería, pesados y frágiles</td><td>+ recompensa en COP y compensaciones</td><td>+ montacargas de 8 pasos; camiones en 120–360 pasos; cargador solo en el piso 1</td></tr>
+    <tr><td><b>N3</b> · operación exigente</td><td>Recuperarse de un pasillo bloqueado</td><td>N2 + obstáculos en (7,4) y (7,7)</td><td>igual, en el contexto de negocio</td><td>el bloqueo en los dos pisos</td></tr>
+  </tbody>
+</table>
+
+<h2>4. Decisiones principales</h2>
+<ol>
+  <li><b>Python es la autoridad.</b> La API FastAPI ejecuta el mismo ambiente que el entrenamiento; la escena three.js solo dibuja los fotogramas. Así el docente evalúa con las reglas originales de cada modelo, sin un segundo motor en JavaScript.</li>
+  <li><b>Q-learning como baseline aprendido, con referencias aleatoria y de regla.</b> La política de reglas (BFS con el estado completo, información privilegiada) es el techo de referencia sin aprendizaje.</li>
+  <li><b>Criterios antes de entrenar.</b> Cada contraste fija pregunta, brazos, semillas y requisitos en <code>configs/criterios.yaml</code>; el commit lo fecha. Requisitos: éxito ≥ 95 %, rescates ≤ 0,30 y frágiles rotos ≤ 0,05 por pedido. Si dos brazos empatan en éxito (&lt; 1 punto), gana el de menor presupuesto.</li>
+  <li><b>Tres semillas y test reservado.</b> Cada brazo se entrena con 3 semillas; la decisión usa la suite pública de 500 pedidos, y el test reservado (semilla secreta, fuera del repositorio) se evalúa una sola vez, después de decidir.</li>
+  <li><b>Imitación cuando PPO no aprendió.</b> En lugar de seguir ajustando PPO, entrenamos la red con DAgger usando al planificador de reglas como maestro: la red conserva la forma de un actor-crítico de PPO y se puede afinar con PPO.</li>
+  <li><b>Inferencia en NumPy.</b> Los pesos de la red se exportan a <code>politica.npz</code>; la API no necesita PyTorch y cabe en el límite de Vercel.</li>
+  <li><b>Publicar no es promover.</b> Un modelo publicado queda como candidato; solo pasa a recomendado si cumple los criterios y no empeora al actual, y el historial de recomendados permite el rollback.</li>
+  <li><b>Nuevas versiones del ambiente en vez de modificar las anteriores.</b> v2 y v3 son ambientes nuevos; v1 y v2 se conservan con sus modelos y sus datasets (regenerados, idénticos byte a byte).</li>
+</ol>
+
+<h2>5. Resultados</h2>
+<p>Media ± desviación estándar de 3 semillas en la suite de evaluación de cada nivel (500 pedidos; 200 en los N1).
+Todos los intentos se conservan, también los que no mejoraron.</p>
+<table>
+  <thead><tr><th>Contraste</th><th>Pregunta</th><th class="n">Éxito</th><th class="n">Test reservado</th><th>Decisión</th></tr></thead>
+  <tbody>
+    <tr><td><code>contraste-n3</code> A</td><td>Tras el incidente de N3, reentrenar desde cero (40.000 episodios)</td><td class="n">99,1 % ± 0,1</td><td class="n">98,7 % ± 0,5</td><td class="yes">Gana; promovido</td></tr>
+    <tr><td><code>contraste-n3</code> B</td><td>Continuar desde N2 con exploración completa (25.000)</td><td class="n">17,5 % ± 3,8</td><td class="n">—</td><td class="no">No cumple</td></tr>
+    <tr><td><code>medicion-v2-n2</code></td><td>Q-learning, 80.000 episodios, negocio N2</td><td class="n">93,8 % ± 7,2</td><td class="n">94,7 % ± 5,3</td><td class="no">No cumple (rescates 0,42)</td></tr>
+    <tr><td><code>medicion-v2-n3</code></td><td>Q-learning, 80.000 episodios, negocio N3</td><td class="n">75,7 % ± 20,1</td><td class="n">76,9 % ± 20,4</td><td class="no">No cumple (rescates 0,59)</td></tr>
+    <tr><td><code>ppo-v2-n2</code></td><td>PPO desde cero, 3 M pasos</td><td class="n">63,5 % ± 55,2</td><td class="n">63,1 % ± 54,9</td><td class="no">No cumple</td></tr>
+    <tr><td><code>ppo-v2-n3</code></td><td>PPO desde cero, 3 M pasos</td><td class="n">0,0 %</td><td class="n">0,0 %</td><td class="no">No cumple</td></tr>
+    <tr><td><code>imitacion-v2-n2</code> A</td><td>Imitación DAgger (8 × 1.500 pedidos)</td><td class="n">99,9 % ± 0,1</td><td class="n">99,9 % ± 0,1</td><td class="yes">Gana; promovido</td></tr>
+    <tr><td><code>imitacion-v2-n2</code> B</td><td>Imitación + afinamiento PPO 1 M pasos</td><td class="n">100,0 %</td><td class="n">—</td><td class="part">Cumple; pierde por presupuesto</td></tr>
+    <tr><td><code>imitacion-v2-n3</code> A</td><td>Imitación DAgger</td><td class="n">100,0 %</td><td class="n">100,0 %</td><td class="yes">Gana; promovido</td></tr>
+    <tr><td><code>imitacion-v2-n3</code> B</td><td>Imitación + afinamiento PPO 1 M pasos</td><td class="n">99,7 % ± 0,6</td><td class="n">—</td><td class="part">Cumple; pierde por presupuesto</td></tr>
+    <tr><td><code>imitacion-v3-n1/n2/n3</code></td><td>¿La receta de v2 escala sin cambios a dos pisos con hora de corte?</td><td class="n">100,0 %</td><td class="n">100,0 %</td><td class="yes">Cumple en los 3 niveles; promovido</td></tr>
+  </tbody>
+</table>
+
+<h3>Por qué fallaron los intentos y qué funcionó</h3>
+<ul>
+  <li><b>Q-learning en el negocio:</b> la tabla no observa el plazo restante del SLA ni la batería exacta, así que aprende de forma inestable entre semillas.</li>
+  <li><b>PPO desde cero:</b> con la recompensa en pesos, quedarse quieto es lo más barato al inicio; 4 de las 6 redes aprendieron a no hacer nada.</li>
+  <li><b>Imitación:</b> la red aprende de un maestro que ya resuelve el problema y nunca cae en esa trampa. Afinarla con PPO subió la utilidad en v2-n2 ($47.326–47.368 frente a $47.163–47.204 por pedido) pero bajó el OTIF en v2-n3 (89–93 % frente a 94–95 %).</li>
+</ul>
+
+<h3>Indicadores de negocio frente a las referencias</h3>
+<table class="avoid">
+  <thead><tr><th>Nivel</th><th>Política</th><th class="n">Éxito</th><th class="n">OTIF</th><th class="n">Camiones perdidos / orden</th><th class="n">Utilidad / orden</th></tr></thead>
+  <tbody>
+    <tr><td>v2-n2</td><td>Aleatoria (referencia)</td><td class="n">0 %</td><td class="n">0 %</td><td class="n">—</td><td class="n">−$181.091</td></tr>
+    <tr><td>v2-n2</td><td>Reglas (maestro)</td><td class="n">100 %</td><td class="n">99,8 %</td><td class="n">—</td><td class="n">$47.254</td></tr>
+    <tr><td>v2-n2</td><td>Red imitada (producción)</td><td class="n">100 %</td><td class="n">99,2 %</td><td class="n">—</td><td class="n">$47.163</td></tr>
+    <tr><td>v3-n2</td><td>Reglas (maestro)</td><td class="n">100 %</td><td class="n">94,6 %</td><td class="n">0,032</td><td class="n">$45.116</td></tr>
+    <tr><td>v3-n2</td><td>Red imitada (3 semillas)</td><td class="n">100 %</td><td class="n">90,7 % ± 0,8</td><td class="n">0,053</td><td class="n">$44.529</td></tr>
+    <tr><td>v3-n3</td><td>Reglas (maestro)</td><td class="n">100 %</td><td class="n">87,6 %</td><td class="n">0,086</td><td class="n">$43.996</td></tr>
+    <tr><td>v3-n3</td><td>Red imitada (3 semillas)</td><td class="n">100 %</td><td class="n">85,0 % ± 0,6</td><td class="n">0,116</td><td class="n">$43.496</td></tr>
+  </tbody>
+</table>
+<p class="note">La red iguala a su maestro en éxito, pero no lo supera: en el negocio de un piso queda a menos de un punto de OTIF,
+y con dos pisos y hora de corte pierde entre 2,6 y 3,9 puntos de OTIF. Su valor es otro: decide con información local
+(30 características, ~0,04 ms por decisión) en lugar del mapa completo, y es un artefacto versionado, monitoreado y
+reversible. El OTIF no era requisito (se fijó así antes de entrenar), por eso los modelos v3 se promovieron.</p>
+
+<h2>6. Incidente, intervención y rollback</h2>
+<p><b>Degradación (INC-1).</b> Antes de servir N3, el modelo de N2 (98,6 %) se evaluó en la suite de N3: cayó a
+<b>5,4 %</b>, porque la tabla aprendió rutas que atraviesan el pasillo ahora bloqueado y no observa los obstáculos.
+<b>Intervención rechazada:</b> continuar desde N2 con poca exploración (ε inicial 0,3) llegó a 23,6 %; el modelo
+quedó publicado como <i>rechazado</i>. <b>Intervención aceptada:</b> el contraste pre-registrado eligió reentrenar desde
+cero (99,1 % ± 0,1; test reservado 98,7 %), promovido con el flujo de Prefect.</p>
+<p><b>Rollback.</b> En un simulacro sobre la URL pública forzamos a producción una red PPO rechazada (0,50 rescates por
+pedido en la sonda). El flujo de vigilancia la detectó, revirtió al recomendado anterior, esperó el despliegue y
+verificó que la URL volviera a "ok", en 5,2 minutos y sin intervención manual. Otros incidentes reales quedaron
+documentados: runs de v2 entrenados por error con el ambiente v1 (10 runs invalidados) y un hiperparámetro leído
+como texto (<code>5e-05</code> en YAML 1.1) que hizo reintentar un brazo toda la noche; ambos corregidos con pruebas
+de regresión y detección de errores de código en el supervisor (<code>docs/incidentes.md</code>).</p>
+
+<h2>7. Versionamiento y trazabilidad</h2>
+<table class="avoid">
+  <thead><tr><th>Elemento</th><th>Cómo se versiona</th></tr></thead>
+  <tbody>
+    <tr><td>Código</td><td>Git y GitHub; tag final <code>v3.0</code>; cada run registra commit y si había cambios sin commit.</td></tr>
+    <tr><td>Ambiente</td><td><code>env_v1.py</code>, <code>env_v2.py</code>, <code>env_v3.py</code> con su versión en <code>configs/niveles.yaml</code>; familias por dimensiones de observación y acción.</td></tr>
+    <tr><td>Escenarios y datos</td><td>Pedidos de entrenamiento y evaluación generados con semilla fija, versionados con DVC (DagsHub); la suite se identifica por el hash de sus casos.</td></tr>
+    <tr><td>Configuración</td><td><code>params.yaml</code>, <code>niveles.yaml</code>, <code>criterios.yaml</code>; cada run guarda la configuración resuelta y su SHA-256.</td></tr>
+    <tr><td>Experimentos</td><td>MLflow en DagsHub: hipótesis, cambios, origen, presupuesto, semillas, curvas de entrenamiento y de evaluación separadas, estado y resultados por caso.</td></tr>
+    <tr><td>Modelos</td><td>Pesos en Hugging Face con URL inmutable; manifiesto con SHA-256, contrato de entrada y salida, normalización, dependencias y run; Model Registry de MLflow con alias <i>recomendado</i>.</td></tr>
+    <tr><td>Pipeline y despliegue</td><td>Flujos de Prefect con evidencia en <code>docs/ejecuciones/</code>; Vercel despliega cada push a <code>main</code> y <code>/api/salud</code> informa el commit servido.</td></tr>
+  </tbody>
+</table>
+
+<h2>8. Costo</h2>
+<p>Todo el entrenamiento corrió en un portátil con CPU de 8 núcleos y 7,7 GB de RAM, sin GPU, dentro de WSL2. Los 15
+brazos de los contrastes suman unas 11 horas de cómputo (de 6 minutos por semilla en v3-n1 a 30 en la imitación con
+afinamiento PPO de v2-n3), repartidas entre 3 y 6 trabajos en paralelo; la ronda completa de v3 (9 redes, criterios,
+test reservado y publicación) tardó 52 minutos de reloj. No se contrató ningún servicio de pago: Vercel, DagsHub y
+Hugging Face se usan en sus planes gratuitos.</p>
+
+<h2>9. Límites</h2>
+<ul>
+  <li><b>Simulación:</b> cuadrícula discreta, un solo robot, obstáculos estáticos, carga instantánea y costos aproximados en COP.</li>
+  <li><b>La red no supera a su maestro.</b> El mejor resultado iguala al planificador de reglas; PPO desde cero no aprendió y el afinamiento no lo mejoró de forma consistente.</li>
+  <li><b>Puntualidad en v3:</b> la red pierde más camiones que el planificador en v3-n2 y v3-n3; la política tampoco elige el orden de los paquetes (sigue la secuencia del sistema de la bodega).</li>
+  <li><b>Q-learning no se entrenó en v3:</b> la tabla tendría ~12,7 millones de valores; v3 solo tiene modelos de red.</li>
+  <li><b>Monitoreo:</b> las estadísticas de peticiones viven en la memoria de la instancia de Vercel y se reinician en cada arranque en frío; la sonda de modelos no depende de ellas.</li>
+  <li><b>Infraestructura local:</b> el servidor de Prefect y el entrenamiento corren en el computador de un integrante; la web, la API, MLflow y los modelos sí están en servicios públicos.</li>
+  <li><b>Informes v2 de redes:</b> la columna "episodios" de tres informes es en realidad pasos del ambiente; se aclaró en cada uno sin regenerarlos, porque el test reservado se evalúa una sola vez.</li>
+</ul>
+
+<h2>10. Aprendizajes y siguiente hipótesis</h2>
+<ul>
+  <li>Un modelo compatible por contrato no es válido para un ambiente nuevo: la familia permite <i>medir</i> la degradación, no la evita.</li>
+  <li>Fijar criterios antes de entrenar evitó promover modelos inestables (Q-learning en v2, PPO) que en una sola semilla parecían buenos.</li>
+  <li>Las fallas más costosas fueron de ingeniería (configuración, tipos de datos), no de aprendizaje; por eso el supervisor distingue errores de código de fallas transitorias.</li>
+  <li><b>Siguiente hipótesis:</b> agregar al maestro una regla que priorice la salida de los camiones (no cargar si el camión del paquete está por salir) y medir, con el mismo protocolo, si la red imitada supera el OTIF actual en v3-n2 y v3-n3 sin perder éxito.</li>
+</ul>
+
+<h2>11. Contribuciones</h2>
+<p class="note warn">Sección por completar por el equipo antes de la entrega: nombre completo de cada integrante y sus aportes principales.</p>
+<table class="avoid">
+  <thead><tr><th style="width:28%">Integrante</th><th>Aportes principales</th></tr></thead>
+  <tbody>
+    <tr><td class="fill">[Nombre completo]</td><td class="fill">[p. ej. ambiente y niveles, experimentos, pipeline, web, despliegue, documentación]</td></tr>
+    <tr><td class="fill">[Nombre completo]</td><td class="fill">[aportes]</td></tr>
+    <tr><td class="fill">[Nombre completo]</td><td class="fill">[aportes]</td></tr>
+  </tbody>
+</table>
+<p class="small">Usamos un asistente de código para implementar y depurar partes del proyecto; las decisiones, los criterios y la
+verificación de los resultados son del equipo, y cada afirmación de este informe enlaza su evidencia en el repositorio
+(<code>docs/resultados/</code>, <code>docs/incidentes.md</code>, MLflow).</p>
+
+</div>
+</body>
+</html>

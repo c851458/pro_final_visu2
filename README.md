@@ -10,6 +10,22 @@ monitoreo y rollback.
 - **Experimentos (MLflow en DagsHub):** https://dagshub.com/c851458/pro_final_visu2.mlflow · datos DVC: https://dagshub.com/c851458/pro_final_visu2
 - **Modelos (Hugging Face):** [`c851458/warehouse-rush-qlearning`](https://huggingface.co/c851458/warehouse-rush-qlearning)
 - **Ficha del ambiente y niveles:** [`docs/ficha_ambiente.md`](docs/ficha_ambiente.md) · **Incidentes:** [`docs/incidentes.md`](docs/incidentes.md)
+- **Informe final (decisiones, resultados, límites y contribuciones):** [`docs/informe/informe-final.pdf`](docs/informe/informe-final.pdf)
+
+## Guía para la revisión
+
+| Qué | Dónde |
+|---|---|
+| Misión, arquitectura, instalación, ejecución y reproducción | este README |
+| Ficha del ambiente: observaciones, acciones, recompensa, terminación y niveles (v1, v2 y v3) | [`docs/ficha_ambiente.md`](docs/ficha_ambiente.md), [`configs/niveles.yaml`](configs/niveles.yaml) |
+| Configuraciones con hipótesis, criterios fijados antes de entrenar | [`configs/criterios.yaml`](configs/criterios.yaml) |
+| Comparación de experimentos y decisiones (3 semillas, test reservado) | [`docs/resultados/`](docs/resultados/), pestaña **Experimentos** de la web, MLflow |
+| Manifiestos de modelos (pesos, SHA-256, contrato, normalización, dependencias) y catálogo | [`manifests/modelos/`](manifests/modelos/), [`manifests/catalogo.json`](manifests/catalogo.json) |
+| Evaluaciones por caso | artefacto `evaluacion_por_caso.json` de cada run en MLflow; [`pipeline/evaluar_modelo.py`](#evaluar-y-recuperar-un-modelo) las reconstruye |
+| Instrucciones de evaluación y recuperación | [Evaluar y recuperar un modelo](#evaluar-y-recuperar-un-modelo) |
+| Pipeline (Prefect) y su evidencia | [Orquestación con Prefect](#orquestación-con-prefect), [`docs/ejecuciones/`](docs/ejecuciones/) |
+| Incidente de degradación, intervención y rollback | [`docs/incidentes.md`](docs/incidentes.md), [`docs/resultados/simulacro-rollback.md`](docs/resultados/simulacro-rollback.md) |
+| Monitoreo | pestaña **Monitoreo** de la web y `GET /api/monitoreo` |
 
 ## Modelos en producción
 
@@ -102,15 +118,18 @@ Docente ──HTTPS──▶  web/ (Vite + TypeScript + three.js)  ──/api─
 ## Estructura
 
 ```
-warehouse_rush/      ambientes (env_v1.py, env_v2.py), niveles, políticas, simulación y evaluación
-  ppo.py             características para redes, envoltorio de entrenamiento e inferencia NumPy
+warehouse_rush/      ambientes (env_v1.py, env_v2.py, env_v3.py), niveles, políticas, simulación y evaluación
+  env_v3.py          dos pisos con montacargas y hora de corte de los camiones
+  politicas.py       aleatoria, tabla Q y planificador de reglas (BFS; Dijkstra con montacargas en v3)
+  ppo.py             características para redes (22 en v2, 30 en v3), entrenamiento e inferencia NumPy
   modelos.py         carga una tabla Q (.npy) o una red (.npz) según el archivo
-configs/             niveles.yaml (N1-N3, v2-n1-v2-n3) y criterios.yaml (requisitos y contrastes)
+configs/             niveles.yaml (N1-N3, v2-n1-v2-n3, v3-n1-v3-n3) y criterios.yaml (requisitos y contrastes)
 pipeline/            etapas de DVC, MLflow, exportación del catálogo y:
   entrenar_ppo.py    redes: PPO, imitación (DAgger) o imitación + PPO, con checkpoints
   supervisor_ppo.py  ejecuta los contrastes con reintentos (lanzar_ppo.sh lo desacopla de la terminal)
   etapas_ppo.py      encadena entrenar → criterios → publicar → evidencia → verificar (lanzar_etapas_ppo.sh)
   comparar_finalistas.py  aplica los criterios a un contraste y evalúa el test reservado
+  evaluar_modelo.py  reconstruye la evaluación de un modelo publicado desde su manifiesto
   flujo.py           flujo de Prefect para publicar y promover
   vigilar.py         flujo de Prefect de vigilancia: sonda de la URL y rollback
   simulacro_rollback.py  simulacro de extremo a extremo
@@ -118,7 +137,7 @@ api/index.py         API FastAPI (Vercel Function), incluido /api/monitoreo
 web/                 frontend Vite + TypeScript + three.js
 manifests/           catálogo y manifiestos de modelos (los sirve la API)
 tests/               ambiente, datos, políticas, entrenamiento y API
-docs/                ficha del ambiente, incidentes, resultados de los contrastes y evidencia de los flujos
+docs/                ficha del ambiente, incidentes, informe final, resultados de los contrastes y evidencia de los flujos
 experimentar.py      experimentos de Q-learning registrados en MLflow
 publicar_modelo.py   publicar en Hugging Face, promover, rechazar y hacer rollback
 play3d.py, train3d.py  visor local en vivo (entrenamiento y control manual)
@@ -147,6 +166,54 @@ cd web && npm run dev                            # web en http://localhost:5173 
 ```
 
 Visor local en vivo, sin la web desplegada: `./train3d.py` (ver el entrenamiento) y `./play3d.py` (control manual).
+
+## Evaluar y recuperar un modelo
+
+Cada modelo publicado se recupera solo con el repositorio: su manifiesto (`manifests/modelos/<model_id>.json`) tiene la
+URL inmutable de los pesos en Hugging Face (con el commit del repositorio de modelos), su SHA-256, el nivel, la
+versión del ambiente, la familia (contrato de observaciones y acciones), la normalización, el commit del código y las
+métricas registradas.
+
+**Desde la web.** Pestaña **Modelos** → *Cargar* un modelo (histórico o recomendado) → *Evaluar*: la API descarga los
+pesos, verifica el SHA-256, rechaza los modelos de otra familia y evalúa con el ambiente compatible. La pestaña
+**Experimentos** permite cargar el modelo de un run y comparar runs.
+
+**Reconstruir una evaluación desde la release** (no necesita credenciales):
+
+```bash
+git checkout v3.0                         # o el commit del manifiesto (campo git_commit)
+python3 -m venv .venv && .venv/bin/pip install -r requirements-dev.txt
+.venv/bin/python pipeline/evaluar_modelo.py v3-n2-imitacion-v3-n2-A-s2-4cc5fefd   # recomendado de v3-n2
+.venv/bin/python pipeline/evaluar_modelo.py n2-pipeline-n2-92bff281               # histórico (v1, tabla Q)
+.venv/bin/python pipeline/evaluar_modelo.py n2-pipeline-n2-92bff281 --nivel n3    # reproduce la degradación de INC-1
+.venv/bin/python pipeline/evaluar_modelo.py --recomendados --casos 50             # todos los recomendados
+.venv/bin/python pipeline/evaluar_modelo.py <model_id> --casos-json casos.json    # guarda los resultados por caso
+```
+
+El script descarga los pesos, verifica el SHA-256, reconstruye la suite de evaluación del nivel desde
+`configs/niveles.yaml` y comprueba que su id y la versión del ambiente coinciden con el manifiesto. Después evalúa el
+modelo congelado y muestra las métricas junto a las registradas al publicarlo. La suite no necesita DVC: se genera
+con la semilla del nivel (`dvc pull` trae además los pedidos de entrenamiento).
+
+Modelos de referencia para la revisión:
+
+| Modelo | Estado | Run (MLflow) | Ambiente compatible |
+|---|---|---|---|
+| `v3-n2-imitacion-v3-n2-A-s2-4cc5fefd` | recomendado en v3-n2 | `imitacion-v3-n2-A-s2` · `1b934b7df5b24ef08022bb563c321c77` | v3.0.0 · `warehouse-rush-v3/ppo-caracteristicas-30/acciones-8` |
+| `n2-pipeline-n2-92bff281` | histórico, recomendado en N2 (v1) | `pipeline-n2` · `c145edb768384bacb9929a5bf3f664f8` | v1.0.0 · `warehouse-rush-v1/obs-11x15x5x2x3x40/acciones-7` |
+| `n3-n3-recuperacion-85883378` | rechazado (intervención de INC-1, 23,6 %) | `n3-recuperacion` · `ff70cfeb63a5451582de79a3ab497eb5` | v1.0.0 · misma familia que N2 |
+| `v2-n2-ppo-v2-n2-A-s0-a1ae7239` | revertido (simulacro de rollback) | `ppo-v2-n2-A-s0` · `68acdeebedbd4ede8a6b1f2ad776b7aa` | v2.0.0 · `warehouse-rush-v2/ppo-caracteristicas-22/acciones-7` |
+
+**Restaurar una versión anterior.** El catálogo guarda el historial de recomendados de cada nivel:
+
+```bash
+./publicar_modelo.py --rollback v2-n2                 # vuelve al recomendado anterior del nivel
+./publicar_modelo.py --recomendar <model_id>          # promueve un modelo concreto (si cumple los criterios)
+.venv/bin/python pipeline/vigilar.py                  # o automático: sondea la URL y revierte los niveles en alerta
+```
+
+Después se hace commit y push del catálogo; Vercel despliega y `/api/salud` y la pestaña **Monitoreo** confirman qué
+modelo se sirve. El flujo de vigilancia hace todo eso y verifica la URL ([simulacro](docs/resultados/simulacro-rollback.md)).
 
 ## Pipeline, experimentos y modelos
 
