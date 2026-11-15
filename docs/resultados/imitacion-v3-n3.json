@@ -1,0 +1,163 @@
+{
+  "contraste": "imitacion-v3-n3",
+  "brazos": {
+    "A": {
+      "runs": [
+        {
+          "run_id": "d12c72f1b96b4fcd89291ebdd8a02622",
+          "nombre": "imitacion-v3-n3-A-s0",
+          "semilla": 0,
+          "episodios": 2026833,
+          "tiempo_s": 935.7157416343689,
+          "tasa_exito": 1.0,
+          "pasos_medios_exitosos": 150.576,
+          "rescates_medios": 0.0,
+          "fragiles_rotos_medios": 0.0,
+          "choques_medios": 0.0,
+          "otif": 0.85,
+          "cumplimiento_express": 0.8714596949891068,
+          "utilidad_media_cop": 43442.35,
+          "camiones_perdidos_medios": 0.116,
+          "cumplimiento_corte": 0.9613333333333334,
+          "test_reservado": {
+            "tasa_exito": 1.0,
+            "pasos_medios_exitosos": 148.106,
+            "rescates_medios": 0.0,
+            "fragiles_rotos_medios": 0.0,
+            "choques_medios": 0.0
+          }
+        },
+        {
+          "run_id": "c352365d8897424aa41fe0762a9e6c92",
+          "nombre": "imitacion-v3-n3-A-s1",
+          "semilla": 1,
+          "episodios": 2018874,
+          "tiempo_s": 926.1584191322327,
+          "tasa_exito": 1.0,
+          "pasos_medios_exitosos": 150.704,
+          "rescates_medios": 0.0,
+          "fragiles_rotos_medios": 0.0,
+          "choques_medios": 0.0,
+          "otif": 0.856,
+          "cumplimiento_express": 0.8823529411764706,
+          "utilidad_media_cop": 43592.37,
+          "camiones_perdidos_medios": 0.11,
+          "cumplimiento_corte": 0.9633333333333334,
+          "test_reservado": {
+            "tasa_exito": 1.0,
+            "pasos_medios_exitosos": 148.112,
+            "rescates_medios": 0.0,
+            "fragiles_rotos_medios": 0.0,
+            "choques_medios": 0.0
+          }
+        },
+        {
+          "run_id": "92724baf152b427eb698936a46d8fe2b",
+          "nombre": "imitacion-v3-n3-A-s2",
+          "semilla": 2,
+          "episodios": 1971576,
+          "tiempo_s": 899.0634243488312,
+          "tasa_exito": 1.0,
+          "pasos_medios_exitosos": 151.744,
+          "rescates_medios": 0.0,
+          "fragiles_rotos_medios": 0.0,
+          "choques_medios": 0.0,
+          "otif": 0.844,
+          "cumplimiento_express": 0.8801742919389978,
+          "utilidad_media_cop": 43454.69,
+          "camiones_perdidos_medios": 0.122,
+          "cumplimiento_corte": 0.9593333333333334,
+          "test_reservado": {
+            "tasa_exito": 1.0,
+            "pasos_medios_exitosos": 149.082,
+            "rescates_medios": 0.0,
+            "fragiles_rotos_medios": 0.0,
+            "choques_medios": 0.0
+          }
+        }
+      ],
+      "n_semillas": 3,
+      "tasa_exito": [
+        1.0,
+        0.0
+      ],
+      "pasos_medios_exitosos": [
+        151.008,
+        0.6405997190133635
+      ],
+      "rescates_medios": [
+        0.0,
+        0.0
+      ],
+      "fragiles_rotos_medios": [
+        0.0,
+        0.0
+      ],
+      "choques_medios": [
+        0.0,
+        0.0
+      ],
+      "tiempo_s": [
+        920.3125283718109,
+        19.01259897244509
+      ],
+      "otif": [
+        0.85,
+        0.006000000000000005
+      ],
+      "cumplimiento_express": [
+        0.8779956427015251,
+        0.005764164076393395
+      ],
+      "utilidad_media_cop": [
+        43496.47,
+        83.28070845039824
+      ],
+      "camiones_perdidos_medios": [
+        0.116,
+        0.005999999999999998
+      ],
+      "cumplimiento_corte": [
+        0.9613333333333334,
+        0.0020000000000000018
+      ],
+      "episodios": 2026833,
+      "unidad_presupuesto": "pasos del ambiente",
+      "nombre": "imitacion DAgger (receta v2)",
+      "hipotesis": "La red imitada alcanza >=95% de ordenes completas con <=0.30 rescates en v3-n3 en las tres semillas.",
+      "cumple_requisitos": true,
+      "incumplimientos": [],
+      "test_reservado_tasa_exito": [
+        1.0,
+        0.0
+      ]
+    }
+  },
+  "ganador": "A",
+  "motivo": "Gana A por mayor exito medio (100.0%).",
+  "seleccionado": {
+    "run_id": "d12c72f1b96b4fcd89291ebdd8a02622",
+    "nombre": "imitacion-v3-n3-A-s0",
+    "semilla": 0,
+    "episodios": 2026833,
+    "tiempo_s": 935.7157416343689,
+    "tasa_exito": 1.0,
+    "pasos_medios_exitosos": 150.576,
+    "rescates_medios": 0.0,
+    "fragiles_rotos_medios": 0.0,
+    "choques_medios": 0.0,
+    "otif": 0.85,
+    "cumplimiento_express": 0.8714596949891068,
+    "utilidad_media_cop": 43442.35,
+    "camiones_perdidos_medios": 0.116,
+    "cumplimiento_corte": 0.9613333333333334,
+    "test_reservado": {
+      "tasa_exito": 1.0,
+      "pasos_medios_exitosos": 148.106,
+      "rescates_medios": 0.0,
+      "fragiles_rotos_medios": 0.0,
+      "choques_medios": 0.0
+    }
+  },
+  "test_reservado_suite_id": "v3-n3-reservado-4ad2532c269e"
+}

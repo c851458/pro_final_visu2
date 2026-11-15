@@ -1,0 +1,163 @@
+{
+  "contraste": "imitacion-v3-n2",
+  "brazos": {
+    "A": {
+      "runs": [
+        {
+          "run_id": "3260fa154f874db9a5abd3363e70b32e",
+          "nombre": "imitacion-v3-n2-A-s0",
+          "semilla": 0,
+          "episodios": 1761902,
+          "tiempo_s": 917.5114204883575,
+          "tasa_exito": 1.0,
+          "pasos_medios_exitosos": 137.212,
+          "rescates_medios": 0.0,
+          "fragiles_rotos_medios": 0.0,
+          "choques_medios": 0.0,
+          "otif": 0.898,
+          "cumplimiento_express": 0.9342403628117913,
+          "utilidad_media_cop": 44485.75,
+          "camiones_perdidos_medios": 0.058,
+          "cumplimiento_corte": 0.9806666666666667,
+          "test_reservado": {
+            "tasa_exito": 1.0,
+            "pasos_medios_exitosos": 132.716,
+            "rescates_medios": 0.002,
+            "fragiles_rotos_medios": 0.0,
+            "choques_medios": 0.0
+          }
+        },
+        {
+          "run_id": "45ee5fadff6345588443a52ada9ebff0",
+          "nombre": "imitacion-v3-n2-A-s1",
+          "semilla": 1,
+          "episodios": 1758412,
+          "tiempo_s": 920.0862491130829,
+          "tasa_exito": 1.0,
+          "pasos_medios_exitosos": 136.41,
+          "rescates_medios": 0.0,
+          "fragiles_rotos_medios": 0.0,
+          "choques_medios": 0.0,
+          "otif": 0.912,
+          "cumplimiento_express": 0.9319727891156463,
+          "utilidad_media_cop": 44580.61,
+          "camiones_perdidos_medios": 0.05,
+          "cumplimiento_corte": 0.9833333333333333,
+          "test_reservado": {
+            "tasa_exito": 1.0,
+            "pasos_medios_exitosos": 133.368,
+            "rescates_medios": 0.002,
+            "fragiles_rotos_medios": 0.0,
+            "choques_medios": 0.0
+          }
+        },
+        {
+          "run_id": "1b934b7df5b24ef08022bb563c321c77",
+          "nombre": "imitacion-v3-n2-A-s2",
+          "semilla": 2,
+          "episodios": 1738002,
+          "tiempo_s": 930.8689427375793,
+          "tasa_exito": 1.0,
+          "pasos_medios_exitosos": 135.872,
+          "rescates_medios": 0.004,
+          "fragiles_rotos_medios": 0.0,
+          "choques_medios": 0.0,
+          "otif": 0.912,
+          "cumplimiento_express": 0.927437641723356,
+          "utilidad_media_cop": 44519.74,
+          "camiones_perdidos_medios": 0.052,
+          "cumplimiento_corte": 0.9826666666666667,
+          "test_reservado": {
+            "tasa_exito": 1.0,
+            "pasos_medios_exitosos": 132.79,
+            "rescates_medios": 0.0,
+            "fragiles_rotos_medios": 0.0,
+            "choques_medios": 0.0
+          }
+        }
+      ],
+      "n_semillas": 3,
+      "tasa_exito": [
+        1.0,
+        0.0
+      ],
+      "pasos_medios_exitosos": [
+        136.498,
+        0.6743203986236689
+      ],
+      "rescates_medios": [
+        0.0013333333333333333,
+        0.002309401076758503
+      ],
+      "fragiles_rotos_medios": [
+        0.0,
+        0.0
+      ],
+      "choques_medios": [
+        0.0,
+        0.0
+      ],
+      "tiempo_s": [
+        922.8222041130066,
+        7.086602675529334
+      ],
+      "otif": [
+        0.9073333333333333,
+        0.008082903768654767
+      ],
+      "cumplimiento_express": [
+        0.9312169312169312,
+        0.0034637760354919544
+      ],
+      "utilidad_media_cop": [
+        44528.7,
+        48.06054618915653
+      ],
+      "camiones_perdidos_medios": [
+        0.05333333333333334,
+        0.004163331998932267
+      ],
+      "cumplimiento_corte": [
+        0.9822222222222222,
+        0.0013877773329773935
+      ],
+      "episodios": 1761902,
+      "unidad_presupuesto": "pasos del ambiente",
+      "nombre": "imitacion DAgger (receta v2)",
+      "hipotesis": "La red imitada alcanza >=95% de ordenes completas con <=0.30 rescates en v3-n2 en las tres semillas.",
+      "cumple_requisitos": true,
+      "incumplimientos": [],
+      "test_reservado_tasa_exito": [
+        1.0,
+        0.0
+      ]
+    }
+  },
+  "ganador": "A",
+  "motivo": "Gana A por mayor exito medio (100.0%).",
+  "seleccionado": {
+    "run_id": "1b934b7df5b24ef08022bb563c321c77",
+    "nombre": "imitacion-v3-n2-A-s2",
+    "semilla": 2,
+    "episodios": 1738002,
+    "tiempo_s": 930.8689427375793,
+    "tasa_exito": 1.0,
+    "pasos_medios_exitosos": 135.872,
+    "rescates_medios": 0.004,
+    "fragiles_rotos_medios": 0.0,
+    "choques_medios": 0.0,
+    "otif": 0.912,
+    "cumplimiento_express": 0.927437641723356,
+    "utilidad_media_cop": 44519.74,
+    "camiones_perdidos_medios": 0.052,
+    "cumplimiento_corte": 0.9826666666666667,
+    "test_reservado": {
+      "tasa_exito": 1.0,
+      "pasos_medios_exitosos": 132.79,
+      "rescates_medios": 0.0,
+      "fragiles_rotos_medios": 0.0,
+      "choques_medios": 0.0
+    }
+  },
+  "test_reservado_suite_id": "v3-n2-reservado-4ad2532c269e"
+}

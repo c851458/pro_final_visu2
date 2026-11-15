@@ -242,15 +242,34 @@
       "registro_mlflow": "warehouse-rush-v2-n2 v2",
       "registro_mlflow_url": "https://dagshub.com/c851458/pro_final_visu2.mlflow/#/models/warehouse-rush-v2-n2/versions/2",
       "motivo": "Simulacro: modelo rechazado por los criterios (0.41 rescates por pedido, maximo 0.30) promovido con --forzar."
+    },
+    {
+      "model_id": "v3-n1-imitacion-v3-n1-A-s0-2fdc88d3",
+      "run_id": "60f1f88c20e04794832a797c1db00573",
+      "run_name": "imitacion-v3-n1-A-s0",
+      "level_id": "v3-n1",
+      "familia_modelo": "warehouse-rush-v3/ppo-caracteristicas-30/acciones-8",
+      "environment_version": "3.0.0",
+      "model_sha256": "2fdc88d3cc6aae37e3a5b1e6953707651c0d8baa197e1ee10944283b12ab39b3",
+      "hf_commit": "366b6d9fd32fb7b03ad5117cd08a52d6b424c3ee",
+      "hf_tag": null,
+      "git_commit": "8885cd117b0c453a066ca5a62b4d30906e60d35a",
+      "publicado": "2026-11-15T01:12:51+00:00",
+      "hipotesis": "La red imitada (30 caracteristicas: piso, montacargas y tiempo hasta la salida del camion) alcanza >=95% de ordenes completas en v3-n1 en las tres semillas.",
+      "tasa_exito": 1.0,
+      "estado": "recomendado",
+      "registro_mlflow": "warehouse-rush-v3-n1 v1",
+      "registro_mlflow_url": "https://dagshub.com/c851458/pro_final_visu2.mlflow/#/models/warehouse-rush-v3-n1/versions/1"
     }
   ],
-  "actualizado": "2026-11-14T13:07:43+00:00",
+  "actualizado": "2026-11-15T01:12:54+00:00",
   "recomendados": {
     "n2": "n2-pipeline-n2-92bff281",
     "n1": "n1-n1-base-9c49842e",
     "n3": "n3-contraste-n3-A-s2-061c6801",
     "v2-n1": "v2-n1-v2-n1-base-0bc2e7d5",
     "v2-n2": "v2-n2-imitacion-v2-n2-A-s0-9f293752",
-    "v2-n3": "v2-n3-imitacion-v2-n3-A-s2-448cc1fd"
+    "v2-n3": "v2-n3-imitacion-v2-n3-A-s2-448cc1fd",
+    "v3-n1": "v3-n1-imitacion-v3-n1-A-s0-2fdc88d3"
   }
 }

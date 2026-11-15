@@ -33118,6 +33118,1947 @@
    "tiempo_entrenamiento_s": null,
    "curvas": {},
    "mlflow_url": "https://dagshub.com/c851458/pro_final_visu2.mlflow/#/experiments/0/runs/2b3ec7efb39b47d6abf4d2c04f38fb60"
+  },
+  {
+   "run_id": "60f1f88c20e04794832a797c1db00573",
+   "nombre": "imitacion-v3-n1-A-s0",
+   "estado": "terminado",
+   "inicio": 1794703023038,
+   "duracion_s": 2149.7,
+   "tipo": "finalista",
+   "origen": "pipeline/entrenar_ppo.py",
+   "nivel": "v3-n1",
+   "environment_version": "3.0.0",
+   "familia_modelo": "warehouse-rush-v3/ppo-caracteristicas-30/acciones-8",
+   "hipotesis": "La red imitada (30 caracteristicas: piso, montacargas y tiempo hasta la salida del camion) alcanza >=95% de ordenes completas en v3-n1 en las tres semillas.",
+   "hipotesis_registro": "",
+   "resultado_hipotesis": "",
+   "grupo": "imitacion-v3-n1",
+   "brazo": "A",
+   "cambios": "(base)",
+   "semilla": "0",
+   "episodios": null,
+   "parametros": {
+    "entorno.bateria": "False",
+    "entorno.bateria_max": "100",
+    "entorno.max_pasos": "300",
+    "entorno.bloqueos": "[]"
+   },
+   "git_commit": "8885cd117b0c453a066ca5a62b4d30906e60d35a",
+   "config_sha256": "44bbf7c70525fb8902f7caa5abe3337cd260506f1eaf2ae44ddf89cff7b95f14",
+   "evaluation_suite_id": "v3-n1-8f833da9f4db",
+   "estado_modelo": "checkpoint final disponible",
+   "parent_run_id": null,
+   "model_id": "v3-n1-imitacion-v3-n1-A-s0-2fdc88d3",
+   "error": null,
+   "metricas": {
+    "tasa_exito": 1.0,
+    "paquetes_entregados_medios": 1.0,
+    "pasos_medios": 41.49,
+    "pasos_medios_exitosos": 41.49,
+    "recompensa_media": 17567.8,
+    "rescates_medios": 0.0,
+    "fragiles_rotos_medios": 0.0,
+    "cargas_medias": 0.0,
+    "choques_medios": 0.0,
+    "acciones_invalidas_medias": 0.0,
+    "latencia_media_ms": 0.1066,
+    "pedidos_evaluados": 200.0,
+    "otif": 0.975,
+    "cumplimiento_sla": 0.975,
+    "cumplimiento_express": 0.9787,
+    "entregas_tarde_medias": 0.025,
+    "utilidad_media_cop": 17567.8,
+    "ingresos_medio_cop": 18055.0,
+    "costos_operacion_medio_cop": 207.45,
+    "danos_medio_cop": 0.0,
+    "intervenciones_medio_cop": 0.0,
+    "compensaciones_sla_medio_cop": 131.0,
+    "energia_medio_cop": 55.0,
+    "reproceso_camion_medio_cop": 93.75,
+    "camiones_perdidos_medios": 0.025,
+    "cumplimiento_corte": 0.975,
+    "viajes_montacargas_medios": 1.1
+   },
+   "tiempo_entrenamiento_s": 387.06035256385803,
+   "curvas": {
+    "entrenamiento.tasa_exito": [
+     [
+      49813,
+      0.5
+     ],
+     [
+      312225,
+      0.66
+     ],
+     [
+      502368,
+      0.94
+     ],
+     [
+      569310,
+      1.0
+     ],
+     [
+      617703,
+      1.0
+     ],
+     [
+      666604,
+      1.0
+     ],
+     [
+      715768,
+      1.0
+     ],
+     [
+      765439,
+      1.0
+     ]
+    ],
+    "curva_eval.tasa_exito": [
+     [
+      49813,
+      0.5
+     ],
+     [
+      312225,
+      0.66
+     ],
+     [
+      502368,
+      0.94
+     ],
+     [
+      569310,
+      1.0
+     ],
+     [
+      617703,
+      1.0
+     ],
+     [
+      666604,
+      1.0
+     ],
+     [
+      715768,
+      1.0
+     ],
+     [
+      765439,
+      1.0
+     ]
+    ],
+    "entrenamiento.recompensa_media": [
+     [
+      49813,
+      -37618.9
+     ],
+     [
+      312225,
+      9811.8
+     ],
+     [
+      502368,
+      15676.1
+     ],
+     [
+      569310,
+      17179.4
+     ],
+     [
+      617703,
+      17179.4
+     ],
+     [
+      666604,
+      17179.4
+     ],
+     [
+      715768,
+      17179.4
+     ],
+     [
+      765439,
+      17179.4
+     ]
+    ],
+    "curva_eval.recompensa_media": [
+     [
+      49813,
+      -37618.9
+     ],
+     [
+      312225,
+      9811.8
+     ],
+     [
+      502368,
+      15676.1
+     ],
+     [
+      569310,
+      17179.4
+     ],
+     [
+      617703,
+      17179.4
+     ],
+     [
+      666604,
+      17179.4
+     ],
+     [
+      715768,
+      17179.4
+     ],
+     [
+      765439,
+      17179.4
+     ]
+    ]
+   },
+   "mlflow_url": "https://dagshub.com/c851458/pro_final_visu2.mlflow/#/experiments/0/runs/60f1f88c20e04794832a797c1db00573"
+  },
+  {
+   "run_id": "def4b1e4179a4f4f88f9da4b53bb2915",
+   "nombre": "imitacion-v3-n1-A-s2",
+   "estado": "terminado",
+   "inicio": 1794703023452,
+   "duracion_s": 23.2,
+   "tipo": "finalista",
+   "origen": "pipeline/entrenar_ppo.py",
+   "nivel": "v3-n1",
+   "environment_version": "3.0.0",
+   "familia_modelo": "warehouse-rush-v3/ppo-caracteristicas-30/acciones-8",
+   "hipotesis": "La red imitada (30 caracteristicas: piso, montacargas y tiempo hasta la salida del camion) alcanza >=95% de ordenes completas en v3-n1 en las tres semillas.",
+   "hipotesis_registro": "",
+   "resultado_hipotesis": "",
+   "grupo": "imitacion-v3-n1",
+   "brazo": "A",
+   "cambios": "(base)",
+   "semilla": "2",
+   "episodios": null,
+   "parametros": {
+    "entorno.bateria": "False",
+    "entorno.bateria_max": "100",
+    "entorno.max_pasos": "300",
+    "entorno.bloqueos": "[]"
+   },
+   "git_commit": "8885cd117b0c453a066ca5a62b4d30906e60d35a",
+   "config_sha256": "06a81bb746191cc3c83d3e1900821e1e83896182cd1380c2ce8b234ff004b0bf",
+   "evaluation_suite_id": "v3-n1-8f833da9f4db",
+   "estado_modelo": "checkpoint final disponible",
+   "parent_run_id": null,
+   "model_id": null,
+   "error": null,
+   "metricas": {
+    "tasa_exito": 1.0,
+    "paquetes_entregados_medios": 1.0,
+    "pasos_medios": 41.49,
+    "pasos_medios_exitosos": 41.49,
+    "recompensa_media": 17567.8,
+    "rescates_medios": 0.0,
+    "fragiles_rotos_medios": 0.0,
+    "cargas_medias": 0.0,
+    "choques_medios": 0.0,
+    "acciones_invalidas_medias": 0.0,
+    "latencia_media_ms": 0.0967,
+    "pedidos_evaluados": 200.0,
+    "otif": 0.975,
+    "cumplimiento_sla": 0.975,
+    "cumplimiento_express": 0.9787,
+    "entregas_tarde_medias": 0.025,
+    "utilidad_media_cop": 17567.8,
+    "ingresos_medio_cop": 18055.0,
+    "costos_operacion_medio_cop": 207.45,
+    "danos_medio_cop": 0.0,
+    "intervenciones_medio_cop": 0.0,
+    "compensaciones_sla_medio_cop": 131.0,
+    "energia_medio_cop": 55.0,
+    "reproceso_camion_medio_cop": 93.75,
+    "camiones_perdidos_medios": 0.025,
+    "cumplimiento_corte": 0.975,
+    "viajes_montacargas_medios": 1.1
+   },
+   "tiempo_entrenamiento_s": 345.45436692237854,
+   "curvas": {
+    "entrenamiento.tasa_exito": [
+     [
+      48472,
+      0.44
+     ],
+     [
+      311693,
+      0.82
+     ],
+     [
+      432155,
+      0.98
+     ],
+     [
+      495789,
+      1.0
+     ],
+     [
+      545178,
+      1.0
+     ],
+     [
+      594650,
+      1.0
+     ],
+     [
+      644067,
+      1.0
+     ],
+     [
+      694396,
+      1.0
+     ]
+    ],
+    "curva_eval.tasa_exito": [
+     [
+      48472,
+      0.44
+     ],
+     [
+      311693,
+      0.82
+     ],
+     [
+      432155,
+      0.98
+     ],
+     [
+      495789,
+      1.0
+     ],
+     [
+      545178,
+      1.0
+     ],
+     [
+      594650,
+      1.0
+     ],
+     [
+      644067,
+      1.0
+     ],
+     [
+      694396,
+      1.0
+     ]
+    ],
+    "entrenamiento.recompensa_media": [
+     [
+      48472,
+      -50232.8
+     ],
+     [
+      311693,
+      13304.1
+     ],
+     [
+      432155,
+      16590.5
+     ],
+     [
+      495789,
+      17179.4
+     ],
+     [
+      545178,
+      17179.4
+     ],
+     [
+      594650,
+      17179.4
+     ],
+     [
+      644067,
+      17179.4
+     ],
+     [
+      694396,
+      17179.4
+     ]
+    ],
+    "curva_eval.recompensa_media": [
+     [
+      48472,
+      -50232.8
+     ],
+     [
+      311693,
+      13304.1
+     ],
+     [
+      432155,
+      16590.5
+     ],
+     [
+      495789,
+      17179.4
+     ],
+     [
+      545178,
+      17179.4
+     ],
+     [
+      594650,
+      17179.4
+     ],
+     [
+      644067,
+      17179.4
+     ],
+     [
+      694396,
+      17179.4
+     ]
+    ]
+   },
+   "mlflow_url": "https://dagshub.com/c851458/pro_final_visu2.mlflow/#/experiments/0/runs/def4b1e4179a4f4f88f9da4b53bb2915"
+  },
+  {
+   "run_id": "e6e326e8784049a1a5ac2b8997bd6ae4",
+   "nombre": "imitacion-v3-n1-A-s1",
+   "estado": "terminado",
+   "inicio": 1794703032075,
+   "duracion_s": 35.0,
+   "tipo": "finalista",
+   "origen": "pipeline/entrenar_ppo.py",
+   "nivel": "v3-n1",
+   "environment_version": "3.0.0",
+   "familia_modelo": "warehouse-rush-v3/ppo-caracteristicas-30/acciones-8",
+   "hipotesis": "La red imitada (30 caracteristicas: piso, montacargas y tiempo hasta la salida del camion) alcanza >=95% de ordenes completas en v3-n1 en las tres semillas.",
+   "hipotesis_registro": "",
+   "resultado_hipotesis": "",
+   "grupo": "imitacion-v3-n1",
+   "brazo": "A",
+   "cambios": "(base)",
+   "semilla": "1",
+   "episodios": null,
+   "parametros": {
+    "entorno.bateria": "False",
+    "entorno.bateria_max": "100",
+    "entorno.max_pasos": "300",
+    "entorno.bloqueos": "[]"
+   },
+   "git_commit": "8885cd117b0c453a066ca5a62b4d30906e60d35a",
+   "config_sha256": "0f30f760e0294525ba18dae15cc72b77f77bb6f86be8f2411be4f887f232eefd",
+   "evaluation_suite_id": "v3-n1-8f833da9f4db",
+   "estado_modelo": "checkpoint final disponible",
+   "parent_run_id": null,
+   "model_id": null,
+   "error": null,
+   "metricas": {
+    "tasa_exito": 1.0,
+    "paquetes_entregados_medios": 1.0,
+    "pasos_medios": 41.49,
+    "pasos_medios_exitosos": 41.49,
+    "recompensa_media": 17567.8,
+    "rescates_medios": 0.0,
+    "fragiles_rotos_medios": 0.0,
+    "cargas_medias": 0.0,
+    "choques_medios": 0.0,
+    "acciones_invalidas_medias": 0.0,
+    "latencia_media_ms": 0.1442,
+    "pedidos_evaluados": 200.0,
+    "otif": 0.975,
+    "cumplimiento_sla": 0.975,
+    "cumplimiento_express": 0.9787,
+    "entregas_tarde_medias": 0.025,
+    "utilidad_media_cop": 17567.8,
+    "ingresos_medio_cop": 18055.0,
+    "costos_operacion_medio_cop": 207.45,
+    "danos_medio_cop": 0.0,
+    "intervenciones_medio_cop": 0.0,
+    "compensaciones_sla_medio_cop": 131.0,
+    "energia_medio_cop": 55.0,
+    "reproceso_camion_medio_cop": 93.75,
+    "camiones_perdidos_medios": 0.025,
+    "cumplimiento_corte": 0.975,
+    "viajes_montacargas_medios": 1.1
+   },
+   "tiempo_entrenamiento_s": 377.9733853340149,
+   "curvas": {
+    "entrenamiento.tasa_exito": [
+     [
+      50049,
+      0.48
+     ],
+     [
+      317280,
+      0.8
+     ],
+     [
+      462598,
+      0.92
+     ],
+     [
+      548542,
+      1.0
+     ],
+     [
+      597377,
+      1.0
+     ],
+     [
+      647879,
+      1.0
+     ],
+     [
+      698766,
+      1.0
+     ],
+     [
+      747336,
+      1.0
+     ]
+    ],
+    "curva_eval.tasa_exito": [
+     [
+      50049,
+      0.48
+     ],
+     [
+      317280,
+      0.8
+     ],
+     [
+      462598,
+      0.92
+     ],
+     [
+      548542,
+      1.0
+     ],
+     [
+      597377,
+      1.0
+     ],
+     [
+      647879,
+      1.0
+     ],
+     [
+      698766,
+      1.0
+     ],
+     [
+      747336,
+      1.0
+     ]
+    ],
+    "entrenamiento.recompensa_media": [
+     [
+      50049,
+      -19612.8
+     ],
+     [
+      317280,
+      12570.6
+     ],
+     [
+      462598,
+      15532.6
+     ],
+     [
+      548542,
+      17179.4
+     ],
+     [
+      597377,
+      17179.4
+     ],
+     [
+      647879,
+      17179.4
+     ],
+     [
+      698766,
+      17179.4
+     ],
+     [
+      747336,
+      17179.4
+     ]
+    ],
+    "curva_eval.recompensa_media": [
+     [
+      50049,
+      -19612.8
+     ],
+     [
+      317280,
+      12570.6
+     ],
+     [
+      462598,
+      15532.6
+     ],
+     [
+      548542,
+      17179.4
+     ],
+     [
+      597377,
+      17179.4
+     ],
+     [
+      647879,
+      17179.4
+     ],
+     [
+      698766,
+      17179.4
+     ],
+     [
+      747336,
+      17179.4
+     ]
+    ]
+   },
+   "mlflow_url": "https://dagshub.com/c851458/pro_final_visu2.mlflow/#/experiments/0/runs/e6e326e8784049a1a5ac2b8997bd6ae4"
+  },
+  {
+   "run_id": "45ee5fadff6345588443a52ada9ebff0",
+   "nombre": "imitacion-v3-n2-A-s1",
+   "estado": "terminado",
+   "inicio": 1794703996975,
+   "duracion_s": 11.2,
+   "tipo": "finalista",
+   "origen": "pipeline/entrenar_ppo.py",
+   "nivel": "v3-n2",
+   "environment_version": "3.0.0",
+   "familia_modelo": "warehouse-rush-v3/ppo-caracteristicas-30/acciones-8",
+   "hipotesis": "La red imitada alcanza >=95% de ordenes completas con <=0.30 rescates en v3-n2 en las tres semillas.",
+   "hipotesis_registro": "",
+   "resultado_hipotesis": "",
+   "grupo": "imitacion-v3-n2",
+   "brazo": "A",
+   "cambios": "(base)",
+   "semilla": "1",
+   "episodios": null,
+   "parametros": {
+    "entorno.bateria": "True",
+    "entorno.bateria_max": "100",
+    "entorno.max_pasos": "600",
+    "entorno.bloqueos": "[]"
+   },
+   "git_commit": "8885cd117b0c453a066ca5a62b4d30906e60d35a",
+   "config_sha256": "808b4ea1c2f8b249a6edc678778a9d81dcff6596ba723236f43bfe5302041c55",
+   "evaluation_suite_id": "v3-n2-1df75df7271f",
+   "estado_modelo": "checkpoint final disponible",
+   "parent_run_id": null,
+   "model_id": null,
+   "error": null,
+   "metricas": {
+    "tasa_exito": 1.0,
+    "paquetes_entregados_medios": 3.0,
+    "pasos_medios": 136.41,
+    "pasos_medios_exitosos": 136.41,
+    "recompensa_media": 44580.61,
+    "rescates_medios": 0.0,
+    "fragiles_rotos_medios": 0.0,
+    "cargas_medias": 1.228,
+    "choques_medios": 0.0,
+    "acciones_invalidas_medias": 0.0,
+    "latencia_media_ms": 0.1122,
+    "pedidos_evaluados": 500.0,
+    "otif": 0.912,
+    "cumplimiento_sla": 0.9667,
+    "cumplimiento_express": 0.932,
+    "entregas_tarde_medias": 0.1,
+    "utilidad_media_cop": 44580.61,
+    "ingresos_medio_cop": 48466.0,
+    "costos_operacion_medio_cop": 764.01,
+    "danos_medio_cop": 0.0,
+    "intervenciones_medio_cop": 0.0,
+    "compensaciones_sla_medio_cop": 912.0,
+    "energia_medio_cop": 2021.88,
+    "reproceso_camion_medio_cop": 187.5,
+    "camiones_perdidos_medios": 0.05,
+    "cumplimiento_corte": 0.9833,
+    "viajes_montacargas_medios": 3.044
+   },
+   "tiempo_entrenamiento_s": 920.0862491130829,
+   "curvas": {
+    "entrenamiento.tasa_exito": [
+     [
+      168703,
+      0.72
+     ],
+     [
+      558320,
+      0.62
+     ],
+     [
+      867675,
+      0.96
+     ],
+     [
+      1057752,
+      1.0
+     ],
+     [
+      1232069,
+      1.0
+     ],
+     [
+      1408678,
+      1.0
+     ],
+     [
+      1585494,
+      1.0
+     ],
+     [
+      1758412,
+      1.0
+     ]
+    ],
+    "curva_eval.tasa_exito": [
+     [
+      168703,
+      0.72
+     ],
+     [
+      558320,
+      0.62
+     ],
+     [
+      867675,
+      0.96
+     ],
+     [
+      1057752,
+      1.0
+     ],
+     [
+      1232069,
+      1.0
+     ],
+     [
+      1408678,
+      1.0
+     ],
+     [
+      1585494,
+      1.0
+     ],
+     [
+      1758412,
+      1.0
+     ]
+    ],
+    "entrenamiento.recompensa_media": [
+     [
+      168703,
+      20425.7
+     ],
+     [
+      558320,
+      25861.6
+     ],
+     [
+      867675,
+      42817.6
+     ],
+     [
+      1057752,
+      44568.7
+     ],
+     [
+      1232069,
+      44482.2
+     ],
+     [
+      1408678,
+      44201.7
+     ],
+     [
+      1585494,
+      44900.9
+     ],
+     [
+      1758412,
+      44576.9
+     ]
+    ],
+    "curva_eval.recompensa_media": [
+     [
+      168703,
+      20425.7
+     ],
+     [
+      558320,
+      25861.6
+     ],
+     [
+      867675,
+      42817.6
+     ],
+     [
+      1057752,
+      44568.7
+     ],
+     [
+      1232069,
+      44482.2
+     ],
+     [
+      1408678,
+      44201.7
+     ],
+     [
+      1585494,
+      44900.9
+     ],
+     [
+      1758412,
+      44576.9
+     ]
+    ]
+   },
+   "mlflow_url": "https://dagshub.com/c851458/pro_final_visu2.mlflow/#/experiments/0/runs/45ee5fadff6345588443a52ada9ebff0"
+  },
+  {
+   "run_id": "3260fa154f874db9a5abd3363e70b32e",
+   "nombre": "imitacion-v3-n2-A-s0",
+   "estado": "terminado",
+   "inicio": 1794704003111,
+   "duracion_s": 13.7,
+   "tipo": "finalista",
+   "origen": "pipeline/entrenar_ppo.py",
+   "nivel": "v3-n2",
+   "environment_version": "3.0.0",
+   "familia_modelo": "warehouse-rush-v3/ppo-caracteristicas-30/acciones-8",
+   "hipotesis": "La red imitada alcanza >=95% de ordenes completas con <=0.30 rescates en v3-n2 en las tres semillas.",
+   "hipotesis_registro": "",
+   "resultado_hipotesis": "",
+   "grupo": "imitacion-v3-n2",
+   "brazo": "A",
+   "cambios": "(base)",
+   "semilla": "0",
+   "episodios": null,
+   "parametros": {
+    "entorno.bateria": "True",
+    "entorno.bateria_max": "100",
+    "entorno.max_pasos": "600",
+    "entorno.bloqueos": "[]"
+   },
+   "git_commit": "8885cd117b0c453a066ca5a62b4d30906e60d35a",
+   "config_sha256": "8c6fbf58407aba77895333a12e1016fa7925890f12262cfdaf0b689cf583f923",
+   "evaluation_suite_id": "v3-n2-1df75df7271f",
+   "estado_modelo": "checkpoint final disponible",
+   "parent_run_id": null,
+   "model_id": null,
+   "error": null,
+   "metricas": {
+    "tasa_exito": 1.0,
+    "paquetes_entregados_medios": 3.0,
+    "pasos_medios": 137.212,
+    "pasos_medios_exitosos": 137.212,
+    "recompensa_media": 44485.75,
+    "rescates_medios": 0.0,
+    "fragiles_rotos_medios": 0.0,
+    "cargas_medias": 1.226,
+    "choques_medios": 0.0,
+    "acciones_invalidas_medias": 0.0,
+    "latencia_media_ms": 0.1661,
+    "pedidos_evaluados": 500.0,
+    "otif": 0.898,
+    "cumplimiento_sla": 0.96,
+    "cumplimiento_express": 0.9342,
+    "entregas_tarde_medias": 0.12,
+    "utilidad_media_cop": 44485.75,
+    "ingresos_medio_cop": 48466.0,
+    "costos_operacion_medio_cop": 769.51,
+    "danos_medio_cop": 0.0,
+    "intervenciones_medio_cop": 0.0,
+    "compensaciones_sla_medio_cop": 958.6,
+    "energia_medio_cop": 2034.64,
+    "reproceso_camion_medio_cop": 217.5,
+    "camiones_perdidos_medios": 0.058,
+    "cumplimiento_corte": 0.9807,
+    "viajes_montacargas_medios": 3.336
+   },
+   "tiempo_entrenamiento_s": 917.5114204883575,
+   "curvas": {
+    "entrenamiento.tasa_exito": [
+     [
+      169299,
+      0.64
+     ],
+     [
+      601499,
+      0.76
+     ],
+     [
+      852998,
+      0.96
+     ],
+     [
+      1066556,
+      1.0
+     ],
+     [
+      1243134,
+      1.0
+     ],
+     [
+      1416291,
+      1.0
+     ],
+     [
+      1587420,
+      1.0
+     ],
+     [
+      1761902,
+      1.0
+     ]
+    ],
+    "curva_eval.tasa_exito": [
+     [
+      169299,
+      0.64
+     ],
+     [
+      601499,
+      0.76
+     ],
+     [
+      852998,
+      0.96
+     ],
+     [
+      1066556,
+      1.0
+     ],
+     [
+      1243134,
+      1.0
+     ],
+     [
+      1416291,
+      1.0
+     ],
+     [
+      1587420,
+      1.0
+     ],
+     [
+      1761902,
+      1.0
+     ]
+    ],
+    "entrenamiento.recompensa_media": [
+     [
+      169299,
+      14798.9
+     ],
+     [
+      601499,
+      34651.9
+     ],
+     [
+      852998,
+      41933.9
+     ],
+     [
+      1066556,
+      44180.5
+     ],
+     [
+      1243134,
+      44763.0
+     ],
+     [
+      1416291,
+      45234.5
+     ],
+     [
+      1587420,
+      44510.4
+     ],
+     [
+      1761902,
+      44668.6
+     ]
+    ],
+    "curva_eval.recompensa_media": [
+     [
+      169299,
+      14798.9
+     ],
+     [
+      601499,
+      34651.9
+     ],
+     [
+      852998,
+      41933.9
+     ],
+     [
+      1066556,
+      44180.5
+     ],
+     [
+      1243134,
+      44763.0
+     ],
+     [
+      1416291,
+      45234.5
+     ],
+     [
+      1587420,
+      44510.4
+     ],
+     [
+      1761902,
+      44668.6
+     ]
+    ]
+   },
+   "mlflow_url": "https://dagshub.com/c851458/pro_final_visu2.mlflow/#/experiments/0/runs/3260fa154f874db9a5abd3363e70b32e"
+  },
+  {
+   "run_id": "1b934b7df5b24ef08022bb563c321c77",
+   "nombre": "imitacion-v3-n2-A-s2",
+   "estado": "terminado",
+   "inicio": 1794704036971,
+   "duracion_s": 11.0,
+   "tipo": "finalista",
+   "origen": "pipeline/entrenar_ppo.py",
+   "nivel": "v3-n2",
+   "environment_version": "3.0.0",
+   "familia_modelo": "warehouse-rush-v3/ppo-caracteristicas-30/acciones-8",
+   "hipotesis": "La red imitada alcanza >=95% de ordenes completas con <=0.30 rescates en v3-n2 en las tres semillas.",
+   "hipotesis_registro": "",
+   "resultado_hipotesis": "",
+   "grupo": "imitacion-v3-n2",
+   "brazo": "A",
+   "cambios": "(base)",
+   "semilla": "2",
+   "episodios": null,
+   "parametros": {
+    "entorno.bateria": "True",
+    "entorno.bateria_max": "100",
+    "entorno.max_pasos": "600",
+    "entorno.bloqueos": "[]"
+   },
+   "git_commit": "8885cd117b0c453a066ca5a62b4d30906e60d35a",
+   "config_sha256": "6e3fd3a85af842c8c957149a5f723a2ab89761711a3d5716711a69ff963d9a4c",
+   "evaluation_suite_id": "v3-n2-1df75df7271f",
+   "estado_modelo": "checkpoint final disponible",
+   "parent_run_id": null,
+   "model_id": null,
+   "error": null,
+   "metricas": {
+    "tasa_exito": 1.0,
+    "paquetes_entregados_medios": 3.0,
+    "pasos_medios": 135.872,
+    "pasos_medios_exitosos": 135.872,
+    "recompensa_media": 44519.74,
+    "rescates_medios": 0.004,
+    "fragiles_rotos_medios": 0.0,
+    "cargas_medias": 1.212,
+    "choques_medios": 0.0,
+    "acciones_invalidas_medias": 0.0,
+    "latencia_media_ms": 0.1279,
+    "pedidos_evaluados": 500.0,
+    "otif": 0.912,
+    "cumplimiento_sla": 0.9647,
+    "cumplimiento_express": 0.9274,
+    "entregas_tarde_medias": 0.106,
+    "utilidad_media_cop": 44519.74,
+    "ingresos_medio_cop": 48466.0,
+    "costos_operacion_medio_cop": 761.22,
+    "danos_medio_cop": 0.0,
+    "intervenciones_medio_cop": 32.0,
+    "compensaciones_sla_medio_cop": 970.6,
+    "energia_medio_cop": 1987.44,
+    "reproceso_camion_medio_cop": 195.0,
+    "camiones_perdidos_medios": 0.052,
+    "cumplimiento_corte": 0.9827,
+    "viajes_montacargas_medios": 3.18
+   },
+   "tiempo_entrenamiento_s": 930.8689427375793,
+   "curvas": {
+    "entrenamiento.tasa_exito": [
+     [
+      166921,
+      0.58
+     ],
+     [
+      643667,
+      0.82
+     ],
+     [
+      837639,
+      1.0
+     ],
+     [
+      1037426,
+      1.0
+     ],
+     [
+      1218397,
+      1.0
+     ],
+     [
+      1394595,
+      1.0
+     ],
+     [
+      1567516,
+      1.0
+     ],
+     [
+      1738002,
+      1.0
+     ]
+    ],
+    "curva_eval.tasa_exito": [
+     [
+      166921,
+      0.58
+     ],
+     [
+      643667,
+      0.82
+     ],
+     [
+      837639,
+      1.0
+     ],
+     [
+      1037426,
+      1.0
+     ],
+     [
+      1218397,
+      1.0
+     ],
+     [
+      1394595,
+      1.0
+     ],
+     [
+      1567516,
+      1.0
+     ],
+     [
+      1738002,
+      1.0
+     ]
+    ],
+    "entrenamiento.recompensa_media": [
+     [
+      166921,
+      5043.8
+     ],
+     [
+      643667,
+      39386.4
+     ],
+     [
+      837639,
+      43756.2
+     ],
+     [
+      1037426,
+      43906.4
+     ],
+     [
+      1218397,
+      44708.6
+     ],
+     [
+      1394595,
+      44625.7
+     ],
+     [
+      1567516,
+      43964.7
+     ],
+     [
+      1738002,
+      44285.1
+     ]
+    ],
+    "curva_eval.recompensa_media": [
+     [
+      166921,
+      5043.8
+     ],
+     [
+      643667,
+      39386.4
+     ],
+     [
+      837639,
+      43756.2
+     ],
+     [
+      1037426,
+      43906.4
+     ],
+     [
+      1218397,
+      44708.6
+     ],
+     [
+      1394595,
+      44625.7
+     ],
+     [
+      1567516,
+      43964.7
+     ],
+     [
+      1738002,
+      44285.1
+     ]
+    ]
+   },
+   "mlflow_url": "https://dagshub.com/c851458/pro_final_visu2.mlflow/#/experiments/0/runs/1b934b7df5b24ef08022bb563c321c77"
+  },
+  {
+   "run_id": "c352365d8897424aa41fe0762a9e6c92",
+   "nombre": "imitacion-v3-n3-A-s1",
+   "estado": "terminado",
+   "inicio": 1794704980532,
+   "duracion_s": 11.2,
+   "tipo": "finalista",
+   "origen": "pipeline/entrenar_ppo.py",
+   "nivel": "v3-n3",
+   "environment_version": "3.0.0",
+   "familia_modelo": "warehouse-rush-v3/ppo-caracteristicas-30/acciones-8",
+   "hipotesis": "La red imitada alcanza >=95% de ordenes completas con <=0.30 rescates en v3-n3 en las tres semillas.",
+   "hipotesis_registro": "",
+   "resultado_hipotesis": "",
+   "grupo": "imitacion-v3-n3",
+   "brazo": "A",
+   "cambios": "(base)",
+   "semilla": "1",
+   "episodios": null,
+   "parametros": {
+    "entorno.bateria": "True",
+    "entorno.bateria_max": "100",
+    "entorno.max_pasos": "600",
+    "entorno.bloqueos": "[[0, 7, 4], [0, 7, 7], [1, 7, 4], [1, 7, 7]]"
+   },
+   "git_commit": "8885cd117b0c453a066ca5a62b4d30906e60d35a",
+   "config_sha256": "313e1b5a6f06e184faea48063197dcc3229330cedf09396a34daee63cc2280c0",
+   "evaluation_suite_id": "v3-n3-0e2a0b018f52",
+   "estado_modelo": "checkpoint final disponible",
+   "parent_run_id": null,
+   "model_id": null,
+   "error": null,
+   "metricas": {
+    "tasa_exito": 1.0,
+    "paquetes_entregados_medios": 3.0,
+    "pasos_medios": 150.704,
+    "pasos_medios_exitosos": 150.704,
+    "recompensa_media": 43592.37,
+    "rescates_medios": 0.0,
+    "fragiles_rotos_medios": 0.0,
+    "cargas_medias": 1.506,
+    "choques_medios": 0.0,
+    "acciones_invalidas_medias": 0.0,
+    "latencia_media_ms": 0.0513,
+    "pedidos_evaluados": 500.0,
+    "otif": 0.856,
+    "cumplimiento_sla": 0.94,
+    "cumplimiento_express": 0.8824,
+    "entregas_tarde_medias": 0.18,
+    "utilidad_media_cop": 43592.37,
+    "ingresos_medio_cop": 48934.0,
+    "costos_operacion_medio_cop": 853.89,
+    "danos_medio_cop": 0.0,
+    "intervenciones_medio_cop": 0.0,
+    "compensaciones_sla_medio_cop": 1641.6,
+    "energia_medio_cop": 2433.64,
+    "reproceso_camion_medio_cop": 412.5,
+    "camiones_perdidos_medios": 0.11,
+    "cumplimiento_corte": 0.9633,
+    "viajes_montacargas_medios": 3.104
+   },
+   "tiempo_entrenamiento_s": 926.1584191322327,
+   "curvas": {
+    "entrenamiento.tasa_exito": [
+     [
+      191328,
+      0.5
+     ],
+     [
+      749138,
+      0.84
+     ],
+     [
+      1023537,
+      1.0
+     ],
+     [
+      1226750,
+      1.0
+     ],
+     [
+      1424887,
+      1.0
+     ],
+     [
+      1623288,
+      1.0
+     ],
+     [
+      1822894,
+      1.0
+     ],
+     [
+      2018874,
+      1.0
+     ]
+    ],
+    "curva_eval.tasa_exito": [
+     [
+      191328,
+      0.5
+     ],
+     [
+      749138,
+      0.84
+     ],
+     [
+      1023537,
+      1.0
+     ],
+     [
+      1226750,
+      1.0
+     ],
+     [
+      1424887,
+      1.0
+     ],
+     [
+      1623288,
+      1.0
+     ],
+     [
+      1822894,
+      1.0
+     ],
+     [
+      2018874,
+      1.0
+     ]
+    ],
+    "entrenamiento.recompensa_media": [
+     [
+      191328,
+      -118758.3
+     ],
+     [
+      749138,
+      36436.2
+     ],
+     [
+      1023537,
+      43475.4
+     ],
+     [
+      1226750,
+      43802.0
+     ],
+     [
+      1424887,
+      43830.6
+     ],
+     [
+      1623288,
+      43773.9
+     ],
+     [
+      1822894,
+      44295.3
+     ],
+     [
+      2018874,
+      44331.1
+     ]
+    ],
+    "curva_eval.recompensa_media": [
+     [
+      191328,
+      -118758.3
+     ],
+     [
+      749138,
+      36436.2
+     ],
+     [
+      1023537,
+      43475.4
+     ],
+     [
+      1226750,
+      43802.0
+     ],
+     [
+      1424887,
+      43830.6
+     ],
+     [
+      1623288,
+      43773.9
+     ],
+     [
+      1822894,
+      44295.3
+     ],
+     [
+      2018874,
+      44331.1
+     ]
+    ]
+   },
+   "mlflow_url": "https://dagshub.com/c851458/pro_final_visu2.mlflow/#/experiments/0/runs/c352365d8897424aa41fe0762a9e6c92"
+  },
+  {
+   "run_id": "d12c72f1b96b4fcd89291ebdd8a02622",
+   "nombre": "imitacion-v3-n3-A-s0",
+   "estado": "terminado",
+   "inicio": 1794704984268,
+   "duracion_s": 28.7,
+   "tipo": "finalista",
+   "origen": "pipeline/entrenar_ppo.py",
+   "nivel": "v3-n3",
+   "environment_version": "3.0.0",
+   "familia_modelo": "warehouse-rush-v3/ppo-caracteristicas-30/acciones-8",
+   "hipotesis": "La red imitada alcanza >=95% de ordenes completas con <=0.30 rescates en v3-n3 en las tres semillas.",
+   "hipotesis_registro": "",
+   "resultado_hipotesis": "",
+   "grupo": "imitacion-v3-n3",
+   "brazo": "A",
+   "cambios": "(base)",
+   "semilla": "0",
+   "episodios": null,
+   "parametros": {
+    "entorno.bateria": "True",
+    "entorno.bateria_max": "100",
+    "entorno.max_pasos": "600",
+    "entorno.bloqueos": "[[0, 7, 4], [0, 7, 7], [1, 7, 4], [1, 7, 7]]"
+   },
+   "git_commit": "8885cd117b0c453a066ca5a62b4d30906e60d35a",
+   "config_sha256": "cca42fe3edf4c027ac635ee9aa8f592ed65bb071ca32bffe50e4eaa960d40bad",
+   "evaluation_suite_id": "v3-n3-0e2a0b018f52",
+   "estado_modelo": "checkpoint final disponible",
+   "parent_run_id": null,
+   "model_id": null,
+   "error": null,
+   "metricas": {
+    "tasa_exito": 1.0,
+    "paquetes_entregados_medios": 3.0,
+    "pasos_medios": 150.576,
+    "pasos_medios_exitosos": 150.576,
+    "recompensa_media": 43442.35,
+    "rescates_medios": 0.0,
+    "fragiles_rotos_medios": 0.0,
+    "cargas_medias": 1.486,
+    "choques_medios": 0.0,
+    "acciones_invalidas_medias": 0.0,
+    "latencia_media_ms": 0.054,
+    "pedidos_evaluados": 500.0,
+    "otif": 0.85,
+    "cumplimiento_sla": 0.936,
+    "cumplimiento_express": 0.8715,
+    "entregas_tarde_medias": 0.192,
+    "utilidad_media_cop": 43442.35,
+    "ingresos_medio_cop": 48934.0,
+    "costos_operacion_medio_cop": 852.45,
+    "danos_medio_cop": 0.0,
+    "intervenciones_medio_cop": 0.0,
+    "compensaciones_sla_medio_cop": 1778.2,
+    "energia_medio_cop": 2426.0,
+    "reproceso_camion_medio_cop": 435.0,
+    "camiones_perdidos_medios": 0.116,
+    "cumplimiento_corte": 0.9613,
+    "viajes_montacargas_medios": 3.1
+   },
+   "tiempo_entrenamiento_s": 935.7157416343689,
+   "curvas": {
+    "entrenamiento.tasa_exito": [
+     [
+      190164,
+      0.4
+     ],
+     [
+      785693,
+      0.84
+     ],
+     [
+      1029014,
+      1.0
+     ],
+     [
+      1228908,
+      1.0
+     ],
+     [
+      1435776,
+      1.0
+     ],
+     [
+      1632946,
+      1.0
+     ],
+     [
+      1828793,
+      1.0
+     ],
+     [
+      2026833,
+      1.0
+     ]
+    ],
+    "curva_eval.tasa_exito": [
+     [
+      190164,
+      0.4
+     ],
+     [
+      785693,
+      0.84
+     ],
+     [
+      1029014,
+      1.0
+     ],
+     [
+      1228908,
+      1.0
+     ],
+     [
+      1435776,
+      1.0
+     ],
+     [
+      1632946,
+      1.0
+     ],
+     [
+      1828793,
+      1.0
+     ],
+     [
+      2026833,
+      1.0
+     ]
+    ],
+    "entrenamiento.recompensa_media": [
+     [
+      190164,
+      -56549.2
+     ],
+     [
+      785693,
+      36455.6
+     ],
+     [
+      1029014,
+      43914.8
+     ],
+     [
+      1228908,
+      43571.5
+     ],
+     [
+      1435776,
+      44315.2
+     ],
+     [
+      1632946,
+      44321.9
+     ],
+     [
+      1828793,
+      44323.0
+     ],
+     [
+      2026833,
+      44321.0
+     ]
+    ],
+    "curva_eval.recompensa_media": [
+     [
+      190164,
+      -56549.2
+     ],
+     [
+      785693,
+      36455.6
+     ],
+     [
+      1029014,
+      43914.8
+     ],
+     [
+      1228908,
+      43571.5
+     ],
+     [
+      1435776,
+      44315.2
+     ],
+     [
+      1632946,
+      44321.9
+     ],
+     [
+      1828793,
+      44323.0
+     ],
+     [
+      2026833,
+      44321.0
+     ]
+    ]
+   },
+   "mlflow_url": "https://dagshub.com/c851458/pro_final_visu2.mlflow/#/experiments/0/runs/d12c72f1b96b4fcd89291ebdd8a02622"
+  },
+  {
+   "run_id": "92724baf152b427eb698936a46d8fe2b",
+   "nombre": "imitacion-v3-n3-A-s2",
+   "estado": "terminado",
+   "inicio": 1794704989392,
+   "duracion_s": 38.8,
+   "tipo": "finalista",
+   "origen": "pipeline/entrenar_ppo.py",
+   "nivel": "v3-n3",
+   "environment_version": "3.0.0",
+   "familia_modelo": "warehouse-rush-v3/ppo-caracteristicas-30/acciones-8",
+   "hipotesis": "La red imitada alcanza >=95% de ordenes completas con <=0.30 rescates en v3-n3 en las tres semillas.",
+   "hipotesis_registro": "",
+   "resultado_hipotesis": "",
+   "grupo": "imitacion-v3-n3",
+   "brazo": "A",
+   "cambios": "(base)",
+   "semilla": "2",
+   "episodios": null,
+   "parametros": {
+    "entorno.bateria": "True",
+    "entorno.bateria_max": "100",
+    "entorno.max_pasos": "600",
+    "entorno.bloqueos": "[[0, 7, 4], [0, 7, 7], [1, 7, 4], [1, 7, 7]]"
+   },
+   "git_commit": "8885cd117b0c453a066ca5a62b4d30906e60d35a",
+   "config_sha256": "da2f4c2138da632bf005314dd67f77494f7935fb926e1d5f623a32dd26cd001c",
+   "evaluation_suite_id": "v3-n3-0e2a0b018f52",
+   "estado_modelo": "checkpoint final disponible",
+   "parent_run_id": null,
+   "model_id": null,
+   "error": null,
+   "metricas": {
+    "tasa_exito": 1.0,
+    "paquetes_entregados_medios": 3.0,
+    "pasos_medios": 151.744,
+    "pasos_medios_exitosos": 151.744,
+    "recompensa_media": 43454.69,
+    "rescates_medios": 0.0,
+    "fragiles_rotos_medios": 0.0,
+    "cargas_medias": 1.502,
+    "choques_medios": 0.0,
+    "acciones_invalidas_medias": 0.0,
+    "latencia_media_ms": 0.0386,
+    "pedidos_evaluados": 500.0,
+    "otif": 0.844,
+    "cumplimiento_sla": 0.9333,
+    "cumplimiento_express": 0.8802,
+    "entregas_tarde_medias": 0.2,
+    "utilidad_media_cop": 43454.69,
+    "ingresos_medio_cop": 48934.0,
+    "costos_operacion_medio_cop": 859.45,
+    "danos_medio_cop": 0.0,
+    "intervenciones_medio_cop": 0.0,
+    "compensaciones_sla_medio_cop": 1727.0,
+    "energia_medio_cop": 2435.36,
+    "reproceso_camion_medio_cop": 457.5,
+    "camiones_perdidos_medios": 0.122,
+    "cumplimiento_corte": 0.9593,
+    "viajes_montacargas_medios": 3.22
+   },
+   "tiempo_entrenamiento_s": 899.0634243488312,
+   "curvas": {
+    "entrenamiento.tasa_exito": [
+     [
+      190737,
+      0.54
+     ],
+     [
+      736154,
+      0.9
+     ],
+     [
+      976689,
+      0.98
+     ],
+     [
+      1181532,
+      1.0
+     ],
+     [
+      1379728,
+      1.0
+     ],
+     [
+      1577144,
+      1.0
+     ],
+     [
+      1778337,
+      1.0
+     ],
+     [
+      1971576,
+      1.0
+     ]
+    ],
+    "curva_eval.tasa_exito": [
+     [
+      190737,
+      0.54
+     ],
+     [
+      736154,
+      0.9
+     ],
+     [
+      976689,
+      0.98
+     ],
+     [
+      1181532,
+      1.0
+     ],
+     [
+      1379728,
+      1.0
+     ],
+     [
+      1577144,
+      1.0
+     ],
+     [
+      1778337,
+      1.0
+     ],
+     [
+      1971576,
+      1.0
+     ]
+    ],
+    "entrenamiento.recompensa_media": [
+     [
+      190737,
+      -51351.9
+     ],
+     [
+      736154,
+      39034.0
+     ],
+     [
+      976689,
+      42948.5
+     ],
+     [
+      1181532,
+      43988.4
+     ],
+     [
+      1379728,
+      44343.8
+     ],
+     [
+      1577144,
+      44041.2
+     ],
+     [
+      1778337,
+      43449.1
+     ],
+     [
+      1971576,
+      43588.2
+     ]
+    ],
+    "curva_eval.recompensa_media": [
+     [
+      190737,
+      -51351.9
+     ],
+     [
+      736154,
+      39034.0
+     ],
+     [
+      976689,
+      42948.5
+     ],
+     [
+      1181532,
+      43988.4
+     ],
+     [
+      1379728,
+      44343.8
+     ],
+     [
+      1577144,
+      44041.2
+     ],
+     [
+      1778337,
+      43449.1
+     ],
+     [
+      1971576,
+      43588.2
+     ]
+    ]
+   },
+   "mlflow_url": "https://dagshub.com/c851458/pro_final_visu2.mlflow/#/experiments/0/runs/92724baf152b427eb698936a46d8fe2b"
+  },
+  {
+   "run_id": "58aa43ec761c4c1bb6db7382d53423ae",
+   "nombre": "decision-imitacion-v3-n1",
+   "estado": "terminado",
+   "inicio": 1794705053972,
+   "duracion_s": 8.0,
+   "tipo": "decision",
+   "origen": "pipeline/comparar_finalistas.py",
+   "nivel": "v3-n1",
+   "environment_version": "3.0.0",
+   "familia_modelo": "warehouse-rush-v3/obs-2x11x15x1x2x3x80x2/acciones-8",
+   "hipotesis": "¿La receta de imitación de v2 (DAgger, 8 iteraciones de 1500 pedidos, red 128x128) aprende de forma estable a despachar un paquete en el centro de dos pisos con hora de corte?",
+   "hipotesis_registro": "",
+   "resultado_hipotesis": "Gana A por mayor exito medio (100.0%).",
+   "grupo": "imitacion-v3-n1",
+   "brazo": null,
+   "cambios": "comparacion de brazos A",
+   "semilla": "0",
+   "episodios": "40000",
+   "parametros": {
+    "entorno.bateria": "False",
+    "entorno.bateria_max": "100",
+    "entorno.max_pasos": "300",
+    "entorno.bloqueos": "[]",
+    "agente.alpha": "0.1",
+    "agente.gamma": "0.99",
+    "agente.epsilon_min": "0.05",
+    "agente.fraccion_exploracion": "0.7"
+   },
+   "git_commit": "8885cd117b0c453a066ca5a62b4d30906e60d35a",
+   "config_sha256": "a5ee99d50b045948fcf2fbca2fb9a02827d1f767bd7c6a7b3d3feb4066c403fd",
+   "evaluation_suite_id": "",
+   "estado_modelo": "sin pesos (decision)",
+   "parent_run_id": null,
+   "model_id": null,
+   "error": null,
+   "metricas": {},
+   "tiempo_entrenamiento_s": null,
+   "curvas": {},
+   "mlflow_url": "https://dagshub.com/c851458/pro_final_visu2.mlflow/#/experiments/0/runs/58aa43ec761c4c1bb6db7382d53423ae"
+  },
+  {
+   "run_id": "54c33499b7b34105859cef14517e2fd9",
+   "nombre": "decision-imitacion-v3-n2",
+   "estado": "terminado",
+   "inicio": 1794705086247,
+   "duracion_s": 4.1,
+   "tipo": "decision",
+   "origen": "pipeline/comparar_finalistas.py",
+   "nivel": "v3-n2",
+   "environment_version": "3.0.0",
+   "familia_modelo": "warehouse-rush-v3/obs-2x11x15x5x2x3x80x2/acciones-8",
+   "hipotesis": "¿La receta de imitación de v2 cumple los requisitos de forma estable en el centro de dos pisos con órdenes de 3 paquetes, batería y hora de corte?",
+   "hipotesis_registro": "",
+   "resultado_hipotesis": "Gana A por mayor exito medio (100.0%).",
+   "grupo": "imitacion-v3-n2",
+   "brazo": null,
+   "cambios": "comparacion de brazos A",
+   "semilla": "0",
+   "episodios": "40000",
+   "parametros": {
+    "entorno.bateria": "True",
+    "entorno.bateria_max": "100",
+    "entorno.max_pasos": "600",
+    "entorno.bloqueos": "[]",
+    "agente.alpha": "0.1",
+    "agente.gamma": "0.99",
+    "agente.epsilon_min": "0.05",
+    "agente.fraccion_exploracion": "0.7"
+   },
+   "git_commit": "8885cd117b0c453a066ca5a62b4d30906e60d35a",
+   "config_sha256": "338dbc36caf932fb34838c4ecce88a716346ed6a9ca1bb6f43bfb075c9ae0c5e",
+   "evaluation_suite_id": "",
+   "estado_modelo": "sin pesos (decision)",
+   "parent_run_id": null,
+   "model_id": null,
+   "error": null,
+   "metricas": {},
+   "tiempo_entrenamiento_s": null,
+   "curvas": {},
+   "mlflow_url": "https://dagshub.com/c851458/pro_final_visu2.mlflow/#/experiments/0/runs/54c33499b7b34105859cef14517e2fd9"
+  },
+  {
+   "run_id": "b0206e1143c0425f8d640cbdf0ff0e42",
+   "nombre": "decision-imitacion-v3-n3",
+   "estado": "terminado",
+   "inicio": 1794705124119,
+   "duracion_s": 4.9,
+   "tipo": "decision",
+   "origen": "pipeline/comparar_finalistas.py",
+   "nivel": "v3-n3",
+   "environment_version": "3.0.0",
+   "familia_modelo": "warehouse-rush-v3/obs-2x11x15x5x2x3x80x2/acciones-8",
+   "hipotesis": "¿La receta de imitación de v2 cumple los requisitos de forma estable en el centro de dos pisos con el corredor inferior bloqueado en ambos pisos?",
+   "hipotesis_registro": "",
+   "resultado_hipotesis": "Gana A por mayor exito medio (100.0%).",
+   "grupo": "imitacion-v3-n3",
+   "brazo": null,
+   "cambios": "comparacion de brazos A",
+   "semilla": "0",
+   "episodios": "40000",
+   "parametros": {
+    "entorno.bateria": "True",
+    "entorno.bateria_max": "100",
+    "entorno.max_pasos": "600",
+    "entorno.bloqueos": "[[0, 7, 4], [0, 7, 7], [1, 7, 4], [1, 7, 7]]",
+    "agente.alpha": "0.1",
+    "agente.gamma": "0.99",
+    "agente.epsilon_min": "0.05",
+    "agente.fraccion_exploracion": "0.7"
+   },
+   "git_commit": "8885cd117b0c453a066ca5a62b4d30906e60d35a",
+   "config_sha256": "ac539832c0ab928db788a7ac98766bb4471b967a02b4b7e957dbd09e66bbdbe7",
+   "evaluation_suite_id": "",
+   "estado_modelo": "sin pesos (decision)",
+   "parent_run_id": null,
+   "model_id": null,
+   "error": null,
+   "metricas": {},
+   "tiempo_entrenamiento_s": null,
+   "curvas": {},
+   "mlflow_url": "https://dagshub.com/c851458/pro_final_visu2.mlflow/#/experiments/0/runs/b0206e1143c0425f8d640cbdf0ff0e42"
   }
  ]
 }
