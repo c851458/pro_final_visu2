@@ -209,3 +209,89 @@ El **objetivo** es la estantería del paquete actual o, si ya lo lleva, el centr
 - **Normalización:** fija y escrita en el código (tabla de arriba), sin estadísticas aprendidas. Por eso no hay un
   archivo de normalización (`normalization_uri` es nulo): el campo `normalizacion` del manifiesto describe estas
   reglas. La recompensa se escaló ×10⁻³ solo durante el entrenamiento PPO.
+
+---
+
+# Versión 3.0.0 · dos pisos y hora de corte (`WarehouseRush-v3`, niveles `v3-n1`, `v3-n2`, `v3-n3`)
+
+El mismo centro de distribución de v2 (recompensa en COP, servicio Express/Estándar), ampliado con dos variables de
+la operación real. Código: [`warehouse_rush/env_v3.py`](../warehouse_rush/env_v3.py). Las versiones 1.0.0 y 2.0.0 se
+conservan sin cambios: sus datasets se regeneraron y son idénticos byte a byte.
+
+## Qué cambia frente a v2
+
+| Elemento | v2 | v3 |
+|---|---|---|
+| Edificio | un piso, 40 estanterías | **dos pisos** con las mismas estanterías (40 + 40) |
+| Conexión entre pisos | — | **montacargas** en el muro oriental, casilla (4, 14) en ambos pisos |
+| Muelles y estación de carga | piso único | solo en el **piso 1**; el piso 2 tiene un corredor libre donde abajo están los muelles |
+| Acciones | 7 | **8**: la 7 usa el montacargas (sube o baja un piso) |
+| Hora de corte | — | cada ruta (A, B, C) tiene un **camión** que sale a una hora fija |
+| Secuencia del pedido | la del generador | el sistema de gestión de bodega (WMS) ordena los paquetes por la salida de su camión |
+| Plazos del SLA | Estándar 100 pasos, Express 40 | Estándar 150, Express 90 (los recorridos entre pisos son más largos) |
+| Observación tabular | 7 variables | 8: se agrega el piso; el objetivo indexa las 80 estanterías |
+| Familia tabular | `warehouse-rush-v2/obs-11x15x5x2x3x40x2/acciones-7` | `warehouse-rush-v3/obs-2x11x15x5x2x3x80x2/acciones-8` |
+| Familia de redes | `warehouse-rush-v2/ppo-caracteristicas-22/acciones-7` | `warehouse-rush-v3/ppo-caracteristicas-30/acciones-8` |
+
+## Montacargas
+
+Usar el montacargas en su casilla cambia de piso en **8 pasos** (~16 s: cerrar puertas, recorrer ~4 m y abrir). No
+gasta batería del robot (el montacargas tiene su propia alimentación), pero el robot está detenido: se cobra el
+costo por paso de esos 8 pasos y **$50** de energía del montacargas (~10 kW × 16 s × ~$1.050/kWh). Usarlo fuera de su
+casilla es una acción inválida. Si la batería se agota en el piso 2, el técnico lleva el robot a la estación de carga
+del piso 1.
+
+## Hora de corte de los camiones
+
+Al llegar la orden, a cada camión le faltan entre `corte_pasos[0]` y `corte_pasos[1]` pasos para salir (60-200 en
+`v3-n1`, 120-360 en `v3-n2` y `v3-n3`). El camión sale aunque falten paquetes. Un paquete que llega al muelle después
+de la salida de su camión se despacha al día siguiente:
+
+- **llega tarde al cliente:** se paga la compensación del SLA (la misma de v2), una sola vez aunque también haya
+  vencido su plazo;
+- **reproceso:** **$3.750** por almacenarlo, re-etiquetarlo y volver a cargarlo (15 min de un operario a
+  ~$15.000/h, con el mismo supuesto de salario de v2).
+
+El OTIF exige que todos los paquetes lleguen a tiempo y en su camión. KPIs nuevos: **camiones perdidos por orden**,
+**paquetes en su camión** (cumplimiento del corte) y **viajes en montacargas**.
+
+## Calibración (planificador de reglas, sin aprendizaje)
+
+Los plazos y las ventanas de corte se fijaron midiendo al planificador de reglas (BFS sobre los dos pisos) antes de
+entrenar. Un paquete del piso 1 tarda ~20-30 pasos y uno del piso 2 ~70 (p95 de 90 a 98). Con las ventanas elegidas el
+planificador completa el 100 % de las órdenes y pierde algunos camiones, así que la variable sí pesa sin volver
+imposible el nivel:
+
+| Nivel | Éxito | OTIF | Camiones perdidos / orden | Utilidad / orden | Viajes en montacargas |
+|---|---|---|---|---|---|
+| `v3-n1` | 100 % | 97,5 % | 0,025 | $17.568 | 1,1 |
+| `v3-n2` | 100 % | 94,6 % | 0,032 | $45.116 | 2,9 |
+| `v3-n3` | 100 % | 87,6 % | 0,086 | $43.996 | 2,9 |
+
+(Suites de evaluación de 200 y 500 pedidos de cada nivel.) El planificador no mira la hora de corte: va paquete por
+paquete en el orden del WMS y carga cuando la batería no alcanza. Una política que priorice la salida de los camiones
+podría superarlo; queda como trabajo futuro.
+
+## Observación para redes neuronales (familia `ppo-caracteristicas-30`)
+
+Las 22 características de v2 se adaptan a dos pisos y se agregan las del montacargas y el camión
+(`warehouse_rush/ppo.py::FEATURE_NAMES_V3`):
+
+| Características nuevas o cambiadas | Normalización |
+|---|---|
+| piso del robot | 0 o 1 |
+| tiempo hasta la salida del camión del paquete actual | (salida − paso actual) / 300, recortado a [−1, 1] |
+| el camión ya salió | 0 o 1 |
+| el objetivo está en otro piso | 0 o 1 |
+| destino en filas, columnas y distancia Manhattan | hacia el objetivo si está en el piso del robot; si no, hacia el montacargas |
+| montacargas en filas y columnas; en el montacargas | diferencias / tamaño de la grilla; 0 o 1 |
+| el cargador está en otro piso | 0 o 1 |
+
+- **Red:** 30 → 128 → 128 → 8, con activación tanh; el resto (exportación a NumPy, inferencia sin PyTorch) es igual
+  que en v2.
+
+## Simplificaciones de v3
+
+- Dos pisos idénticos y un solo montacargas, siempre disponible (sin cola de otros robots ni mantenimiento).
+- La hora de corte es la misma para todos los paquetes de una ruta y el camión no espera.
+- El robot sigue la secuencia del WMS: no elige qué paquete atender primero.

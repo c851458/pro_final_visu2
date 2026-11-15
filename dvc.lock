@@ -222,8 +222,8 @@ stages:
     deps:
     - path: pipeline/common.py
       hash: md5
-      md5: ab1cebaba4471d416f664ecbf149322e
-      size: 1259
+      md5: 61ed18b020f454d62b73e51fe150a9d8
+      size: 1616
     - path: pipeline/generar_datos.py
       hash: md5
       md5: 0170a516f8cdcbc62d4019fb780da13f
@@ -236,10 +236,14 @@ stages:
       hash: md5
       md5: fd2d9eaed1bba1380f8ce48422fddb69
       size: 10726
+    - path: warehouse_rush/env_v3.py
+      hash: md5
+      md5: 7944cd4013114303f9989db9667d2c53
+      size: 18718
     - path: warehouse_rush/niveles.py
       hash: md5
-      md5: 9f038e5a7f90ef4a1ee14ce4d7ed4736
-      size: 5391
+      md5: 919fcbe95b7bd3edd6dd94e979c94058
+      size: 6543
     params:
       configs/niveles.yaml:
         niveles.n1:
@@ -274,8 +278,8 @@ stages:
     deps:
     - path: pipeline/common.py
       hash: md5
-      md5: ab1cebaba4471d416f664ecbf149322e
-      size: 1259
+      md5: 61ed18b020f454d62b73e51fe150a9d8
+      size: 1616
     - path: pipeline/generar_datos.py
       hash: md5
       md5: 0170a516f8cdcbc62d4019fb780da13f
@@ -288,10 +292,14 @@ stages:
       hash: md5
       md5: fd2d9eaed1bba1380f8ce48422fddb69
       size: 10726
+    - path: warehouse_rush/env_v3.py
+      hash: md5
+      md5: 7944cd4013114303f9989db9667d2c53
+      size: 18718
     - path: warehouse_rush/niveles.py
       hash: md5
-      md5: 9f038e5a7f90ef4a1ee14ce4d7ed4736
-      size: 5391
+      md5: 919fcbe95b7bd3edd6dd94e979c94058
+      size: 6543
     params:
       configs/niveles.yaml:
         niveles.n2:
@@ -327,8 +335,8 @@ stages:
     deps:
     - path: pipeline/common.py
       hash: md5
-      md5: ab1cebaba4471d416f664ecbf149322e
-      size: 1259
+      md5: 61ed18b020f454d62b73e51fe150a9d8
+      size: 1616
     - path: pipeline/generar_datos.py
       hash: md5
       md5: 0170a516f8cdcbc62d4019fb780da13f
@@ -341,10 +349,14 @@ stages:
       hash: md5
       md5: fd2d9eaed1bba1380f8ce48422fddb69
       size: 10726
+    - path: warehouse_rush/env_v3.py
+      hash: md5
+      md5: 7944cd4013114303f9989db9667d2c53
+      size: 18718
     - path: warehouse_rush/niveles.py
       hash: md5
-      md5: 9f038e5a7f90ef4a1ee14ce4d7ed4736
-      size: 5391
+      md5: 919fcbe95b7bd3edd6dd94e979c94058
+      size: 6543
     params:
       configs/niveles.yaml:
         niveles.n3:
@@ -384,8 +396,8 @@ stages:
     deps:
     - path: pipeline/common.py
       hash: md5
-      md5: ab1cebaba4471d416f664ecbf149322e
-      size: 1259
+      md5: 61ed18b020f454d62b73e51fe150a9d8
+      size: 1616
     - path: pipeline/generar_datos.py
       hash: md5
       md5: 0170a516f8cdcbc62d4019fb780da13f
@@ -398,10 +410,14 @@ stages:
       hash: md5
       md5: fd2d9eaed1bba1380f8ce48422fddb69
       size: 10726
+    - path: warehouse_rush/env_v3.py
+      hash: md5
+      md5: 7944cd4013114303f9989db9667d2c53
+      size: 18718
     - path: warehouse_rush/niveles.py
       hash: md5
-      md5: 9f038e5a7f90ef4a1ee14ce4d7ed4736
-      size: 5391
+      md5: 919fcbe95b7bd3edd6dd94e979c94058
+      size: 6543
     params:
       configs/niveles.yaml:
         niveles.v2-n1:
@@ -440,8 +456,8 @@ stages:
     deps:
     - path: pipeline/common.py
       hash: md5
-      md5: ab1cebaba4471d416f664ecbf149322e
-      size: 1259
+      md5: 61ed18b020f454d62b73e51fe150a9d8
+      size: 1616
     - path: pipeline/generar_datos.py
       hash: md5
       md5: 0170a516f8cdcbc62d4019fb780da13f
@@ -454,10 +470,14 @@ stages:
       hash: md5
       md5: fd2d9eaed1bba1380f8ce48422fddb69
       size: 10726
+    - path: warehouse_rush/env_v3.py
+      hash: md5
+      md5: 7944cd4013114303f9989db9667d2c53
+      size: 18718
     - path: warehouse_rush/niveles.py
       hash: md5
-      md5: 9f038e5a7f90ef4a1ee14ce4d7ed4736
-      size: 5391
+      md5: 919fcbe95b7bd3edd6dd94e979c94058
+      size: 6543
     params:
       configs/niveles.yaml:
         niveles.v2-n2:
@@ -497,8 +517,8 @@ stages:
     deps:
     - path: pipeline/common.py
       hash: md5
-      md5: ab1cebaba4471d416f664ecbf149322e
-      size: 1259
+      md5: 61ed18b020f454d62b73e51fe150a9d8
+      size: 1616
     - path: pipeline/generar_datos.py
       hash: md5
       md5: 0170a516f8cdcbc62d4019fb780da13f
@@ -511,10 +531,14 @@ stages:
       hash: md5
       md5: fd2d9eaed1bba1380f8ce48422fddb69
       size: 10726
+    - path: warehouse_rush/env_v3.py
+      hash: md5
+      md5: 7944cd4013114303f9989db9667d2c53
+      size: 18718
     - path: warehouse_rush/niveles.py
       hash: md5
-      md5: 9f038e5a7f90ef4a1ee14ce4d7ed4736
-      size: 5391
+      md5: 919fcbe95b7bd3edd6dd94e979c94058
+      size: 6543
     params:
       configs/niveles.yaml:
         niveles.v2-n3:
@@ -552,3 +576,207 @@ stages:
       hash: md5
       md5: b87e2ba5c2c22533aa4ae43c3f3fedae
       size: 198701
+  generar_datos@v3-n1:
+    cmd: python pipeline/generar_datos.py v3-n1
+    deps:
+    - path: pipeline/common.py
+      hash: md5
+      md5: 61ed18b020f454d62b73e51fe150a9d8
+      size: 1616
+    - path: pipeline/generar_datos.py
+      hash: md5
+      md5: 0170a516f8cdcbc62d4019fb780da13f
+      size: 1145
+    - path: warehouse_rush/env_v1.py
+      hash: md5
+      md5: 6197e1ebbb7dc58f5b386f68bb2debe7
+      size: 11365
+    - path: warehouse_rush/env_v2.py
+      hash: md5
+      md5: fd2d9eaed1bba1380f8ce48422fddb69
+      size: 10726
+    - path: warehouse_rush/env_v3.py
+      hash: md5
+      md5: 7944cd4013114303f9989db9667d2c53
+      size: 18718
+    - path: warehouse_rush/niveles.py
+      hash: md5
+      md5: 919fcbe95b7bd3edd6dd94e979c94058
+      size: 6543
+    params:
+      configs/niveles.yaml:
+        niveles.v3-n1:
+          nombre: N1 · Dos pisos (negocio)
+          ambiente: WarehouseRush-v3
+          version_ambiente: 3.0.0
+          decision: 'Despachar un paquete que puede estar en cualquiera de los dos
+            pisos: si está arriba, subir por el montacargas, recogerlo y bajarlo al
+            muelle de su ruta antes de que salga el camión (entre 60 y 200 pasos).
+            Sin batería.'
+          entorno:
+            bateria: false
+            bateria_max: 100
+            max_pasos: 300
+            bloqueos: []
+          datos:
+            semilla: 207
+            pedidos_entrenamiento: 5000
+            pedidos_evaluacion: 200
+            paquetes_por_pedido: 1
+            prob_tipos:
+              normal: 1.0
+              pesado: 0.0
+              fragil: 0.0
+            prob_express: 0.3
+            corte_pasos:
+            - 60
+            - 200
+    outs:
+    - path: data/v3-n1/pedidos_entrenamiento.json
+      hash: md5
+      md5: 7f8c3c0f820514f4a95158b4cf648d28
+      size: 1214693
+    - path: data/v3-n1/pedidos_evaluacion.json
+      hash: md5
+      md5: b97d982fe42fbdaa4f9452c1a21a2fe9
+      size: 48698
+  generar_datos@v3-n2:
+    cmd: python pipeline/generar_datos.py v3-n2
+    deps:
+    - path: pipeline/common.py
+      hash: md5
+      md5: 61ed18b020f454d62b73e51fe150a9d8
+      size: 1616
+    - path: pipeline/generar_datos.py
+      hash: md5
+      md5: 0170a516f8cdcbc62d4019fb780da13f
+      size: 1145
+    - path: warehouse_rush/env_v1.py
+      hash: md5
+      md5: 6197e1ebbb7dc58f5b386f68bb2debe7
+      size: 11365
+    - path: warehouse_rush/env_v2.py
+      hash: md5
+      md5: fd2d9eaed1bba1380f8ce48422fddb69
+      size: 10726
+    - path: warehouse_rush/env_v3.py
+      hash: md5
+      md5: 7944cd4013114303f9989db9667d2c53
+      size: 18718
+    - path: warehouse_rush/niveles.py
+      hash: md5
+      md5: 919fcbe95b7bd3edd6dd94e979c94058
+      size: 6543
+    params:
+      configs/niveles.yaml:
+        niveles.v3-n2:
+          nombre: N2 · Dos pisos y hora de corte (negocio)
+          ambiente: WarehouseRush-v3
+          version_ambiente: 3.0.0
+          decision: 'Órdenes de 3 paquetes repartidos en dos pisos, secuenciadas por
+            la salida del camión de cada ruta (entre 120 y 360 pasos). Perder el camión
+            cuesta la compensación al cliente más $3.750 de reproceso. La única estación
+            de carga está en el primer piso: cargar en el momento equivocado puede
+            hacer perder un camión.'
+          entorno:
+            bateria: true
+            bateria_max: 100
+            max_pasos: 600
+            bloqueos: []
+          datos:
+            semilla: 242
+            pedidos_entrenamiento: 20000
+            pedidos_evaluacion: 500
+            paquetes_por_pedido: 3
+            prob_tipos:
+              normal: 0.5
+              pesado: 0.25
+              fragil: 0.25
+            prob_express: 0.3
+            corte_pasos:
+            - 120
+            - 360
+    outs:
+    - path: data/v3-n2/pedidos_entrenamiento.json
+      hash: md5
+      md5: 1bee5740cdbb1cb4139f54d319ad8ad7
+      size: 9230211
+    - path: data/v3-n2/pedidos_evaluacion.json
+      hash: md5
+      md5: 34d238b4bf151db11be04e663dd7f711
+      size: 230846
+  generar_datos@v3-n3:
+    cmd: python pipeline/generar_datos.py v3-n3
+    deps:
+    - path: pipeline/common.py
+      hash: md5
+      md5: 61ed18b020f454d62b73e51fe150a9d8
+      size: 1616
+    - path: pipeline/generar_datos.py
+      hash: md5
+      md5: 0170a516f8cdcbc62d4019fb780da13f
+      size: 1145
+    - path: warehouse_rush/env_v1.py
+      hash: md5
+      md5: 6197e1ebbb7dc58f5b386f68bb2debe7
+      size: 11365
+    - path: warehouse_rush/env_v2.py
+      hash: md5
+      md5: fd2d9eaed1bba1380f8ce48422fddb69
+      size: 10726
+    - path: warehouse_rush/env_v3.py
+      hash: md5
+      md5: 7944cd4013114303f9989db9667d2c53
+      size: 18718
+    - path: warehouse_rush/niveles.py
+      hash: md5
+      md5: 919fcbe95b7bd3edd6dd94e979c94058
+      size: 6543
+    params:
+      configs/niveles.yaml:
+        niveles.v3-n3:
+          nombre: N3 · Dos pisos con incidente (negocio)
+          ambiente: WarehouseRush-v3
+          version_ambiente: 3.0.0
+          decision: 'El mismo incidente de N3 en los dos pisos: el corredor inferior
+            está bloqueado en (7,4) y (7,7) del piso 1 y del piso 2. Los desvíos alargan
+            cada viaje y ponen en riesgo la hora de corte de los camiones.'
+          entorno:
+            bateria: true
+            bateria_max: 100
+            max_pasos: 600
+            bloqueos:
+            - - 0
+              - 7
+              - 4
+            - - 0
+              - 7
+              - 7
+            - - 1
+              - 7
+              - 4
+            - - 1
+              - 7
+              - 7
+          datos:
+            semilla: 243
+            pedidos_entrenamiento: 20000
+            pedidos_evaluacion: 500
+            paquetes_por_pedido: 3
+            prob_tipos:
+              normal: 0.5
+              pesado: 0.25
+              fragil: 0.25
+            prob_express: 0.3
+            corte_pasos:
+            - 120
+            - 360
+    outs:
+    - path: data/v3-n3/pedidos_entrenamiento.json
+      hash: md5
+      md5: 7fbfd1ed743ecfefd2b3dfacd44e6479
+      size: 9230190
+    - path: data/v3-n3/pedidos_evaluacion.json
+      hash: md5
+      md5: a494b7544e1af6e245ee99607054e6d8
+      size: 230856

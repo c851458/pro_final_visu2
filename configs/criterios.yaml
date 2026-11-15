@@ -143,6 +143,57 @@ contrastes:
           Afinar con PPO (1M pasos, tasa de aprendizaje baja) la red imitada mantiene >=95% de exito y <=0.30 rescates
           en las tres semillas y mejora el OTIF respecto de A.
 
+  # Ambiente v3.0.0 (dos pisos y hora de corte), fijado 2026-11-14 antes de entrenar. En v2 la imitacion (DAgger)
+  # fue la unica tecnica que cumplio (99.9% y 100%); aqui se mide si la misma receta, sin cambios, escala a un centro
+  # de distribucion con el doble de ubicaciones, montacargas y hora de corte. Prueba de humo previa (una semilla,
+  # 3 iteraciones de 300 pedidos, v3-n2): 61% de exito; no se usa para elegir nada.
+  # OTIF y camiones perdidos se informan frente al planificador de reglas; no son requisito.
+  # Contingencia: si un nivel no cumple, no se publica modelo en ese nivel y se documenta; una ronda con mas
+  # iteraciones DAgger se pre-registraria aparte.
+  imitacion-v3-n1:
+    nivel: v3-n1
+    pregunta: >-
+      ¿La receta de imitación de v2 (DAgger, 8 iteraciones de 1500 pedidos, red 128x128) aprende de forma estable
+      a despachar un paquete en el centro de dos pisos con hora de corte?
+    semillas: [0, 1, 2]
+    brazos:
+      A:
+        nombre: imitacion DAgger (receta v2)
+        algoritmo: imitacion
+        pasos: 0
+        cambios: [nivel=v3-n1, algoritmo=imitacion, imitacion.iteraciones_dagger=8, imitacion.episodios_por_iteracion=1500]
+        hipotesis: >-
+          La red imitada (30 caracteristicas: piso, montacargas y tiempo hasta la salida del camion) alcanza >=95% de
+          ordenes completas en v3-n1 en las tres semillas.
+  imitacion-v3-n2:
+    nivel: v3-n2
+    pregunta: >-
+      ¿La receta de imitación de v2 cumple los requisitos de forma estable en el centro de dos pisos con órdenes de
+      3 paquetes, batería y hora de corte?
+    semillas: [0, 1, 2]
+    brazos:
+      A:
+        nombre: imitacion DAgger (receta v2)
+        algoritmo: imitacion
+        pasos: 0
+        cambios: [nivel=v3-n2, algoritmo=imitacion, imitacion.iteraciones_dagger=8, imitacion.episodios_por_iteracion=1500]
+        hipotesis: >-
+          La red imitada alcanza >=95% de ordenes completas con <=0.30 rescates en v3-n2 en las tres semillas.
+  imitacion-v3-n3:
+    nivel: v3-n3
+    pregunta: >-
+      ¿La receta de imitación de v2 cumple los requisitos de forma estable en el centro de dos pisos con el
+      corredor inferior bloqueado en ambos pisos?
+    semillas: [0, 1, 2]
+    brazos:
+      A:
+        nombre: imitacion DAgger (receta v2)
+        algoritmo: imitacion
+        pasos: 0
+        cambios: [nivel=v3-n3, algoritmo=imitacion, imitacion.iteraciones_dagger=8, imitacion.episodios_por_iteracion=1500]
+        hipotesis: >-
+          La red imitada alcanza >=95% de ordenes completas con <=0.30 rescates en v3-n3 en las tres semillas.
+
 # Requisitos que debe cumplir la media de las semillas de un brazo (suite de evaluacion del nivel).
 requisitos:
   tasa_exito_min: 0.95

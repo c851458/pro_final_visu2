@@ -4,7 +4,7 @@ import { api, ApiError } from './api';
 import { Escena, TYPE_LABELS, ZONE_CSS, batteryColor } from './escena';
 import type { Ambiente, Catalogo, Evaluacion, Fotograma, ModeloCatalogo, ModeloInfo, Monitoreo, Nivel, Niveles, Run } from './tipos';
 
-const [PICK, DROP, CHARGE] = [4, 5, 6];
+const [PICK, DROP, CHARGE, ELEVATOR] = [4, 5, 6, 7];
 const GITHUB = 'https://github.com/c851458/pro_final_visu2';
 const $ = <T extends HTMLElement = HTMLElement>(id: string) => document.getElementById(id) as T;
 const pct = (x: number | undefined) => (x === undefined || x === null ? '-' : `${(x * 100).toFixed(1)}%`);
@@ -12,12 +12,13 @@ const num = (x: number | undefined, d = 1) => (x === undefined || x === null ? '
 const fmtPts = (x: number) => (x >= 0 ? '+' : '') + x.toFixed(1);
 const money = (x: number) => `${x < 0 ? '−' : '+'}$${Math.abs(Math.round(x)).toLocaleString('es-CO')}`;
 const cop = (x: number | undefined) => (x === undefined || x === null ? '-' : `$${Math.round(x).toLocaleString('es-CO')}`);
-// v2 (negocio): recompensa en pesos colombianos; v1: puntos
-const isCop = (id = state.nivel) => level(id).environment_version.startsWith('2');
+// v2 y v3 (negocio): recompensa en pesos colombianos; v1: puntos
+const isCop = (id = state.nivel) => !level(id).environment_version.startsWith('1');
 const fmt = (x: number) => (isCop() ? money(x) : fmtPts(x));
 const LIBRO_LABELS: Record<string, string> = {
   ingresos: 'Ingresos por envíos', costos_operacion: 'Operación del robot', danos: 'Daños (frágiles)',
   intervenciones: 'Intervenciones humanas', compensaciones_sla: 'Compensaciones SLA', energia: 'Energía (cargas)',
+  reproceso_camion: 'Camión perdido',
 };
 const short = (s: string | null | undefined, n = 7) => (s ? s.slice(0, n) : '-');
 const esc = (s: unknown) => String(s ?? '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]!);
@@ -80,7 +81,8 @@ function busy(on: boolean) {
 function renderLevelSelect() {
   const sel = $<HTMLSelectElement>('sel-nivel');
   const versions = [...new Set(niveles.niveles.map((n) => n.environment_version))].sort().reverse();
-  const groupLabel = (v: string) => (v.startsWith('2') ? `Ambiente v${v} · negocio (COP y SLA)` : `Ambiente v${v} · histórico`);
+  const groupLabel = (v: string) => (v.startsWith('3') ? `Ambiente v${v} · dos pisos y hora de corte`
+    : v.startsWith('2') ? `Ambiente v${v} · negocio (COP y SLA)` : `Ambiente v${v} · histórico`);
   sel.innerHTML = versions.map((v) => `<optgroup label="${esc(groupLabel(v))}">`
     + niveles.niveles.filter((n) => n.environment_version === v)
       .map((n) => `<option value="${n.nivel}">${esc(n.nombre)}</option>`).join('') + '</optgroup>').join('');
@@ -155,6 +157,13 @@ function selectLevel(id: string) {
   $('libro-block').hidden = !isCop();
   $('hud-sla').hidden = !isCop();
   $('hud-sla-label').hidden = !isCop();
+  const floors = Boolean(lv.mapa.pisos);
+  $('hud-piso').hidden = !floors;
+  $('hud-piso-label').hidden = !floors;
+  $('trucks-block').hidden = !floors;
+  $('key-elevator').hidden = !floors;
+  if (lv.environment_version.startsWith('3')) LIBRO_LABELS.energia = 'Energía y montacargas';
+  else LIBRO_LABELS.energia = 'Energía (cargas)';
   renderModelSelect();
   renderActivo();
   resetHud();
@@ -179,8 +188,9 @@ function logEvent(texto: string, tipo: 'ok' | 'alerta' | 'info', paso: number) {
 
 function resetHud() {
   $('event-log').innerHTML = '';
-  for (const id of ['hud-step', 'hud-action', 'hud-reward', 'hud-total', 'hud-rescues', 'hud-sla']) $(id).textContent = '-';
+  for (const id of ['hud-step', 'hud-action', 'hud-reward', 'hud-total', 'hud-rescues', 'hud-sla', 'hud-piso']) $(id).textContent = '-';
   $('hud-libro').innerHTML = '';
+  $('hud-trucks').innerHTML = '';
   $('order').innerHTML = '';
   $('goal').textContent = '';
   $('episode-title').textContent = 'Sin episodio';
@@ -210,8 +220,11 @@ function updateHud(f: Fotograma) {
     const svc = p.service === undefined ? ''
       : `<span class="svc ${p.service ? 'express' : 'estandar'}">${p.service ? 'EXPRESS' : 'ESTÁNDAR'}</span> `;
     const sla = p.status === 'entregado' && p.late !== undefined && p.late !== null
-      ? (p.late ? ' <span class="late">tarde</span>' : ' <span class="ontime">a tiempo</span>') : '';
-    return `<li class="${cls}"><span>${i + 1}.</span><span class="type">${svc}${TYPE_LABELS[p.type]}${broken}</span>`
+      ? (p.camion_perdido ? ' <span class="late">perdió el camión</span>' : p.late ? ' <span class="late">tarde</span>'
+        : ' <span class="ontime">a tiempo</span>') : '';
+    const pf = lv.mapa.shelf_cells[p.shelf]?.[2];
+    const floorTag = pf === undefined ? '' : `<span class="floor-tag">P${pf + 1}</span> `;
+    return `<li class="${cls}"><span>${i + 1}.</span><span class="type">${floorTag}${svc}${TYPE_LABELS[p.type]}${broken}</span>`
       + `<span class="zone" style="background:${ZONE_CSS[p.zone]}">${niveles.zonas[p.zone]}</span>`
       + `<span class="st">${STATUS_LABELS[p.status]}${sla}</span></li>`;
   }).join('');
@@ -225,11 +238,28 @@ function updateHud(f: Fotograma) {
         + `${k === 'ingresos' ? cop(v) : v ? `−${cop(v)}` : '$0'}</dd>`).join('')
       + `<dt><b>Utilidad</b></dt><dd><b class="${f.total >= 0 ? 'pos' : 'neg'}">${money(f.total)}</b></dd>`;
   }
+  if (f.corte) {  // v3: piso del robot y salida de cada camion
+    $('hud-piso').textContent = `${(f.piso ?? 0) + 1}`;
+    const routes = new Set(f.order.map((p) => p.zone));
+    $('hud-trucks').innerHTML = f.corte.map((t, z) => {
+      const left = t - f.steps;
+      const state = left > 0 ? `sale en ${left}` : 'salió';
+      const cls = left <= 0 ? 'neg' : left <= 40 ? 'gold' : 'pos';
+      const tag = routes.has(z) ? '' : ' <span class="muted">(sin paquetes)</span>';
+      return `<dt><span class="zone-dot" style="background:${ZONE_CSS[z]}"></span>Ruta ${niveles.zonas[z]}${tag}</dt>`
+        + `<dd class="${cls}">${state}</dd>`;
+    }).join('');
+  }
   if (state.politica === 'manual') {
     const cur = f.order[Math.min(f.current, f.order.length - 1)];
     let goal = f.carrying
       ? `Lleva el paquete a la <b style="color:${ZONE_CSS[cur.zone]}">Zona ${niveles.zonas[cur.zone]}</b> y pulsa <kbd>E</kbd>.`
       : 'Ve junto a la estantería marcada y pulsa <kbd>R</kbd>.';
+    const targetFloor = f.carrying ? 0 : lv.mapa.shelf_cells[cur.shelf]?.[2] ?? 0;
+    if (f.piso !== undefined && targetFloor !== f.piso) {
+      goal = `El ${f.carrying ? 'muelle' : 'paquete'} está en el piso ${targetFloor + 1}: ve a la puerta del montacargas `
+        + '(anillo blanco) y pulsa <kbd>M</kbd>.';
+    }
     if (lv.entorno.bateria && f.battery / lv.entorno.bateria_max <= 0.3) goal += '<br><b class="gold">Batería baja:</b> ve a la estación de carga y pulsa <kbd>C</kbd>.';
     if (f.success) goal = 'Orden despachada. Pulsa <kbd>N</kbd> o “Ejecutar episodio” para otra.';
     $('goal').innerHTML = goal;
@@ -242,8 +272,10 @@ function onEpisodeEnd(f: Fotograma) {
   if (!(f.terminated || f.truncated)) return;
   const delivered = f.order.filter((p) => p.status === 'entregado').length;
   const late = f.order.filter((p) => p.late).length;
+  const missed = f.order.filter((p) => p.camion_perdido).length;
   const sub = `${delivered}/${f.order.length} paquetes · ${f.steps} pasos · ${isCop() ? 'utilidad' : 'recompensa'} ${fmt(f.total)}`
     + (late ? ` · ${late} fuera de plazo` : '')
+    + (missed ? ` · ${missed} camión(es) perdido(s)` : '')
     + (f.rescues ? ` · ${f.rescues} rescate(s)` : '');
   if (f.success) showBanner('Orden despachada', sub, 'pos');
   else showBanner('Orden incompleta: tiempo agotado', sub, 'neg');
@@ -301,6 +333,10 @@ function renderEvaluation(ev: Evaluacion) {
     [pct(m.otif), 'OTIF (completas y a tiempo)'], [pct(m.cumplimiento_express), 'Express a tiempo'],
     [cop(m.utilidad_media_cop), 'utilidad / orden'], [cop(m.compensaciones_sla_medio_cop), 'compensaciones SLA / orden'],
   ];
+  if (m.camiones_perdidos_medios !== undefined) {  // v3: hora de corte y montacargas
+    business.push([pct(m.cumplimiento_corte), 'paquetes en su camión'], [num(m.camiones_perdidos_medios, 2), 'camiones perdidos / orden'],
+      [num(m.viajes_montacargas_medios, 1), 'viajes en montacargas']);
+  }
   const tiles: [string, string][] = [
     ...business,
     [pct(m.tasa_exito), 'pedidos completos'], [num(m.pasos_medios_exitosos), 'pasos (exitosos)'],
@@ -370,6 +406,7 @@ window.addEventListener('keydown', (e) => {
   else if (k === 'r' || k === ' ') action = PICK;
   else if (k === 'e' || k === 'enter') action = DROP;
   else if (k === 'c') action = CHARGE;
+  else if (k === 'm' && level().mapa.pisos) action = ELEVATOR;
   else if (k === 'n') { e.preventDefault(); startManual(); return; }
   if (action === null) return;
   e.preventDefault();
@@ -476,7 +513,8 @@ function renderCompare() {
     ['Episodios (presupuesto)', (r) => (r.tipo === 'entrenamiento' ? esc(r.episodios ?? '-') : 'sin entrenamiento')], ['Suite', (r) => `<code>${esc(r.evaluation_suite_id || '-')}</code>`],
     ['Pedidos completos', (r) => pct(r.metricas.tasa_exito)],
     ['OTIF', (r) => pct(r.metricas.otif)], ['Express a tiempo', (r) => pct(r.metricas.cumplimiento_express)],
-    ['Utilidad / orden (COP)', (r) => cop(r.metricas.utilidad_media_cop)], ['Pasos medios', (r) => num(r.metricas.pasos_medios)],
+    ['Utilidad / orden (COP)', (r) => cop(r.metricas.utilidad_media_cop)],
+    ['Camiones perdidos / orden', (r) => num(r.metricas.camiones_perdidos_medios, 3)], ['Pasos medios', (r) => num(r.metricas.pasos_medios)],
     ['Pasos (exitosos)', (r) => num(r.metricas.pasos_medios_exitosos)], ['Recompensa media', (r) => num(r.metricas.recompensa_media)],
     ['Rescates / pedido', (r) => num(r.metricas.rescates_medios, 3)], ['Choques / pedido', (r) => num(r.metricas.choques_medios, 3)],
     ['Frágiles rotos', (r) => num(r.metricas.fragiles_rotos_medios, 3)], ['Latencia (ms)', (r) => num(r.metricas.latencia_media_ms, 4)],

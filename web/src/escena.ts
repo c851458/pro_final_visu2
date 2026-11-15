@@ -23,9 +23,12 @@ const PLATE_Y = 0.3;
 const TRAIL_LEN = 80;
 const DURATIONS: Record<string, number> = {
   reset: 0, move: 1, bump: 1.2, break: 1.6, pick: 2, drop: 2, pick_fail: 1.2, drop_fail: 1.2,
-  wrong_zone: 1.3, charge: 2.4, charge_fail: 1.2, rescue: 3,
+  wrong_zone: 1.3, charge: 2.4, charge_fail: 1.2, rescue: 3, elevator: 4, elevator_fail: 1.2,
 };
-const ALERTS = ['bump', 'break', 'pick_fail', 'drop_fail', 'wrong_zone', 'charge_fail', 'rescue'];
+const ALERTS = ['bump', 'break', 'pick_fail', 'drop_fail', 'wrong_zone', 'charge_fail', 'rescue', 'elevator_fail'];
+const FLOOR_H = 2.6;  // v3: altura de cada piso (estanterias de 1,5 m, espacio libre y losa)
+const GHOST = 0;      // un piso superior se oculta mientras el robot trabaja abajo (queda el contorno de su losa)
+const FLOOR_LABELS = ['PISO 1', 'PISO 2', 'PISO 3'];
 
 const clamp01 = (x: number) => Math.min(1, Math.max(0, x));
 const ease = (t: number) => (t < 0.5 ? 2 * t * t : 1 - (-2 * t + 2) ** 2 / 2);
@@ -207,6 +210,9 @@ function buildRobot() {
 // ---------------------------------------------------------------- escena
 
 interface Zona { center: THREE.Vector3; width: number; minC: number; row: number; stack: number }
+interface MaterialPiso { mat: THREE.Material; opacity: number; transparent: boolean; depthWrite: boolean }
+interface Camion { root: THREE.Group; home: THREE.Vector3; sign: THREE.Sprite; canvas: HTMLCanvasElement;
+  tex: THREE.CanvasTexture; text: string; leaving: number; gone: boolean }
 interface PaqueteVisual { mesh: THREE.Mesh<THREE.BufferGeometry, THREE.MeshStandardMaterial>; data: Paquete; size: number;
   mode: 'shelf' | 'flying' | 'carried' | 'dropping' | 'delivered'; rest: THREE.Vector3 }
 interface Anim { f: Fotograma; t: number; dur: number; from: THREE.Vector3; to: THREE.Vector3; h0: number; h1: number;
@@ -242,8 +248,8 @@ export class Escena {
   private seed = 7;
   private batteryMax = 100;
   private useBattery = true;
-  private vis = { pos: [8, 7] as number[], heading: Math.PI, carrying: false, current: 0, success: false, battery: 100,
-    alertUntil: 0, wheelAngle: 0, chargingUntil: 0 };
+  private vis = { pos: [8, 7] as number[], piso: 0, heading: Math.PI, carrying: false, current: 0, success: false,
+    battery: 100, alertUntil: 0, wheelAngle: 0, chargingUntil: 0 };
   private camTween: { t: number; p0: THREE.Vector3; t0: THREE.Vector3; p1: THREE.Vector3; t1: THREE.Vector3 } | null = null;
   private followRobot = false;
   private targetRing: THREE.Mesh<THREE.RingGeometry, THREE.MeshBasicMaterial>;
@@ -253,6 +259,19 @@ export class Escena {
   private barFill: THREE.Mesh<THREE.PlaneGeometry, THREE.MeshBasicMaterial>;
   private chargerPos = new THREE.Vector3();
   private chargerLed!: THREE.MeshStandardMaterial;
+  // v3: edificio de varios pisos, montacargas y camiones con hora de corte
+  private world = new THREE.Group();
+  private worldKey = '';
+  private nFloors = 1;
+  private viewFloor = 0;
+  private floorMats: MaterialPiso[][] = [];
+  private floorMeshes: { mesh: THREE.Mesh; cast: boolean }[][] = [];
+  private floorAlpha: number[] = [];
+  private floorGroups: THREE.Group[] = [];
+  private elevatorCab: THREE.Group | null = null;
+  private trucks: Camion[] = [];
+  private truckCutoff: number[] | null = null;
+  private camLift = 0;
 
   constructor(private container: HTMLElement, private zoneNames: string[]) {
     this.renderer = new THREE.WebGLRenderer({ antialias: true });
@@ -290,6 +309,7 @@ export class Escena {
     sun.shadow.normalBias = 0.02;
     this.scene.add(sun);
 
+    this.scene.add(this.world);
     this.scene.add(this.robot.root);
     this.scene.add(this.obstacles);
 
@@ -316,9 +336,11 @@ export class Escena {
   get ocupado() { return this.anim !== null || this.queue.length > 0; }
   get pendientes() { return this.queue.length; }
 
-  private cellPos(r: number, c: number, y = 0) {
-    return new THREE.Vector3(c - (this.W - 1) / 2, y, r - (this.H - 1) / 2);
+  private cellPos(r: number, c: number, y = 0, piso = 0) {
+    return new THREE.Vector3(c - (this.W - 1) / 2, y + piso * FLOOR_H, r - (this.H - 1) / 2);
   }
+
+  private shelfFloor(shelf: number) { return this.mapa.shelf_cells[shelf]?.[2] ?? 0; }
 
   private resize() {
     const { clientWidth: w, clientHeight: h } = this.container;
@@ -330,15 +352,25 @@ export class Escena {
 
   /** Prepara la escena para un nivel: obstaculos, bateria y robot en el inicio. */
   setNivel(mapa: Mapa, useBattery: boolean, batteryMax: number) {
-    if (!this.built) this.buildWarehouse(mapa);
+    const key = `${mapa.pisos?.length ?? 1}|${mapa.elevador ?? ''}|${mapa.layout.join('')}`;
+    if (key !== this.worldKey) {  // otro edificio (p. ej. v2 de un piso y v3 de dos): se reconstruye
+      this.worldKey = key;
+      this.clearWorld();
+      this.mapa = mapa;
+      this.buildWarehouse(mapa);
+    }
     this.mapa = mapa;
     this.useBattery = useBattery;
     this.batteryMax = batteryMax;
     this.batteryBar.visible = useBattery;
     this.obstacles.clear();
-    for (const [r, c] of mapa.bloqueos) this.obstacles.add(this.buildObstacle(r, c));
+    for (const [r, c, f] of mapa.bloqueos) this.obstacles.add(this.buildObstacle(r, c, f ?? 0));
     this.limpiar();
     this.vis.pos = mapa.start.slice();
+    this.vis.piso = 0;
+    this.viewFloor = 0;
+    if (this.elevatorCab) this.elevatorCab.position.y = 0;
+    this.resetTrucks(null);
     this.vis.heading = Math.PI;
     this.robot.root.position.copy(this.cellPos(mapa.start[0], mapa.start[1]));
     this.robot.root.rotation.y = Math.PI;
@@ -363,10 +395,10 @@ export class Escena {
   private rand() { return (this.seed = (this.seed * 16807) % 2147483647) / 2147483647; }
 
   /** Piso de concreto con juntas, demarcacion de seguridad, pasillos numerados, muelles y zona de carga. */
-  private floorTexture(mapa: Mapa) {
+  private floorTexture(mapa: Mapa, layout: string[], f: number) {
     const { W, H } = this;
     const px = 96;
-    const isShelf = (r: number, c: number) => mapa.layout[r]?.[c] === 'S';
+    const isShelf = (r: number, c: number) => layout[r]?.[c] === 'S';
     return canvasTexture((W - 2) * px, (H - 2) * px, (ctx, w, h) => {
       const X = (c: number) => (c - 1) * px;
       const Y = (r: number) => (r - 1) * px;
@@ -421,6 +453,29 @@ export class Escena {
       stripes(ctx, w, 18, 'rgba(232,182,0,0.85)', 24, 10);
       ctx.restore();
 
+      if (mapa.pisos) {  // v3: nombre del piso y acceso al montacargas
+        ctx.fillStyle = 'rgba(245,245,240,0.9)';
+        ctx.font = 'bold 30px system-ui, sans-serif';
+        ctx.textAlign = 'left';
+        ctx.fillText(FLOOR_LABELS[f] ?? `PISO ${f + 1}`, X(9) + 20, Y(8) + px / 2);
+        ctx.textAlign = 'center';
+        if (mapa.elevador) {
+          const [er, ec] = mapa.elevador;
+          const x = X(ec - 1);
+          const y = Y(er);
+          ctx.save();
+          ctx.beginPath(); ctx.rect(x, y, px, px); ctx.clip();
+          stripes(ctx, x + px, y + px, 'rgba(232,182,0,0.55)', 26, 9);
+          ctx.restore();
+          ctx.fillStyle = '#1b1b1b';
+          ctx.fillRect(x + 10, y + px / 2 - 15, px - 20, 30);
+          ctx.fillStyle = '#e8b600';
+          ctx.font = 'bold 15px system-ui, sans-serif';
+          ctx.fillText('MONTAC. ▶', x + px / 2, y + px / 2 + 1);
+        }
+      }
+      if (f > 0) return;  // los muelles, la carga y el inicio estan en el primer piso
+
       // muelles de despacho: area de preparacion delimitada
       mapa.zone_cells.forEach((cells, z) => {
         const cols = cells.map(([, c]) => c);
@@ -466,11 +521,49 @@ export class Escena {
 
   private buildWarehouse(mapa: Mapa) {
     this.built = true;
-    const layout = mapa.layout;
-    this.H = layout.length;
-    this.W = layout[0].length;
-    const { W, H } = this;
+    const layouts = mapa.pisos ?? [mapa.layout];
+    this.nFloors = layouts.length;
+    this.H = layouts[0].length;
+    this.W = layouts[0][0].length;
+    const ground = new THREE.Mesh(new THREE.PlaneGeometry(120, 120), new THREE.MeshStandardMaterial({ color: 0x2a2e34, roughness: 1 }));
+    ground.rotation.x = -Math.PI / 2;
+    ground.position.y = -0.01;
+    ground.receiveShadow = true;
+    this.world.add(ground);
+    layouts.forEach((layout, f) => {
+      const g = new THREE.Group();
+      g.position.y = f * FLOOR_H;
+      this.world.add(g);
+      this.floorGroups.push(g);
+      this.buildFloor(mapa, layout, f, g);
+      if (f > 0) {  // contorno de la losa: indica que hay un piso arriba aunque este oculto
+        const edges = new THREE.LineSegments(new THREE.EdgesGeometry(new THREE.BoxGeometry(this.W - 1, 0.14, this.H - 1)),
+          new THREE.LineBasicMaterial({ color: 0x9fb6c8, transparent: true, opacity: 0.55 }));
+        edges.position.y = f * FLOOR_H - 0.08;
+        this.world.add(edges);
+      }
+      // materiales y mallas del piso: para volverlo translucido cuando el robot esta en un piso inferior
+      const mats = new Map<THREE.Material, MaterialPiso>();
+      const meshes: { mesh: THREE.Mesh; cast: boolean }[] = [];
+      g.traverse((o) => {
+        const m = o as THREE.Mesh;
+        if (!m.isMesh) return;
+        meshes.push({ mesh: m, cast: m.castShadow });
+        for (const mat of [m.material].flat()) {
+          if (!mats.has(mat)) mats.set(mat, { mat, opacity: mat.opacity, transparent: mat.transparent, depthWrite: mat.depthWrite });
+        }
+      });
+      this.floorMats.push([...mats.values()]);
+      this.floorMeshes.push(meshes);
+      this.floorAlpha.push(1);
+    });
+    if (mapa.elevador) this.buildElevator(mapa.elevador, layouts.length);
+    if (mapa.pisos) this.buildTrucks();
+  }
 
+  /** Un piso: losa, muros, estanterias y, en el primero, muelles de despacho y estacion de carga. */
+  private buildFloor(mapa: Mapa, layout: string[], f: number, g: THREE.Group) {
+    const { W, H } = this;
     const wallTex = canvasTexture(256, 256, (ctx, w, h) => {  // paneles prefabricados de concreto
       ctx.fillStyle = '#a3a7ad';
       ctx.fillRect(0, 0, w, h);
@@ -494,16 +587,17 @@ export class Escena {
       ctx.fillRect(14, 16, 44, 30);
     });
 
-    const ground = new THREE.Mesh(new THREE.PlaneGeometry(120, 120), new THREE.MeshStandardMaterial({ color: 0x2a2e34, roughness: 1 }));
-    ground.rotation.x = -Math.PI / 2;
-    ground.position.y = -0.01;
-    ground.receiveShadow = true;
-    this.scene.add(ground);
     const floor = new THREE.Mesh(new THREE.PlaneGeometry(W - 2, H - 2),
-      new THREE.MeshStandardMaterial({ map: this.floorTexture(mapa), roughness: 0.6, metalness: 0.05 }));
+      new THREE.MeshStandardMaterial({ map: this.floorTexture(mapa, layout, f), roughness: 0.6, metalness: 0.05 }));
     floor.rotation.x = -Math.PI / 2;
     floor.receiveShadow = true;
-    this.scene.add(floor);
+    g.add(floor);
+    if (f > 0) {  // losa de entrepiso: su cara inferior se ve desde el piso de abajo
+      const slab = new THREE.Mesh(new THREE.BoxGeometry(W - 2, 0.14, H - 2),
+        new THREE.MeshStandardMaterial({ color: 0x5b6068, roughness: 0.9 }));
+      slab.position.y = -0.08;
+      g.add(slab);
+    }
 
     // muros perimetrales con defensa amarilla en la base
     const wallCells: [number, number][] = [];
@@ -518,49 +612,62 @@ export class Escena {
       walls.setMatrixAt(i, m4.makeTranslation(p.x, WALL_H / 2, p.z));
       guard.setMatrixAt(i, m4.makeTranslation(p.x, 0.1, p.z));
     });
-    for (const m of [walls, guard]) this.scene.add(shadowed(m));
+    for (const m of [walls, guard]) g.add(shadowed(m));
 
-    // muelles de despacho: puerta enrollable en el muro detras de cada zona
-    this.zones = mapa.zone_cells.map((cells, z) => {
-      const cols = cells.map(([, c]) => c);
-      const minC = Math.min(...cols);
-      const width = Math.max(...cols) - minC + 1;
-      const row = cells[0][0];
-      const center = this.cellPos(row, minC + (width - 1) / 2);
-      const doorTex = canvasTexture(256 * width, 200, (ctx, w, h) => {
-        ctx.fillStyle = '#c4c8cd';
-        ctx.fillRect(0, 0, w, h);
-        for (let y = 0; y < h; y += 12) { ctx.fillStyle = 'rgba(70,74,80,0.35)'; ctx.fillRect(0, y, w, 3); }
-        ctx.fillStyle = ZONE_CSS[z];
-        ctx.fillRect(0, 0, w, 34);
-        ctx.fillStyle = '#fff';
-        ctx.font = 'bold 24px system-ui, sans-serif';
-        ctx.textAlign = 'center';
-        ctx.textBaseline = 'middle';
-        ctx.fillText(`MUELLE ${this.zoneNames[z]} · ${ROUTES[z]}`, w / 2, 18);
+    if (f < this.nFloors - 1) {  // columnas de acero que sostienen el piso de arriba
+      const colMat = new THREE.MeshStandardMaterial({ color: 0x3d5a80, roughness: 0.5, metalness: 0.5 });
+      const colGeo = new THREE.BoxGeometry(0.2, FLOOR_H, 0.2);
+      wallCells.filter(([r, c]) => ((r === 0 || r === H - 1) && c % 4 === 2) || ((c === 0 || c === W - 1) && r % 4 === 1))
+        .forEach(([r, c]) => {
+          const col = shadowed(new THREE.Mesh(colGeo, colMat));
+          col.position.copy(this.cellPos(r, c, FLOOR_H / 2));
+          g.add(col);
+        });
+    }
+
+    if (f === 0) {
+      // muelles de despacho: puerta enrollable en el muro detras de cada zona
+      this.zones = mapa.zone_cells.map((cells, z) => {
+        const cols = cells.map(([, c]) => c);
+        const minC = Math.min(...cols);
+        const width = Math.max(...cols) - minC + 1;
+        const row = cells[0][0];
+        const center = this.cellPos(row, minC + (width - 1) / 2);
+        const doorTex = canvasTexture(256 * width, 200, (ctx, w, h) => {
+          ctx.fillStyle = '#c4c8cd';
+          ctx.fillRect(0, 0, w, h);
+          for (let y = 0; y < h; y += 12) { ctx.fillStyle = 'rgba(70,74,80,0.35)'; ctx.fillRect(0, y, w, 3); }
+          ctx.fillStyle = ZONE_CSS[z];
+          ctx.fillRect(0, 0, w, 34);
+          ctx.fillStyle = '#fff';
+          ctx.font = 'bold 24px system-ui, sans-serif';
+          ctx.textAlign = 'center';
+          ctx.textBaseline = 'middle';
+          ctx.fillText(`MUELLE ${this.zoneNames[z]} · ${ROUTES[z]}`, w / 2, 18);
+        });
+        const door = new THREE.Mesh(new THREE.PlaneGeometry(width - 0.2, WALL_H - 0.1),
+          new THREE.MeshStandardMaterial({ map: doorTex, roughness: 0.5, metalness: 0.3 }));
+        door.position.set(center.x, (WALL_H - 0.1) / 2 + 0.02, center.z + 0.5 - 0.002);
+        door.rotation.y = Math.PI;
+        g.add(door);
+        return { center, width, minC, row, stack: 0 };
       });
-      const door = new THREE.Mesh(new THREE.PlaneGeometry(width - 0.2, WALL_H - 0.1),
-        new THREE.MeshStandardMaterial({ map: doorTex, roughness: 0.5, metalness: 0.3 }));
-      door.position.set(center.x, (WALL_H - 0.1) / 2 + 0.02, center.z + 0.5 - 0.002);
-      door.rotation.y = Math.PI;
-      this.scene.add(door);
-      return { center, width, minC, row, stack: 0 };
-    });
 
-    // estacion de carga montada en el muro
-    this.chargerPos = this.cellPos(mapa.charger[0], mapa.charger[1]);
-    const unit = shadowed(new THREE.Mesh(new RoundedBoxGeometry(0.5, 0.55, 0.16, 3, 0.03),
-      new THREE.MeshStandardMaterial({ color: 0x3a4048, roughness: 0.4, metalness: 0.5 })));
-    unit.position.set(this.chargerPos.x, 0.42, this.chargerPos.z - 0.42);
-    this.scene.add(unit);
-    const contacts = shadowed(new THREE.Mesh(new THREE.BoxGeometry(0.3, 0.05, 0.12),
-      new THREE.MeshStandardMaterial({ color: 0xb08d3a, roughness: 0.3, metalness: 0.9 })));
-    contacts.position.set(this.chargerPos.x, 0.12, this.chargerPos.z - 0.36);
-    this.scene.add(contacts);
-    this.chargerLed = new THREE.MeshStandardMaterial({ color: 0x34d399, emissive: 0x34d399, emissiveIntensity: 0.6 });
-    const led = new THREE.Mesh(new THREE.BoxGeometry(0.22, 0.03, 0.01), this.chargerLed);
-    led.position.set(this.chargerPos.x, 0.6, this.chargerPos.z - 0.335);
-    this.scene.add(led);
+      // estacion de carga montada en el muro
+      this.chargerPos = this.cellPos(mapa.charger[0], mapa.charger[1]);
+      const unit = shadowed(new THREE.Mesh(new RoundedBoxGeometry(0.5, 0.55, 0.16, 3, 0.03),
+        new THREE.MeshStandardMaterial({ color: 0x3a4048, roughness: 0.4, metalness: 0.5 })));
+      unit.position.set(this.chargerPos.x, 0.42, this.chargerPos.z - 0.42);
+      g.add(unit);
+      const contacts = shadowed(new THREE.Mesh(new THREE.BoxGeometry(0.3, 0.05, 0.12),
+        new THREE.MeshStandardMaterial({ color: 0xb08d3a, roughness: 0.3, metalness: 0.9 })));
+      contacts.position.set(this.chargerPos.x, 0.12, this.chargerPos.z - 0.36);
+      g.add(contacts);
+      this.chargerLed = new THREE.MeshStandardMaterial({ color: 0x34d399, emissive: 0x34d399, emissiveIntensity: 0.6 });
+      const led = new THREE.Mesh(new THREE.BoxGeometry(0.22, 0.03, 0.01), this.chargerLed);
+      led.position.set(this.chargerPos.x, 0.6, this.chargerPos.z - 0.335);
+      g.add(led);
+    }
 
     // estanterias selectivas (racks) con mercancia en carton
     const postGeo = new THREE.BoxGeometry(0.06, RACK_H, 0.06);
@@ -582,7 +689,8 @@ export class Escena {
         group.add(b);
       }
     };
-    this.racks = mapa.shelf_cells.map(([r, c]) => {
+    mapa.shelf_cells.forEach(([r, c, sf], i) => {
+      if ((sf ?? 0) !== f) return;
       const rack = new THREE.Group();
       rack.position.copy(this.cellPos(r, c));
       for (const [x, z] of [[-0.45, -0.45], [0.45, -0.45], [-0.45, 0.45], [0.45, 0.45]]) {
@@ -609,15 +717,214 @@ export class Escena {
       const bottom = new THREE.Group();
       addBoxes(bottom, 0.1, 1 + Math.floor(this.rand() * 2));
       rack.add(bottom);
-      this.scene.add(rack);
-      return { bottom };
+      g.add(rack);
+      this.racks[i] = { bottom };
     });
   }
 
-  /** Obstaculo del pasillo bloqueado (nivel N3): conos, barrera y derrame. */
-  private buildObstacle(r: number, c: number) {
+  /** Montacargas en el muro: estructura con vidrio que recorre los pisos y una cabina que sube y baja. */
+  private buildElevator([r, c]: number[], floors: number) {
     const g = new THREE.Group();
     g.position.copy(this.cellPos(r, c));
+    const height = (floors - 1) * FLOOR_H + RACK_H + 0.4;
+    const frame = new THREE.MeshStandardMaterial({ color: 0xe8b600, roughness: 0.5, metalness: 0.4 });
+    const glass = new THREE.MeshStandardMaterial({ color: 0xa9c3d6, roughness: 0.1, metalness: 0.1, transparent: true,
+      opacity: 0.16, depthWrite: false, side: THREE.DoubleSide });
+    for (const [x, z] of [[-0.47, -0.47], [0.47, -0.47], [-0.47, 0.47], [0.47, 0.47]]) {
+      const post = shadowed(new THREE.Mesh(new THREE.BoxGeometry(0.07, height, 0.07), frame));
+      post.position.set(x, height / 2, z);
+      g.add(post);
+    }
+    // vidrio en los tres lados cerrados; el acceso mira al pasillo (oeste)
+    for (const [x, z, ry] of [[0.47, 0, Math.PI / 2], [0, -0.47, 0], [0, 0.47, 0]]) {
+      const pane = new THREE.Mesh(new THREE.PlaneGeometry(0.94, height), glass);
+      pane.position.set(x, height / 2, z);
+      pane.rotation.y = ry;
+      g.add(pane);
+    }
+    const signTex = canvasTexture(256, 64, (ctx, w, h) => {
+      ctx.fillStyle = '#1b1b1b';
+      ctx.fillRect(0, 0, w, h);
+      stripes(ctx, w, 10, '#e8b600', 20, 8);
+      ctx.fillStyle = '#e8b600';
+      ctx.font = 'bold 26px system-ui, sans-serif';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText('MONTACARGAS', w / 2, h / 2 + 5);
+    });
+    for (let f = 0; f < floors; f++) {
+      const beam = shadowed(new THREE.Mesh(new THREE.BoxGeometry(0.07, 0.07, 0.94), frame));
+      beam.position.set(-0.47, f * FLOOR_H + 1.25, 0);
+      g.add(beam);
+      const sign = new THREE.Mesh(new THREE.PlaneGeometry(0.9, 0.22), new THREE.MeshStandardMaterial({ map: signTex, roughness: 0.6 }));
+      sign.position.set(-0.51, f * FLOOR_H + 1.42, 0);
+      sign.rotation.y = -Math.PI / 2;
+      g.add(sign);
+    }
+    const cab = new THREE.Group();
+    const deck = shadowed(new THREE.Mesh(new THREE.BoxGeometry(0.9, 0.05, 0.9),
+      new THREE.MeshStandardMaterial({ color: 0x4a5058, roughness: 0.5, metalness: 0.6 })));
+    deck.position.y = -0.03;
+    cab.add(deck);
+    for (const [x, z, w, d] of [[0.43, 0, 0.04, 0.9], [0, -0.43, 0.9, 0.04], [0, 0.43, 0.9, 0.04]]) {
+      const rail = shadowed(new THREE.Mesh(new THREE.BoxGeometry(w, 0.04, d), frame));
+      rail.position.set(x, 0.55, z);
+      cab.add(rail);
+    }
+    g.add(cab);
+    this.elevatorCab = cab;
+    this.world.add(g);
+  }
+
+  /** Camiones de cada ruta, estacionados afuera de su muelle, con un letrero de la hora de corte. */
+  private buildTrucks() {
+    this.trucks = this.zones.map((zone, z) => {
+      const home = new THREE.Vector3(zone.center.x, 0, zone.center.z + 1.55);
+      const root = new THREE.Group();
+      root.position.copy(home);
+      root.scale.setScalar(0.62);  // a escala del muelle, sin tapar la vista de la bodega
+      const sideTex = canvasTexture(512, 256, (ctx, w, h) => {
+        ctx.fillStyle = '#eef0f2';
+        ctx.fillRect(0, 0, w, h);
+        ctx.fillStyle = ZONE_CSS[z];
+        ctx.fillRect(0, h * 0.62, w, h * 0.16);
+        ctx.fillStyle = '#2b3036';
+        ctx.font = 'bold 54px system-ui, sans-serif';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillText(ROUTES[z], w / 2, h * 0.36);
+      });
+      const white = new THREE.MeshStandardMaterial({ color: 0xeef0f2, roughness: 0.5 });
+      const side = new THREE.MeshStandardMaterial({ map: sideTex, roughness: 0.5 });
+      const trailer = shadowed(new THREE.Mesh(new THREE.BoxGeometry(2.3, 1.3, 2.8), [side, side, white, white, white, white]));
+      trailer.position.set(0, 1.0, 1.45);
+      root.add(trailer);
+      const cab = shadowed(new THREE.Mesh(new RoundedBoxGeometry(2.1, 1.05, 0.95, 2, 0.08),
+        new THREE.MeshStandardMaterial({ color: ZONE_COLORS[z], roughness: 0.4, metalness: 0.3 })));
+      cab.position.set(0, 0.85, 3.4);
+      root.add(cab);
+      const glassCab = new THREE.Mesh(new THREE.BoxGeometry(1.8, 0.35, 0.02),
+        new THREE.MeshStandardMaterial({ color: 0x1b2430, roughness: 0.1, metalness: 0.6 }));
+      glassCab.position.set(0, 1.1, 3.88);
+      root.add(glassCab);
+      const wheelGeo = new THREE.CylinderGeometry(0.2, 0.2, 0.18, 18);
+      const rubber = new THREE.MeshStandardMaterial({ color: 0x111316, roughness: 0.9 });
+      for (const wz of [0.5, 1.0, 2.45, 3.4]) {
+        for (const wx of [-1.0, 1.0]) {
+          const wheel = shadowed(new THREE.Mesh(wheelGeo, rubber));
+          wheel.rotation.z = Math.PI / 2;
+          wheel.position.set(wx, 0.2, wz);
+          root.add(wheel);
+        }
+      }
+      this.world.add(root);
+      const canvas = document.createElement('canvas');
+      canvas.width = 320;
+      canvas.height = 112;
+      const tex = new THREE.CanvasTexture(canvas);
+      tex.colorSpace = THREE.SRGBColorSpace;
+      const sign = new THREE.Sprite(new THREE.SpriteMaterial({ map: tex, depthWrite: false }));
+      sign.scale.set(1.45, 0.5, 1);
+      sign.position.set(home.x, WALL_H + 0.42, zone.center.z + 0.55);  // sobre la puerta del muelle
+      this.world.add(sign);
+      return { root, home, sign, canvas, tex, text: '', leaving: 0, gone: false };
+    });
+  }
+
+  private drawTruckSign(t: Camion, z: number, line: string, bg: string) {
+    const text = `${line}|${bg}`;
+    if (t.text === text) return;
+    t.text = text;
+    const ctx = t.canvas.getContext('2d')!;
+    const { width: w, height: h } = t.canvas;
+    ctx.clearRect(0, 0, w, h);
+    ctx.fillStyle = bg;
+    ctx.beginPath();
+    ctx.roundRect(4, 4, w - 8, h - 8, 14);
+    ctx.fill();
+    ctx.fillStyle = ZONE_CSS[z];
+    ctx.fillRect(4, 4, 16, h - 8);
+    ctx.fillStyle = '#ffffff';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.font = 'bold 26px system-ui, sans-serif';
+    ctx.fillText(`CAMIÓN RUTA ${this.zoneNames[z]}`, w / 2 + 6, 34);
+    ctx.font = 'bold 32px system-ui, sans-serif';
+    ctx.fillText(line, w / 2 + 6, 76);
+    t.tex.needsUpdate = true;
+  }
+
+  /** Reinicia los camiones al inicio de un pedido (corte = pasos que le faltan a cada uno para salir). */
+  private resetTrucks(corte?: number[] | null) {
+    this.trucks.forEach((t, z) => {
+      t.root.visible = true;
+      t.root.position.copy(t.home);
+      t.leaving = 0;
+      t.gone = false;
+      t.sign.visible = true;
+      if (!corte) this.drawTruckSign(t, z, 'ESPERANDO ORDEN', '#334155');
+    });
+    this.truckCutoff = corte ?? null;
+  }
+
+  /** Letreros y salida de los camiones segun el paso del fotograma. */
+  private updateTrucks(f: Fotograma) {
+    if (!this.trucks.length || !f.corte) return;
+    if (!this.truckCutoff) this.truckCutoff = f.corte;
+    this.trucks.forEach((t, z) => {
+      const left = f.corte![z] - f.steps;
+      if (left > 0) {
+        this.drawTruckSign(t, z, `SALE EN ${left} PASOS`, left <= 40 ? '#b45309' : '#14532d');
+      } else {
+        this.drawTruckSign(t, z, 'SALIÓ', '#7f1d1d');
+        if (!t.leaving && !t.gone) {
+          t.leaving = performance.now();
+          this.onEvento(`Salió el camión de la ruta ${this.zoneNames[z]}`, 'info', f.steps);
+        }
+      }
+    });
+  }
+
+  private setFloorAlpha(f: number, a: number) {
+    this.floorAlpha[f] = a;
+    this.floorGroups[f].visible = a > 0.02;
+    const ghost = a < 0.999;
+    for (const s of this.floorMats[f]) {
+      const was = s.mat.transparent;
+      s.mat.transparent = ghost || s.transparent;
+      s.mat.opacity = s.opacity * a;
+      s.mat.depthWrite = ghost ? false : s.depthWrite;
+      if (was !== s.mat.transparent) s.mat.needsUpdate = true;
+    }
+    for (const m of this.floorMeshes[f]) m.mesh.castShadow = m.cast && a > 0.5;
+  }
+
+  private clearWorld() {
+    this.world.traverse((o) => {
+      const m = o as THREE.Mesh;
+      if (m.geometry && !(o instanceof THREE.Sprite)) m.geometry.dispose();
+      const mats = m.material ? [m.material].flat() : [];
+      for (const mat of mats) {
+        (mat as THREE.MeshStandardMaterial).map?.dispose();
+        mat.dispose();
+      }
+    });
+    this.world.clear();
+    this.zones = [];
+    this.racks = [];
+    this.trucks = [];
+    this.truckCutoff = null;
+    this.floorMats = [];
+    this.floorMeshes = [];
+    this.floorAlpha = [];
+    this.floorGroups = [];
+    this.elevatorCab = null;
+  }
+
+  /** Obstaculo del pasillo bloqueado (nivel N3): conos, barrera y derrame. */
+  private buildObstacle(r: number, c: number, piso = 0) {
+    const g = new THREE.Group();
+    g.position.copy(this.cellPos(r, c, 0, piso));
     const coneMat = new THREE.MeshStandardMaterial({ color: 0xff6a00, roughness: 0.5 });
     const bandMat = new THREE.MeshStandardMaterial({ color: 0xffffff, roughness: 0.5 });
     for (const [x, z] of [[-0.32, -0.32], [0.32, -0.32], [-0.32, 0.32], [0.32, 0.32]]) {
@@ -647,7 +954,7 @@ export class Escena {
 
   private shelfPkgPos(shelf: number, size: number) {
     const [r, c] = this.mapa.shelf_cells[shelf];
-    return this.cellPos(r, c, 0.1 + size / 2);
+    return this.cellPos(r, c, 0.1 + size / 2, this.shelfFloor(shelf));
   }
 
   private zoneSlot(z: number, size: number) {
@@ -659,13 +966,15 @@ export class Escena {
   /** Casilla de pasillo desde la que se recoge un paquete (la vecina libre mas cercana al robot). */
   private pickFace(shelf: number) {
     const [r, c] = this.mapa.shelf_cells[shelf];
+    const f = this.shelfFloor(shelf);
+    const layout = this.mapa.pisos?.[f] ?? this.mapa.layout;
     const free = [[r - 1, c], [r + 1, c], [r, c - 1], [r, c + 1]]
-      .filter(([rr, cc]) => !'#SX'.includes(this.mapa.layout[rr]?.[cc] ?? '#')
-        && !this.mapa.bloqueos.some(([br, bc]) => br === rr && bc === cc));
+      .filter(([rr, cc]) => !'#SX'.includes(layout[rr]?.[cc] ?? '#')
+        && !this.mapa.bloqueos.some(([br, bc, bf]) => br === rr && bc === cc && (bf ?? 0) === f));
     const [pr, pc] = this.vis.pos;
     free.sort((a, b) => Math.abs(a[0] - pr) + Math.abs(a[1] - pc) - Math.abs(b[0] - pr) - Math.abs(b[1] - pc));
     const [fr, fc] = free[0] ?? [r, c];
-    return this.cellPos(fr, fc);
+    return this.cellPos(fr, fc, 0, f);
   }
 
   private plateWorld(size: number) {
@@ -683,7 +992,7 @@ export class Escena {
       const size = PKG_SIZES[data.type];
       const mesh = shadowed(new THREE.Mesh(new RoundedBoxGeometry(size, size * 0.85, size, 2, 0.015),
         new THREE.MeshStandardMaterial({ map: packageTexture(data.type, data.zone, this.zoneNames, data.service === 1),
-          roughness: 0.8, emissive: 0xf2b200, emissiveIntensity: 0 })));
+          roughness: 0.8, emissive: 0xf2b200, emissiveIntensity: 0, transparent: true })));
       this.scene.add(mesh);
       const p: PaqueteVisual = { mesh, data, size, mode: 'shelf', rest: new THREE.Vector3() };
       if (data.status === 'entregado') {
@@ -702,12 +1011,13 @@ export class Escena {
   // ---------------------------------------------------------------- recorrido
 
   private resetTrail() {
-    this.trailPoints = [this.robot.root.position.clone().setY(0.02)];
+    const p = this.robot.root.position;
+    this.trailPoints = [p.clone().setY(p.y + 0.02)];
     this.trail.geometry.setFromPoints(this.trailPoints);
   }
 
   private pushTrail(p: THREE.Vector3) {
-    this.trailPoints.push(p.clone().setY(0.02));
+    this.trailPoints.push(p.clone().setY(p.y + 0.02));
     if (this.trailPoints.length > TRAIL_LEN) this.trailPoints.shift();
     this.trail.geometry.setFromPoints(this.trailPoints);
   }
@@ -723,8 +1033,9 @@ export class Escena {
 
   private beginAnim(f: Fotograma): Anim {
     const vis = this.vis;
-    const a: Anim = { f, t: 0, dur: this.durationFor(f), from: this.cellPos(vis.pos[0], vis.pos[1]),
-      to: this.cellPos(f.pos[0], f.pos[1]), h0: vis.heading, h1: vis.heading, b0: vis.battery, b1: f.battery };
+    const a: Anim = { f, t: 0, dur: this.durationFor(f), from: this.cellPos(vis.pos[0], vis.pos[1], 0, vis.piso),
+      to: this.cellPos(f.pos[0], f.pos[1], 0, f.piso ?? 0), h0: vis.heading, h1: vis.heading, b0: vis.battery,
+      b1: f.battery };
     if (f.action !== null && f.action in MOVES) {
       const [dr, dc] = MOVES[f.action];
       a.h1 = headingOf(dr, dc);
@@ -733,7 +1044,10 @@ export class Escena {
     switch (f.event) {
       case 'reset':
         this.buildOrder(f.order);
-        Object.assign(vis, { carrying: f.carrying, current: f.current, success: f.success, battery: f.battery });
+        Object.assign(vis, { carrying: f.carrying, current: f.current, success: f.success, battery: f.battery,
+          piso: f.piso ?? 0 });
+        this.resetTrucks(f.corte ?? null);
+        if (this.elevatorCab) this.elevatorCab.position.y = 0;
         a.from = a.to;
         a.h0 = a.h1 = Math.PI;
         a.b0 = a.b1 = f.battery;
@@ -766,6 +1080,8 @@ export class Escena {
       default:
     }
     if (ALERTS.includes(f.event)) vis.alertUntil = performance.now() + a.dur + 250;
+    this.viewFloor = f.piso ?? 0;
+    this.updateTrucks(f);
     this.onFotograma(f);
     return a;
   }
@@ -783,6 +1099,7 @@ export class Escena {
       robot.root.visible = t < 0.42 || t > 0.58;
       if (t >= 0.5 && !a.moved) { a.moved = true; this.resetTrail(); }
     }
+    if (f.event === 'elevator' && this.elevatorCab) this.elevatorCab.position.y = p.y;
     robot.root.position.copy(p);
     this.vis.heading = lerpAngle(a.h0, a.h1, clamp01(t / 0.35));
     robot.root.rotation.y = this.vis.heading;
@@ -808,9 +1125,10 @@ export class Escena {
   private finishAnim(a: Anim) {
     const { f } = a;
     this.vis.pos = f.pos.slice();
+    this.vis.piso = f.piso ?? 0;
     this.robot.chassis.rotation.y = 0;
     this.robot.root.visible = true;
-    this.robot.root.position.copy(this.cellPos(f.pos[0], f.pos[1]));
+    this.robot.root.position.copy(this.cellPos(f.pos[0], f.pos[1], 0, this.vis.piso));
     Object.assign(this.vis, { carrying: f.carrying, current: f.current, success: f.success, battery: f.battery });
     if (f.event === 'move') this.pushTrail(this.robot.root.position);
     const money = this.formatReward(f.reward);
@@ -826,8 +1144,10 @@ export class Escena {
         if (a.pkg) {
           a.pkg.mode = 'delivered';
           a.pkg.mesh.position.copy(a.pkg.rest);
-          const late = f.order[f.current - 1]?.late;
-          log(`Despachado en muelle ${this.zoneNames[a.pkg.data.zone]}${late ? ' FUERA DE PLAZO' : ''} · ${money}`, late ? 'alerta' : 'ok');
+          const done = f.order[f.current - 1];
+          const late = done?.late;
+          const why = done?.camion_perdido ? ' · CAMIÓN PERDIDO: sale mañana' : late ? ' FUERA DE PLAZO' : '';
+          log(`Despachado en muelle ${this.zoneNames[a.pkg.data.zone]}${why} · ${money}`, late ? 'alerta' : 'ok');
         }
         if (f.success) log('Orden completa despachada', 'ok');
         break;
@@ -846,6 +1166,13 @@ export class Escena {
         break;
       case 'wrong_zone':
         log(`Muelle equivocado: no se despacha · ${money}`, 'alerta');
+        break;
+      case 'elevator':
+        this.resetTrail();
+        log(`Montacargas: ${this.vis.piso > 0 ? `sube al piso ${this.vis.piso + 1}` : 'baja al piso 1'} · ${money}`, 'info');
+        break;
+      case 'elevator_fail':
+        log(`Acción no válida (montacargas: no está en la puerta) · ${money}`, 'alerta');
         break;
       case 'pick_fail':
       case 'drop_fail':
@@ -887,7 +1214,7 @@ export class Escena {
     this.barFill.material.color.setHex(batteryColor(frac));
   }
 
-  private updateWorld(now: number) {
+  private updateWorld(now: number, dt: number) {
     const { vis } = this;
     this.pkgs.forEach((p, i) => {
       if (p.mode === 'shelf') {
@@ -899,18 +1226,38 @@ export class Escena {
       }
       const isTarget = i === vis.current && p.mode === 'shelf';
       p.mesh.material.emissiveIntensity = isTarget ? 0.08 + 0.06 * Math.sin(now / 300) : 0;
+      // paquetes de un piso superior: ocultos con su piso mientras el robot esta abajo
+      const upstairs = p.mode === 'shelf' && this.shelfFloor(p.data.shelf) > this.viewFloor;
+      p.mesh.visible = !upstairs || (this.floorAlpha[this.shelfFloor(p.data.shelf)] ?? 1) > 0.02;
+      p.mesh.material.opacity = upstairs ? (this.floorAlpha[this.shelfFloor(p.data.shelf)] ?? 1) : 1;
     });
+    for (let f = 0; f < this.nFloors; f++) {
+      const target = f <= this.viewFloor ? 1 : GHOST;
+      const a = this.floorAlpha[f];
+      // transicion de ~0,3 s, independiente de los cuadros por segundo
+      if (Math.abs(a - target) > 1e-3) this.setFloorAlpha(f, Math.abs(target - a) < 0.02 ? target : a + (target - a) * (1 - Math.exp(-dt * 12)));
+    }
+    for (const t of this.trucks) {  // camion que sale: avanza y desaparece
+      if (!t.leaving || t.gone) continue;
+      const u = clamp01((now - t.leaving) / 2600);
+      t.root.position.z = t.home.z + ease(u) * 7;
+      if (u >= 1) { t.gone = true; t.root.visible = false; }
+    }
 
     // objetivo marcado en el piso: estanteria del paquete actual o muelle de destino
     const cur = this.pkgs[vis.current];
     const ring = this.targetRing;
     ring.visible = Boolean(cur) && !vis.success;
     if (cur && ring.visible) {
-      const target = vis.carrying ? this.zones[cur.data.zone].center : this.pickFace(cur.data.shelf);
-      ring.position.set(target.x, 0.02, target.z);
-      const scale = vis.carrying ? 1.5 : 1;
+      const targetFloor = vis.carrying ? 0 : this.shelfFloor(cur.data.shelf);
+      const viaElevator = targetFloor !== vis.piso && this.mapa.elevador;
+      // objetivo en otro piso: se marca la puerta del montacargas en el piso del robot
+      const target = viaElevator ? this.cellPos(this.mapa.elevador![0], this.mapa.elevador![1] - 1)
+        : vis.carrying ? this.zones[cur.data.zone].center : this.pickFace(cur.data.shelf);
+      ring.position.set(target.x, vis.piso * FLOOR_H + 0.02, target.z);
+      const scale = vis.carrying && !viaElevator ? 1.5 : 1;
       ring.scale.setScalar(scale * (1 + 0.04 * Math.sin(now / 350)));
-      ring.material.color.setHex(vis.carrying ? ZONE_COLORS[cur.data.zone] : 0xf2b200);
+      ring.material.color.setHex(viaElevator ? 0xffffff : vis.carrying ? ZONE_COLORS[cur.data.zone] : 0xf2b200);
       ring.material.opacity = 0.55 + 0.25 * Math.sin(now / 350);
     }
 
@@ -925,9 +1272,11 @@ export class Escena {
     this.followRobot = name === 'follow';
     const presets = { iso: [[0, 14, 10.5], [0, 0, 0.6]], top: [[0, 19, 0.01], [0, 0, 0]], side: [[10, 9, 10], [0, 0, 0.5]] };
     const root = this.robot.root.position;
+    const lift = new THREE.Vector3(0, this.camLift, 0);
     const [pos, target] = name === 'follow'
       ? [root.clone().add(new THREE.Vector3(0, 4.5, 5)), root.clone()]
-      : [new THREE.Vector3(...(presets[name][0] as [number, number, number])), new THREE.Vector3(...(presets[name][1] as [number, number, number]))];
+      : [new THREE.Vector3(...(presets[name][0] as [number, number, number])).add(lift),
+        new THREE.Vector3(...(presets[name][1] as [number, number, number])).add(lift)];
     this.camTween = { t: 0, p0: this.camera.position.clone(), t0: this.controls.target.clone(), p1: pos, t1: target };
   }
 
@@ -957,6 +1306,16 @@ export class Escena {
       this.controls.target.add(delta);
       this.camera.position.add(delta);
     }
+    // v3: la camara sube o baja con el piso donde trabaja el robot
+    const lift = this.viewFloor * FLOOR_H;
+    if (this.followRobot) {
+      this.camLift = lift;
+    } else if (!this.camTween && Math.abs(lift - this.camLift) > 1e-3) {
+      const d = Math.abs(lift - this.camLift) < 0.01 ? lift - this.camLift : (lift - this.camLift) * Math.min(1, dt * 3);
+      this.camLift += d;
+      this.camera.position.y += d;
+      this.controls.target.y += d;
+    }
     this.controls.update();
   }
 
@@ -978,7 +1337,7 @@ export class Escena {
     }
     if (this.built) {
       this.updateRobot(dt, now);
-      this.updateWorld(now);
+      this.updateWorld(now, dt);
     }
     this.updateCamera(dt);
     this.renderer.render(this.scene, this.camera);

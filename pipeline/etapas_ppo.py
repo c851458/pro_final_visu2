@@ -15,6 +15,7 @@ Cada paso reintenta con espera creciente; un fallo definitivo queda escrito en r
 runs/ppo/etapas.log, y lanzar_etapas_ppo.sh relanza este script si termina con error.
 
 Uso: python pipeline/etapas_ppo.py ppo-v2-n2 ppo-v2-n3
+     SUPERVISOR_OPCIONES="--paralelo 3" python pipeline/etapas_ppo.py ...   (opciones al relanzar el supervisor)
 """
 
 import json
@@ -128,7 +129,9 @@ def stage_train(contrasts):
                 data = json.load(open(meta))
                 data.update(intentos=0, intentos_registro=0)
                 json.dump(data, open(meta, "w"))
-        subprocess.run([os.path.join(ROOT, "pipeline", "lanzar_ppo.sh"), *contrasts], cwd=ROOT)
+        # SUPERVISOR_OPCIONES (p. ej. "--paralelo 3"): las mismas opciones con que se lanzo el supervisor
+        options = os.environ.get("SUPERVISOR_OPCIONES", "").split()
+        subprocess.run([os.path.join(ROOT, "pipeline", "lanzar_ppo.sh"), *contrasts, *options], cwd=ROOT)
         time.sleep(20)
     log("1-entrenar: FALLO, quedan trabajos sin registrar tras 3 relanzamientos")
     return False

@@ -13,9 +13,10 @@ import gymnasium as gym
 import numpy as np
 import yaml
 
-import warehouse_rush  # noqa: F401  (registra WarehouseRush-v1 y -v2)
+import warehouse_rush  # noqa: F401  (registra WarehouseRush-v1, -v2 y -v3)
 from warehouse_rush.env_v1 import random_order
 from warehouse_rush.env_v2 import random_order_v2
+from warehouse_rush.env_v3 import random_order_v3
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 CONFIG_PATH = os.path.join(ROOT, "configs", "niveles.yaml")
@@ -58,7 +59,11 @@ def make_env(cfg):
     """Ambiente de un nivel resuelto (o de cualquier config con las secciones entorno y datos)."""
     e, d = cfg["entorno"], cfg["datos"]
     env_id = cfg.get("ambiente", "WarehouseRush-v1")
-    extra = {"express_prob": d.get("prob_express", 0.0)} if env_id == "WarehouseRush-v2" else {}
+    extra = {}
+    if env_id in ("WarehouseRush-v2", "WarehouseRush-v3"):
+        extra["express_prob"] = d.get("prob_express", 0.0)
+    if env_id == "WarehouseRush-v3":
+        extra["cutoff_range"] = tuple(d["corte_pasos"])
     return gym.make(env_id, n_packages=d["paquetes_por_pedido"], use_battery=e["bateria"],
                     battery_max=e["bateria_max"], max_steps=e["max_pasos"],
                     blocked_cells=[tuple(c) for c in e.get("bloqueos", [])], **extra)
@@ -73,16 +78,16 @@ def family(env):
 
 def ppo_family(env):
     """Familia de las redes PPO: dependen de la version del ambiente y de las caracteristicas, no de la tabla."""
-    from warehouse_rush.ppo import N_FEATURES
+    from warehouse_rush.ppo import feature_names
 
     base = env.unwrapped
-    return f"{base.FAMILY_PREFIX}/ppo-caracteristicas-{N_FEATURES}/acciones-{base.action_space.n}"
+    return f"{base.FAMILY_PREFIX}/ppo-caracteristicas-{len(feature_names(base))}/acciones-{base.action_space.n}"
 
 
 def compatible_families(env):
     """Familias de modelos que se pueden evaluar en el ambiente de un nivel."""
     families = [family(env)]
-    if type(env.unwrapped).__name__ == "WarehouseRushV2Env":  # las caracteristicas PPO usan el plazo del SLA
+    if hasattr(env.unwrapped, "sla_summary"):  # v2 y v3: las caracteristicas de la red usan el plazo del SLA
         families.append(ppo_family(env))
     return families
 
@@ -92,11 +97,16 @@ def sha256_json(data):
 
 
 def _order_key(order):
-    return tuple((p["shelf"], p["zone"], p["type"], p.get("service")) for p in order["paquetes"]) + (order["bateria_inicial"],)
+    return (tuple((p["shelf"], p["zone"], p["type"], p.get("service")) for p in order["paquetes"])
+            + (order["bateria_inicial"], tuple(order.get("corte", ()))))
 
 
 def _order_fn(datos):
-    """Generador de pedidos: v2 agrega el servicio (Estandar/Express) si el nivel define prob_express."""
+    """Generador de pedidos: v2 agrega el servicio (Estandar/Express) si el nivel define prob_express y v3 la salida
+    de cada camion si define corte_pasos."""
+    if "corte_pasos" in datos:
+        return lambda rng, n, shelves, probs: random_order_v3(rng, n, shelves, probs, datos["prob_express"],
+                                                              tuple(datos["corte_pasos"]))
     if "prob_express" in datos:
         return lambda rng, n, shelves, probs: random_order_v2(rng, n, shelves, probs, datos["prob_express"])
     return random_order

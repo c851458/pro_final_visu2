@@ -2,7 +2,7 @@
 # Los experimentos se registran en MLflow (DagsHub) y los modelos se publican en Hugging Face Hub.
 stages:
   generar_datos:
-    foreach: [n1, n2, n3, v2-n1, v2-n2, v2-n3]
+    foreach: [n1, n2, n3, v2-n1, v2-n2, v2-n3, v3-n1, v3-n2, v3-n3]
     do:
       cmd: python pipeline/generar_datos.py ${item}
       deps:
@@ -11,6 +11,7 @@ stages:
         - warehouse_rush/niveles.py
         - warehouse_rush/env_v1.py
         - warehouse_rush/env_v2.py
+        - warehouse_rush/env_v3.py
       params:
         - configs/niveles.yaml:
             - niveles.${item}

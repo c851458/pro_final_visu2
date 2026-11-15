@@ -9,6 +9,7 @@ export interface Paquete {
   service?: number; // v2: 0 estandar, 1 express
   deadline?: number | null;
   late?: boolean | null;
+  camion_perdido?: boolean | null; // v3: llego al muelle despues de que salio su camion
 }
 
 export interface Fotograma {
@@ -29,15 +30,22 @@ export interface Fotograma {
   moneda?: string; // v2: COP
   libro?: Record<string, number>;
   sla_restante?: number | null;
+  piso?: number; // v3: piso del robot (0 = primero)
+  corte?: number[]; // v3: paso en que sale el camion de cada ruta
+  camiones?: ('esperando' | 'salio')[];
 }
 
 export interface Mapa {
   layout: string[];
+  /** [fila, columna] o, en v3, [fila, columna, piso] (lo mismo en `bloqueos`) */
   shelf_cells: number[][];
   zone_cells: number[][][];
   charger: number[];
   start: number[];
   bloqueos: number[][];
+  pisos?: string[][]; // v3: mapa de cada piso
+  elevador?: number[]; // v3: casilla del montacargas (la misma en todos los pisos)
+  tiempo_montacargas?: number;
 }
 
 export interface Ambiente {
@@ -119,6 +127,9 @@ export interface Metricas {
   compensaciones_sla_medio_cop?: number;
   danos_medio_cop?: number;
   intervenciones_medio_cop?: number;
+  camiones_perdidos_medios?: number; // v3
+  cumplimiento_corte?: number;
+  viajes_montacargas_medios?: number;
 }
 
 export interface Evaluacion {

@@ -36,9 +36,20 @@ def client(tmp_path, monkeypatch):
 def test_salud_y_niveles(client):
     assert client.get("/api/salud").json()["modelos_recomendados"] == {"n2": "prueba"}
     levels = client.get("/api/niveles").json()["niveles"]
-    assert [lv["nivel"] for lv in levels] == ["n1", "n2", "n3", "v2-n1", "v2-n2", "v2-n3"]
+    assert [lv["nivel"] for lv in levels] == ["n1", "n2", "n3", "v2-n1", "v2-n2", "v2-n3", "v3-n1", "v3-n2", "v3-n3"]
     assert {lv["nivel"]: lv["environment_version"] for lv in levels}["v2-n2"] == "2.0.0"
     assert levels[2]["mapa"]["bloqueos"] == [[7, 4], [7, 7]]
+    two_floors = {lv["nivel"]: lv for lv in levels}["v3-n3"]["mapa"]
+    assert len(two_floors["pisos"]) == 2 and two_floors["elevador"] == [4, 14]
+    assert len(two_floors["shelf_cells"]) == 80 and two_floors["bloqueos"][-1] == [7, 7, 1]
+
+
+def test_episodio_de_dos_pisos_con_hora_de_corte(client):
+    data = client.post("/api/episodio", json={"nivel": "v3-n2", "politica": "regla", "caso": 0}).json()
+    frames = data["fotogramas"]
+    assert data["resultado"]["exito"] and "camiones_perdidos" in data["resultado"]
+    assert {f["piso"] for f in frames} <= {0, 1} and len(frames[0]["corte"]) == 3
+    assert frames[-1]["camiones"] == ["salio" if frames[-1]["steps"] >= t else "esperando" for t in frames[0]["corte"]]
 
 
 def test_episodio_manual_reproduce_las_acciones(client):

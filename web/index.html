@@ -66,7 +66,12 @@
         <dt>Acumulada</dt><dd id="hud-total">-</dd>
         <dt>Rescates</dt><dd id="hud-rescues">-</dd>
         <dt id="hud-sla-label">Plazo SLA</dt><dd id="hud-sla">-</dd>
+        <dt id="hud-piso-label" hidden>Piso</dt><dd id="hud-piso" hidden>-</dd>
       </dl>
+      <div id="trucks-block" hidden>
+        <h3>Camiones · pasos para salir</h3>
+        <dl id="hud-trucks" class="kv compact"></dl>
+      </div>
       <h3>Pedido</h3>
       <ul id="order"></ul>
       <div id="libro-block" hidden>
@@ -87,7 +92,8 @@
 
     <section id="controls" class="panel bottom" hidden>
       <kbd>↑</kbd><kbd>↓</kbd><kbd>←</kbd><kbd>→</kbd>/<kbd>WASD</kbd> mover ·
-      <kbd>R</kbd> recoger · <kbd>E</kbd> entregar · <kbd>C</kbd> cargar · <kbd>N</kbd> reiniciar
+      <kbd>R</kbd> recoger · <kbd>E</kbd> entregar · <kbd>C</kbd> cargar
+      <span id="key-elevator" hidden>· <kbd>M</kbd> montacargas</span> · <kbd>N</kbd> reiniciar
     </section>
 
     <section id="cam-panel" class="panel cam">

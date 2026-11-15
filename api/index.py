@@ -5,7 +5,7 @@ entre peticiones; el control manual reproduce desde el inicio la lista de accion
 
 Endpoints:
     GET  /api/salud               version de la API, commit desplegado y version del ambiente
-    GET  /api/niveles             mapa y configuracion de cada nivel (N1, N2, N3)
+    GET  /api/niveles             mapa y configuracion de cada nivel (v1, v2 y v3 de dos pisos)
     GET  /api/catalogo            modelos publicados (manifiestos), recomendado y runs de MLflow
     GET  /api/modelos/{model_id}  manifiesto completo de un modelo
     POST /api/episodio            ejecuta un pedido (manual, aleatoria, regla o modelo) y devuelve los fotogramas
@@ -38,7 +38,8 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, ROOT)
 
 from warehouse_rush import niveles  # noqa: E402
-from warehouse_rush.env_v1 import ACTION_NAMES, LAYOUT, TYPE_NAMES, ZONE_NAMES  # noqa: E402
+from warehouse_rush.env_v1 import LAYOUT, TYPE_NAMES, ZONE_NAMES  # noqa: E402
+from warehouse_rush.env_v3 import ACTION_NAMES  # noqa: E402  (las 7 de v1 y el montacargas de v3)
 from warehouse_rush.modelos import FILES, TABULAR, load_policy  # noqa: E402
 from warehouse_rush.politicas import RandomPolicy, RulePolicy  # noqa: E402
 from warehouse_rush.simulacion import evaluate, replay_manual, run_episode  # noqa: E402
@@ -214,13 +215,16 @@ def levels():
     for level in niveles.level_ids():
         cfg, family, cases, suite_id = level_bundle(level)
         env = niveles.make_env(cfg).unwrapped
+        if hasattr(env, "map_info"):  # v3: dos pisos y montacargas
+            mapa = env.map_info()
+        else:
+            mapa = {"layout": LAYOUT, "shelf_cells": [list(p) for p in env.shelf_cells],
+                    "zone_cells": [sorted(list(p) for p in z) for z in env.zone_cells], "charger": list(env.charger),
+                    "start": list(env.start_pos), "bloqueos": [list(c) for c in env.blocked_cells]}
         result.append({
             **environment_info(cfg, family, suite_id), "familias_compatibles": list(level_families(level)),
             "decision": cfg["decision"], "entorno": cfg["entorno"],
-            "datos": cfg["datos"], "casos_evaluacion": len(cases),
-            "mapa": {"layout": LAYOUT, "shelf_cells": [list(p) for p in env.shelf_cells],
-                     "zone_cells": [sorted(list(p) for p in z) for z in env.zone_cells], "charger": list(env.charger),
-                     "start": list(env.start_pos), "bloqueos": [list(c) for c in env.blocked_cells]},
+            "datos": cfg["datos"], "casos_evaluacion": len(cases), "mapa": mapa,
         })
     return {"niveles": result, "acciones": ACTION_NAMES, "tipos": TYPE_NAMES, "zonas": ZONE_NAMES}
 

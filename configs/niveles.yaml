@@ -118,3 +118,73 @@ niveles:
       paquetes_por_pedido: 3
       prob_tipos: {normal: 0.5, pesado: 0.25, fragil: 0.25}
       prob_express: 0.3
+
+  # ---------------------------------------------------------------- ambiente v3.0.0 (dos pisos y hora de corte)
+  # El centro de distribucion crece a dos pisos con las mismas estanterias, unidos por un montacargas (8 pasos por
+  # viaje). Cada ruta tiene un camion con hora de corte: el paquete que llega despues sale al dia siguiente.
+  # Plazos del SLA: Estandar 150 pasos, Express 90 (env_v3.py). Calibrados con el planificador de reglas
+  # (docs/ficha_ambiente.md, seccion v3). Nueva familia de modelos (posicion con piso y accion montacargas).
+
+  v3-n1:
+    nombre: "N1 · Dos pisos (negocio)"
+    ambiente: WarehouseRush-v3
+    version_ambiente: "3.0.0"
+    decision: >-
+      Despachar un paquete que puede estar en cualquiera de los dos pisos: si está arriba, subir por el montacargas,
+      recogerlo y bajarlo al muelle de su ruta antes de que salga el camión (entre 60 y 200 pasos). Sin batería.
+    entorno:
+      bateria: false
+      bateria_max: 100
+      max_pasos: 300
+      bloqueos: []
+    datos:
+      semilla: 207
+      pedidos_entrenamiento: 5000
+      pedidos_evaluacion: 200
+      paquetes_por_pedido: 1
+      prob_tipos: {normal: 1.0, pesado: 0.0, fragil: 0.0}
+      prob_express: 0.3
+      corte_pasos: [60, 200]
+
+  v3-n2:
+    nombre: "N2 · Dos pisos y hora de corte (negocio)"
+    ambiente: WarehouseRush-v3
+    version_ambiente: "3.0.0"
+    decision: >-
+      Órdenes de 3 paquetes repartidos en dos pisos, secuenciadas por la salida del camión de cada ruta (entre 120
+      y 360 pasos). Perder el camión cuesta la compensación al cliente más $3.750 de reproceso. La única estación
+      de carga está en el primer piso: cargar en el momento equivocado puede hacer perder un camión.
+    entorno:
+      bateria: true
+      bateria_max: 100
+      max_pasos: 600
+      bloqueos: []
+    datos:
+      semilla: 242
+      pedidos_entrenamiento: 20000
+      pedidos_evaluacion: 500
+      paquetes_por_pedido: 3
+      prob_tipos: {normal: 0.5, pesado: 0.25, fragil: 0.25}
+      prob_express: 0.3
+      corte_pasos: [120, 360]
+
+  v3-n3:
+    nombre: "N3 · Dos pisos con incidente (negocio)"
+    ambiente: WarehouseRush-v3
+    version_ambiente: "3.0.0"
+    decision: >-
+      El mismo incidente de N3 en los dos pisos: el corredor inferior está bloqueado en (7,4) y (7,7) del piso 1 y
+      del piso 2. Los desvíos alargan cada viaje y ponen en riesgo la hora de corte de los camiones.
+    entorno:
+      bateria: true
+      bateria_max: 100
+      max_pasos: 600
+      bloqueos: [[0, 7, 4], [0, 7, 7], [1, 7, 4], [1, 7, 7]]
+    datos:
+      semilla: 243
+      pedidos_entrenamiento: 20000
+      pedidos_evaluacion: 500
+      paquetes_por_pedido: 3
+      prob_tipos: {normal: 0.5, pesado: 0.25, fragil: 0.25}
+      prob_express: 0.3
+      corte_pasos: [120, 360]

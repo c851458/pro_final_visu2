@@ -25,6 +25,10 @@ from warehouse_rush.modelos import load_policy
 from warehouse_rush.simulacion import evaluate
 
 METRICS = ("tasa_exito", "pasos_medios_exitosos", "rescates_medios", "fragiles_rotos_medios", "choques_medios")
+# Indicadores de negocio (ambientes v2 y v3): se informan, pero no entran en los requisitos ni en la seleccion
+BUSINESS = ("otif", "cumplimiento_express", "utilidad_media_cop", "camiones_perdidos_medios", "cumplimiento_corte")
+BUSINESS_LABELS = {"otif": "OTIF", "cumplimiento_express": "Express a tiempo", "utilidad_media_cop": "Utilidad / orden",
+                   "camiones_perdidos_medios": "Camiones perdidos / orden", "cumplimiento_corte": "Paquetes en su camión"}
 OUT_DIR = os.path.join(tracking.ROOT, "docs", "resultados")
 
 
@@ -39,9 +43,12 @@ def summarize_arm(runs):
         summary["runs"].append({"run_id": run.info.run_id, "nombre": run.info.run_name, "semilla": int(run.data.tags["seed"]),
                                 "episodios": int(run.data.params.get("entrenamiento.episodios") or run.data.params["entrenamiento.pasos"]),
                                 "tiempo_s": m.get("tiempo_entrenamiento_s"),
-                                **{k: m.get(f"eval.{k}") for k in METRICS}})
+                                **{k: m.get(f"eval.{k}") for k in METRICS + BUSINESS}})
     for k in METRICS + ("tiempo_s",):
         summary[k] = mean_std([r[k] for r in summary["runs"]])
+    for k in BUSINESS:
+        if all(r[k] is not None for r in summary["runs"]):
+            summary[k] = mean_std([r[k] for r in summary["runs"]])
     summary["episodios"] = summary["runs"][0]["episodios"]  # presupuesto (la clave se conserva por compatibilidad)
     params = runs[0].data.params
     summary["unidad_presupuesto"] = "episodios" if params.get("entrenamiento.episodios") else "pasos del ambiente"
@@ -92,6 +99,16 @@ def reserved_test(arms, level, n_cases):
     return suite_id
 
 
+def rule_reference(level):
+    """Metricas del planificador de reglas en la suite de evaluacion del nivel (referencia del maestro)."""
+    from warehouse_rush.politicas import RulePolicy
+
+    cfg = niveles.resolve(level)
+    cases, _ = niveles.evaluation_suite(cfg)
+    metrics, _ = evaluate(niveles.make_env(cfg), RulePolicy(), cases)
+    return metrics
+
+
 def write_report(name, contrast, arms, winner, reason, selected, suite_reserved):
     os.makedirs(OUT_DIR, exist_ok=True)
     pct = lambda ms: f"{ms[0] * 100:.1f} % ± {ms[1] * 100:.1f}"
@@ -108,6 +125,20 @@ def write_report(name, contrast, arms, winner, reason, selected, suite_reserved)
                      f"{num(a['pasos_medios_exitosos'], 1)} | {num(a['rescates_medios'])} | "
                      f"{num(a['fragiles_rotos_medios'])} | {num(a['choques_medios'])} | "
                      f"{'sí' if a['cumple_requisitos'] else 'no: ' + '; '.join(a['incumplimientos'])} |")
+    business = [k for k in BUSINESS if all(k in a for a in arms.values())]
+    if business:
+        fmt = {"utilidad_media_cop": lambda ms: f"${ms[0]:,.0f} ± {ms[1]:,.0f}",
+               "camiones_perdidos_medios": lambda ms: num(ms, 3)}
+        lines += ["", "## Indicadores de negocio", "",
+                  "Se informan para el análisis; no forman parte de los requisitos ni de la regla de selección.", "",
+                  "| Brazo | " + " | ".join(BUSINESS_LABELS[k] for k in business) + " |",
+                  "|---|" + "---|" * len(business)]
+        for k, a in arms.items():
+            lines.append(f"| **{k}** · {a['nombre']} | " + " | ".join(fmt.get(m, pct)(a[m]) for m in business) + " |")
+        reference = rule_reference(contrast["nivel"])
+        single = {"utilidad_media_cop": lambda v: f"${v:,.0f}", "camiones_perdidos_medios": lambda v: f"{v:.3f}"}
+        lines.append("| Planificador de reglas (maestro, sin aprendizaje) | "
+                     + " | ".join(single.get(m, lambda v: f"{v * 100:.1f} %")(reference[m]) for m in business) + " |")
     lines += ["", "## Por semilla", "", "| Run | Semilla | Éxito | Pasos (exitosos) | Rescates | Tiempo |", "|---|---|---|---|---|---|"]
     for a in arms.values():
         for r in a["runs"]:

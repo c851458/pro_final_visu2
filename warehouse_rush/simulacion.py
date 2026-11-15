@@ -49,7 +49,8 @@ def run_episode(env, policy, order, seed=0, record=True, trajectory=None):
         if record:
             frames.append(frame(env, action, reward, terminated, truncated))
         if trajectory is not None:
-            trajectory.append({"paso": base.steps, "fila": base.agent_pos[0], "columna": base.agent_pos[1],
+            trajectory.append({"paso": base.steps, **({"piso": base.floor} if hasattr(base, "floor") else {}),
+                               "fila": base.agent_pos[0], "columna": base.agent_pos[1],
                                "bateria": base.battery, "lleva_paquete": int(base.carrying),
                                "paquete_actual": min(base.current, base.n_packages - 1),
                                "tipo": TYPE_NAMES[base.package["type"]], "accion": ACTION_NAMES[action],
@@ -68,6 +69,8 @@ def run_episode(env, policy, order, seed=0, record=True, trajectory=None):
         result.update(a_tiempo=sla["a_tiempo"], tarde=sla["tarde"], express=sla["express"],
                       express_a_tiempo=sla["express_a_tiempo"], pedido_a_tiempo=sla["pedido_a_tiempo"],
                       libro={k: round(v) for k, v in base.ledger.items()})
+        if "camiones_perdidos" in sla:  # ambiente v3: hora de corte de los camiones
+            result.update(camiones_perdidos=sla["camiones_perdidos"], montacargas=events.count("elevator"))
     result["causa"] = failure_cause(result)
     return result, frames
 
@@ -105,6 +108,12 @@ def summarize(per_case, latencies_ms=None):
             "entregas_tarde_medias": mean("tarde"),
             "utilidad_media_cop": mean("recompensa"),
             **{f"{k}_medio_cop": float(np.mean([c["libro"][k] for c in per_case])) for k in per_case[0]["libro"]},
+        })
+    if "camiones_perdidos" in per_case[0]:
+        metrics.update({
+            "camiones_perdidos_medios": mean("camiones_perdidos"),
+            "cumplimiento_corte": 1 - sum(c["camiones_perdidos"] for c in per_case) / packages,
+            "viajes_montacargas_medios": mean("montacargas"),
         })
     if latencies_ms:
         metrics["latencia_p95_ms"] = float(np.percentile(latencies_ms, 95))

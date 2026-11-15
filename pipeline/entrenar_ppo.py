@@ -42,7 +42,7 @@ from common import resolve_params, load_params  # noqa: E402
 from warehouse_rush import niveles  # noqa: E402
 from common import data_path, load_orders, parse_value  # noqa: E402
 from warehouse_rush.politicas import RulePolicy  # noqa: E402
-from warehouse_rush.ppo import FEATURE_NAMES, FeatureObservation, MLPPolicy, export_sb3, features  # noqa: E402
+from warehouse_rush.ppo import FeatureObservation, MLPPolicy, export_sb3, feature_names, features  # noqa: E402
 from warehouse_rush.simulacion import evaluate  # noqa: E402
 
 ROOT = tracking.ROOT
@@ -253,7 +253,7 @@ def train(level, steps, seed, name, hypothesis, extra_tags, ppo_params, algorith
               "imitacion+ppo": "imitacion de la politica de reglas (DAgger) + afinamiento PPO"}[algorithm]
     tags = {"algoritmo": algorithm, "familia_modelo": niveles.ppo_family(env), "hipotesis": hypothesis or "",
             "estado_modelo": "checkpoint final disponible", "origen_modelo": origin,
-            "caracteristicas": ",".join(FEATURE_NAMES), "trabajo": name,
+            "caracteristicas": ",".join(feature_names(env.unwrapped)), "trabajo": name,
             "reanudaciones": str(state["reanudaciones"]), **state["code_version"], **(extra_tags or {})}
     package = os.path.join(work, "resultado")
     os.makedirs(package, exist_ok=True)
