@@ -60,11 +60,10 @@
   <div><b>Curso</b>MLOps · Visualización 2</div>
   <div><b>Institución</b>Universidad Externado de Colombia · Departamento de Matemáticas</div>
   <div><b>Docente</b>Julián Zuluaga</div>
-  <div><b>Grupo</b><span class="fill">[A o B]</span></div>
   <div><b>Escenario</b>Warehouse Rush</div>
   <div><b>Fecha</b>14 de noviembre de 2026</div>
-  <div><b>Integrantes</b><span class="fill">[nombres completos de los tres integrantes]</span></div>
-  <div><b>Versión entregada</b>tag <code>v3.0</code> (SHA completo en el correo de entrega)</div>
+  <div><b>Integrantes</b>Francy Umbarila · Mateo Hoyos · Daniela Ortiz</div>
+  <div><b>Versión entregada</b>tag <code>v3.1</code>, corrección de <code>v3.0</code> que completa integrantes y contribuciones (SHA completo en el correo)</div>
   <div><b>Enlaces</b><a href="https://profinalvisu2.vercel.app">profinalvisu2.vercel.app</a> · <a href="https://github.com/c851458/pro_final_visu2">GitHub</a> · <a href="https://dagshub.com/c851458/pro_final_visu2.mlflow">MLflow</a></div>
 </div>
 
@@ -199,7 +198,7 @@ de regresión y detección de errores de código en el supervisor (<code>docs/in
 <table class="avoid">
   <thead><tr><th>Elemento</th><th>Cómo se versiona</th></tr></thead>
   <tbody>
-    <tr><td>Código</td><td>Git y GitHub; tag final <code>v3.0</code>; cada run registra commit y si había cambios sin commit.</td></tr>
+    <tr><td>Código</td><td>Git y GitHub; tags <code>v2.0</code>, <code>v2.1</code>, <code>v3.0</code> y el final <code>v3.1</code> (corrige el informe de <code>v3.0</code>); cada run registra commit y si había cambios sin commit.</td></tr>
     <tr><td>Ambiente</td><td><code>env_v1.py</code>, <code>env_v2.py</code>, <code>env_v3.py</code> con su versión en <code>configs/niveles.yaml</code>; familias por dimensiones de observación y acción.</td></tr>
     <tr><td>Escenarios y datos</td><td>Pedidos de entrenamiento y evaluación generados con semilla fija, versionados con DVC (DagsHub); la suite se identifica por el hash de sus casos.</td></tr>
     <tr><td>Configuración</td><td><code>params.yaml</code>, <code>niveles.yaml</code>, <code>criterios.yaml</code>; cada run guarda la configuración resuelta y su SHA-256.</td></tr>
@@ -236,13 +235,18 @@ Hugging Face se usan en sus planes gratuitos.</p>
 </ul>
 
 <h2>11. Contribuciones</h2>
-<p class="note warn">Sección por completar por el equipo antes de la entrega: nombre completo de cada integrante y sus aportes principales.</p>
+<p>Francy Umbarila, Mateo Hoyos y Daniela Ortiz trabajamos juntos en cada fase del proyecto: no hubo una división
+fija por componentes, sino que los tres participamos en el diseño, la implementación, la revisión y las decisiones de
+cada etapa. Por eso cualquiera de los tres puede explicar el ambiente, los experimentos, el versionamiento y el
+despliegue.</p>
 <table class="avoid">
-  <thead><tr><th style="width:28%">Integrante</th><th>Aportes principales</th></tr></thead>
+  <thead><tr><th style="width:30%">Fase</th><th>Qué incluyó</th><th style="width:28%">Integrantes</th></tr></thead>
   <tbody>
-    <tr><td class="fill">[Nombre completo]</td><td class="fill">[p. ej. ambiente y niveles, experimentos, pipeline, web, despliegue, documentación]</td></tr>
-    <tr><td class="fill">[Nombre completo]</td><td class="fill">[aportes]</td></tr>
-    <tr><td class="fill">[Nombre completo]</td><td class="fill">[aportes]</td></tr>
+    <tr><td>Ambiente y niveles</td><td>Contrato de Gymnasium, reglas, recompensas, niveles v1, v2 y v3, ficha del ambiente</td><td>Francy Umbarila, Mateo Hoyos, Daniela Ortiz</td></tr>
+    <tr><td>Agentes y experimentos</td><td>Referencias, Q-learning, PPO, imitación, hipótesis, criterios, contrastes y test reservado</td><td>Francy Umbarila, Mateo Hoyos, Daniela Ortiz</td></tr>
+    <tr><td>Versionamiento y registro</td><td>Git, DVC, MLflow en DagsHub, Hugging Face, manifiestos, catálogo y Model Registry</td><td>Francy Umbarila, Mateo Hoyos, Daniela Ortiz</td></tr>
+    <tr><td>Pipeline, despliegue y monitoreo</td><td>Flujos de Prefect, API, web 3D, Vercel, monitoreo, vigilancia y rollback</td><td>Francy Umbarila, Mateo Hoyos, Daniela Ortiz</td></tr>
+    <tr><td>Documentación y defensa</td><td>README, incidentes, informes de decisión, este informe y la presentación</td><td>Francy Umbarila, Mateo Hoyos, Daniela Ortiz</td></tr>
   </tbody>
 </table>
 <p class="small">Usamos un asistente de código para implementar y depurar partes del proyecto; las decisiones, los criterios y la

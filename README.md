@@ -181,7 +181,7 @@ pesos, verifica el SHA-256, rechaza los modelos de otra familia y evalúa con el
 **Reconstruir una evaluación desde la release** (no necesita credenciales):
 
 ```bash
-git checkout v3.0                         # o el commit del manifiesto (campo git_commit)
+git checkout v3.1                         # versión entregada (o el commit del manifiesto: git_commit)
 python3 -m venv .venv && .venv/bin/pip install -r requirements-dev.txt
 .venv/bin/python pipeline/evaluar_modelo.py v3-n2-imitacion-v3-n2-A-s2-4cc5fefd   # recomendado de v3-n2
 .venv/bin/python pipeline/evaluar_modelo.py n2-pipeline-n2-92bff281               # histórico (v1, tabla Q)
