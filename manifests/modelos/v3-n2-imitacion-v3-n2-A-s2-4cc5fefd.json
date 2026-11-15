@@ -1,0 +1,342 @@
+{
+  "model_id": "v3-n2-imitacion-v3-n2-A-s2-4cc5fefd",
+  "run_id": "1b934b7df5b24ef08022bb563c321c77",
+  "run_name": "imitacion-v3-n2-A-s2",
+  "mlflow_run_url": "https://dagshub.com/c851458/pro_final_visu2.mlflow/#/experiments/0/runs/1b934b7df5b24ef08022bb563c321c77",
+  "level_id": "v3-n2",
+  "environment_version": "3.0.0",
+  "tipo_modelo": "ppo-mlp",
+  "familia_modelo": "warehouse-rush-v3/ppo-caracteristicas-30/acciones-8",
+  "git_commit": "8885cd117b0c453a066ca5a62b4d30906e60d35a",
+  "git_cambios_sin_commit": false,
+  "config_sha256": "6e3fd3a85af842c8c957149a5f723a2ab89761711a3d5716711a69ff963d9a4c",
+  "config": {
+    "nivel": "v3-n2",
+    "ambiente": "WarehouseRush-v3",
+    "version_ambiente": "3.0.0",
+    "entorno": {
+      "bateria": true,
+      "bateria_max": 100,
+      "max_pasos": 600,
+      "bloqueos": []
+    },
+    "datos": {
+      "semilla": 242,
+      "pedidos_entrenamiento": 20000,
+      "pedidos_evaluacion": 500,
+      "paquetes_por_pedido": 3,
+      "prob_tipos": {
+        "normal": 0.5,
+        "pesado": 0.25,
+        "fragil": 0.25
+      },
+      "prob_express": 0.3,
+      "corte_pasos": [
+        120,
+        360
+      ]
+    },
+    "entrenamiento": {
+      "semilla": 2,
+      "pasos": 1738002,
+      "pasos_imitacion": 1738002,
+      "pasos_ppo": 0
+    },
+    "algoritmo": "imitacion",
+    "ppo": {
+      "learning_rate": 0.0003,
+      "n_steps": 512,
+      "batch_size": 512,
+      "n_envs": 8,
+      "ent_coef": 0.01,
+      "gamma": 0.99,
+      "clip_range": 0.2,
+      "net_arch": [
+        128,
+        128
+      ],
+      "reward_scale": 0.001,
+      "evaluar_cada": 250000,
+      "casos_curva": 50
+    },
+    "imitacion": {
+      "iteraciones_dagger": 8,
+      "episodios_por_iteracion": 1500,
+      "epocas": 4,
+      "lr": 0.001,
+      "lote": 1024,
+      "peso_valor": 0.5,
+      "maestro": "politica de reglas (BFS)"
+    }
+  },
+  "model_uri": "hf://c851458/warehouse-rush-qlearning@7f42d13aba3d7ed7fdfab7f4207a864fbf0d921e/modelos/v3-n2-imitacion-v3-n2-A-s2-4cc5fefd/politica.npz",
+  "model_download_url": "https://huggingface.co/c851458/warehouse-rush-qlearning/resolve/7f42d13aba3d7ed7fdfab7f4207a864fbf0d921e/modelos/v3-n2-imitacion-v3-n2-A-s2-4cc5fefd/politica.npz",
+  "model_sha256": "4cc5fefd516f66fb1b1ac811c120c1b69c3f12534fe5e5700c9b46964387297c",
+  "formato": {
+    "archivo": "politica.npz",
+    "capas": {
+      "W0": [
+        30,
+        128
+      ],
+      "b0": [
+        128
+      ],
+      "W1": [
+        128,
+        128
+      ],
+      "b1": [
+        128
+      ],
+      "W_out": [
+        128,
+        8
+      ],
+      "b_out": [
+        8
+      ]
+    },
+    "activacion": "tanh",
+    "salida": "logits de las 8 acciones (se toma el maximo)"
+  },
+  "normalization_uri": null,
+  "normalizacion": "caracteristicas calculadas por warehouse_rush/ppo.py:features, ya escaladas a [-1, 1] (posiciones / tamano del mapa, bateria / maximo, plazo restante / 100 recortado; en v3 tambien piso, montacargas y salida del camion / 300 recortada); la recompensa se escalo x1e-3 solo al entrenar",
+  "observacion": [
+    {
+      "nombre": "piso",
+      "unidad": "normalizada",
+      "rango": "[-1, 1]"
+    },
+    {
+      "nombre": "fila",
+      "unidad": "normalizada",
+      "rango": "[-1, 1]"
+    },
+    {
+      "nombre": "columna",
+      "unidad": "normalizada",
+      "rango": "[-1, 1]"
+    },
+    {
+      "nombre": "bateria",
+      "unidad": "normalizada",
+      "rango": "[-1, 1]"
+    },
+    {
+      "nombre": "lleva_paquete",
+      "unidad": "normalizada",
+      "rango": "[-1, 1]"
+    },
+    {
+      "nombre": "tipo_normal",
+      "unidad": "normalizada",
+      "rango": "[-1, 1]"
+    },
+    {
+      "nombre": "tipo_pesado",
+      "unidad": "normalizada",
+      "rango": "[-1, 1]"
+    },
+    {
+      "nombre": "tipo_fragil",
+      "unidad": "normalizada",
+      "rango": "[-1, 1]"
+    },
+    {
+      "nombre": "express",
+      "unidad": "normalizada",
+      "rango": "[-1, 1]"
+    },
+    {
+      "nombre": "sla_restante",
+      "unidad": "normalizada",
+      "rango": "[-1, 1]"
+    },
+    {
+      "nombre": "corte_restante",
+      "unidad": "normalizada",
+      "rango": "[-1, 1]"
+    },
+    {
+      "nombre": "camion_salio",
+      "unidad": "normalizada",
+      "rango": "[-1, 1]"
+    },
+    {
+      "nombre": "objetivo_otro_piso",
+      "unidad": "normalizada",
+      "rango": "[-1, 1]"
+    },
+    {
+      "nombre": "destino_dfila",
+      "unidad": "normalizada",
+      "rango": "[-1, 1]"
+    },
+    {
+      "nombre": "destino_dcolumna",
+      "unidad": "normalizada",
+      "rango": "[-1, 1]"
+    },
+    {
+      "nombre": "destino_distancia",
+      "unidad": "normalizada",
+      "rango": "[-1, 1]"
+    },
+    {
+      "nombre": "montacargas_dfila",
+      "unidad": "normalizada",
+      "rango": "[-1, 1]"
+    },
+    {
+      "nombre": "montacargas_dcolumna",
+      "unidad": "normalizada",
+      "rango": "[-1, 1]"
+    },
+    {
+      "nombre": "en_montacargas",
+      "unidad": "normalizada",
+      "rango": "[-1, 1]"
+    },
+    {
+      "nombre": "cargador_dfila",
+      "unidad": "normalizada",
+      "rango": "[-1, 1]"
+    },
+    {
+      "nombre": "cargador_dcolumna",
+      "unidad": "normalizada",
+      "rango": "[-1, 1]"
+    },
+    {
+      "nombre": "cargador_otro_piso",
+      "unidad": "normalizada",
+      "rango": "[-1, 1]"
+    },
+    {
+      "nombre": "bloqueado_arriba",
+      "unidad": "normalizada",
+      "rango": "[-1, 1]"
+    },
+    {
+      "nombre": "bloqueado_abajo",
+      "unidad": "normalizada",
+      "rango": "[-1, 1]"
+    },
+    {
+      "nombre": "bloqueado_izquierda",
+      "unidad": "normalizada",
+      "rango": "[-1, 1]"
+    },
+    {
+      "nombre": "bloqueado_derecha",
+      "unidad": "normalizada",
+      "rango": "[-1, 1]"
+    },
+    {
+      "nombre": "junto_a_estanteria_objetivo",
+      "unidad": "normalizada",
+      "rango": "[-1, 1]"
+    },
+    {
+      "nombre": "en_muelle_destino",
+      "unidad": "normalizada",
+      "rango": "[-1, 1]"
+    },
+    {
+      "nombre": "en_cargador",
+      "unidad": "normalizada",
+      "rango": "[-1, 1]"
+    },
+    {
+      "nombre": "paquetes_restantes",
+      "unidad": "normalizada",
+      "rango": "[-1, 1]"
+    }
+  ],
+  "acciones": [
+    {
+      "id": 0,
+      "nombre": "arriba"
+    },
+    {
+      "id": 1,
+      "nombre": "abajo"
+    },
+    {
+      "id": 2,
+      "nombre": "izquierda"
+    },
+    {
+      "id": 3,
+      "nombre": "derecha"
+    },
+    {
+      "id": 4,
+      "nombre": "recoger"
+    },
+    {
+      "id": 5,
+      "nombre": "entregar"
+    },
+    {
+      "id": 6,
+      "nombre": "cargar"
+    },
+    {
+      "id": 7,
+      "nombre": "montacargas"
+    }
+  ],
+  "runtime_ref": "github.com/c851458/pro_final_visu2@8885cd117b0c453a066ca5a62b4d30906e60d35a (warehouse_rush/env_v3.py, configs/niveles.yaml, requirements.txt)",
+  "evaluation_suite_id": "v3-n2-1df75df7271f",
+  "seed": 2,
+  "parent_run_id": null,
+  "origen": "imitacion de la politica de reglas (DAgger)",
+  "optimizador": "PPO de Stable-Baselines3 (Adam, {'learning_rate': 0.0003, 'n_steps': 512, 'batch_size': 512, 'n_envs': 8, 'ent_coef': 0.01, 'gamma': 0.99, 'clip_range': 0.2, 'net_arch': [128, 128], 'reward_scale': 0.001, 'evaluar_cada': 250000, 'casos_curva': 50}); el optimizador no se exporta",
+  "presupuesto": {
+    "episodios": null,
+    "pasos": 1738002,
+    "tiempo_entrenamiento_s": 930.8689427375793
+  },
+  "hipotesis": "La red imitada alcanza >=95% de ordenes completas con <=0.30 rescates en v3-n2 en las tres semillas.",
+  "metricas_evaluacion": {
+    "tasa_exito": 1.0,
+    "paquetes_entregados_medios": 3.0,
+    "pasos_medios": 135.872,
+    "pasos_medios_exitosos": 135.872,
+    "recompensa_media": 44519.74,
+    "rescates_medios": 0.004,
+    "fragiles_rotos_medios": 0.0,
+    "cargas_medias": 1.212,
+    "choques_medios": 0.0,
+    "acciones_invalidas_medias": 0.0,
+    "latencia_media_ms": 0.12785680000000002,
+    "pedidos_evaluados": 500.0,
+    "otif": 0.912,
+    "cumplimiento_sla": 0.9646666666666667,
+    "cumplimiento_express": 0.927437641723356,
+    "entregas_tarde_medias": 0.106,
+    "utilidad_media_cop": 44519.74,
+    "ingresos_medio_cop": 48466.0,
+    "costos_operacion_medio_cop": 761.22,
+    "danos_medio_cop": 0.0,
+    "intervenciones_medio_cop": 32.0,
+    "compensaciones_sla_medio_cop": 970.6,
+    "energia_medio_cop": 1987.44,
+    "reproceso_camion_medio_cop": 195.0,
+    "camiones_perdidos_medios": 0.052,
+    "cumplimiento_corte": 0.9826666666666667,
+    "viajes_montacargas_medios": 3.18
+  },
+  "fallos_por_causa": {},
+  "hf_repo": "c851458/warehouse-rush-qlearning",
+  "hf_commit": "7f42d13aba3d7ed7fdfab7f4207a864fbf0d921e",
+  "hf_tag": null,
+  "publicado": "2026-11-15T01:16:10+00:00",
+  "mlflow_registro": {
+    "nombre": "warehouse-rush-v3-n2",
+    "version": "1",
+    "url": "https://dagshub.com/c851458/pro_final_visu2.mlflow/#/models/warehouse-rush-v3-n2/versions/1"
+  }
+}

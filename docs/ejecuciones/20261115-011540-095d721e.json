@@ -1,0 +1,55 @@
+{
+  "flujo": "warehouse-rush-pipeline",
+  "flow_run_id": "095d721e-0dac-4ad6-a681-45262cf6c5d9",
+  "inicio": "2026-11-15T01:15:40.228418+00:00",
+  "parametros": {
+    "nivel": "v3-n2",
+    "modo": "checkpoint",
+    "run": "1b934b7df5b24ef08022bb563c321c77",
+    "promover": true,
+    "publicar": true
+  },
+  "etapas": {
+    "1-validar": {
+      "nivel": "v3-n2",
+      "familia": "warehouse-rush-v3/obs-2x11x15x5x2x3x80x2/acciones-8",
+      "familias_compatibles": [
+        "warehouse-rush-v3/obs-2x11x15x5x2x3x80x2/acciones-8",
+        "warehouse-rush-v3/ppo-caracteristicas-30/acciones-8"
+      ],
+      "version_ambiente": "3.0.0",
+      "estanterias_alcanzables": 80,
+      "criterios_sha256": "95cb6c6dfd0160969a5d43e7eab1c4e4749472af9805f2df659c009866a67248",
+      "git_commit": "9dac51e3d9a50acc39ec103077cc7db637134249",
+      "cambios_sin_commit": [],
+      "modo": "checkpoint",
+      "run": "1b934b7df5b24ef08022bb563c321c77"
+    },
+    "2-pruebas": "61 passed, 96 warnings in 10.47s",
+    "3-candidato": {
+      "run_id": "1b934b7df5b24ef08022bb563c321c77",
+      "run_name": "imitacion-v3-n2-A-s2",
+      "nivel_entrenamiento": "v3-n2",
+      "eval_tasa_exito_registrada": 1.0
+    },
+    "4-evaluar": {
+      "suite_id": "v3-n2-1df75df7271f",
+      "tasa_exito": 1.0,
+      "fallos_por_causa": {},
+      "coincide_con_mlflow": true
+    },
+    "5-registrar": {
+      "model_id": "v3-n2-imitacion-v3-n2-A-s2-4cc5fefd",
+      "model_sha256": "4cc5fefd516f66fb1b1ac811c120c1b69c3f12534fe5e5700c9b46964387297c",
+      "model_uri": "hf://c851458/warehouse-rush-qlearning@7f42d13aba3d7ed7fdfab7f4207a864fbf0d921e/modelos/v3-n2-imitacion-v3-n2-A-s2-4cc5fefd/politica.npz"
+    },
+    "6-criterios": {
+      "promovido": true,
+      "motivo": "cumple los criterios",
+      "recomendado": "v3-n2-imitacion-v3-n2-A-s2-4cc5fefd",
+      "anterior": null
+    }
+  },
+  "estado": "verificando",
+  "fin": "2026-11-15T01:16:15.998599+00:00"
+}

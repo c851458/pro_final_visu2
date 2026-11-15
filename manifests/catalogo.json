@@ -260,9 +260,27 @@
       "estado": "recomendado",
       "registro_mlflow": "warehouse-rush-v3-n1 v1",
       "registro_mlflow_url": "https://dagshub.com/c851458/pro_final_visu2.mlflow/#/models/warehouse-rush-v3-n1/versions/1"
+    },
+    {
+      "model_id": "v3-n2-imitacion-v3-n2-A-s2-4cc5fefd",
+      "run_id": "1b934b7df5b24ef08022bb563c321c77",
+      "run_name": "imitacion-v3-n2-A-s2",
+      "level_id": "v3-n2",
+      "familia_modelo": "warehouse-rush-v3/ppo-caracteristicas-30/acciones-8",
+      "environment_version": "3.0.0",
+      "model_sha256": "4cc5fefd516f66fb1b1ac811c120c1b69c3f12534fe5e5700c9b46964387297c",
+      "hf_commit": "7f42d13aba3d7ed7fdfab7f4207a864fbf0d921e",
+      "hf_tag": null,
+      "git_commit": "8885cd117b0c453a066ca5a62b4d30906e60d35a",
+      "publicado": "2026-11-15T01:16:10+00:00",
+      "hipotesis": "La red imitada alcanza >=95% de ordenes completas con <=0.30 rescates en v3-n2 en las tres semillas.",
+      "tasa_exito": 1.0,
+      "estado": "recomendado",
+      "registro_mlflow": "warehouse-rush-v3-n2 v1",
+      "registro_mlflow_url": "https://dagshub.com/c851458/pro_final_visu2.mlflow/#/models/warehouse-rush-v3-n2/versions/1"
     }
   ],
-  "actualizado": "2026-11-15T01:12:54+00:00",
+  "actualizado": "2026-11-15T01:16:14+00:00",
   "recomendados": {
     "n2": "n2-pipeline-n2-92bff281",
     "n1": "n1-n1-base-9c49842e",
@@ -270,6 +288,7 @@
     "v2-n1": "v2-n1-v2-n1-base-0bc2e7d5",
     "v2-n2": "v2-n2-imitacion-v2-n2-A-s0-9f293752",
     "v2-n3": "v2-n3-imitacion-v2-n3-A-s2-448cc1fd",
-    "v3-n1": "v3-n1-imitacion-v3-n1-A-s0-2fdc88d3"
+    "v3-n1": "v3-n1-imitacion-v3-n1-A-s0-2fdc88d3",
+    "v3-n2": "v3-n2-imitacion-v3-n2-A-s2-4cc5fefd"
   }
 }
