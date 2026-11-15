@@ -39,15 +39,16 @@ sys.path.insert(0, os.path.join(ROOT, "pipeline"))
 import tracking  # noqa: E402  (antes que mlflow: configura su entorno)
 import mlflow  # noqa: E402
 from warehouse_rush import niveles  # noqa: E402
-from warehouse_rush.env_v1 import ACTION_NAMES  # noqa: E402
+from warehouse_rush.env_v3 import ACTION_NAMES  # noqa: E402  (v1/v2 usan las 7 primeras; v3 agrega el montacargas)
 from warehouse_rush.modelos import FILES, TABULAR, model_type  # noqa: E402
-from warehouse_rush.ppo import FEATURE_NAMES  # noqa: E402
+from warehouse_rush.ppo import feature_names  # noqa: E402
 
 REPO_NAME = "warehouse-rush-qlearning"
 NORMALIZATION = {
     "tabla-q": "ninguna: las observaciones son enteros discretos usados como indices de la tabla Q (sin escalado ni clipping)",
     "ppo-mlp": ("caracteristicas calculadas por warehouse_rush/ppo.py:features, ya escaladas a [-1, 1] (posiciones / tamano "
-                "del mapa, bateria / maximo, plazo restante / 100 recortado); la recompensa se escalo x1e-3 solo al entrenar"),
+                "del mapa, bateria / maximo, plazo restante / 100 recortado; en v3 tambien piso, montacargas y salida del "
+                "camion / 300 recortada); la recompensa se escalo x1e-3 solo al entrenar"),
 }
 GITHUB_REPO = "github.com/c851458/pro_final_visu2"
 MANIFESTS = os.path.join(ROOT, "manifests")
@@ -63,7 +64,8 @@ OBSERVATION_CONTRACT = [
 ]
 
 
-PPO_OBSERVATION = [{"nombre": n, "unidad": "normalizada", "rango": "[-1, 1]"} for n in FEATURE_NAMES]
+def ppo_observation(env):
+    return [{"nombre": n, "unidad": "normalizada", "rango": "[-1, 1]"} for n in feature_names(env.unwrapped)]
 
 
 def find_run(spec):
@@ -274,7 +276,7 @@ def publish(run_spec, tag=None, public=False):
         else:
             with np.load(npy, allow_pickle=False) as data:
                 fmt = {"archivo": FILES[kind], "capas": {k: list(data[k].shape) for k in data.files if k != "n_layers"},
-                       "activacion": "tanh", "salida": "logits de las 7 acciones (se toma el maximo)"}
+                       "activacion": "tanh", "salida": f"logits de las {env.action_space.n} acciones (se toma el maximo)"}
             family = niveles.ppo_family(env)
         tags = run.data.tags
         eval_metrics = {k[5:]: v for k, v in metrics.items() if k.startswith("eval.") and not k.startswith("eval.fallos.")}
@@ -308,9 +310,10 @@ def publish(run_spec, tag=None, public=False):
         "formato": fmt,
         "normalization_uri": None,
         "normalizacion": NORMALIZATION[kind],
-        "observacion": OBSERVATION_CONTRACT if kind == TABULAR else PPO_OBSERVATION,
-        "acciones": [{"id": i, "nombre": n} for i, n in enumerate(ACTION_NAMES)],
-        "runtime_ref": f"{GITHUB_REPO}@{tags.get('git.commit', '')} (warehouse_rush/env_v1.py, configs/niveles.yaml, requirements.txt)",
+        "observacion": OBSERVATION_CONTRACT if kind == TABULAR else ppo_observation(env),
+        "acciones": [{"id": i, "nombre": n} for i, n in enumerate(ACTION_NAMES[:env.action_space.n])],
+        "runtime_ref": (f"{GITHUB_REPO}@{tags.get('git.commit', '')} (warehouse_rush/env_v{cfg['version_ambiente'][0]}.py, "
+                        "configs/niveles.yaml, requirements.txt)"),
         "evaluation_suite_id": tags.get("evaluation_suite_id", ""),
         "seed": cfg["entrenamiento"]["semilla"],
         "parent_run_id": tags.get("parent_run_id"),
